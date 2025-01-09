@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.2 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+%\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}\noindent\textbf{Answer:}\par\medskip}{\egroup\medskip}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\medskip}
+\newenvironment{secondans}{\par\medskip\bgroup\color{darkgreen}}{\egroup\medskip}
+\newcommand{\grd}[1]{{\color{darkred}#1}}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331, Fall 2022\hfill Homework 5}}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework on Metric Spaces is due Friday, October 7}}
+
+\bigskip
+
+\def\ds{\displaystyle}
+
+
+\begin{problem}  % problem 1
+Let $(M,d)$ be a metric space, and let $A$ be a subset of $M$.  Prove that $A$ is open
+if and only if $A$ is equal to a union of open balls.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 4 points
+\end{answer}
+
+
+\begin{problem}  % problem 2
+Consider the metric space $(\R,d)$, where $d$ is the usual metric on $\R$  For each $n=1,2,3,\dots,$ let ${\cal O}_n$ be 
+the open set ${\cal O}_n=\big(1,1+\frac{1}{n}\big).$
+Show that $\{{\cal O}_n\,|\,n=1,2,\dots\}$ is an infinite collection of open
+sets whose intersection is not open.
+And find an infinite collection of closed subsets of $(\R,d)$ whose union is not closed.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+\begin{problem}  % problem 3
+Let $X$ be any non-empty, bounded subset of $\R$, and let $\lambda$ be the least upper bound
+of $X$.  Show that $\lambda\in\overline{X}$.  That is, the least upper bound of any set is an
+element of the closure of that set.  [Hint:  Use the definition of closure of $X$ as the set of all
+points of $X$ plus all accumulation points of $X$, and use Problem~1 from Homework~3.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+\begin{problem}  % problem 4
+Let $(A,\sigma)$, $(B,\tau)$, and $(C,\eta)$ be metric spaces.  Let $f\colon A\to B$ and $g\colon B\to C$.
+Suppose that $f$ and $g$ are continuous functions.  Prove that their composition, $g\circ f$, is a continuous
+function.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+\begin{problem}  % problem 5
+Let $\{x_n\}_{n=1}^\infty$ be a convergent sequence in a metric
+space.  Show that its limit is unique.  That is, prove the following statement:
+if $\{x_n\}_{n=1}^\infty$ converges to $y$ and 
+$\{x_n\}_{n=1}^\infty$ converges to $z,$ then $y=z$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 2 points
+\end{answer}
+
+\end{document}

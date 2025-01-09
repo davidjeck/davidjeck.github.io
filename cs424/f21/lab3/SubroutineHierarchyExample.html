@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<!-- This page shows a simple cart-and-windmills example, implement using
+     subroutines -->
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hierarchical Modeling With Subroutines</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border. */
+    body {
+        background-color: #DDDDDD;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+
+
+<script>
+
+   let canvas;   // The canvas where the animation is displayed.
+   let g;   // The graphics context for drawing to the canvas.
+   let frameNumber;  // The elapsed time, measured in units of 1/30.
+
+   
+    /**
+      * Draw one frame of the animation. This draws the background, then
+      * calls subroutines to draw all the objects in the scene, with
+      * appropriate transformations.
+      */
+    function drawWorld() {
+        g.save();  // to make sure changes don't carry over from one call to the next
+        g.fillStyle = "#C8C8FF";  // background color
+        g.fillRect(0,0,canvas.width,canvas.height);
+        applyLimits(g,0,7,4,-1,true);
+        g.lineWidth = pixelSize;  // Default line width is one pixel
+
+        ground(g);    // the green stuff in the backgroudn
+        
+        g.fillStyle = "#646496";
+        g.fillRect(0,-0.4,7,0.8); // the road
+        g.fillStyle = "white";
+        g.fillRect(0,-0.03,7,0.06); // stripe in road
+        
+        g.save();
+        g.translate(0.75,1);
+        g.scale(0.6,0.6);
+        windmill();          // first windmill
+        g.restore();
+        
+        g.save();
+        g.translate(2.2,1.3);
+        g.scale(0.4,0.4);
+        windmill();          // second windmill
+        g.restore();
+        
+        g.save();
+        g.translate(3.7,0.8);
+        g.scale(0.7,0.7);
+        windmill();          // third windmill
+        g.restore();
+        
+        g.save();
+        g.translate(5.5,3.3);
+        sun();               // the sun
+        g.restore();
+        
+        g.save();
+        g.translate(-3 + 13*(frameNumber % 300) / 300.0, 0);
+        g.scale(0.3,0.3);
+        cart();              // the cart
+        g.restore();
+        
+        g.restore();
+    }
+   
+    /**
+     * Draws a windmill with its base at (0,0) and with rotating vanes.
+     */
+    function windmill() {
+        g.save();
+        g.fillStyle = "#AA9999";
+        g.fillRect( -0.05, 0.05, 0.1, 3);  // the pole
+        g.fillStyle = "#C86464";
+        g.translate(0,3);
+        g.rotate(frameNumber*2.7 * Math.PI/180);
+        windmillVane();
+        g.rotate( 2*Math.PI / 3 );
+        windmillVane();
+        g.rotate( 2*Math.PI / 3 );
+        windmillVane();
+        g.restore();
+    }
+    
+    /**
+     * Draw one vane of the windmill.
+     */
+    function windmillVane() {
+        g.save();
+        g.beginPath();
+        g.moveTo(0,0);
+        g.lineTo(0.5,0.1);
+        g.lineTo(1.5,0);
+        g.lineTo(0.5,-0.1);
+        g.closePath();
+        g.fillStyle = "#C86464";
+        g.fill();
+        g.restore();
+    }
+    
+    /**
+     * Draws a rotating sun, centered at (0,0).
+     */
+    function sun() {
+        g.save();
+        g.rotate( -frameNumber  * Math.PI/180);
+        g.strokeStyle = "#DD8800"; // orange for the rays and outline of sun
+        g.save();
+        g.beginPath();
+        for (let i = 0; i < 12; i++) {
+            g.rotate( 30 * Math.PI/180 );  // 30 degree angle between the rays
+            g.moveTo(0,0);
+            g.lineTo(0.75,0);
+        }
+        g.restore();
+        g.stroke(); // Stroke a path made of 12 line segments to make the rays
+        g.fillStyle = "yellow";
+        disk(0.5); // yellow sun
+        circle(0.5);  // orange outline of sun
+        g.restore();
+    }
+    
+    /**
+     * Draws a cart, with the center of its base at (0,0).
+     * (Translation of the cart is done in drawWorld().)
+     */
+    function cart() {
+        g.save();
+        g.translate(1.65,-0.1);
+        g.scale(0.8,0.8);
+        wheel();   // front wheel
+        g.restore();
+        g.save();
+        g.translate(-1.65,-0.1);
+        g.scale(0.8,0.8);
+        wheel();   // back wheel
+        g.restore();
+        g.fillStyle = "red";
+        g.fillRect(-3,0.25,6,1.5);
+        g.fillRect(-2.3,1.5,2.6,1);
+    }
+        
+    /**
+     * Draws a rotating wheel, with radius 1 and centerd at (0,0).
+     */
+    function wheel() {
+        g.save();
+        g.rotate( -frameNumber*3.1  * Math.PI/180);
+        g.fillStyle = "black";
+        disk(1);
+        g.fillStyle = "#CCCCCC";
+        disk(0.8);
+        g.fillStyle = "black";
+        disk(0.2);
+        g.strokeStyle = "black";
+        g.beginPath();
+        for (let i = 0; i < 12; i++) {
+            g.rotate( 30 * Math.PI/180 );  // 30 degree angle between the spokes
+            g.moveTo(0,0);
+            g.lineTo(1,0);
+        }
+        g.stroke();
+        g.restore();
+    }
+    
+    /**
+     * Draw the ground
+     */
+    function ground() {
+        g.save();
+        g.beginPath();
+        g.moveTo(0,-1);
+        g.lineTo(0,0.8);
+        g.lineTo(1.5,1.65);
+        g.lineTo(1.8,1.3);
+        g.lineTo(3,2.1);
+        g.lineTo(4.7,0.7);
+        g.lineTo(6.1,1.2);
+        g.lineTo(7,0.8);
+        g.lineTo(7,-1);
+        g.closePath();
+        g.fillStyle = "#00961E";
+        g.fill();
+        g.restore();
+    }
+    
+    /**
+     * Draws a filled circle with the given radius, centered at (0,0)
+     */
+    function disk(radius) {
+        g.beginPath();
+        g.arc( 0,0, radius, 0,2*Math.PI );
+        g.fill();
+    }
+
+    /**
+     * Draws the outline of a circle with the given radius, centered at (0,0)
+     */
+    function circle(radius) {
+        g.beginPath();
+        g.arc( 0,0, radius, 0,2*Math.PI );
+        g.stroke();
+    }
+    
+    /**
+     * Applies a coordinate transformation to the graphics context, to map
+     * xleft,xright,ytop,ybottom to the edges of the canvas.  This is called
+     * by draw().  This does not need to be changed.
+     */
+    function applyLimits(g, xleft, xright, ytop, ybottom, preserveAspect) {
+       var width = canvas.width;   // The width of this drawing area, in pixels.
+       var height = canvas.height; // The height of this drawing area, in pixels.
+       if (preserveAspect) {
+             // Adjust the limits to match the aspect ratio of the drawing area.
+          var displayAspect = Math.abs(height / width);
+          var requestedAspect = Math.abs(( ybottom-ytop ) / ( xright-xleft ));
+          var excess;
+          if (displayAspect > requestedAspect) {
+             excess = (ybottom-ytop) * (displayAspect/requestedAspect - 1);
+             ybottom += excess/2;
+             ytop -= excess/2;
+          }
+          else if (displayAspect < requestedAspect) {
+             excess = (xright-xleft) * (requestedAspect/displayAspect - 1);
+             xright += excess/2;
+             xleft -= excess/2;
+          }
+       }
+       var pixelWidth = Math.abs(( xright - xleft ) / width);
+       var pixelHeight = Math.abs(( ybottom - ytop ) / height);
+       pixelSize = Math.min(pixelWidth,pixelHeight);
+       g.scale( width / (xright-xleft), height / (ybottom-ytop) );
+       g.translate( -xleft, -ytop );
+    }
+    
+    
+    //------------------ Animation framework ------------------------------
+    
+    let animating = false;
+    
+    let prevTime = null;  // time since previous call to frame()
+    // Note: To avoid having the animation play too fast on computers
+    // where requestAnimationFrame is called more than 60 times per
+    // second, the frame number has been converted into an elapsed
+    // time measured in thirtieths of a second.
+    
+    function frame(time) {
+        if (!animating) {
+            return;  // stops the animation
+        }
+        if (prevTime == null) { // Just save the start time.
+            prevTime = time;
+        }
+        else {
+            let elapsedTimeInSecs = (time - prevTime)/1000;
+            prevTime = time;
+            let delta = elapsedTimeInSecs * 30;  // time change in units of 1/30 second.
+            frameNumber += delta;
+            drawWorld();
+        }
+        requestAnimationFrame(frame);
+    }
+    
+    function doAnimationCheckbox() {
+        let run = document.getElementById("animateCheck").checked;
+        if (run !== animating) {
+            animating = run;
+            if (animating) {
+                prevTime = null;
+                requestAnimationFrame(frame);
+            }
+        }
+    }
+
+
+    //----------------------- initialization -------------------------------
+
+    function init() {
+        canvas = document.getElementById("maincanvas");
+        if (!canvas.getContext) {
+            document.getElementById("headline").innerHTML = "ERROR: Canvas not supported";
+            return;
+        }
+        g = canvas.getContext("2d");
+        document.getElementById("animateCheck").checked = true; // Make sure box is checked!
+        document.getElementById("animateCheck").onchange = doAnimationCheckbox;
+        frameNumber = 0;
+        doAnimationCheckbox();  // start the animation
+    }
+    
+    
+    window.onload = init;
+
+</script>
+</head>
+<body>
+
+<div id="content">
+
+<h3 id="headline">Hierarchical Modeling with Subroutines</h3>
+
+<div id="canvasholder">
+<canvas id="maincanvas" width="840" height="600"></canvas>
+</div>
+
+<br style="clear:both">
+
+<p><label><input type="checkbox" id="animateCheck">Run Animation</label></p>
+
+</div>
+
+
+</body>
+</html>

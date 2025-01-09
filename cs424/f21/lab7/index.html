@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Spring 2021, Lab 7</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Spring 2021<br>
+Lab 7: Textures</h2>
+
+<div class="intro">
+
+<p><img align="right" style="margin-left:8px; margin-bottom:5px; border: thin solid black" 
+          src="cylinder.png" width="250" height="262">
+In this lab, you will work on a program that applies image textures to 3D objects.
+The image texture can come from an image file loaded by the program.  To add some 
+interest, it is also possible to draw an image by hand and use that image as
+a texture, and it is possible to take a copy of the OpenGL image and draw on
+top of that by hand.  (The last of these options has already been implemented for you.)
+The web page that you will work on has two canvases, one at the bottom of the page, for drawing, and
+one on top of that, for displaying an OpenGL scene that shows one 3D object.
+For the cylinder shown on the right, I drew cartoon face, used it as a texture
+on a cube, copied the cube image to the paint panel, drew a red curve around
+the cube, and finally used that image as a texture on a cylinder.</p>
+
+<p>For this lab, you will again be working with the glsim simulation of OpenGL in
+JavaScript.  The API is mostly the same as the C API discussed in the book, except
+that the data array for glTextImage2D is replaced by an HTML Image or Canvas, and other
+arrays are always JavaScript arrays or typed arrays.</p>
+
+<p>You will need copies of everything in the folder
+<a href="lab7-files/" style="white-space:pre">/classes/cs424/lab7-files</a>.
+For convenience, if you want to download the files from the web,
+you can get this zip archive of the folder: <a style="white-space:pre" href="lab7-files.zip">lab7-files.zip</a>.
+You will only work on the web page <a href="lab7-files/textures.html">textures.html</a>.</p>
+
+<p><b>You should finish this lab by the start of next week's lab but, becasue of Fall break, 
+I will be happy to give an extension to anyone who asks.</b></p>
+
+
+</div>
+
+
+<div class="section">
+<h3>Use Drawing As Texture</h3>
+
+<p>The file <a href="lab7-files/textures.html">textures.html</a> currently does not do anything
+at all with textures.  You will implement texturing of the 3D objects by adding code to the
+functions <i>doTextureMenu</i>(), <i>drawPrism</i>(), and <i>display</i>().  You shouldn't have to modify any
+of the other existing functions.  You can also add new global variables and
+other subroutines if you need them.</p>
+
+<p>OpenGL will attempt to apply a 2D image texture to a primitive if <i>GL_TEXTURE_2D</i> is
+enabled when the primitive is drawn.  For drawing a primitive with no texture, <i>GL_TEXTURE_2D</i>
+must be disabled.  2D&nbsp;textures can be enabled and disabled by calling</p>
+
+<pre class="code">
+glEnable( GL_TEXTURE_2D );
+
+glDisable( GL_TEXTURE_2D );
+</pre>
+
+<p class=np>This is similar to lighting: When texturing is disabled, all texture settings and
+texture coordinates are simply ignored.
+When the item selected in the Texture menu is "none", you just need to make sure that 
+textures are disabled.</p>
+
+<p>Your first task is to use the image from the paint canvas as a texture.  This should be done if
+the value of <i>tex</i> in the <i>doTextureImage</i>() function is "paint".
+You can store the texture in texture object number 0.  Recall that texture 
+object 0 is the default texture object that is bound if you have not bound a different one.
+But since you will be working with several texture objects in this program, you should make
+sure that you are actually working with texture object zero by calling</p>
+
+<pre class="code">
+glBindTexture(GL_TEXTURE_2D, 0);
+</pre>
+
+<p class=np>before doing anything with the texture.  The currently bound texture object is also the 
+one that is used for texturing objects in the <i>display</i>() method, if texturing is enabled.</p>
+
+<p>In this case, the data for the texture has to come from the canvas where the painting is stored.
+In the program, that canvas is <i>OSC</i>. You can use this canvas as the last parameter in <i>glTexImage2D</i>().
+Since the canvas is 512-by-512 pixels, the command becomes</p>
+
+<pre class=code>
+glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, OSC);
+</pre>
+
+<p class=np>But remember that, because we don't have mipmaps for the texture, <b>the texture won't work
+unless you change the minification filter to GL_LINEAR</b> using <i>glTexParameteri</i>(). (Look up
+the command in <a href="https://math.hws.edu/graphicsbook/c4/s3.html#gl1light.3.3">Subsection&nbsp;4.3.3</a> if you need to.)
+</p>
+
+<p>You should be able to get texturing working with the image from the paint program.  Make sure that
+you can also turn texturing off by selecting "None" from the Texture menu.</p>
+
+</div>
+
+<div class="section">
+
+<h3>Image Textures</h3>
+
+<p>As discussed in class, the function <i>glTexImage2D</i> can be used to load a texture from an HTML
+<i>Image</i> object.  But you have to deal with two problems.  First, there is the problem that
+in JavaScriot, images are loaded asynchronously, and you can't do anything with the image until it
+has finished loading.  The solution to that is to use a callback function.  The other problem comes
+up when you try to load the image from the local file system.  Most browsers won't let you do that
+directly.  You need to either configure your browser to allow it, or you need to run a local
+web server and access the web page through that.  To do the latter on the computers in the lab,
+open a terminal window, <i>cd</i> into the directory that contains the file <i>textures.html</i>,
+and give the command</p>
+
+<pre class=code>python3 -m http.server</pre>
+
+<p class=np>Then, to access the page, enter <tt>localhost:8000/textures.html</tt> in the address bar
+of your web server.</p>
+
+<p>In the <i>doTextureMenu</i>() function, when <i>tex</i> is not "none" or "paint",
+then it is a number that tells which texture to use.  The number is an index into
+the global array <i>textureURLs</i>.  That is, the URL that you need to use when you load the
+image is <i>textureURLs</i>[<i>tex</i>].</p>
+
+<p>There is another global array, <i>textureObjectIDs</i>, which is filled with <i>&minus;1's</i>.
+The idea is that a given texture image should only have to be loaded once, when it is
+first used.  Wen it is loaded, you can create a texture object for it, bind that
+texture object while you are loading and configuring the texture, and store the
+texture object ID in the <i>textureObjectIDs</i> array.  When the user selects
+a texture from the menu, if the corresponding value in <i>textureObjectIDs</i> is 
+&minus;1, then you have to load the texture.  But if the value in
+<i>textureObjectIDs</i> is not &minus;1, then all that you need to do is bind the
+texture object (and make sure texturing is enabled).
+
+<p>In the case where you have to load the texture, you have to deal with the
+asynchronous nature of image loading.  In general outline, the code for loading 
+the texture image, and using it the first time, can look like this:</p>
+
+<pre class=code>
+let img = new Image();  // Create an HTML Image object
+img.onload = function() { // Callback function to be called after loading.
+    // Create a texture object and bind it  (and save the ID)
+    // Load the image into the texture with glTexImage2D.
+    //     (NOTE: image width and height are given by img.width and img.height)
+    // Configure the texture (including the minification filter).
+};
+img.onerror = function() { // To be called if an error occurs while loading.
+    // Respond to error.  For example:  alert("Texture could not be loaded.");
+};
+try {
+   img.src = URL;  // Set img.src to the URL for the image.
+} catch (e) {
+    // some browsers throw a security exception when loading from file system.
+    // Respond to error.  For example:  alert("Texture could not be loaded.");
+}
+// Might want to set up an appropriate state during image loading, such
+// as showing a message that texture is being loaded, but then you have to
+// remember to get rid of the message later.
+</pre>
+
+<p class=np>In a serious web app, it can be difficult to decide exactly what to do while waiting for
+the image to load,  but for this little program, you don't need to do anything fancy.</p>
+
+
+<div>
+
+
+<div class="section">
+<h3>Texture Coordinates for the Prism</h3>
+
+<p>The last object in the "Object" menu is a "Triangular Prism."  That object is drawn in the function
+<i>drawPrism</i>() using <i>glBegin/glEnd</i>.  However, the object doesn't have texture coordinates.
+What this means, really, is that all of the vertices in the prism use the same texture coordinates,
+and when texturing is enabled, the whole prism will get its color from a single point in the
+currently bound texture.</p>
+
+
+<p>The coordinates for the vertices of the prism are shown on the left, below.
+(The value of <i>t</i> is <i>Math.sqrt(3)/4</i>, which gives an equilateral triangle
+for the base.)  <b>You should provide texture coordinates for each vertex in the primitives.</b>
+The texture must wrap exactly once around the sides of the prism.  That is, you should
+use a different 1/3 of the texture for each side, and the pieces should meet up nicely at the
+edges between the sides.  For the top and bottom of the prism, you can cut out 
+whatever triangular area you like from the texture.  The prism with the Earth texture is 
+shown on the right:</p>
+
+<p class=np align=center>
+   <img style="border: thin solid black; background-color:white; padding: 6px" 
+        src="prism.png" width="310" height="320" align=center>
+   <img style="border: thin solid black; margin-left:20px"
+        src="prism-with-earth.png" width="250" height="354" align=center>
+</p>
+
+<p>It will require some care to get the texture coordinates correct.  Plan before you
+begin!  It might be helpful to write out the texture coordinates on the drawing of the
+prism.  Also, I suggest that you <b>work on the front left face first</b>, and get that
+right before working on the other two sides.</p>
+
+</div>
+
+
+
+<div class="section">
+<h3>Texture Transformation</h3>
+
+<p>Finally, you should <b>implement a texture transformation</b> in the <i>display</i>()
+method, before the textured object is drawn.   (Note that it is harmless to apply a texture transformation
+even if texturing is disabled, so you don't need to test anything before doing it.)
+You will use a simple scaling transformation
+that uses the values from the Horizontal Scale and Vertical Scale menus to scale the texture.  You can get the
+scaling factosr from that menu with</p>
+
+<pre class=code>
+let horizontalScale = Number( document.getElementById("hscale").value );
+let verticalScale = Number( document.getElementById("vscale").value );
+</pre>
+
+<p>Scalling the texture by a factor of N actually means that the texture will be repeated N times
+in the space where only one copy of the texture would normally be.
+Texture transformations can be used to better adapt an image to a surface
+when the surface has texture coordinates that are not appropriate for the
+texture image.  For example, the "Brick" texture fits the torus better with
+a horizontal scale factor of 4 and a vertical scale factor of 2:</p>
+
+<p align=center class=np><img src="torus.png" width="300" height="236" style="border:thin solid black">
+
+<p>To apply a texture transformation, you need to change the matrix mode to GL_TEXTURE
+by calling <tt>glMatrixMode(GL_TEXTURE)</tt>, and the first thing to do to the texture transformation 
+is to load the identity, so that you have a known starting point.
+See <a href="https://math.hws.edu/graphicsbook/c4/s3.html#gl1light.3.4">Subsection&nbsp;4.3.4</a>
+for details and sample code.</p>
+
+
+</div>
+
+
+</div>
+</body>
+</html>

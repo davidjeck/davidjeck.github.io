@@ -1,0 +1,159 @@
+<HTML>
+<HEAD>
+
+<TITLE>The xSortLab Applet</TITLE>
+
+
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+<H2><font color="#E70000">The xSortLab Applet</font></H2>
+
+<hr>
+
+<p><font size="+2">S</font>ORTING a list of items -- that is, arranging the items
+into increasing or decreasing order -- is a common operation.  It is also the most
+common example in the &quot;analysis of algorithms,&quot; which is the study
+of computational procedures and of the amount of time and memory that they
+require.  The xSortLab applet knows five different sorting methods.
+It has a visual sorting mode, where you can watch as sixteen
+bars are sorted into increasing order.  And it has a timed mode, where
+you can measure the time it takes to sort a large number of items.
+The applet is easy to use (but you probably won't quite get the point of
+it unless you already know something about sorting).
+More information about the applet can be found <A HREF="#info">below</A>.
+</p>
+
+<p>This applet
+was originally written by <A HREF="http://math.hws.edu/eck/index.html">David&nbsp;Eck</A>
+for use with his introductory computer science textbook
+<cite><A HREF="http://math.hws.edu/TMCM.html">The&nbsp;Most&nbsp;Complex&nbsp;Machine</A></cite>.
+However, it can also be used on its own.</p>
+
+<p>For a list of other applets and for lab worksheets that use the applets,
+see the <A HREF="../index.html">index&nbsp;page</A>.</p>
+
+
+<hr>
+</blockquote>
+<p align=center>
+<applet codebase="../classes/" archive="xSortLab.zip" code="tmcm.xSortLabApplet.class"
+        alt="(Java not enabled)"
+        width=480 height=360>
+<font color="#E70000">Sorry! Your browser doesn't do Java!</font>
+</applet>
+<blockquote>
+</p>
+<hr>
+
+
+<H3><font color="#E70000"><a name="info">Visual Sort Mode</a></font></H3>
+
+<p>The xSortLab applet can display three different panels: a panel for 
+&quot;Visual Sort,&quot; a panel for &quot;Timed Sort,&quot; and
+a &quot;Log&quot; panel.  There is a pop-up menu at the top of the
+applet that can be used to switch among the three panels.  (<b>Note</b>: Changing
+panels while a sort is in progress will abort the sort.)</p>
+
+<p>The applet starts in &quot;Visual Sort&quot; mode, in which 16 bars are
+sorted step-by-step using one of the sorting algorithms Bubble Sort, Selection Sort,
+Insertion Sort, Merge Sort, or QuickSort.  Below the area where the bars are
+displayed are two message areas, which display a running commentary when
+a sort is in progress.  The lower message area displays a detailed comment
+on each step in the sort.  The upper area displays more general messages
+about major phases in the sort.  (The lower message area is not used when
+the sort is being run at &quot;Fast&quot; speed.)</p>
+
+<p>To the right of the bars is a column of controls.  The first of these
+is a pop-up menu, that can be used to select the sorting method.  (Again, doing
+this in the middle of a sort will abort the current sort.)  Next comes
+a checkbox that can be used to determine whether or not the sort is done
+at &quot;Fast&quot; speed.  When this box is <b>not</b> checked, you get to
+see a cute animation of moving bars; also, a longer delay is inserted between
+steps when you run the sort with the &quot;Go&quot; button.  The &quot;Go&quot;
+and &quot;Step&quot; buttons are used for executing a sort. The
+&quot;Start Again&quot; button gives you a new, randomized list of 16 bars.</p>
+
+<p>Two basic operations are used in sorting:  <font color="#E70000">comparing</font> two items to
+see which is bigger and <font color="#E70000">copying</font> an item from one place to another.  The number
+of comparisons and the number of copies used in the current sort are
+displayed below the controls.</p>
+
+<HR>
+<H3><font color="#E70000">Timed Sort Mode</font></H3>
+
+<p>If you switch to the &quot;Timed Sort&quot; panel, you'll see a large
+message area, with some instructions.  This panel is used to obtain
+statistics about the running times of various running algorithms.  The 
+interesting question is how the running time depends on the number of
+items being sorted.  There is a text-input box at the top of
+the panel where you can specify the size of the array that is to be
+sorted.  You can also specify the number of arrays to be sorted.
+The point is that a small array takes so little time to sort that
+the time cannot be measured accurately.  So, you should sort a number of
+arrays, all of the same size.  You can measure the total time it takes
+to sort them all.  The time required to sort one array can be obtained
+by dividing the total time by the number of arrays.  You probably
+want to adjust the number of arrays so that the total time is at
+least a couple of seconds.</p>
+
+<p><b>Note:</b> Your computer must have enough memory to store all the
+numbers you want to sort.  (If you are running the applet at all, you 
+probably have enough memory to work with at least one million items.)
+If you ask for more numbers than you have room for, you <b>should</b>
+just a message telling you that you don't have enough memory.  However,
+most systems that I have tried this on have crashed.  This is a bug.
+You are warned.  Stick to a reasonable number of items.</p>
+
+<p>At the bottom of the panel are a pop-up menu that you can use to
+choose the sort method and a &quot;Go&quot; button that you can click
+to start the sort.  (This changes to &quot;Abort&quot; while a sort
+is in progress.)</p>
+
+<p>When you begin a sort, the first thing the computer does is to
+fill up the arrays with random numbers.  If there are a lot of numbers,
+this will take a noticeable amount of time.  Then, the computer begins
+to sort.  As the sorting operation proceeds, statistics are displayed
+about twice per second.  The statistics include the number of comparison
+and copy operations that have been performed, the number of arrays that
+have been sorted so far, the elapsed time since the computer began sorting,
+and the approximate compute time that the computer has devoted to sorting.
+The compute time is not the same as the elapsed time, since the applet
+is doing other things besides sorting (such as redrawing the screen).
+The applet tries to use 80% of the time for sorting, and to leave 20%
+for other tasks.  The applet can measure the 20% of its time that it
+gives away voluntarily, but if other things are going on in your computer,
+it might lose some other time that it can't measure.  This is
+why the measured compute time is approximate.  So, you should <b>not</b>
+try to run a timed sort in the background!  Just sit and watch -- or go
+get a coffee.</p>
+
+<HR>
+<H3><font color="#E70000">The Log</font></H3>
+
+<p>Every time a sort completes successfully, statistics about that sort 
+are written to a log.  For a visual sort, the number of copies and the
+number of comparisons are recorded.  For a timed sort, all the statistics
+that are displayed in the &quot;Timed Sort&quot; panel are written to
+the log.  You can view this log by selecting the &quot;Log&quot;
+option from the pop-up menu at the top of the applet.</p>
+
+<p>The Log panel has buttons for clearing the log and for saving it
+to a file.  However, it is likely that your browser will not permit you
+to save the log.  Unfortunately, the applet has no provision for
+printing the log at this time.  You might try using copy-and-paste to
+copy the data from the log to another program from which you can copy
+or print it.</p>
+
+<hr>
+<font size="-1">
+<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>),
+August 1997
+</font>
+
+</blockquote>
+
+</BODY>
+</HTML>

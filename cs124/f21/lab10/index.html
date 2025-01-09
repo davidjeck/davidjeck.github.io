@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS124, Fall 2021, Lab 10</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Lab 10: GUI Tutorial</h2>
+
+<div class="intro">
+
+<p>This lab in a short tutorial on GUI programming with JavaFX.  It introduces some of
+the fundamental ideas of programming with JavaFX and of GUI programming in general.
+You will write a simple sketching program.  Most of the code from the program is on
+this web page, and you should simply copy-and-paste it into your program.  There are
+some points where you have to write some code yourself, but most of that will be
+very similar to the code that is given to you.</p>
+
+<p><b>The lab will be due next Tuesday.  You can just turn in the file named 
+"Sketcher.java".  (Or turn in an entire Eclipse project, if you prefer.)</b></p>
+
+<p>The work from <a href="../lab9/index.html">Lab&nbsp;9</a> is not officially due until
+Friday &mdash; but remember that you only have to turn in Note.java and Tune.java because
+of the disaster with sound on the computers in the lab.</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>About Events and Lambda Expressions</h3>
+
+<p>One of the major things that make GUI programs different from command-line programs is <i>events</i>.
+Instead of scripting the interaction between the user and the program from beginning to end,
+like the <i>main</i>() routine in a command line program, a GUI program responds to events
+when they happen, which can be outside the control of the program.  Events can include things
+like clicking the mouse, pressing a key on the keyboard, or choosing a command from
+a menu.</p>
+
+<p>In JavaFX, the response to an event is programmed by an <i>event handler</i>.  An event
+handler for an event is a subroutine that the system will call whenever the event occurs.
+As a programmer, you provide the subroutine, but you don't control when it is called.</p>
+
+<p>An event handler in JavaFX is usually defined by something called a <i>lambda expression</i>.
+A lamda expression is a simplified way of writing a subroutine, without all the usual syntax of
+a subroutine definition.  Here is an example of using a lambda expression to define an
+event handler:</p>
+
+<pre class=code>
+clearButton.setOnAction( evt -> g.fillRect(0,0,800,600) );
+</pre>
+
+<p class=code>The event in this case would be the user clicking on a button named <i>clearButton</i>.
+This is an example of an "action event", and the response to the event is programmed by
+the <i>setOnAction</i>() method.  The parameter to the method is the lambda expression&nbsp;
+<code style="white-space:pre">evt -> g.fillRect(0,0,800,600)</code>.  And the meaning is
+that when the user clicks the button, the command <code>g.fillRect(0,0,800,600)</code> will be
+executed.</p>
+
+<p>The lambda expression represents a subroutine.  The <i>evt</i> in the expression represents
+a parameter coming into the subroutine.  The parameter is an object containing information about
+the event.  In this case, the parameter is not used, but it has to be there.  Sometimes the
+information in the parameter is important.  For example, if <i>evt</i> represents a mouse click
+on a canvas, then <i>evt.getX</i>() and <i>evt.getY</i>() are the coordinates on the canvas where
+the mouse was clicked.</p>
+
+<p>All of the lambda expressions in this lab will look similar to the one in this
+example.  If you want to know more about them, see 
+<a href="http://math.hws.edu/javanotes/c4/s5.html">Section&nbsp;4.5</a>, but you don't 
+need to read that section to do this lab.</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>About Imports in JavaFX Programs</h3>
+
+<p>JavaFX programs tend to use a large number of classes from a large number of packages,
+and all of those classes must be imported at the top of the program.   When you are using
+Eclipse and you add a reference to a class that has not yet been imported, it will be
+marked as an error.  Among the error fixes that Eclipse offers should be one that imports
+the class that you want.  But you should be sure to pick the right class, when there are
+several possible classes with the same name (in different packages).  For JavaFX programming, the class that you
+want will be in a package whose name starts with "javafx".  However, to make things easy
+for you in this lab, I will give you all the imports that you will need.</p>
+
+
+</div>
+
+
+<div class="section">
+
+<h3>Starting a JavaFX Application</h3>
+
+<p>There are no files for you to copy for this lab.  You will create a Java file from scratch.
+You should create a project named something like <i>lab10</i>, but be sure that it is set to
+use the JRE that includes JavaFX.  (You set up that JRE in <a href="../lab8/index.html">Lab&nbsp;8</a>.)</p>
+
+<p>We start with a pretty minimal JavaFX program.  Create a class named <i>Sketcher</i>, in the default package.  Erase the original text 
+from the file, and replace it with the following program, which you should copy-and-paste from this page.
+The program includes the full list of imports that are used by my completed version of the program, so you won't have
+to worry about importing them later, but many of them will be marked as unused until you add the code that
+uses them later in the lab.</p>
+
+<pre class=code>
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+
+public class Sketcher extends Application {
+        
+    private Canvas canvas;     // The canvas where the user will draw.
+    private GraphicsContext g; // The graphics context for drawing on the canvas.
+
+    /**
+     * Create and set up the program window and event handling.
+     */
+    public void start(Stage stage) {
+        canvas = new Canvas(800,600);
+        g = canvas.getGraphicsContext2D();
+        g.setFill(Color.WHITE);
+        g.fillRect(0, 0, 800, 600);
+        BorderPane content = new BorderPane();
+        content.setCenter(canvas);
+        Scene scene = new Scene(content);
+        stage.setScene(scene);
+        stage.setTitle("Sketcher: Draw on a Canvas");
+        stage.setResizable(false); 
+        stage.show();
+    }
+    
+    public static void main(String[] args) {
+        launch(); // Run the Application; this will not return.
+    }
+
+}
+</pre>
+
+<p class=np>You should already be able to run the program, and see the window that it creates.
+The program ends when you close the window.  We will be talking this week about what
+"extends" means in the first line of the class definition.  For now, you only need
+to know that an object of type <i>Sketcher</i> represents the JavaFX Application that
+you are writing.</p>
+
+<p>When you run the program, the system calls <i>main</i>(), whose only purpose here
+is to run the JavaFX Application.  The <i>launch</i>() method creates a window for the program and calls
+the <i>start</i>() method in the object that represents the application.  The window is represented by the object of 
+type <i>Stage</i> that comes into the <i>start</i>() method as a parameter.
+A <i>Stage</i> contains a <i>Scene</i>, which contains the content of the window.
+Here, the content is a <i>BorderPane</i>.  A <i>BorderPane</i> is a rectangular
+area that contains a "center" component &mdash; in this case, the <i>Canvas</i> &mdash; and
+also has room for other components at the top, bottom, left, and right of the center 
+component.  You will add other components to the <i>BorderPane</i> later in the lab.
+The <i>canvas</i> is a component that can be be drawn on, and <i>g</i> is an object 
+that is used for doing the drawing.  You have used <i>g</i> in previous programs that
+you worked on as the name of an object that is used to draw on a canvas.</p>
+
+
+</div>
+
+
+<div class="section">
+
+<h3>Mouse Events</h3>
+
+<p>It's time to program a response to some events.  When the user presses a mouse
+button while the mouse cursor is over the canvas, a "mouse pressed" event is generated.
+If the user then drags the mouse while holding down the button, a series of "mouse dragged" 
+events is generated.  When the user releases the mouse, a "mouse released" event is
+generated.  You will program responses to the mouse pressed events and mouse dragged
+events to let the user sketch a curve on the canvas.  (You won't need the mouse
+released event in this program.)  The events are associated with the canvas, 
+so the event handlers are added to the canvas.  You can add these statements
+at the end of the <i>start</i>() method (or anywhere in that method after the
+canvas has been created):</p>
+
+<pre class=code>
+canvas.setOnMousePressed( evt -> doMouseDown(evt.getX(), evt.getY()) );
+canvas.setOnMouseDragged( evt -> doMouseDragged(evt.getX(), evt.getY()) );
+</pre>
+
+<p class=np>You will then need to add definitions to the class for the methods <i>doMouseDown</i>()
+and <i>doMouseDragged</i>().  The idea is that when the user presses
+a mouse button while the mouse cursor is over the canvas, the method
+<i>doMouseDown</i>() will be called, and the parameters to that method will
+tell the coordinates of the point in the canvas where the mouse cursor was located.
+As the user drags the mouse, <i>doMouseDragged</i> will be called repeatedly,
+with the new coordinates of the mouse cursor as its parameters.  The parameters
+to these methods are of type <i>double</i>, and the methods do not return a value.
+Every time that <i>doMouseDragged</i>() is called, you want to draw a
+line from the previous position of the mouse cursor to its current position.
+You need a way to remember the previous position of the mouse, so add these
+instance variables to the class:</p>
+
+<pre class=code>
+private double prevX, prevY;  // Previous mouse position for doMouseDown
+</pre>
+
+<p class=np><b>Assignment:</b> Add definitions for <i>doMouseDown</i> and <i>doMouseDragged</i>.
+The method <i>doMouseDown</i> only needs to save the values of its parameters in
+<i>prevX</i> and <i>prevY</i>, to get them ready for the first call to <i>doMouseDragged</i>.
+The <i>doMouseDragged</i> method only needs to draw a line from <i>(prevX,prevY)</i> 
+to the point given by its parameters, and then save the values of those parameters 
+in <i>prevX</i> and <i>prevY</i> to get ready for the next call to <i>doMouseDragged</i>.</p>
+
+<p>You should then be able to run the program and use the mouse to draw a curve on
+the canvas.  The curve will be black and will have line width equal to&nbsp;1, since
+those are the default values when a canvas is first created.</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Color and Line Width Menus</h3>
+
+<p>The next step is to add menus to the top of the window to let the user control 
+the color and the line width of the curves that they sketch.</p>
+
+<p>A menu is represented by an object of type <i>Menu</i>.  
+The menus for a program should all go into a "menu bar", which gets added to the top
+of the window.  A menu bar is represented by an object of type <i>MenuBar</i>.
+The items in a menu are represented by objects of type <i>MenuItem</i>.
+A basic menu item is like a button: When the user clicks it, there is an
+action event, and you can program a response to that event to carry out the
+command associated with the menu item.  Here is a method that
+creates a menu bar containing one menu, with some
+commands for changing the stroke color in the graphics context:</p>
+
+<pre class=code>
+/**
+ * Create a menu bar to be added to the top of the program window.
+ */
+private MenuBar makeMenus() {
+    MenuBar menubar;
+    Menu menu;
+    MenuItem item;
+    
+    menubar = new MenuBar();  // Create the menu bar.
+    
+    menu = new Menu("CurveColor");   // Create the color menu
+    menubar.getMenus().add(menu);    //  ... and add it to the menu bar.
+    
+    item = new MenuItem("Black");
+    item.setOnAction( evt -> g.setStroke(Color.BLACK) );
+    menu.getItems().add(item);
+    item = new MenuItem("Red");
+    item.setOnAction( evt -> g.setStroke(Color.RED) );
+    menu.getItems().add(item);
+    item = new MenuItem("Blue");
+    item.setOnAction( evt -> g.setStroke(Color.BLUE) );
+    menu.getItems().add(item);
+        
+    return menubar;
+}
+</pre>
+
+<p class=np>The parameter to the <i>Menu</i> constructor is the text that appears in the menu bar
+as the name the menu; the user clicks that text to reveal the menu.  The parameter to the
+<i>MenuItem</i> constructor is the text that appears in menu for that item.  Note that
+a menu has to be added to <i>menubar.getMenus</i>(), which is a list of the menus that
+the menu bar contains; a similar remark applies to adding items to menus.</p>
+
+<p>To get the menu bar to appear in the window, you need to add it to the content of the
+window.  You want to add it to the top position in the <i>BorderPane</i> named <i>content</i>.
+You should do that in the <i>start</i>() method any time <b>after</b> <i>content</i> has been
+created but <b>before</b> the <i>stage</i> is shown.  (If you add something to a window after
+the window has been shown, the window might not be resized properly to show the new content.)
+The command that you need to add is</p>
+
+<pre class="code">
+content.setTop( makeMenus() );
+</pre>
+
+<p class=np>You should then be able to run the program and sketch curves in different colors.</p>
+
+<p><b>Assignment:</b>  Add code to the definition of <i>makeMenus</i>() to add a few more
+colors to the "CurveColor" menu.  Then add another menu, named "CurveWidth", that contains
+commands for changing the line width in the graphics context.  You should include at least
+the widths 1, 2, 5, 10, and&nbsp;20.</p>
+
+<p>You will find that wide lines don't look very good. The problem is that they don't fit together
+nicely at their endpoints.  To improve the appearance, you can make line endpoints rounded with the following
+command, which can go in the <i>start</i>(0) method.</p>
+
+<pre class="code">
+g.setLineCap( StrokeLineCap.ROUND );
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h3>Text Stamper</h3>
+
+<p>There are many other kinds of components in JavaFX besides canvases and menus.  Some basic
+ones are covered in <a href="http://math.hws.edu/javanotes/c6/s4.html">Section&nbsp;6.4</a>.
+To give you some idea of how they can be used in a program, you will add a "Clear" button and
+a "text stamper" feature to the program.  Clicking the "Clear" button will simply fill
+the canvas with white.  When using the text stamper, clicking the canvas will add a 
+string of text to the canvas.  The user will specify the text by typing it into
+a text input box.  You will add a component to the bottom of the window that
+contains the button, a label for the input box, and the input box.</p>
+
+<p>The component at the bottom of the window will be an object of type <i>HBox</i>,
+which holds a horizontal list of smaller components.  The clear button is of type
+<i>Button</i>, the input box is of type <i>TextField</i>, and the label for the
+input box is of type <i>Label</i>.  Here is a method that creates the <i>HBox</i>.
+Copy it into your program, but note that <i>textInput</i> must be declared as
+an instance variable of type <i>TextField</i>, since it will be needed in another
+method.</p>
+
+<pre class=code>
+/**
+ * Make an HBox for the bottom of the window, containing a "Clear" button
+ * and a text input box to be used for the Text Stamper tool.
+ */
+private HBox makeBottom() {
+    
+    Button clearButton = new Button("Clear");
+    
+    Label label = new Label("Text for Stamper:");
+    
+    textField = new TextField("Hello World");  // an input box containing "Hello World"
+    textField.setPrefColumnCount(30); // make it big enough to contain 30 chars
+    
+    HBox container = new HBox(15, clearButton, label, textField);
+    container.setAlignment(Pos.CENTER); // center contents in the HBox
+    container.setStyle( // CSS styling for the HBox
+        "-fx-padding: 5px; -fx-border-color: black; -fx-background-color: lightgray" );
+    return container;
+}
+</pre>
+
+<p class=np>Add the HBox to the window with the following command in the <i>start</i>() method, before
+the window is shown:</p>
+
+<pre class=code>
+content.setBottom( makeBottom() );
+</pre>
+
+<p class=code>If you run the program, you should see the components at the bottom of the window.
+ The next step is to make them work.</p>
+
+<p><b>Make the "Clear" button work</b> by adding an event handler for an action event on that window.
+It can be added in the <i>makeBottom</i>() method, where the clear button is
+created. The event handler has to erase the current drawing by filling the entire canvas with white.  
+This requires two commands, to set the fill color to white and then fill a rectangle the same
+size as the canvas.  We haven't seen a lambda expression before that includes two commands.
+The syntax of lambda expressions requires that the commands must be made into a block by enclosing
+them in braces.  The code for setting the action event handler for the button can be written:</p>
+
+<pre class=code>
+clearButton.setOnAction( evt -> { 
+    g.setFill(Color.WHITE); 
+    g.fillRect(0,0,800,600); 
+});
+</pre>
+
+<p><b>Assignment:</b> Dealing with the text input is more complicated, since now the mouse can do two different
+things: either draw some text, or draw a curve.  We think of this as having two different
+"tools" available in the program.  The program has to keep track of which tool is being
+used.  Add an instance variable named <i>currentTool</i> to the program so it can keep track
+of which tool is currently in use.  (The type could be either <i>int</i> or <i>string</i>, and
+the initial value can say that the current tool draws a curve.)  Add a "Tool" menu to the
+menu bar where the user can select the tool.  It should have two entries, such as "Draw Curve"
+and "Stamp Text".  The action event handler for each menu item should just change the value of
+<i>currentTool</i>.  Finally, you have to modify the <i>doMouseDown</i>() and <i>doMouseDragged</i>)()
+methods to take account of the value of <i>currentTool</i>.  The code currently in those methods
+should only be used if the current tool is the curve drawing tool.  If the current tool is
+the text stamper tool, then <i>doMouseDragged</i> should do nothing, and <i>doMouseDown</i>
+should place a copy of the text from the text input box at (x,y).  To get the text from
+the input box, call <i>textField.getText</i>(), which returns a <i>String</i>.  Recall that
+a string can be drawn in a graphics context <i>g</i> using the method <i>g.fillText</i>(str,x,y).</p>
+
+<p><b>Assignment:</b> Finally, add a "Font Size" menu to control the size of the font used by
+the text stamper tool.  Recall that the font size can be set by calling <i>g.setFont(Font.font(n))</i>,
+where <i>n</i> gives the height of the text in pixels.  (The original font in <i>g</i> has size&nbsp;12.)</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Extra Credit</h3>
+
+<p>For a little extra credit, you can add a "Burst" tool to the program (named after the <i>burst</i> method in the
+turtle graphics lab).  It will be the third tool in the "Tools" menu.  When the mouse is dragged using the "Burst" tool, 
+instead of drawing a line from the previous
+mouse position to the current mouse position, draw a line from the point where the mouse button
+was first pressed to the current mouse position.  You will need new instance variables to
+record the position where the mouse was pressed.  (Bursts actually look better if the 
+line width is 1.)</p>
+
+<p>Another possible extra credit idea is to implement a "TextColor" menu to set the fill color
+that will be used by the text tool.  But be careful, because the fill color is also changed by
+the "Clear" button.  To make the "TextColor" menu work correctly,you will need to add an instance
+variable to record the text color, so that you will be able to correctly set the fill color before
+drawing the text.</p>
+
+</div>
+
+
+
+
+
+
+</div>
+</body>
+</html>

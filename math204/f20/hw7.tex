@@ -1,0 +1,176 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage{graphicx}
+\def\scaledgraphics#1#2{\includegraphics[width=#1]{#2}}
+\setlength{\topmargin}{-0.4 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.2 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#7}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by \textbf{noon} on Tuesday, October 20}}
+\centerline{\textit{\textbf{Note: Only problems 4, 5, and 6 are eligible for rewriting.}}}
+
+\medskip
+
+
+\begin{problem}
+Some of the following matrix products are not defined.  For each product, you should 
+either compute the product, if it is defined, or state why it is not defined.
+
+\bigskip
+\leftline{
+     \hskip 1.5cm
+     \textbf{a)}\quad $\begin{pmatrix} 1&2&3&4 \\ 4&3&2&1\end{pmatrix}\begin{pmatrix}-1&0\\3&-1\\-2&2\\1&0 \end{pmatrix}$
+     \hskip 1.5cm
+     \textbf{b)}\quad $\begin{pmatrix} 0&3&5\\ 2&1&7\\ 1&3&0\end{pmatrix}\begin{pmatrix}5&2\\3&1\end{pmatrix}$
+   }
+   
+\bigskip
+\leftline{
+     \hskip 1.5cm
+     \textbf{c)}\quad $\begin{pmatrix}0&1\\1&0\end{pmatrix}\begin{pmatrix}a&b\\c&d\end{pmatrix}$
+     \hskip 1.5cm
+     \textbf{d)}\quad $\begin{pmatrix}a&b\\c&d\end{pmatrix}\begin{pmatrix}0&1\\1&0\end{pmatrix}$
+     \hskip 1.5cm
+     \textbf{e)}\quad $\begin{pmatrix}3\\5\end{pmatrix}\begin{pmatrix}3&2\\1&7\end{pmatrix}$
+   }
+
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 1, 4 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Let $A=\begin{pmatrix}1\\2\\3\\4\end{pmatrix}$ and $B=\begin{pmatrix}1&2&3&4\end{pmatrix}$.
+Note that $A\in M_{4\times 1}$ and $B\in M_{1\times 4}$.  Compute the matrix products $AB$ and $BA$.
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 1, 2 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Find the inverse of each of the following matrices, or show that the matrix has no inverse.
+For part (c), you should find the inverse by putting the augmented matrix
+$$\left(\begin{array}{ccc|ccc}
+ -1&3&0 & 1&0&0\\ 
+ 2&-1&5 & 0&1&0\\ 
+ 1&2&-5 & 0&0&1
+\end{array}\right)$$
+into reduced echelon form.
+
+\bigskip
+\leftline{
+     \hskip 1.5cm
+     \textbf{a)}\quad $\begin{pmatrix} 3&-2\\ 5&4 \end{pmatrix}$
+     \hskip 1.5cm
+     \textbf{b)}\quad $\begin{pmatrix} 6&-4\\ -3&2 \end{pmatrix}$
+     \hskip 1.5cm
+     \textbf{c)}\quad $\begin{pmatrix} -1&3&0 \\ 2&-1&5 \\ 1&2&-5 \end{pmatrix}$
+   }
+
+\end{problem}
+
+
+\begin{answer}
+% Answer here for problem number 3, 5 points
+\end{answer}
+
+
+
+
+\begin{problem}
+We can define the derivative for all polynomials as a homomorphism $D\colon \mathscr P\to \mathscr P$.
+The null space $\mathscr N(D)$ is the set of all constant polynomials.  We can form the composition
+$D\circ D$, which also maps $\mathscr P$ to $\mathscr P$.  For a polynomial $q(x) 
+= a_0 + a_1x+a_2x^2+\cdots+a_nx^n$, what is $D\circ D(q(x))$?  What mathematical operation does $D\circ D$
+compute?  What is the null space of $D\circ D$?
+\end{problem}
+
+
+\begin{answer}
+% Answer here for problem number 4, 3 points
+\end{answer}
+
+
+
+
+
+\begin{problem}
+Suppose that $V$ and $W$ are vector spaces and that $f\colon V\to W$
+is a homomorphism.  Suppose that $S\subseteq V$ and that $S$ spans $V$.
+Show that the set $f(S)$ spans the range space $\mathscr R(f)$ of $f$.
+(Note: $\mathscr R(f)=\{f(\vec v)\,|\,\vec v\in V\}$, and $f(S)=\{f(\vec v)\,|\,\vec v\in S\}$.)
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 5, 3 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Suppose that $V$ and $W$ are vector spaces and that $f\colon V\to W$
+is a homomorphism.  Assume that $h$ is one-to-one (which implies that
+the null space $\mathscr N(h)$ contains only $\vec 0_V$).  And
+suppose that $\langle \vec v_1,\vec v_2,\dots,\vec v_k \rangle$
+is a linearly independent sequence of vectors in $V$. Show that
+the sequence $\langle f(\vec v_1),f(\vec v_2),\dots,f(\vec v_k) \rangle$
+is linearly independent (in $W$).
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 6, 3 points
+\end{answer}
+
+
+
+
+\end{document}
+

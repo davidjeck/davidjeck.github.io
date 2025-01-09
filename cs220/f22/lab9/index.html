@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<title>CS220, Fall 2022, Lab 9</title>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 9: <i>yasm</i> and <i>ddd</i> Basics</h2>
+
+<div class="intro">
+
+<p>This is our first lab using yasm to assemble x86-64 assembly language programs.
+It also introduces the ddd debugger.  The main point of the lab is to start using
+these tools, not to do complex programming.  We will be continuing with yasm for the
+rest of the semester.</p>
+
+<p><b>Work from this lab is due at the start of next week's lab as usual.  You 
+will turn in one assembly language program, lab9.asm, and a text file containing
+your written answers to some questions.  The preferred formats for the test file 
+are plain text (lab9.txt)
+or PDF (lab9.pdf); a Microsoft Word (lab9.doc or lab9.docx) or LibreOffice (lab9.odt)
+word-processing document
+would also be OK.  For the written part, be sure to answer all five questions;
+the fifth question is near the bottom of this web page. Please include your
+name in the file!</b></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Starting the lab</h3>
+
+<p>For this lab, and for later labs in this course, you will need to use Linux.
+See <a href="linux/index.html">this&nbsp;web&nbsp;page.</a> for information about
+using Linux for the assembly language labs.</p>
+
+<p>You can work on a Linux computer in Rosenberg 009 or Lansing 310.  It is possible
+to access Linux remotely from your own computer.  If you would like to try that,
+see the information about accessing Linux from Windows or Mac in the
+<a href="linux/index.html">document</a> referenced above.
+</p>
+
+<p>You should log into Linux and open a Terminal where you can work on the command line
+(or connect to Linux using ssh).  If you are just getting started with Linux, you might want
+to create a directory structure to hold your work for this course, such as with the commands:</p>
+
+<pre class=code>
+mkdir cs220
+cd cs220
+mkdir lab9
+cd lab9
+</pre>
+
+<p class=np>This will leave you working in the <i>lab9</i> folder.  In any case, you will
+want to copy the files that you need for this lab into your account.  If you are working in the
+directory where you want to put the files, you can do that with the command:</p>
+
+<pre class=code>
+cp  /classes/cs220/lab9-files  <b>.</b>
+</pre>
+
+<p class=np>Note the period at the end of the command, which represents the directory that
+you are working in.  This will copy the files <a href="lab9-files/basicprint.asm">basicprint.asm</a>,
+<a href="lab9-files/hello.asm">hello.asm</a>, and <a href="lab9-files/buggy.asm">buggy.asm</a>
+into your current directory.</p>
+
+<p>You need to be able to assemble, link, and run x86-64 assembly language programs
+(as discussed in Chapter&nbsp;5 of <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>).
+For example, to assemble basicprint.asm, use the command:</p>
+
+<pre class=code>
+yasm  -felf64  -gdwarf2  basicprint.asm
+</pre>
+
+<p class=np>This command should give you no feedback, but it will create the assembled file
+basicprint.o in the current directory.  That file is not a complete program; it can't
+be run.  It defines certain subroutines that are used by the main programs in this lab.
+For example, it is used by hello.asm, which defines a main program that simply prints
+out "Hello&nbsp;World!".  To assemble hello.asm and then link everything together
+into a complete program, use the commands:</p>
+
+<pre class=code>
+yasm  -felf64  -gdwarf2  hello.asm 
+ld  -g  -o hello  hello.o  basicprint.o
+</pre>
+
+<p class=np>This produces the program <i>hello</i>, which can be run using the command:</p>
+
+<pre class=code>
+./hello
+</pre>
+
+<p class=np>The program <i>hello.asm</i> is provided as an example only.  You can try assembling,
+linking, and running it, and also reading it, but you don't need it for anything else in this lab.
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Use the <i>ddd</i> Debugger</h3>
+
+<p>The <i>ddd</i> debugger is discussed in Chapter 6 of <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>,
+and we have looked at it in class.  For this part of the lab, you will apply <i>ddd</i> to a buggy program,
+<a href="lab9-files/buggy.asm">buggy.asm</a>.</p>
+
+<p>You should compile, link, and run buggy.asm.  (The commands to do so are in comments at the top of
+the file, if you need them.)  If there were no bugs in the program, then the values for
+the three sums that it computes and prints would be 603, 603, and 16.
+But it gets all the answers wrong.  You will use <i>ddd</i> to help you understand what goes wrong
+in each case.  Even if you can see the errors without using the debugger, you should use it anyway to
+get familiar with some of the things that it can do.  So, start debugging the program with the command:</p>
+
+<pre class=code>
+ddd  buggy
+</pre>
+
+<p class=np>This will open a <i>ddd</i> window, showing the program buggy.asm.  You should set a breakpoint
+on the first assembly language instruction, on line&nbsp;36.  (Right-click in the space to the left of the
+instruction.  This should show a pop-up menu in which the first command is "Set&nbsp;Breakpoint."  Use that
+command to set the breakpoint.  You will see a Stop sign next to the command.) Now, click the "Run" button
+to start the program.  It will pause at the breakpoint, and a green arrow will point to line containing the
+breakpoint, indicating the line that is next to be executed.  The window should look something like this:</p>
+
+<p align=center class=np><img width=644 height=612 src="buggy-ddd.png" alt="The ddd debugger window, at the start of editing buggy.asm"></p>
+
+<p class=np>Click the "Next" button repeatedly to execute the program line-by-line.  (The "Step" button is similar,
+but if you use "Step" on a subroutine call, it will step you into the subroutine code &mdash; which you don't need
+to do for this lab.)</p>
+
+<p>You will want to watch the content of the registers as you step through the program.  To open the widow
+that displays the registers, use the "Registers" command in the "Status" menu.  Adjust the size of the
+Registers window so that you can see all three columns.  The third column shows the content of (most) registers
+as decimal integers.</p>
+
+<p align=center class=np><img width=506 height=351 src="registers.png" alt="The Registers window from the ddd debugger."></p>
+
+<p>Note the code used in buggy.asm to output values.  The program uses subroutines named "printstring" and "printlong" that are
+defined in basicprint.o.  The assembly language instructions for printing a string are</p>
+
+<pre class=code>
+mov rdi, &lt;label&gt;
+call printstring
+</pre>
+
+<p class=np>where &lt;label&gt; represents the address of the string in memory, and the "call" instruction
+jumps to the printstring subroutine.  The instructions for printing a 64-bit signed integer value are</p>
+
+<pre class=code>
+mov rdi, &lt;value&gt;
+call printlong
+</pre>
+
+<p class=np>where &lt;value&gt; represents the number to be printed.</p>
+
+<hr align=center width="33%">
+
+
+<p><b>The Debugging Assignment:</b>  You should step through the program, noting how the values in
+the registers change.  You should answer the following questions as part of your written response to the
+lab (in a file such as lab9.txt or lab9.pdf).<p>
+
+<p><b style="font-size:110%; color:#0000BB">Question 1:</b>&nbsp;
+What exactly goes wrong in the first attempt to compute the sum of a, b, and&nbsp;c?
+(Carefully explain the difference between "mov&nbsp;rdi,&nbsp;a" and "mov&nbsp;rdi,&nbsp;[a]".)
+</p>
+
+<p><b style="font-size:110%; color:#0000BB">Question 2:</b>&nbsp;
+What goes wrong in the second attempt to print the sum of a, b, and&nbsp;c?
+Where exactly did the output value come from?  How did the debugger help
+your figure that out? How could this part of the program be fixed?
+</p>
+
+<p><b style="font-size:110%; color:#0000BB">Question 3:</b>&nbsp;
+What goes wrong in the attempt to compute the sum of the <i>list</i> array, and how
+could it be fixed?  (This question requires you to know a little about jump instructions.)
+</p>
+
+<p><b style="font-size:110%; color:#0000BB">Question 4:</b>&nbsp;
+The incorrect attempt to compute the sum of <i>list</i> gets 20 as the answer, instead
+of the correct value,&nbsp;16.  Where exactly did the extra 4 come from?  Explain carefully and fully!
+</p>
+
+
+
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Programming Assignment</h3>
+
+<p>As your programming assignment for this lab, you will write a yasm assembly language
+program.  The name of the program file should be <i>lab9.asm</i>. (One way to make a new
+file is to start the Text Editor program, from the Accessories submenu of the Start menu,
+and name the file when you save it.)</p>
+
+<p><b>Before you do anything
+else, please add your name, in a comment, at the top of lab9.asm; this will make it easier
+for me to print your file and know who submitted it!</b></p>  
+
+<p>When assembled using
+yasm and linked to basicprint.o, lab9.asm should produce exactly the following output,
+and it must produce the output in the way specified below:</p>
+
+<pre class=code>
+-1
+18446744073709551615
+FFFFFFFFFFFFFFFF
+The value of (y - x + 12) is: 37
+The value of ((5*x + 3) * (y + z - w)) is: 118536
+The quotient z/w is 15 and the remainder is 3
+The sum of the list is 200
+</pre>
+
+<p>You will need to create the file <i>lab9.asm</i> in the same directory as
+basicprint.o.  The file basicprint.asm defines functions <i>printlong</i>, <i>printulong</i>,
+<i>printhex</i>, and <i>printstring</i> for outputting 64-bit integers and strings;
+<i>printlong</i> outputs its parameter as a signed integer, <i>printulong</i> outputs an unsigned integer,
+and <i>printhex</i> outputs the number in hexadecimal form.  To get access to these functions,
+the file lab9.asm has to include the line</p>
+
+<pre class=code>
+extern printlong, printulong, printhex, printstring
+</pre>
+
+<p class=np>and lab9.o has to be linked with basicprint.o.  To assemble, link, and run your <i>lab9</i>
+program, you need the commands</p>
+
+<pre class=code>
+yasm  -felf64  -gdwarf2  lab9.asm 
+ld  -g  -o lab9  lab9.o  basicprint.o
+./lab9
+</pre>
+
+<p class=np>Alternatively, you can run the program under the debugger using the command
+<i>ddd&nbsp;lab9</i>.
+Of course, when a command produces errors, you will have to correct them before you proceed.
+You will have to repeat both the <i>yasm</i> command and the <i>ld</i> command any time you make a change
+to lab9.asm.  (Please remember that you can use the up-arrow key on the command line to
+access previously entered commands!)</p>
+
+<hr align=center width="33%">
+
+<p><b>For the first three lines of output</b> from lab9.asm, you should output
+the number &minus;1 three times, first as a signed integer, then as an unsigned integer, then in hexadecimal form
+(using <i>printlong</i>, <i>printulong</i>, and <i>printhex</i>).
+In each case, you should output a line feed after the number.  This is easy, but you should
+also add your answer to the following question to your written response to the lab (in
+lab9.txt or lab9.pdf):</p>
+
+<p><b style="font-size:110%; color:#0000BB">Question 5:</b>&nbsp;
+Discuss the second and third lines of output from the <i>lab9</i> program.  When &minus;1
+is output in hexadecimal form, why is the result FFFFFFFFFFFFFFFF?
+What does the unsigned number 18446744073709551615 on the second line represent?
+</p>
+
+<hr align=center width="33%">
+
+<p><b>For the remaining lines</b> of output from lab9.asm, you will need values for x, y, z, w, and list.
+Those values should be defined in the .data section of the program using the following code,
+which you can copy and paste from this web page into the .data section of lab9.asm:</p>
+
+<pre class=code>
+   x:    dq   17
+   y:    dq   42
+   z:    dq   1398
+   w:    dq   93
+
+   list: dq   100,27,53,20
+</pre>
+
+<p class=np>You should compute the values of the expressions shown in the sample output above,
+and output those values along with the appropriate strings to produce exactly the output shown.
+The code that you write must compute the values of the expressions using the variables
+x, y, z, w, and list.  That is, your program must compute the answers, using code that
+would work no matter what values the variables have.  <b>For the sum of the list, 
+you must compute the sum using four <i>add</i> instructions; do not use a loop!</b></p>
+
+<p>In class, we discussed the assembly language instructions for doing addition, subtraction,
+multiplication, and division of 64-bit numbers.  For multiplication and division, there are
+different instructions for signed and for unsigned numbers.  In this case, it doesn't matter
+which versions you use, since all of the numbers involved are small positive values.
+Remember that a single <i>div</i> instruction produces produces both the quotient and
+the remainder, and that the value in <i>rdx</i> must be zero before doing an unsigned division.</p>
+
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Limits and Continuity in Metric Spaces</title>
+</head>
+<body>
+<div id="content">
+
+<h2>11 Limits and Continutiy in Metric Spaces</h2>
+<hr>
+
+<p>The concept of "limit" can be extended to metric spaces in a natural way,
+just by using distance in place of absolute value in the usual definitions.
+We can define both the limit of a sequence and the limit of a function in this
+way:</p>
+
+<div class=def><a><span class=dtp>Definition:</span> Let $(M,d)$ be a metric space,
+let $\{x_n\}_{n=1}^\infty$ be a sequence of points in $M$, and let $L\in M$,
+We say $\ds\lim_{n\to\infty}x_n = L$ if for all $\eps>0$, there is an $N\in\N$ such
+that for all $n>N$, $d(x_n,L)<\eps$.</p></div>
+
+<div class=def><a><span class=dtp>Definition:</span> Let $(A,\rho)$ and $(B,\tau)$
+be metric spaces, let $f: A\to B$ be a function, let $a\in A$, and let $L\in B$.
+We say that $\ds\lim_{x\to a}f(x)=L$ if for all $\eps>0$, there is a $\delta>0$ such
+that for all $x\in A$, if $0<\rho(x,a)<\delta$, then $\tau(f(x),L)<\eps$.</p></div>
+
+<p class=np>But we can rephrase these definitions in terms of open balls to be more 
+geometrically intuitive.  This works more effectively for the definition of
+continuity instead of the limit of a function:</p>
+
+<div class=def><a><span class=dtp>Definition:</span> Let $(M,d)$ be a metric space,
+let $\{x_n\}_{n=1}^\infty$ be a sequence of points in $M$, and let $L\in M$,
+We say $\ds\lim_{n\to\infty}x_n = L$ if for all $\eps>0$, there is an $N\in\N$ such
+that for all $n>N$, $x_n\in B_\eps(L)$.</p></div>
+
+<div class=def><a><span class=dtp>Definition:</span> Let $(A,\rho)$ and $(B,\tau)$
+be metric spaces, let $f: A\to B$ be a function, and let $a\in A$.
+We say that $f$ is continuous at $a$ if for all $\eps>0$, there is a $\delta>0$ such
+that $f(B_\delta^\rho(a))\subseteq B_\eps^\tau(f(a))$.</p></div>
+
+<p class=np>We then get a very nice characterization of continuity in terms of limits
+of sequences:</p>
+
+<div class=thm><a><span class=dtp>Theorem:</span> Let $(A,\rho)$ and $(B,\tau)$
+be metric spaces, let $f: A\to B$ be a function, and let $a\in A$.  Then
+$f$ is continuous at $a$ if and only if for every sequence $\{x_n\}_{n=1}^\infty$
+in $A$, if $\ds\lim_{n\to \infty}x_n = a$, then $\ds\lim_{n\to \infty}f(x_n) = f(a)$.</p></div>
+
+<p class=np>We define $f$ to be continuous if it is continuous at every point of
+its domain, $A$.  We then see that $f$ is continuous if and only if for every convergent
+sequence $\{x_n\}_{n=1}^\infty$, $ \ds\lim_{n\to\infty}f(x_n) = f\big(\lim_{n\to\infty} x_n\big)$.
+
+<p>We get another, somewhat surprising, characterization of continuity purely in terms
+of open sets.  This shows that continuity is actually a topological rather than a
+metric property.</p>
+
+<div class=thm><a><span class=dtp>Theorem:</span> Let $(A,\rho)$ and $(B,\tau)$
+be metric spaces, and let $f: A\to B$ be a function.  Then
+$f$ is continuous if and only if for every open set $\mathcal O\subseteq B$,
+the inverse image set $f^{-1}(\mathcal O)$ is open in $A$.</p></div>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Homogeneous and Nonhomogeneous Systems</title>
+</head>
+<body>
+<div id="content">
+
+<h2>Homogeneous and Nonhomogeneous Systems</h2>
+<hr>
+
+<p>A <span class=nw>homogeneous</span> system of linear equations is one
+in which all of the constant terms are zero.  A homogeneous system always has
+at least one solution, namely the zero vector.  When a row operation is
+applied to a homogeneous system, the new system is still homogeneous.  It is 
+important to note that when we represent a homogeneous system as a matrix,
+we often leave off the final column of constant terms, since applying
+row operations would not modify that column.  So, we use a regular matrix
+instead of an augmented matrix.  Of course, when looking for a solution,
+it's important to take the constant zero terms into account.</p>
+
+<p>A nonhomogeneous system has an <span class=nw>associated homogeneous system</span>,
+which you get by replacing  the constant term in each equation with zero.
+Section 1.I.3 in the textbook is about understanding the structure of
+solution sets of homogeneous and non-homogeneous systems.  The main theorems 
+that are proved in this section are:</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> The solution set of
+a homogeneous linear system with $n$ variables is of the form
+$\{a_1\vec v_1 + a_2\vec v_2 + \cdots + a_k\vec v_k \,|\, a_1,a_2,\dots,a_k\in\R \}$,
+where $k$ is the number of free variables in an echelon form of
+the system and $\vec v_1,\vec v_2,\dots,\vec v_k$
+are [constant] vectors in $\R^n.$</p></div>
+
+<div class=thm><p><span class=dtp>Theorem:</span> Consider a system of linear equations
+in $n$ variables, and suppose that $\vec p$ is a solution of the system.  Then
+the solution set of the system is of the form
+$\{\vec p + a_1\vec v_1 + a_2\vec v_2 + \cdots + a_k\vec v_k \,|\, a_1,a_2,\dots,a_k\in\R \}$,
+where $\{a_1\vec v_1 + a_2\vec v_2 + \cdots + a_k\vec v_k \,|\, a_1,a_2,\dots,a_k\in\R \}$
+is the solution set of the associated homogeneous system. (So, $k$ is still the
+number of free variables in an echelon form of the system.)</p></div>
+
+<p>The vector $\vec p$ in the second theorem is said to be a 
+<span class=nw>particular solution</span> of the system.  (Remember that for a nonhomogeneous
+system, it is possible that no particular solution exists, and the solution set is empty.)
+A homogeneous system always has $\vec 0$ as a particular solution, and the second
+theorem applies to homogeneous systems by taking $\vec p=\vec 0$.
+Note that for a given system, the vectors $\vec p$ and $\vec v_i$ are not unique.
+There can be many different sequences of row operatation that could be used
+to put the system into echelon form.  The $\vec p$ and $\vec v_i$ that you get
+can depend on the specific sequence of row operations that you use.  However, you
+can only get different ways of writing the same solution set. (A&nbsp;possibly
+surprising fact, which has not yet been proved, is that no matter what sequence
+of row operations you use to put the system into echelon form, you always get
+the same number of free variables. This means that the number $k$ in the
+system is uniquely determined by the system.)</p>
+
+<p>These theorems do not really change the way that you go about solving a linear system,
+but it does help us understand the structure of the solution set of the system,
+and in particular the geometry of the solution set.  The solution set of a 
+homogeneous system with $n$ variables is a linear space in $\R^n$ that
+contains the origin.  Adding the
+vector $\vec p$ to all the points in that linear space gives a "parallel" linear
+space that contains $\vec p$.  See the 
+<a href="04-geometry-and-systems.html#fig2">second&nbsp;picture</a>
+in the previous sectio].</p>
+
+<hr class=break>
+
+<p>The other significant topic in Section 1.I.3 of the textbook is
+singular versus nonsingular matrices.  This is an issue only for square
+matrices.  (A <span class=nw>square&nbsp;matrix</span> is one in which the
+number of rows is equal to the number of columns.)  A square matrix is the
+associated matrix of some homogeneous system.  Since the matrix is square,
+the homogeneous system has the same number of equations as there are
+variables.  The homogeneous system will either have $\vec 0$ as its only solution, or
+it will have an infinite number of solutions. The matrix is said to be 
+<span class=nw>nonsingular</span> if the system has a unique solution.
+It is said to be <span class=nw>singular</span> if the system has an infinite
+number of solutions.  (The terms "singular" and "nonsingular" only 
+apply to square matrices.)
+Note that, by the above theorems, a square matrix
+is singular if and only it has at least one free variable when it is put
+into echelon form, which in turn is true if and only if an echelon
+form of the matrix has at least one row containing only zeros.</p>
+
+<p>I would like to add some geometric perspective to all this, using
+ideas from the <a href="04-geometry-and-systems.html">previous&nbsp;section</a>.
+You should try to develop your higher-dimensional geometric intuition!
+Suppose we have a homogeneous system of $n$ equations in $n$ variables.
+The solution set for each individual equation in the system is a 
+linear space in $\R^n$ of dimension of $n-1$ (unless the equation is the
+trivial equation, $0=0$.) And since $\vec 0$ is a solution, that linear
+space passes through the origin. The solution set for the entire system is
+the intersection of the solution sets for all of the individual equations;
+that is, it is the intersection of $n$ linear spaces of dimension $n-1$.</p>
+
+<p>For example, if $n=2$,
+we are looking at the intersection of two lines through the origin; the possibilities
+are that the lines intersect only at the origin [nonsingular matrix] or that 
+the lines are actually identical [singular matrix].  Of course, if you pick
+two lines at random, it will be very unlikely that they are identical.
+That means that if you pick a $2\times2$ matrix at random, it is very unlikely
+that it will be singular.</p> 
+
+<p>For $n=3$, we are intersecting three planes that contain the origin.  The 
+intersection of two planes through the origin is a line, unless the planes happen
+to be identical.  When you add the third plane to the intersection, you are
+most likely intersecting that plane with a line and the result will be a single
+point (namely the origin), except in the unlikely case that the line happens
+to lie entirely in the plane.</p>
+
+<p>For dimension $n$, the situation is similar.  The solution set to the
+first equation is a linear space in $\R^n$ of dimension $n-1$.
+Taking the intersection of that space with the solution set of the
+second equation is likely to give a linear space of dimension $n-2$.
+As the solution set for each equation is added to the intersection, the
+dimension of the intersection is likely to go down by one.  When you get
+to the intersection of the solution sets for all $n$ equations, you are
+likely to have a space of dimension zero&mdash;a single point, namely the
+origin.  Again, if you pick an $n\times n$ matrix at random, it is very
+unlikely to be singular.  (The word "singular" means "notably unusual.")</p>
+
+<p>When you look a nonhomogeneous linear system of $n$ equations in $n$ variables, 
+you are intersecting solution sets that do not necessarily contain the origin.
+The mostly likely possibility for the intersection is still a single point,
+and an infinite intersection is still possible.  But you also have the possiblility
+of an empty intersection&mdash;no solution&mdash;as would happen for example if
+you intersect two parallel lines.</p>
+
+<hr class=break>
+
+<p>We can also think about what happens when we apply row reduction to 
+put an $n\times n$ matrix into echelon form.  Consider the matrix as the
+matrix for a homogeneous linear system, written without the constant zero
+terms from the right sides of the equations.
+$$\begin{pmatrix}
+   c_{11} & c_{12} & \cdots & c_{1n}\\
+   c_{21} & c_{22} & \cdots & c_{2n}\\
+   \vdots&\vdots&\ddots&\vdots\\
+   c_{n1} & c_{n2} & \cdots & c_{nn}
+\end{pmatrix}$$
+Remember that the matrix is square, with the same number of rows as of columns.
+The echelon form matrix that results from row reduction will have the form
+$$
+\begin{pmatrix}
+   d_{11} & d_{12} & \cdots & d_{1n}\\
+   0      & d_{22} & \cdots & d_{2n}\\
+   \vdots &\vdots  &\ddots  &\vdots\\
+   0      & \cdots &      0 & d_{nn}
+\end{pmatrix}$$
+where all the entries below the diagonal are zero (and some of the $d_{ij}$ could also be zero).  But there might be
+all-zero rows at the bottom.  That is, $d_{nn}$ might be zero.
+If $d_{nn}\ne0$, then there are no free variables, and the homogeneous
+system has $\vec 0$ as its only solution.  If $d_{nn}=0$, there
+is at least one non-zero row, and at most $n-1$ of the $n$ rows are non-zero.
+So, there are at most $n-1$ leading variables, which implies that there is at least one free 
+variable; the system has an infinite number of solutions.</p>
+
+<p>Now, suppose that we have a nonhomogeneous system with the same
+matrix of coefficients.  The augmented matrix for the nonhomogeneous
+system has the form
+$$\left(\begin{array}{cccc|c}
+   c_{11} & c_{12} & \cdots & c_{1n} & a_1\\
+   c_{21} & c_{22} & \cdots & c_{2n} & a_2\\
+   \vdots&\vdots&\ddots&\vdots&\vdots\\
+   c_{n1} & c_{n2} & \cdots & c_{nn} & a_n
+\end{array}\right)$$
+If we apply Gauss's method using the same row operations that we
+used for the homogeneous system, we get a matrix of the form
+$$\left(\begin{array}{cccc|c}
+   d_{11} & d_{12} & \cdots & d_{1n} & b_1\\
+   0      & d_{22} & \cdots & d_{2n} & b_2\\
+   \vdots &\vdots  &\ddots  &\vdots  & \vdots\\
+   0      & \cdots & 0     &  d_{nn} & b_n
+\end{array}\right)$$
+Now, in the case $d_{nn}\ne0$, there are no free variables and we can solve the system to get
+a unique solution.  (Thus, a linear system whose matrix of coefficients
+is a square, nonsingular matrix will always have a unique solution.)
+In the case $d_{nn}=0$, we have to consider the
+constant terms.  When $d_{nn}=0$ and $b_n\ne 0$, we have an equation
+of the form $0=k$ where $k\ne 0$, and there is no solution.  When
+$d_{nn}=0$ and $b_n=0$, we have an all-zero row.  However,
+there might still be no solution because one of the previous equations 
+might still be of the form $0=k$, where $k\ne0$.  However, we can
+say that if there are no such rows, then we have a solvable system with
+at least one free variable, and the number of solutions is infinite.</p>
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

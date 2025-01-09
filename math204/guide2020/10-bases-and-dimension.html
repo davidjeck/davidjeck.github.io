@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Bases and Dimension</title>
+</head>
+<body>
+<div id="content">
+
+<h2>10. Bases and Dimension</h2>
+<hr>
+
+<p>We have been looking at <a href="09-subspaces.html">spans and linear independence</a>.
+When we put those two concepts together, we get the idea of a "basis."  A basis
+for a vector space $V$ is a linearly independent subset of $V$ that spans $V$.
+In our textbook, all bases are ordered.  That is, a basis is defined as a 
+sequence of vectors, rather than as a set of vectors.  There are many contexts
+in which the order of vectors in a basis is important, but that is not always
+true, and restricting to sequences makes it difficult to talk about vector
+spaces in which a basis is an infinite set.  So, I prefer to define
+a "basis" as a set, and an "ordered basis" as a sequence.
+</p>
+
+<div class=def><p><span class=dtp>Definition:</span>
+Let $(V,+,\cdot)$ be a vector space.  A subset $B\subseteq V$ is said to be a
+<span class=nw>basis</span> for $V$ if $B$ is linearly independent and spans $V$
+(that is, $[B]=V$).  A sequence $\langle\vec\beta_1,\vec\beta_2,\cdots,\vec\beta_n\rangle$  
+is said to be a basis for $V$ if the set $\{\vec\beta_1,\vec\beta_2,\cdots,\vec\beta_n\}$
+is a basis for $V$.  Sometimes, a sequence that is a basis will be referred to as an
+<span class=nw>ordered basis</span> to make it clear that the order is considered to
+be important.
+</p></div>
+
+<p class=np>So, $\langle 1,x,x^2\rangle$ and $\langle x^2,x,1\rangle$ are different
+ordered bases of $\mathcal P_2$, although the set of vectors is the same in both of 
+them.</p>
+
+<p>Given an ordered basis for $V$, it is possible to write every element of $V$ 
+<b>uniquely</b> as a linear combination of basis vectors.  (The same is true for
+unordered bases, as long as uniqueness is interpreted correctly:  
+If a vector can be written in two ways as a linear combination of basis vectors,
+then any vectors with non-zero coefficients must appear in both linear combinations,
+and they must have the same coefficients.)</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+Let $(V,+,\cdot)$ be a vector space, and let $B=\langle\vec\beta_1,\vec\beta_2,\cdots,\vec\beta_n\rangle$
+be a sequence of vectors from $V$.  Then $B$ is a basis of $V$ if and only if
+every vector $\vec v\in V$ can be written in exactly one way as a linear combination
+of the vectors $\vec\beta_1,\vec\beta_2,\cdots,\vec\beta_n$.
+</p></div>
+
+<p>Note that if you remove vectors from or add vectors to a basis, the result cannot be a basis.
+If a vector is removed from a basis, the result is no longer a basis because it will not span
+the vector space (since, by linear independence, the vector that was removed cannot
+be written as a linear combination of the remaining vectors and therefore is not included in the
+span of those vectors).  If a new vector is added to a basis, the result is no longer a basis because
+the resulting set is not linearly independent (since, like any vector in the vectors space, the vector that was added can be
+written as a linear combination of the the basis vectors).</p>
+
+<p>In $\R^n$, we will use $\vec e_i$ to represent the vector that contains only zeros except for
+a 1 in the i-th position. In $\R^3$, for example, we have
+$$\vec e_1=\begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix},\hskip 10pt
+  \vec e_2=\begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix},\hskip 10pt
+  \vec e_3=\begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}.$$
+The ordered basis $\langle \vec e_1, \vec e_2, \cdots, \vec e_n \rangle$ is
+called the <span class=nw>standard basis</span> for $\R^n$.</p>
+
+<p>Sometimes, we think of the trivial vector space $\{\vec 0\}$ as being $\R^0$.
+Note that the empty set, $\varnothing$, is a basis for $\{\vec 0\}$.
+Also, note that the vector space $\R^1$ has basis $\{(1)\}$, where $(1)$
+represents a column vector of length&nbsp;1. ($\R$ itself
+is a vector space over $\R$, and it has basis $\{1\}$; it is essentially
+the same vector space as $\R^1$.)</p>
+
+<hr class=break>
+
+<p>Given a basis $\mathcal{B}=\langle\vec\beta_1,\vec\beta_2,\dots\vec\beta_n\rangle$
+for a vector space $V$, every vector $\vec v\in V$ can be represented uniquely in terms
+of that vector.  that is, there is exactly one solution $c_1,c_2,\dots,c_n$
+to the equation $$c_1\vec\beta_1+c_2\vec\beta_2+\cdots+c_n\vec\beta_n = \vec v$$
+We then write $$\mbox{Rep}_{\mathcal B}(\vec v) =
+\begin{pmatrix} c_1\\ c_2\\ \vdots\\ c_n\end{pmatrix}_{\kern-5pt\mathcal B}$$
+and we say that the column vector is the <span class=nw>representation of $\vec v$ in
+the basis $\mathcal B$</span>.  Usually, we will leave the "$\mathcal B$'' subscript
+off the column vector, unless we need to make it clear which basis is being used.</p>
+
+<hr class=break>
+
+<p>A vector space is said to be <span class=nw>finite dimensional</span> if it has
+a finite basis.  A major result in vector space theory is that in a finite dimensional
+vector space, all bases have the same number of elements.  This allows us to
+define the <span class=nw>dimension</span> of a finite-dimensional vector space
+as the number of elements in any basis, with the confidence that the answer won't
+depend on which basis we choose.</p>
+
+<p>The vector space $\R^n$ has dimension $n$.  That is, any basis of $\R^n$ must contain
+exactly $n$ vectors.  This is something that follows from things that we already know
+about matrices and systems of linear equations.  Suppose that we take 
+$k$ vectors $\vec v_1, \vec v_2, \dots, \vec v_k$, and we want to know whether they
+are a basis.  Say
+$$ \vec v_1=\begin{pmatrix} v_{11} \\ v_{21} \\ \vdots \\ v_{n1} \end{pmatrix},\hskip 10 pt
+   \vec v_2=\begin{pmatrix} v_{12} \\ v_{22} \\ \vdots \\ v_{n2} \end{pmatrix},\hskip 10 pt
+   \dots,\hskip 10 pt
+   \vec v_k=\begin{pmatrix} v_{1k} \\ v_{2k} \\ \vdots \\ v_{nk} \end{pmatrix}.$$
+These vectors form a basis if and only if every vector in $\R^n$ can be
+written in exactly one way as a linear combination of $\vec v_1, \vec v_2, \dots, \vec v_k$.
+That's the same as saying that for any $d_1, d_2,\dots, d_n$, the vector equation
+$$  x_1 \begin{pmatrix} v_{11} \\ v_{21} \\ \vdots \\ v_{n1} \end{pmatrix} +
+    x_2 \begin{pmatrix} v_{12} \\ v_{22} \\ \vdots \\ v_{n2} \end{pmatrix} +
+   \dots +
+    x_k \begin{pmatrix} v_{1k} \\ v_{2k} \\ \vdots \\ v_{nk} \end{pmatrix}
+   = \begin{pmatrix} d_1 \\ d_2 \\ \vdots \\ d_k \end{pmatrix}$$
+will have exactly one solution $x_1, x_2, \dots, x_k$.
+This is a linear system of the kind we've been looking at since the start of
+the semester:
+$$\begin{matrix}
+   v_{11} x_1 & + v_{12} x_2 & + &\cdots & + v_{1k} x_n &=& d_1\\
+   v_{21} x_1 & + v_{22} x_2 & + &\cdots & + v_{2k} x_n &=& d_2\\
+       \vdots &  \vdots      &   & & \vdots   & & \vdots\\
+   v_{n1} x_1 & + v_{n2} x_2 & + &\cdots & + v_{nk} x_n &=& d_n\\
+\end{matrix}$$
+
+<p>Suppose that $k>n$, so there are more variables than equations.
+In this case, there are too many vectors to be linearly independent:
+Taking all $d_i=0$,  there
+will be at least one free variable, meaning that $\vec 0$ can be written
+as a non-zero linear combination of the $\vec v_i$,
+which means that the vectors are not linearly independent.  So if $k>n$, then
+$\vec v_1, \vec v_2, \dots, \vec v_k$ can't be a basis.</p>
+
+<p>On the other hand, suppose that $k&lt;n$, so that there are more equations
+When the system is put into echelon form, there will
+be at least one $0=0$ or $0=k$ row.  By proper choice of $d_1,d_2,\dots,d_n$,
+we can ensure that the $k+1$ row is a $0=k$ row, meaning that there is
+no solution and that the $\vec v_i$ do not span $\R_n$.  So if $k&lt; n$,
+then $\vec v_1, \vec v_2, \dots, \vec v_k$ can't be a basis.  So,
+we conclude that if $\vec v_1, \vec v_2, \dots, \vec v_k$ is a basis,
+then $k$ must equal $n$.</p>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

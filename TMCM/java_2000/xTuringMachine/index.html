@@ -1,0 +1,249 @@
+<HTML>
+<HEAD>
+
+<TITLE>The xTuringMachine Applet</TITLE>
+
+
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+<H2><font color="#E70000">The xTuringMachine Applet</font></H2>
+
+<hr>
+
+<p><font size="+2">T</font>URING MACHINES are very simple computational
+devices.  A Turing machine has an infinitely long tape, divided into
+<font color="#E70000">cells</font>.
+Each cell can be blank or can contain a <font color="#E70000">symbol</font>
+chosen from some fixed finite list.  The Turing machine moves along the tape
+reading and writing symbols.  It has an internal <font color="#E70000">state</font>,
+which can be either the <font color="#E70000">halt state</font> or
+an integer between zero and some specified maximum value.  When a 
+Turing machine enters the halt state, it stops computing.  Although
+Turing machines are very simple, any computation that can be done
+by any computer can also be done by some Turing machine.</p>
+
+<p>The action that a Turing machine takes depends only on its
+state and on the symbol displayed in the cell where the machine is currently
+located.  Given this information, the Turing machine takes three
+actions: It writes a symbol to the cell (possibly the same one that is
+already there); it moves one cell to the left or one cell to the right;
+and it sets its internal state (possibly to the same state that it is
+currently in).  The Turing machine has
+a table of <font color="#E70000">rules</font> that tells it what to
+do for various combinations of its current state and the symbol it
+reads from the current cell.</p>
+
+<p>The xTuringMachine applet is designed to show Turing machines in
+action.  The Turing machines that it works with have a maximum of
+25 states, and they can only use the symbols 0, 1, x, y, z, and $.
+Nevertheless, they can do some non-trivial computations.  The
+applet is set up to load several sample machines.
+More information about the applet can be found <A HREF="#info">below</A>.
+</p>
+
+<p>This applet
+was originally written by <A HREF="http://math.hws.edu/eck/index.html">David&nbsp;Eck</A>
+for use with his introductory computer science textbook
+<cite><A HREF="http://math.hws.edu/TMCM.html">The&nbsp;Most&nbsp;Complex&nbsp;Machine</A></cite>.
+However, it can also be used on its own.</p>
+
+<p>For a list of other applets and for lab worksheets that use the applets,
+see the <A HREF="../index.html">index&nbsp;page</A>.</p>
+
+
+<hr>
+</blockquote>
+<p align=center>
+<applet codebase="../classes/" archive="xTuringMachine.zip" code="tmcm.xTuringMachineApplet.class"
+        alt="(Java not enabled)"
+        width=500 height=380>
+  <param name="URL"  value="CopyXYZ.txt">
+  <param name="URL1" value="GatherDollars.txt"> 
+  <param name="URL2" value="CountInBinary.txt"> 
+  <param name="URL3" value="BinaryAddition.txt"> 
+  <font color="#E70000">Sorry! Your browser doesn't do Java!</font>
+</applet>
+<blockquote>
+</p>
+
+
+<hr>
+<H3><font color="#E70000"><a name="info">About the Applet</a></font></H3>
+
+<p>A pop-up menu at the very top of the applet can be used to select
+machines that were loaded by the applet at start-up or that have been
+created by the user.  Selecting &quot;[New]&quot;, the first item in
+the menu, will create a new, empty machine.</p>
+
+<p>Just below the applet is the machine itself, sitting on an infinite
+tape.  The tape is divided into cells, and each cell either contains a
+symbol or is blank.  The machine itself sits over one of the cells
+and displays its current state.  By convention, the machine starts out
+in state zero.  When it is in the halt state, it displays an &quot;h&quot;.
+(This area of the screen is also used to display messages; the machine
+will be there when you dismiss the message.)</p>
+
+<p>On the left side of the applet below the machine is a set of
+controls.  The first control is a pop-up menu that controls the speed
+of the applet when it computes.  The &quot;Run&quot; button makes
+the machine start computing; when you click it, it changes into
+a &quot;Stop&quot; button.  The &quot;Step&quot; button makes the
+machine perform one step in its computation.  The &quot;Clear Tape&quot;
+button does just that.  The &quot;Delete Rule&quot; button can be used
+to delete one rule from the rule table.  (It is only active when
+a rule has been selected.  The selected rule is shown in red; you
+can select a rule by clicking on it.)  The &quot;Load File&quot;
+and &quot;Save&quot; buttons are used to work with files.  Your browser
+might not permit you to use them.</p>
+
+<p>The table of rules is in the lower right section of the applet.  Each
+rule tells the machine what to do if it is in a certain state and if
+it reads a certain symbol.  The &quot;Move&quot; column tells the machine
+which direction to move: &quot;L&quot; for left and &quot;R&quot; for
+right.  You can edit the &quot;Write,&quot; &quot;Move,&quot;
+and &quot;New State&quot; columns.</p>
+
+<p>The columns labeled &quot;Reading&quot; and &quot;Write&quot;
+can contain the symbols $, 0, 1, x, y, and z.  They can also contain
+the character &quot;#&quot;, which is used to represent a blank cell.
+The &quot;Reading&quot; column might also contain &quot;other&quot;,
+which represents a <font color="#E70000">default</font> value that
+means &quot;any other symbol for which no explicit rule is given.&quot;
+If the &quot;Reading&quot; column contains &quot;other&quot;,
+then the &quot;Write&quot; column can contain &quot;same&quot;,
+which tells the machine to write the same character that it read.</p>
+
+<p>Just above the rule table is a &quot;rule maker&quot; with a
+&quot;Make Rule&quot; button that can be used to add new rules to the
+table.  The blue rectangle between the machine and the rule maker
+is a &quot;palette&quot; that is used in making and editing rules,
+changing the contents of the tape, and changing the current state
+of the machine.  This is explained in the next two sections.</p>
+
+<p>When the machine is running at &quot;Moderate&quot; speed or
+slower, after each step the applet displays the next applicable
+rule in the rule maker box -- so you can see why the machine takes
+the action it does.  If there is <b>no</b> applicable rule in
+a give situation, the machine will stop and will display the
+message &quot;No Rule Defined!&quot;  You could then use the
+rule maker to make the missing rule.</p>
+
+<p>If the machine moves outside the applet as it is computing,
+the machine along with its tape will jerk back about 1/4 of
+the width of the applet.  (By the way, if you somehow lose the
+machine off the edge of the applet, clicking the &quot;Run&quot;
+or &quot;Step&quot; button will make it reappear.)</p>
+
+<hr>
+<H3><font color="#E70000">Using the Mouse</font></H3>
+
+<p>It is possible to work with the xTuringMachine applet using
+only the mouse (and completely avoiding the keyboard).  Here's how.</p>
+
+<p>Before you can edit any item, it must be &quot;hilited.&quot;
+The currently hilited item, if any, is surrounded by
+a bright blue-green outline.  You can always hilite an editable item
+by clicking on it.  Whenever an item is hilted, the palette will
+display a list of legal values for that item.  (The palette is the
+blue rectangle just below the machine.)  You can choose one
+of these values by clicking on it.  You can also type the value you
+want.</p>
+
+<p>As long as the Turing machine is not running, you
+can edit the current state of the machine and the contents of
+the tape.  Click on the machine or on one of the tape's cells, then
+select a value from the palette.  When you enter a symbol for
+the tape, the hilite moves one cell to the right.</p>
+
+<p>You can edit the &quot;Write&quot;, &quot;Move&quot;, and
+&quot;New State&quot; columns of the rule table at any time,
+even while the machine is running.  Click on the item you want to
+change, then select a value from the palette.</p>
+
+<p>The rule maker is somewhat more complicated.  The rule maker lets
+you set up one rule by editing any of the five values for that
+rule.  To set up the rule, click on any of the values in the rule
+maker and edit it by selecting one of the values in the palette.
+When the rule is complete, click on the &quot;Make Rule&quot;
+button to add it to the rules table.
+(However, if the &quot;In State&quot; and &quot;Reading&quot;
+items in the rule maker are the same as those for an existing
+rule, the &quot;Make Rule&quot; button becomes a &quot;Replace&quot;
+button. When you click it, the rule in the rule maker will replace
+the rule in the table.)  Everytime you make or replace a rule,
+the rule maker is automatically updated to show the next
+consecutive rule, since it is at least fairly likely that that is the
+rule you want to work on next.</p>
+
+<p>You can use the mouse to drag the Turing machine into a new
+position on its tape or to drag the tape to a new position under
+the machine.  If you want to drag them both together, use the
+right mouse button or hold down the Control key as you click.</p>
+
+<hr>
+<H3><font color="#E70000">Using the Keyboard</font></H3>
+
+<p>You can use the keyboard to perform any editing task in the
+xTuringMachine applet.  Here's how.</p>
+
+<p>Pressing the tab key will move the hilite among the three major
+areas: the machine, the rule maker, and the rule table. (If there is
+no hilited item, pressing the tab key <b>might</b> create a hilite
+in the rule maker; if not, you have to use the mouse.) Within one these three major
+areas, the up, down, left, and right arrow keys can be used
+to move the hilite from one item to another.  When the hilite is
+in the tape or in the rule table, the &quot;home&quot; and &quot;end&quot;
+keys can also be used.  Play around to see how they work.</p>
+
+<p>You can always type one of the values displayed in the palette,
+instead of clicking on it.  Note that a blank can be entered either
+by pressing the space bar or by typing a #.  The default symbol
+(&quot;other&quot; in the &quot;Reading&quot; column or &quot;same&quot;
+in the &quot;Write&quot; column) is entered by typing a *.</p>
+
+<p>When working in the rule maker, hitting the return key is the
+same as clicking on the &quot;Make Rule&quot; (or &quot;Replace&quot;)
+button.</p>
+
+<hr>
+<H3><font color="#E70000">The Sample Machines</font></H3>
+
+<p>The applet on this page is set up to load four sample Turing machines.
+Here are brief descriptions:</p>
+
+<UL>
+<LI><b>CopyXYZ.txt</b>: This machine expects to be started on the
+left end of a sequence of symbols containing only x's, y's, and z's.
+It will make a copy of its input, and will halt on the left end of
+the copy.
+<LI><b>GatherDollars.txt</b>:  This machine should be started on the
+left end of a string of symbols.  Any of the symbols $, 0, 1, x, y, and
+z are OK. The machine will move all the $'s to the left end of
+the string of symbols, leaving all the other symbols in the original
+order.  It halts on the left end of the string.
+<LI><b>CountInBinary.txt</b>: Expects to be started on the
+right end of a sequence of zeros and ones, which is interpreted
+as a binary number.  The machine adds one to its input, and repeats
+this process forever.  If started on a blank tape, it will start
+counting from one.  Run it at &quot;Fastest&quot; speed.
+<LI><b>BinaryAddition.txt</b>:  The input for this machine should be
+two binary numbers, separated by a blank.  The machine should be started
+on the right end of the second number.  It computes the sum of the
+two binary numbers.  The second number is erased in the process.  The
+first number is replaced by the sum.  The machine halts on the right
+end of the sum.
+</UL>
+
+<hr>
+<font size="-1">
+<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>),
+August 1997
+</font>
+
+</blockquote>
+
+</BODY>
+</HTML>

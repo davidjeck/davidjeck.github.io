@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="URF-8">
+<title>CS 327, Homework 7</title>
+<style>
+@media screen {
+    body {
+        background-color: #003355;
+    }
+    #content {
+        background-color: #EEF0FF;
+        max-width: 850px;
+        padding: 10px 30px;
+        margin: 0pt auto;
+        border: 2px solid black;
+    }
+    h1, h2, h3 {
+        color: #003355;
+    }
+    th {
+        color: white;
+        background-color: #003355;
+    }
+    td {
+        background-color: white;
+    }
+}
+a {
+    white-space:pre;
+}
+h3, #heading {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+}
+p {
+   text-indent: 30px;
+}
+h3 + p {
+   text-indent: 0;
+}
+p.np {
+   text-indent:0;
+}
+i {
+   text-style: italic;
+}
+</style>
+</head>
+
+<body>
+
+
+<div id="content">
+
+<h2>CPSC 327, Spring 2019<br>
+Homework 7:  Heuristic Search</h2>
+
+<hr>
+
+<p>In class, we looked at two techniques for random heuristic search of a large
+space of "configurations" or "states":  Simulated Annealing and the Genetic Algorithm.
+These techniques apply to optimization problems where a "fitness function" is defined
+for configuations, and the goal is to find a configuration that minimizes or maximizes
+the fitness.  There must also be a way to randomly modify or "mutate" a configuration
+to give a new configuration.  And for the genetic algorithm, there must be a way to
+combine or "crossover" two configurations to give a new configuration that combines
+traits from its two "parent" configurations.</p>
+
+<p>In class, we looked at the idea of applying the two techniques to the k-coloring
+problem:  Given an undirected graph, G, and a positive integer, k, determine
+whether it is possible to assign colors, chosen from a set of k colors, to G so
+that for each edge (v,w) in G, the colors assigned to v and w are different.
+In this context,</p>
+
+<ul>
+<li>A configuration is simply an array of integers whose length is equal to the number
+of vertices in G and whose elements are integers in the range 1 through k, representing
+the k possible colors.</li>
+<li>The fitness function for a configuration is the number of edges whose endpoints
+have the same color.  A configuration is a solution to the k-color problem if and only
+if its fitness value is zero.  So here, the goal is to minimize the fitness function.</li>
+<li>A possible mutation operation is simply to choose a vertex at random and change its
+color.  Another option is to choose an edge whose vertices have the same color and to
+change the color of one of its endpoints.  To get potentially larger jumps, you might
+apply one or both of these operations several times to the same configuration.
+(The possibility of larger jumps in fitness is useful in simulated annealing.)</li>
+<li>To do a crossover, choose a division point, N, at random between 0 and the length
+of the array.  Make a new configuration array by copying elements up to index N from
+the first array and copying elements after index N from the second array.</li>
+</ul>
+
+<p>Note that if a configuration is found that has fitness zero, we can be sure that
+the graph <b>is</b> k-colorable.  If we never find a configuration with fitness zero, however,
+we can't say for sure that the graph is <b>not</b> k-colorable; it might just be that
+we have failed to find the coloring.  (But in a practical application, we might be
+satisfied with having a very small number of bad edges.)</p>
+
+<p>We looked at examples where the genetic algorithm found a 2-coloring of a 900-vertex grid
+in a few thousand generations with a population size of 1000.  In that case, the algorithm
+created and evaluated a few million configurations. The size of the configuration space
+that was being searched was 2<sup>900</sup>, which is a 1 followed by 270 zeros, an 
+almost unimaginably large number.  There are only two possible ways of 2-coloring a grid,
+and the algorithm was able to find one by looking at only a microscopically small fraction
+of the possible configurations.  (But note that the genetic algorithm does not always
+work so well.)  Simulated annealing didn't handle that large a grid in the time I was
+willing to give it, but it was able to find solutions in extremely large configuration
+spaces.</p>
+
+    
+
+<h3>The Assignment</h3>
+
+<p>The assignment will be due <span style="text-decoration:line-through">next Monday, April 15, unless we agree in class to a
+later due date</span> <b>next Friday, April&nbsp;19</b>.</p>
+
+<p>You should write a Java program that implements <b>either</b> the genetic algorithm
+or simulated annealing.  The program should search for solutions to k-coloring problems,
+as described above.  Alternatively, you can pick a different problem to work on,
+but <b>you should discuss it with me first.</b>  This is meant to be an individual
+assignment, but if you prefer to work with someone, you can work with one other person
+and turn in <b>two</b> programs, one for the genetic algorithm and one for the
+simulated annealing.</p>
+
+<p>This should be a relatively short assignment, given the amount of information you
+have.  I am not giving any specific requirements for the user interface, and it even
+OK if the program source has to be modified to apply it to a different graph.
+However, <b>you should make it clear</b> how to use the program (in the comments on the program).
+Also, <b>you should include a comment</b> stating a few example problems on which you have run the
+program, and the results that you got.</p>
+
+
+<p>You are welcome to use the following functions to make sample graphs on which to
+try your algorithm (assuming that you are using my <i>Graph</i> class to represent
+the graphs):</p>
+
+<pre style="margin-left:0.5in">
+    /**
+     * Make a graph that is a rectangular grid with the specified
+     * number of rows and columns.  A vertex is connected to its
+     * neighbors to the left, to the right, above, and below.
+     */
+    static Graph makeGrid(int rows, int cols) {
+        Graph g = new Graph(rows*cols);
+        for (int c = 0; c &lt; cols; c++) {
+            for (int r = 0; r &lt; rows-1; r++) {
+                int a = r*cols + c;
+                int b = a + cols;
+                g.addEdge(a,b);
+            }
+        }
+        for (int c = 0; c &lt; cols-1; c++) {
+            for (int r = 0; r &lt; rows; r++) {
+                int a = r*cols + c;
+                int b = a + 1;
+                g.addEdge(a,b);
+            }
+        }
+        return g;
+    }
+
+
+    /**
+     * Creates a random undirected graph with specified numbers of vertices
+     * and edges, using a pseudo-random number generator initialized with a
+     * given seed.
+     */
+    private static Graph randomGraph( int vertexCt, int edgeCt, int seed ) {
+        Random rand = new Random(seed);
+        Graph grph;
+        grph = new Graph(vertexCt);
+        while (grph.getEdgeCount() &lt; edgeCt) {
+            int a = rand.nextInt(vertexCt);
+            int b = rand.nextInt(vertexCt);
+            if ( a != b &amp;&amp; ! grph.edgeExists(a, b) ) {
+                grph.addEdge(a, b);
+            }
+        }
+        return grph;
+    }
+</pre>
+
+    
+
+<h3>About the Genetic Algorithm</h3>
+
+<p>As mentioned in class, the genetic algorithm is more of an idea than a
+specific algorithm.  The general outline of the algorithm is always something
+like this:</p>
+
+<pre style="margin-left: 1in">
+Create a population of randomly generated configurations
+bestEver = any individual
+Repeat until a solution is found (or time runs out) {
+    Sort the population by fitness (if that's useful for selection)
+    best = fittest individual in population
+    if (best is fitter than bestEver)
+        bestEver = best
+        if (bestEver is a solution)
+            break
+    Make a new population array, and for each spot in the array:
+        select two configurations from current population by fitness
+        apply a crossover operation on them to make a new configuration
+        mutate the configuration (possibly only with some probability)
+        add the new configuration to the new population array
+    Maybe output some progress report
+}
+</pre>
+
+<p>There are many ways to "tune" the algorithm, and a lot of tuning might
+be necessary to get it to work well on a particular problem (if that is even 
+possible).  Things that can be adjusted include population size, mutation
+probability, the nature of the mutation and crossover operations, whether
+some configurations are copied from the old to the new population unchanged,
+and how selection by fitness is done.  Selection by fitness can be done in
+many ways, but it doesn't usually have to be very complex to be effective.
+As I mentioned in class, one idea is to choose one parent from the population
+in general and one parent from the more fit part of the population.</p>
+
+    
+
+<h3>About Simulated Annealing</h3>
+
+<p>Similarly, simulated annealing is more of an idea than a specific
+algorithm.  Simulated annealing looks at only one configuration at
+at time.  At the core of simulated annealing is a probability
+function <i>Change</i>(c<sub>old</sub>,c<sub>new</sub>,temperature.
+After a configuration c<sub>old</sub> is mutated to give a
+new configuration, c<sub>new</sub>, the <i>Change</i>() function gives
+the probability that the algorithm will jump to c<sub>new</sub>; that is,
+the probability that it will replace the current configuration,
+c<sub>old</sub>, with c<sub>new</sub>.  The probability depends on
+"temperature" where temperature is a number that decreases over time.
+Usually, if the new configuration is fitter than the old configuration, 
+the algorithm always takes the jump.  If the new configuration 
+is less fit, the probability of jumping will be less than one.
+At higher temperatures, the algorithm should be more likely to 
+accept a jump that decreases the fitness.  The decision <b>can</b> also
+depend on the amount by which the fitness decreases, with smaller
+jumps being more likely than larger jumps.</p>
+
+<p>In general outline, a simulated 
+annealing algorithm is something like this:</p>
+
+<pre style="margin-left:1in">
+bestEver = some configuration
+temperature = a high value
+repeat until a solution is found or time runs out {
+    current = a randomly generated configuration
+    repeat for some large set number of times {
+        newConfig = mutate(current)
+        if Math.random() &lt; Change(current,newConfig,temperature)
+            current = newConfig
+            if newConfig is fitter than bestEver
+                bestEver = newConfig
+                terminate if bestEver is a solution
+         Maybe break if stuck for a while
+    }
+    Maybe output a progress report
+}
+</pre>
+
+</div>
+</body>
+</html>
+

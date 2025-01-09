@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Subroutine Hieararchy</title>
+
+<script>
+
+    let canvas;   // The canvas that is used as the drawing surface
+    let g; // The 2D graphics context for drawing on the canvas.
+    let frameNumber;  // Elapsed time, measured in 1/30 seconds.
+
+    const X_LEFT = -4;    // The xy limits for the coordinate system.
+    const X_RIGHT = 4;
+    const Y_BOTTOM = -3;
+    const Y_TOP = 3;
+    
+    const BACKGROUND = "white";  // The display is filled with this color before the scene is drawn.
+         
+    let pixelSize;  // The size of one pixel, in the transformed coordinates
+                    // (for setting g.lineWidth if you want to need to do that).
+    
+    //----------------------------------------------------------------------------------------
+
+
+    // TODO:  Define any other necessary state variables.
+    
+    /**
+     *  Responsible for drawing the entire scene.  The display is filled with the background
+     *  color before this function is called.  The graphics context is saved before this 
+     *  method is called and restored after this function ends, to prevent changes from
+     *  carrying over from one frame to the next.
+     */
+    function drawWorld() {
+
+        // TODO: Draw the content of the scene.
+        rotatingRect();  // (DELETE THIS EXAMPLE)
+        g.fillStyle = "yellow";
+        filledTriangle(-0.4,-0.3,0.4,-0.3,0,0.5);  // non-rotating triangle
+
+    }
+     
+     // TODO: Define methods for drawing the objects in the scene.
+    
+    function rotatingRect() { // (DELETE THIS EXAMPLE)
+        g.save();  // (It might be necessary to save/restore transform and color)
+        g.fillStyle = "red";
+        g.rotate( (frameNumber*0.75) * Math.PI/180 );
+            // Note:  frameNumber gives elapsed times in units of 1/30 second.
+        g.scale( 2, 2 );
+        filledRect();
+        g.restore();
+    }
+    
+    //----------------------------------------------------------------------------------------
+
+
+    //------------------- Some methods for drawing basic shapes. ----------------
+    
+    function line() { // Draws a line from (-0.5,0) to (0.5,0)
+        g.beginPath();
+        g.moveTo(-0.5,0);
+        g.lineTo(0.5,0);
+        g.stroke();
+    }
+
+    function rect() { // Strokes a square, size = 1, center = (0,0)
+        g.strokeRect(-0.5,-0.5,1,1);
+    }
+
+    function filledRect() { // Fills a square, size = 1, center = (0,0)
+        g.fillRect(-0.5,-0.5,1,1);
+    }
+
+    function circle() { // Strokes a circle, diameter = 1, center = (0,0)
+        g.beginPath();
+        g.arc(0,0,0.5,0,2*Math.PI);
+        g.stroke();
+    }
+
+    function filledCircle() { // Fills a circle, diameter = 1, center = (0,0)
+        g.beginPath();
+        g.arc(0,0,0.5,0,2*Math.PI);
+        g.fill();
+    }
+
+	function filledTriangle(x1,y1, x2,y2, x3,y3) {// Filled Triangle with specified vertices.
+		g.beginPath();
+		g.moveTo(x1,y1);
+		g.lineTo(x2,y2);
+		g.lineTo(x3,y3);
+		g.closePath();
+		g.fill();
+	}
+
+    //---------------------------------------------------------------------
+ 
+    /**
+      * Draw one frame of the animation.  Probably doesn't need to be changed,
+      * except maybe to change the setting of preserveAspect in applyLimits().
+      */
+    function draw() {
+        g.save();  // to make sure changes don't carry over from one call to the next
+        g.fillStyle = BACKGROUND;  // background color
+        g.fillRect(0,0,canvas.width,canvas.height);
+        g.fillStyle = "black";
+        applyLimits(g,X_LEFT,X_RIGHT,Y_TOP,Y_BOTTOM,false);
+        g.lineWidth = pixelSize;  // Use 1 pixel as the default line width
+        drawWorld();
+        g.restore();
+    }
+    
+    /**
+     * Applies a coordinate transformation to the graphics context, to map
+     * xleft,xright,ytop,ybottom to the edges of the canvas.  This is called
+     * by draw().  This does not need to be changed.
+     */
+    function applyLimits(g, xleft, xright, ytop, ybottom, preserveAspect) {
+       let width = canvas.width;   // The width of this drawing area, in pixels.
+       let height = canvas.height; // The height of this drawing area, in pixels.
+       if (preserveAspect) {
+             // Adjust the limits to match the aspect ratio of the drawing area.
+          let displayAspect = Math.abs(height / width);
+          let requestedAspect = Math.abs(( ybottom-ytop ) / ( xright-xleft ));
+          let excess;
+          if (displayAspect > requestedAspect) {
+             excess = (ybottom-ytop) * (displayAspect/requestedAspect - 1);
+             ybottom += excess/2;
+             ytop -= excess/2;
+          }
+          else if (displayAspect < requestedAspect) {
+             excess = (xright-xleft) * (requestedAspect/displayAspect - 1);
+             xright += excess/2;
+             xleft -= excess/2;
+          }
+       }
+       let pixelWidth = Math.abs(( xright - xleft ) / width);
+       let pixelHeight = Math.abs(( ybottom - ytop ) / height);
+       pixelSize = Math.min(pixelWidth,pixelHeight);
+       g.scale( width / (xright-xleft), height / (ybottom-ytop) );
+       g.translate( -xleft, -ytop );
+    }
+    
+    
+    //------------------ Animation framework ------------------------------
+    
+    let animating = false;
+    
+    let prevTime = null;  // time since previous call to frame()
+    // Note: To avoid having the animation play too fast on computers
+    // where requestAnimationFrame is called more than 60 times per
+    // second, the frame number has been converted into an elapsed
+    // time measured in thirtieths of a second.
+    
+    function frame(time) {
+        if (!animating) {
+            return;  // stops the animation
+        }
+        if (prevTime == null) { // Just save the start time.
+            prevTime = time;
+        }
+        else {
+            let elapsedTimeInSecs = (time - prevTime)/1000;
+            prevTime = time;
+            let delta = elapsedTimeInSecs * 30;  // time change in units of 1/30 second.
+            frameNumber += delta;
+            draw();
+        }
+        requestAnimationFrame(frame);
+    }
+    
+    function doAnimationCheckbox() {
+        let run = document.getElementById("animateCheck").checked;
+        if (run !== animating) {
+            animating = run;
+            if (animating) {
+                prevTime = null;
+                requestAnimationFrame(frame);
+            }
+        }
+    }
+
+    //----------------------- initialization -------------------------------
+
+    function init() {
+        canvas = document.getElementById("thecanvas");
+        if (!canvas.getContext) {
+            document.getElementById("message").innerHTML = "ERROR: Canvas not supported";
+            return;
+        }
+        g = canvas.getContext("2d");
+        document.getElementById("animateCheck").checked = false; 
+        document.getElementById("animateCheck").onchange = doAnimationCheckbox; 
+        frameNumber = 0;
+        draw();
+    }
+
+</script>
+
+</head>
+
+<body onload="init()" style="background-color:#EEEEEE">
+
+<h3>Subroutine Hierarchy</h3>
+
+<noscript>
+   <p><b style="color:red">Error: This page requires JavaScript, but it is not available.</b></p>
+</noscript>
+
+<p id="message"><label><input type="checkbox" id="animateCheck"><b>Run the Animation</b></label></p>
+
+<div style="float:left; border: 2px solid black">
+<canvas id="thecanvas" width="800" height="600" style="display:block"></canvas>
+</div>
+
+
+</body>
+</html>

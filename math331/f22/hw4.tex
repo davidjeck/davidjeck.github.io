@@ -1,0 +1,159 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.2 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,100,0}
+%\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}\noindent\textbf{Answer:}\par\medskip}{\egroup\medskip}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\medskip}
+\newenvironment{secondans}{\par\medskip\bgroup\color{darkgreen}}{\egroup\medskip}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331\hfill Homework 4}}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by 4:00 PM on Monday, September 26}}
+
+\bigskip
+
+\def\ds{\displaystyle}
+
+
+\begin{problem}
+Suppose that $f(x)$ is defined and bounded on an open interval containing $0$, except possibly at $0$ itself.
+(That is, there is a number $B$ such that $|f(x)|<B$ for all $x$ in that interval, except possibly $x=0$.)
+Show that $\ds\lim_{x\to 0}xf(x)=0$. [Hint: The product rule does not apply here.  Use the Squeeze Theorem 
+and the fact that $|x|$ is a continuous function.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+\begin{problem}
+If $f(x)$ is a continuous function, then we know that $|f(x)|$ is also continuous, since it is a 
+composition of continuous functions.  Give a counterexample to show that the converse does not hold.
+That is, find a function $f(x)$ such that $|f(x)|$ is continuous, but $f(x)$ is not continuous.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+\begin{problem}[Textbook problem 2.5.7]
+Suppose that $f$ is continuous at $a$ and that $f(a)>0$.  Prove that there is a $\delta>0$ such
+that $f(x)>0$ for all $x$ in the interval $(a-\delta,a+\delta)$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+\begin{problem}[Textbook problem 2.4.10]
+Prove: If $\ds\lim_{x\to a^+}f(x)=L$ and if $c(x)$ is a function such that $a<c(x)<x$ for
+all $x$ in some interval $(a,b)$, then $\ds\lim_{x\to a^+}f(c(x))=L$.  [Hint: This is confusing
+but actually easy.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+\begin{problem}
+Let $f$ be a continuous function on the interval $[a,b]$, and suppose that $f(x)\in\Q$ for
+all $x\in[a,b]$.  Show that $f$ is constant on $[a,b]$.  [Hint: Use the Intermediate
+Value Theorem.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+\begin{problem}[Textbook problem 2.6.7b]
+Show that $p(x)=x^4-x^3+x^2+x-1$ has at least two roots in the interval $[-1,1]$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+\begin{problem}
+Show that any linear function $f(x) = mx+b$ is uniformly continuous on $\R$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+\begin{problem}
+Let $f(x)=\frac{1}{x}$.
+\begin{itemize}
+\item[(a)] Show that  for any $c>0$, $f(x)$ is uniformly continuous on $[c,\infty)$,
+\item[(b)] Show that $f(x)$ is not uniformly continuous on $(0,\infty)$.
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  4 points
+\end{answer}
+
+
+
+\begin{problem}[Textbook problem 2.6.12a]
+We say that a function $f$ satisfies a \textbf{Lipschitz condition} if there is a positive
+real number $M$ such that for all $x,y\in\R$, $|f(x)-f(y)|<M|x-y|$.
+Show that if $f$ satisfies a Lipschitz condition, then $f$ is uniformly 
+continuous on $(-\infty,\infty)$. 
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.  2 points
+\end{answer}
+
+
+
+
+
+
+\end{document}

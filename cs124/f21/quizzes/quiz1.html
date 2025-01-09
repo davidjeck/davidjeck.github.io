@@ -1,0 +1,120 @@
+<html>
+<head>
+<title>CS 124 Quiz #1 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Spring 2021:
+Sample Answers to Quiz #1</h2>
+
+<p class=info><i>These are sample answers only.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+What is a CPU (Central Processing Unit)?
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The CPU is the part of the computer that actually executes machine language instructions.
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+An important part of a computer is the <i>main memory</i> (or <i>RAM</i>),
+which holds programs and data.  What is the <b>structure</b> of main memory?  (What is it made up of?
+What does it "look like?")
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The main memory of a computer consists of a numbered sequence of locations, holding binary numbers.  
+Each location stores one byte (that is, eight bits).  The number of a location is called its
+address and is used to refer to a particular value in memory.
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+What is a significant difference between a <i>machine language</i>
+and a <i>high-level programming language</i>?  [Several answers are possible.]
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+Some possible answers...</p>
+<ul>
+<li>Machine language is executed directly; high-level language has to be translated into
+machine language before it can be executed.
+<li>Machine language is written in binary numbers; high-level language is written in a 
+language closer to human language.
+<li>Machine language instructions only do very simple things; high-level langauge
+instructions can be more complex.
+</ul>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+What is accomplished if the command&nbsp; <code>javac MyProg.java</code>&nbsp; is used
+on the command line?
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+MyProg.java must be a program written in the Java programming language.  This command
+checks the program for syntax errors and, if there are no errors,
+compiles that program, producing the
+file MyProg.class, which contains the program translated into the machine language 
+of the Java Virtual Machine.  The program can then be run with the command
+<code>java&nbsp;MyProg</code>.
+</div>
+
+
+<div class="question">
+<p><b>Question 5.</b>
+What does the following Java statement mean?  (What does it accomplish? What are
+"answer", "x", and "y"?)
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+This is an assignment statement; <i>answer</i>, <i>x</i>, and <i>y</i> must be 
+variables that have been declared earlier in the program.  When the computer
+executes this statement, it reads the values of the variables <i>x</i> and <i>y</i>
+from memory, adds those values, and stores the result of the computation in 
+the variable <i>answer</i>.</p>
+</div>
+
+
+</div>
+</body>
+</html>
+

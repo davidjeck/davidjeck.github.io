@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage{graphicx}
+\def\scaledgraphics#1#2{\includegraphics[width=#1]{#2}}
+\setlength{\topmargin}{-0.4 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.5 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\C}{{\mathbb C}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#10}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by 11:59 PM on Tuesday, December 1}}
+
+\medskip
+
+
+
+\begin{problem} %problem 1
+A few problems on complex numbers\dots
+\begin{itemize}
+\item[\bf(a)] 
+   Recall that for a complex number $z=a+bi$, $|z|$ is defined to be
+   $|z|=\sqrt{a^2+b^2}$.  Verify that for two complex numbers $z$ and
+   $w$, $|zw| = |z|\cdot|w|$.
+\item[\bf(b)] 
+   Suppose that $w_0=a+bi$ is some complex number.  Recall that the
+   conjugate of $w_0$ is defines as $\overline{w_0}=a-bi$.  
+   Let $p(z)$ be the polynomial $p(z) = (z-w_0)(z-\overline{w_0})$.
+   Verify that when $p(z)$ is written in standard form as
+   $p(z) = c_0 + c_1z + c_2z^2$, all of the coefficients $c_0$,
+   $c_1$, and $c_2$ are real.
+\item[\bf(c)] 
+   Use the identity $e^{i\theta}=\cos(\theta) + i \sin(\theta)$ and the fact that
+   $(e^{i\theta})^2 = e^{2i\theta}$ to derive the usual double angle formulas:
+   $\cos(2\theta)=\cos^2(\theta)-\sin^2(\theta)$ and 
+   $\sin(2\theta)=2\sin(\theta)\cos(\theta)$. 
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 1, 5 points 
+\end{answer}
+
+
+
+\begin{problem} %problem 2
+Find all the eigenvalues, real or complex, of the following matrices.  (Note that
+one of these is really easy.)
+
+\bigskip
+\centerline{
+  \textbf{(a)}\ \ $\begin{pmatrix} 1 & 2 \\ -2 & 1  \end{pmatrix}$\qquad\qquad
+  \textbf{(b)}\ \ $\begin{pmatrix} 3+i & 0 & 5\\ 0 & 2 & 7\\ 0 & 0 & -i  \end{pmatrix}$\qquad\qquad
+  \textbf{(c)}\ \ $\begin{pmatrix}  5 & 0 & 0 \\ -2 & 3 & 6\\ 0 & 1 & -2  \end{pmatrix}$
+}
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 2,  points 5
+\end{answer}
+
+
+
+\begin{problem} %problem 3
+Suppose that $A$ is an $n\times n$ matrix, and $\lambda$ is an eigenvalue for $A$.
+Show that $\lambda^2$ is an eigenvalue for $AA$.  [Hint:  Let $\vec v$ be an
+eigenvector for $A$ with eigenvalue $\lambda$.]
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 3,  points 3
+\end{answer}
+
+
+
+\begin{problem} %problem 4
+Let $h\colon \C^2\to\C^2$ be a homomorphism that has eigenvalues $1-i$ and $1+i$.
+Suppose that $\begin{pmatrix} 1\\ -2 \end{pmatrix}$ is an eigenvector with eigenvalue $1-i$,
+and that $\begin{pmatrix} 1\\ 1\end{pmatrix}$ is an eigenvector with eigenvalue $1+i$.
+Find the matrix for $h$ in the standard basis, $\langle\vec e_i,\vec e_2\rangle$.
+[Hint:  You need to find $h(\vec e_1)$ and $h(\vec e_2)$.]
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 4,  points 3
+\end{answer}
+
+
+
+\begin{problem} %problem 5
+Let ${\mathscr D}$ be the vector space of differentiable functions
+from $\R$ to $\R$.  That is, ${\mathscr D}$ is the set $\{f\colon \R\to\R\,|\, f'(x)\text{ exists for all }x\}$,
+with the usual addition and scalar multiplication for real-valued functions.
+Let $\partial\colon{\mathscr D}\to{\mathscr D}$ be the derivative function,
+$\partial(f)=f'$.  Show that every real number $\lambda$ is an eigenvalue for $\partial$,
+and find an eigenvector for eigenvalue $\lambda$.  [Hint: What is the derivative of $e^{ax}$? Once you
+remember that derivative, this question is trivial.]
+
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 5,  points 2
+\end{answer}
+
+
+
+
+
+
+
+\end{document}
+

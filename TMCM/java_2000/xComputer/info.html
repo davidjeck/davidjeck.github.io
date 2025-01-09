@@ -1,0 +1,469 @@
+<HTML>
+<HEAD>
+
+<TITLE>xComputer Info</TITLE>
+
+
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H1 align=center><font color="#E70000">xComputer Info</font></h1>
+
+<p>A computer stores programs and data in its <font color="#E70000">main
+memory</font> (or &quot;RAM&quot;).  It has a <font color="#E70000">central
+processing unit</font> (or &quot;CPU&quot;) that fetches instructions
+from memory, one-by-one, and executes each instruction.  This is called
+the <font color="#E70000">fetch-and-execute cycle</font>.  A single
+fetch-and-execute cycle is itself made up of small steps.  Each of these
+little steps performs a very simple operation, such as copying data from
+one location inside the CPU to another, adding two numbers, or moving 
+information between main memory and the CPU.  Each step is accomplished
+by turning <font color="#E70000">control wires</font> on and off.  These
+control wires are attached to the main memory and to various components
+in the CPU.  A <font color="#E70000">control circuit</font> turns the control wires 
+on and off, based on just a few pieces of information, including
+the instruction that is being executed and the value of a
+<font color="#E70000">counter</font> that counts off the little steps of
+each fetch-and-execute cycle.  All the values that CPU is currently
+working with are stored in <font color="#E70000">registers</font>,
+which are small memory units contained within the CPU.  The whole process
+is driven by a <font color="#E70000">clock</font>.  Each time the
+clock ticks, one step of a fetch-and-execute cycle is performed.</p>
+
+<p>That's a very brief description of the fundamental operation of a 
+computer.  With some extensions, it is true of all existing computers.
+The xComputer applet simulates this fundamental operation for a computer
+with a 1024-location RAM and eight registers.  Like any computer,
+the xComputer has a certain set of <font color="#E70000">machine
+language instructions</font> that it understands.  Machine language
+instructions are actually binary numbers and are not really meant to be
+read or written by humans.  Programs for the xComputer are therefore
+usually written in <font color="#E70000">assembly language</font>.
+An assembly language program must be translated into machine language before
+it can be executed by a computer.  The <A HREF="#language">assembly&nbsp;language</A> for xComputer has
+31 different instructions, which are listed <A HREF="#instructions">below</A>.</p>
+
+<p>The xComputer and its assembly language are discussed in detail in Chapter
+3 of <cite><A HREF="http://math.hws.edu/TMCM.html">The Most Complex Machine</A></cite>.
+This page does not cover all the details, but it should have enough information
+to enable you to use the applet and even to write some assembly language programs.</p>
+
+<HR>
+<H3><font color="#E70000">The xComputer Applet</font></h3>
+
+<p>The point of the <A HREF="index.html">xComputer Applet</A> is to illustrate the
+step-by-step operation of a computer as it executes a program.
+When the applet starts up, it displays three sections:
+A &quot;Control&quot; area, a set of &quot;Registers&quot; and
+a &quot;Memory.&quot;  The Memory is a scrolling list occupying the right-hand
+third of the applet.  It 
+displays 1024 memory locations, numbered from 0 to 1023.  Each location
+contains a 16-bit binary number that can be interpreted either as data or
+as a machine language instruction.  The Registers section of the
+applet shows eight registers that are components in the xComputer's
+Central Processing Unit.  The registers are explained <A HREF="#registers">below</A>.  Finally,
+the Controls are for interacting with and controlling the xComputer.</p>
+
+<p>The applet has another mode in which it displays a text-input 
+area where you can write and edit assembly language programs.
+(Information about the assembly language of xComputer is given
+<A HREF="#language">below</A>.)
+To start a new assembly language program, just click on the &quot;New
+Program&quot; button in the Control area of the applet.  Alternatively,
+choose &quot;[New]&quot; from the pop-up menu at the very top of the 
+applet.  There is also a &quot;Load File&quot; button that can be used
+to load a program that has been previously saved to a file; however, you
+can only do this if your browser permits applets to access files.
+Programs that have been created or loaded are listed in the pop-up
+menu at the top of the applet.  You can view any program by selecting it
+from this menu.  You can return to main computer screen by selecting
+&quot;Computer&quot; from this menu.</p>
+
+<p>Suppose that you are looking at an assembly language program in
+programming mode.  Before xComputer can do anything with that program,
+it must be translated into machine language and put into xComputer's
+main memory.  When the applet is in programming mode,
+there is a &quot;Translate&quot; button at the bottom
+of the applet that will attempt to do this.  If an error is found in
+the program, an error message will be displayed.  (You can rid of
+this message by clicking on it, if you like.)  If the program contains
+no errors, it will be put into xComputer's memory and the applet will
+switch to the main computer screen.  You can then run the program
+or step through it, as described <A HREF="#running">below</A>.</p>
+
+<p>Short programs can also be entered directly into memory from the
+Control area of the xComputer screen.  Information that you 
+want to put into memory -- instructions or data -- can be 
+entered into the text-input box labeled &quot;data:&quot;.
+When you press return or click the &quot;Data to Memory&quot; button,
+the data is stored in memory.  The location in memory where it is 
+stored is specified by a number in the &quot;addr:&quot; text-input
+box.  You can only enter data for one memory location at a time.
+Each time you enter data, the number in the &quot;addr&quot; box
+is automatically incremented by one.  This lets you store information
+into successive memory locations simply by typing values and pressing
+return after each one.</p>
+
+<p>The question remains, exactly what sort of thing can you enter into
+main memory?  The first thing you need to understand is that what is
+really in each memory location is a 16-bit binary number.  Any other
+form of information must be represented in this form.  The same binary
+number can represent different values, depending on how it is
+interpreted.  You can enter information in the &quot;data&quot;
+box in any of the following ways:</p>
+
+<UL>
+<LI><font color="#E70000">Integer</font> -- any whole number in the range 
+-32768 to 32767.
+<LI><font color="#E70000">Unsigned integer</font> -- any whole number
+in the range from 0 to 65535.  (Thus, you can actually use any number
+from -32768 to 65535.  However, numbers from -32768 to -1 and from 32768 to
+65535 are ambiguously represented by the same binary numbers.)
+<LI><font color="#E70000">Assembly language instruction</font> -- any legal
+assembly language instruction for xComputer, such as 
+&quot;<font color="#007000">LOD-C&nbsp;17</font>&quot;.
+(See the list <A HREF="#instructions">below</A>.)
+<LI><font color="#E70000">ASCII characters</font> -- a single quote, followed
+by any typeable character or a pair of characters (except for carriage return).
+The quote just marks this as ASCII data.  For example:&nbsp;&nbsp;'DE
+<LI><font color="#E70000">Hexadecimal number</font> -- a dollar sign ($)
+followed by from one to four hexadecimal digits.  For example:&nbsp;&nbsp;$A73D
+<LI><font color="#E70000">Binary number</font> -- a B (upper or lower case)
+followed by from 1 to 16 zeros and ones.  For example:&nbsp;&nbsp;B110010111010
+</UL>
+
+<p>When you type any of these things in the &quot;data&quot; box and press
+return, it is translated into a binary number and put into memory at the
+specified address.  (If there is some error in what you type, you'll get
+a small error message above the &quot;addr&quot; box.)  So, a binary number
+in memory can represent several different things.  The xComputer applet
+allows you to view the contents of memory in several different forms.
+Select the view that you want from the pop-up menu above the memory
+display.  The &quot;Instructions&quot;, &quot;Integers&quot;, &quot;Unsigned Ints&quot;,
+&quot;Binary&quot;, and &quot;ASCII&quot; display styles correspond to some of
+the data types listed above.  (In the ASCII display style, two characters
+are shown in each memory location.  Non-printing characters are shown as
+ASCII code numbers enclosed between &lt; and &gt;.  For example,
+&lt;#17&gt; represents the character with ASCII code number 17.) The
+&quot;Graphics&quot; display shows all of memory at once, as a rectangle
+full of black and white dots.  Each dot represents one bit in memory.
+A black dot represents a one, and a white dot represents a zero.  The
+rectangle is 64 bits wide, with each row of dots representing four memory locations
+of 16 bits each.  The &quot;Control Wires&quot; display style actually doesn't
+have anything to do with memory at all.  I'll discuss it <A HREF="#wires">below</A>.</p>
+
+<p>For example, here is a short assembly language program that adds the numbers
+105 and 17, stores the answer into memory location 10, and then halts:</p>
+
+<pre>                lod-c 105
+                add-c 17
+                sto 10
+                hlt
+</pre>
+
+<p>You could enter this program directly into memory by typing the lines, one at
+a time, into the &quot;data&quot; box.  Note that what you <b>see</b> in memory
+depends on the setting of the memory display style.  You might want to try entering
+this program, and use it as an example as you read the next section.</p>
+
+<HR>
+<H3><font color=#E70000><A NAME="running">Running a Program</A></font></H3>
+
+<p>A program consists of a series of instructions stored in memory.
+The computer fetches instructions one-by-one and executes them.  The
+<font color="#E70000">program counter register</font> (or &quot;PC&quot;) 
+tells the computer
+which address to go to in memory for the next instruction.  When you want
+to run a program, you should always first check that the value in the PC register
+is the address of the location that contains the first instruction of
+the program.  You can set the value in the PC to zero using the
+&quot;Set&nbsp;PC=0&quot; button. To set the PC to some other
+value, type the value into the &quot;addr&quot; box and then click on the
+&quot;Addr&nbsp;To&nbsp;PC" button.  <b>This is important.</b>  A common,
+frustrating mistake when trying to run a program on xComputer is
+simply to forget to tell xComputer where in memory the program is
+located!  (Note: If you use the &quot;Translate&quot; button in programming
+mode to put a program into memory, the PC will automatically be set to
+zero at the same time.  However, after you run the program once, you
+have to reset the PC manually if you want to run it again.)</p>
+
+<p>Once you have set the PC, there are three different ways to run the
+program:</p>
+
+<UL>
+<LI>Click the &quot;Step&quot; button.  This performs one of the several small
+steps that make up each fetch-and-execute cycle.  You have to click on this
+between five and ten times, depending on the instruction, to execute each 
+instruction.
+<LI>Click the &quot;Cycle&quot; button.  This is meant to perform one complete
+fetch-and-execute cycle.  More exactly, it performs &quot;step&quot; operations
+until the value in the COUNT register is two.  At that point, a new instruction
+has just been loaded into the IR register.  Clicking the &quot;Cycle&quot; button
+again will execute that instruction.
+<LI>Click the &quot;Run&quot; button.  This makes the computer execute instructions
+continually, like a real computer.  The &quot;Run&quot; button changes into a
+&quot;Stop&quot; button, which you can use to stop the computer.  It will also
+stop if it executes a HLT instruction.  The speed at which the computer runs
+is determined by a pop-up menu just below the run button. At the &quot;Fastest Speed&quot;,
+the register display is turned off, so the computer can run as quickly as possible.
+This speed is especially useful with the &quot;Graphics&quot; memory display.
+</UL>
+
+<hr>
+<H3><font color="#E70000"><A NAME="registers">Registers</A> and Control Wires</font></h3>
+
+<p>The xComputer has eight registers.  A register is a memory unit that holds
+one binary number.  Different registers holds different numbers of bits.
+Each of the registers has a role to play in fetching and executing instructions.
+Here is a short description of the purpose of each register:</p>
+
+<UL>
+<LI><font color="#E70000">ADDR register</font>:  The address register is a 16-bit register that holds the
+          address of a location in memory.  Whenever data is read from or
+          written to memory, this is the address that is used.  (If you turn on the
+          &quot;Autoscroll&quot; checkbox, below the scrolling memory display, then any
+          time the value in ADDR changes, the memory will be scrolled to show that
+          address at the bottom of the display.)
+<LI><font color="#E70000">PC register</font>:  The program counter is a 10-bit register that
+          contains the address in memory of the next program instruction
+          that is scheduled to be executed.  The PC is
+          ordinarily incremented by 1 during each fetch-and-execute cycle.
+          Its value can be also be changed by the execution of a jump
+          instruction, which tells the computer to jump to a different
+          location in the program and continue execution from there.
+<LI><font color="#E70000">IR register</font>:   The instruction register is a 16-bit register that
+          holds a program instruction while it is being executed.
+          This is where an instruction is put when it is fetched from memory.
+<LI><font color="#E70000">COUNT register</font>:  This is a 4-bit register that
+          counts off the steps in each fetch-and-execute cycle.  At the beginning
+          of each step, its value is incremented by one.  The last step of the
+          cycle resets this register to zero, so that the next cycle can begin.
+<LI><font color="#E70000">AC register</font>:  The accumulator is a 16-bit register
+          that holds a number that is being used
+          in the current calculation.  When a number is loaded from
+          memory, it is put in the AC.  When a number is &quot;added&quot;, it
+          is added to the value currently in the AC, and the result is
+          put back into the AC.  Etc.
+<LI><font color="#E70000">FLAG register</font>:  This is a 1-bit register that
+          can give extra information about a calculation.  For example,
+          when two 16-bit numbers are added, the final &quot;carry&quot; into
+          the 17-th column is stored in the FLAG register.  When a
+          shift operation is performed on the AC, the extra bit that
+          is shifted off the end is placed into the FLAG register.
+<LI><font color="#E70000">X</font> and 
+          <font color="#E70000">Y registers</font>:  These are 16-bit registers that
+          hold numbers that are to be used in
+          a calculation.  For example, when two numbers are to be
+          added, they are placed into X and Y.  (The Y register is
+          also used as a temporary storage place in a few cases.)
+</UL>
+
+<p>The X and Y registers are connected to the inputs of an <font color="#E70000">Arithmetic-Logic
+Unit</font>, or &quot;ALU&quot;, which does all the arithmetic and logical calculations
+in the computer.  The outputs of the ALU are connected to the AC and to the FLAG
+register.  (The ALU is not shown in the xComputer applet.)</p>
+
+<p><A NAME="wires">The</A> components of the computer -- including the main memory, the registers, the clock,
+and the ALU -- are controlled by turning wires on and off.  These wires are connected to 
+various components of the computer, and they control the operation of those components.
+It is these &quot; control wires&quot; that make the steps of the fetch-and-execute
+cycle happen.  You can see a list of the control wires in xComputer by selecting
+the &quot;Control Wire&quot; option from the memory display pop-up menu.  The
+wires that are currently turned on are shown in red.  As a program is executed,
+the wires that are on change during each step of each fetch-and-execute
+cycle.  You can watch how they change in order to learn how each step is accomplished.</p>
+
+<p>For example, in step #1 of each fetch-and-execute cycle, the control wire
+named &quot;Load-ADDR-from_PC&quot; is turned on.  This causes the number stored
+in the PC -- which is the location of the instruction that is to be fetched -- 
+to be copied into the ADDR register -- where it sets up the main memory for
+reading from that location.  The purposes of most of the wires are clear from their
+names.  (The seven wires at the top of the list, starting with &quot;Select-Add&quot;
+are connected to the ALU.  The ALU can perform several different calculations.
+The Select wires are used to tell it which calculation it should do.)</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="language">The Assembly Language of xComputer</A></font></h3>
+
+<p>An assembly language program is simply a way of specifying a sequence of 16-bit
+binary numbers to be stored in the computer's memory.  As such, it can include
+any of the data items described above:  Assembly language instructions, numbers
+in the range -32768 to 65536, hexadecimal numbers (up to four digits, preceded by $),
+binary numbers (up to 16 bits, preceded by B or b), and ASCII characters (one or two
+characters, preceded by a single left quote mark).</p>
+
+<p>The legal instructions are listed <A HREF="#instructions">below</A>.  An instruction
+consists of a two- or three-character code, such as <font color="#007000">LOD</font>,
+<font color="#007000">OR</font>, and <font color="#007000">HLT</font>.  Since upper and
+lower case letters are not distinguished, these could also be written as 
+<font color="#007000">lod</font>, <font color="#007000">or</font>, and 
+<font color="#007000">hlt</font>.  In some cases, this instruction code can
+be followed by an <font color="#E70000">addressing mode</font>, indicated
+by &quot;-C&quot; for &quot;constant&quot; addressing mode and by
+&quot;-I&quot; for &quot;indirect&quot; addressing mode.  The addressing mode
+indicates how the data for the instruction is to be used.  For example,
+<font color="#007000">ADD-C&nbsp;17</font> indicates that the constant, 17, is
+to be added to the number in the accumulator, while <font color="#007000">ADD&nbsp;17</font>
+indicates that a number is to be read from memory location 17 and that number is
+to be added to the number in the accumulator.</p>
+
+<p>As you can see, the data for the
+instruction simply follows the instruction.  It must be on the same line.  You can't
+split instructions over two lines, and you can't have more than one instruction 
+on a line.  Not all instructions need data.  If you provide data for an instruction
+that doesn't need it, it is legal, but the data will be ignored when the instruction
+is executed.  The data for an instruction is a 10-bit binary number.  It can be
+given in any of the following forms:</p>
+
+<UL>
+<LI>a number between 0 and 1023,
+<LI>a binary number between B0 and B1111111111,
+<LI>a hexadecimal number between $0 and $3FF,
+<LI>a single ASCII character, preceded by a left single quote mark,
+<LI>a label name.
+</UL>
+
+<p>The last possiblilty -- a label name -- brings us to a whole new aspect of
+assembly language.  An assembly language program can contain more than just a
+sequence of items representing 16-bit numbers.  It can contain other things
+to make programming easier by letting the computer do more of the work.  A label
+is a name that stands for a number.  A label represents a 10-bit binary
+value and can appear anywhere in the program where such a value could be 
+used, that is, as the data part of an instruction or as a stand-alone item
+on a line by itself.  When the program is translated, the label is replaced by
+the number it represents.  A label is given a value by using it to label
+one of the 16-bit items that make up the program.  The label name must
+be followed by a colon (:) and the item that it labels.  The value of the label is
+the address of the location in memory that contains that item.  For example,
+the following program adds up all the numbers from 1 to 50:</p>
+
+<pre>
+               lod-c 1       ; Initialize number to contain 1.
+               sto number
+               lod-c 0       ; Initialize sum to contain 0.
+               sto sum
+         next: lod sum       ; Add current value of number to sum.
+               add number
+               sto sum
+               lod number    ; Add one to the value of number.
+               inc
+               sto number
+               sub-c 51      ; Subtract 51 from the number, which is still in AC.
+               jmz done      ; If the answer is zero, jump to &quot;done&quot;.
+               jmp next      ; Otherwise, jump to &quot;next&quot; to continue the computation.
+         done: hlt           ; Halt. 
+          sum: 0             ; (The zeros are place-holders to reserve memory
+       number: 0             ;     locations for sum and number.)
+</pre>
+
+<p>In this program, <font color="#007000">next</font>, <font color="#007000">done</font>,
+<font color="#007000">sum</font>, and <font color="#007000">number</font> are
+labels.  <font color="#007000">Next</font> and <font color="#007000">sum</font>
+refer to locations that hold instructions. <font color="#007000">Sum</font> and
+<font color="#007000">number</font> refer to locations that hold data for the program.
+The programmer can work with the instructions and data without having to work out
+the actual location numbers.  (This program also illustrates <font color="#E70000">comments</font>.
+Anything on a line after a semicolon (;) is treated as a comment and is ignored
+by the computer.)</p>
+
+<p>There are a few more things you can do in an assembly language program.
+A program item can be preceded by a number followed by a #.  This is a
+repetition count and is the same as typing the item the specified number
+of times.  For example, &quot;25#&nbsp;17&quot;  puts a 17 in each of the next 25
+memory locations.  &quot;4#&nbsp;SHL&quot; is equivalent to four SHL instructions
+in a row.</p>
+
+<p>Ordinarily, a program is loaded into consecutive memory locations starting at
+location 0.  However, you can specify where loading is to take place
+by using the character @ followed by an address.  For example, &quot;@100&quot;
+specifies that the next item is to go into memory location 100.  (Items following that one
+will then go into location 101, 102, etc.)  You might use this feature to put
+&quot;subroutines&quot; at specific points in memory.</p>
+
+<p>Finally, you can store a string of ASCII characters into consecutive memory locations
+by using a <font color="#E70000">string</font>.  A string is just a series of
+characters enclosed between double quotes, such as <font color="#007000">&quot;Hello
+World!&quot;</font>.  When the computer encounters a string in a program, it stores
+the characters in consecutive memory locations, one per location.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="instructions">List of Assembly Language Instructions</A></font></h3>
+
+<p>Here is a complete list of the assembly language instructions for xComputer.
+In this listing, &quot;X&quot; is data for the instruction; it must translate into
+a 10-bit binary number.</p>
+
+<UL>
+<LI><font color="#007000">ADD X</font> -- Add the number in memory location X to the AC 
+<LI><font color="#007000">ADD-C X</font> -- Add the number X to the AC
+<LI><font color="#007000">ADD-I X</font> -- Let Y be the contents of memory location X, and
+                          add the number in location Y to the AC 
+                          
+<LI><font color="#007000">SUB X</font> -- Subtract the number in memory location X from the AC 
+<LI><font color="#007000">SUB-C X</font> -- Subtract the number X from the AC
+<LI><font color="#007000">SUB-I X</font> --Let Y be the contents of memory location X, and
+                          subtract the number in location Y from the AC
+                          
+<LI><font color="#007000">AND X</font> -- Bitwise AND the number in memory location X with the AC 
+<LI><font color="#007000">AND-C X</font> -- Bitwise AND the number X with the AC
+<LI><font color="#007000">AND-I X</font> -- Let Y be the contents of memory location X, and
+                          bitwise AND the number in location Y with the AC
+                          
+<LI><font color="#007000">OR X</font> -- Bitwise OR the number in memory location X with the AC 
+<LI><font color="#007000">OR-C X</font> -- Bitwise OR the number X with the AC
+<LI><font color="#007000">OR-I X</font> Let Y be the contents of memory location X, and
+                          bitwise OR the number in location Y with the AC
+                          
+<LI><font color="#007000">NOT</font> -- Apply a bitwise NOT to the AC
+<LI><font color="#007000">INC</font> -- Add 1 to the AC
+<LI><font color="#007000">DEC</font> -- Subtract 1 from the AC
+<LI><font color="#007000">SHL</font> -- Shift the AC left one bit
+<LI><font color="#007000">SHR</font> -- Shift the AC right one bit
+       
+<LI><font color="#007000">LOD X</font> -- Load the number in location X into the AC
+<LI><font color="#007000">LOD-C X</font> -- Load the number X into the AC
+<LI><font color="#007000">LOD-I X</font> -- Let Y be the contents of memory location X, and
+                          load the number from location Y into the AC
+                          
+<LI><font color="#007000">STO X</font> -- Store the value in AC into memory location X
+<LI><font color="#007000">STO-I X</font> -- Let Y be the contents of memory location X, and
+                          store the value in AC into location Y
+
+<LI><font color="#007000">JMP X</font> -- Jump to location X (that is, store X into the PC,
+                          so that the next instruction will be loaded from X)
+<LI><font color="#007000">JMP-I X</font> -- Let Y be the contents of memory location X, and
+                          jump to location Y
+
+<LI><font color="#007000">JMZ X</font> -- If the value in the AC is zero, then jump to location X 
+<LI><font color="#007000">JMZ-I X</font> -- If the value in the AC is zero, then let Y be the contents
+                          of memory location X, and jump to location Y
+
+<LI><font color="#007000">JMN X</font> -- If the value in the AC is negative, then jump to
+                          location X
+<LI><font color="#007000">JMN-I X</font> --If the value in the AC is negative, then let Y be the
+                          contents of memory location X, and jump to location Y
+ 
+<LI><font color="#007000">JMF X</font> -- If the value in the FLAG register is one, then jump to
+                          location X
+<LI><font color="#007000">JMF-I X</font> -- If the value in the FLAG register is one, then let Y be the
+                          contents of memory location X, and jump to location Y
+                          
+<LI><font color="#007000">HLT</font> -- Halt.  That is, stop the xComputer by turning on the 
+                          Stop-Clock control wire
+</UL>
+
+
+
+<HR>
+<font size="-1">
+<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>),<br>
+June 1997; minor editing May 1998
+</font>
+
+</blockquote>
+
+</BODY>
+</HTML>

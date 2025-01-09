@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<!-- This page shows a simple cart-and-windmills example, implement using
+     a scene graph -->
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hierarchical Modeling 2D with Scene Graph</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border. */
+    body {
+        background-color: #DDDDDD;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+
+<script src="scene_graph_2d.js"></script>
+
+<script>
+
+   let canvas;   // The canvas where the animation is displayed.
+   let graphics; // The graphics context for drawing to the canvas.
+
+
+    // -------- Some custom scene graph nodes specific to this application -----------
+    
+    /*
+     * Define two extra basic objects as SceneGraphNodes with custom doDraw() methods.
+     * One represents the ground, the other a vane for a windmill.
+     */
+    const ground = new SceneGraphNode();
+    ground.doDraw = function(g) {
+        g.beginPath();
+        g.moveTo(0,-1);
+        g.lineTo(0,0.8);
+        g.lineTo(1.5,1.65);
+        g.lineTo(1.8,1.3);
+        g.lineTo(3,2.1);
+        g.lineTo(4.7,0.7);
+        g.lineTo(6.1,1.2);
+        g.lineTo(7,0.8);
+        g.lineTo(7,-1);
+        g.closePath();
+        g.fill();
+    };
+    
+    const windmillVane = new SceneGraphNode();
+    windmillVane.doDraw = function(g) {
+        g.beginPath();
+        g.moveTo(0,0);
+        g.lineTo(0.5,0.1);
+        g.lineTo(1.5,0);
+        g.lineTo(0.5,-0.1);
+        g.closePath();
+        g.fill();
+    };
+    
+    //-------------------------------------------------------------
+        
+    let world;  // A SceneGraphNode representing the entire picture.  This is
+                // created in the createWorld() method.
+    
+    let pixelSize;  // The size of one pixel, in the transformed coordinates.
+                    //    This is used as the default width of a stroke.
+    
+    let background = "#C8C8FF"; // A CSS color string giving the background color.
+                                // the draw() function fills the canvas with this color.
+    
+    let xleft = 0;   // The requested xy-limits on the canvas, after the 
+    let xright = 7;   //    coordinate transformation has been applied.
+    let ybottom = -1; //    The transformation is applied in the draw() function.
+    let ytop = 4;
+    
+    let frameNumber = 0;  // Current frame number (acutally, time measured in 1/30 seconds).
+
+    let cart;   // TransformedObjects that are animated.
+    let wheel;
+    let sun;
+    let rotor;
+
+    
+    /**
+     *  Create the scene graph data structure.  The global letiable world must
+     *  refer to the root node of the scene graph.  This function is called in
+     *  the init() function.
+     */
+    function createWorld() {
+        let sunTemp = new CompoundObject();
+        sunTemp.setColor("yellow"); // color for filled circle\
+        for (let i = 0; i < 12; i++) {  // add the 12 light rays, with different rotations, colored orange
+           sunTemp.add( new TransformedObject(line).setScale(0.75,0.75).setRotation(i*30).setColor("#DD8800") );
+        }
+        sunTemp.add( filledCircle );  // the face of the sun
+        sunTemp.add( new TransformedObject(circle).setColor("#DD8800") ); // outlines the face
+        sun = new TransformedObject(sunTemp);
+        
+        let wheelTemp = new CompoundObject();
+        wheelTemp.setColor("black"); // color for all but one of the subobjects
+        wheelTemp.add( new TransformedObject(filledCircle).setScale(2,2) );
+        wheelTemp.add( new TransformedObject(filledCircle).setScale(1.6,1.6).setColor("#CCCCCC") );
+        wheelTemp.add( new TransformedObject(filledCircle).setScale(0.4,0.4) );
+        for (let i = 0; i < 12; i++) {  // add the 12 spokes
+           wheelTemp.add( new TransformedObject(line).setRotation(i*30) );
+        }
+        wheel = new TransformedObject(wheelTemp);
+        
+        let cartTemp = new CompoundObject();
+        cartTemp.setColor("red"); // color for the rectangular body of the cart
+        cartTemp.add( new TransformedObject(wheel).setScale(0.8,0.8).setTranslation(1.65,-0.1) );
+        cartTemp.add( new TransformedObject(wheel).setScale(0.8,0.8).setTranslation(-1.65,-0.1) );
+        cartTemp.add( new TransformedObject(filledRect).setScale(6,1.5).setTranslation(0,1) ); // the body of the cart
+        cartTemp.add( new TransformedObject(filledRect).setScale(2.6,1).setTranslation(-1,2) ); // the top of the cart
+        cart = new TransformedObject(cartTemp).setScale(0.3,0.3);
+        
+        let rotorTemp = new CompoundObject(); // a "rotor" consisting of three vanes
+        rotorTemp.setColor( "#C86464" ); // color for all of the vanes
+        rotorTemp.add( windmillVane );
+        rotorTemp.add( new TransformedObject(windmillVane).setRotation(120) );
+        rotorTemp.add( new TransformedObject(windmillVane).setRotation(240) );
+        rotor = new TransformedObject(rotorTemp);
+        
+        let windmill = new CompoundObject();
+        windmill.setColor("#AA9999"); // color for the pole
+        windmill.add( new TransformedObject(filledRect).setScale(0.1,3).setTranslation(0,1.5) ); // the pole
+        windmill.add( new TransformedObject(rotor).setTranslation(0,3) ); // the rotating vanes
+        
+        world = new CompoundObject();
+        world.setColor("#00961E"); // color used for the ground only
+        world.add(ground);
+        world.add( new TransformedObject(filledRect).setScale(7,0.8).setTranslation(3.5,0).setColor("#646496") ); // road
+        world.add( new TransformedObject(filledRect).setScale(7,0.06).setTranslation(3.5,0).setColor("white") ); // line in road
+        world.add( new TransformedObject(windmill).setScale(0.6,0.6).setTranslation(0.75,1) );
+        world.add( new TransformedObject(windmill).setScale(0.4,0.4).setTranslation(2.2,1.3) );
+        world.add( new TransformedObject(windmill).setScale(0.7,0.7).setTranslation(3.7,0.8) );
+        world.add( new TransformedObject(sun).setTranslation(5.5,3.3) );
+        world.add( cart );
+    }
+    
+    /**
+     * This will be called before each frame is drawn.
+     */
+    function updateFrame() {
+        cart.setTranslation(-3 + 13*(frameNumber % 300) / 300.0, 0);
+        wheel.setRotation(-frameNumber*3.1);
+        sun.setRotation(-frameNumber);
+        rotor.setRotation(frameNumber * 2.7);
+    }
+    
+    
+    // ------------------------------- graphics support functions --------------------------
+    
+    /**
+      * Draw one frame of the animation. 
+      */
+    function draw() {
+        graphics.save();  // to make sure changes don't carry over from one call to the next
+        graphics.fillStyle = background;  // background color
+        graphics.fillRect(0,0,canvas.width,canvas.height);
+        graphics.fillStyle = "black";
+        applyLimits(graphics,xleft,xright,ytop,ybottom,true);
+        graphics.lineWidth = pixelSize;
+        world.draw(graphics);
+        graphics.restore();
+    }
+    
+    /**
+     * Applies a coordinate transformation to the graphics context, to map
+     * xleft,xright,ytop,ybottom to the edges of the canvas.  This is called
+     * by draw().  This does not need to be changed.
+     */
+    function applyLimits(g, xleft, xright, ytop, ybottom, preserveAspect) {
+       var width = canvas.width;   // The width of this drawing area, in pixels.
+       var height = canvas.height; // The height of this drawing area, in pixels.
+       if (preserveAspect) {
+             // Adjust the limits to match the aspect ratio of the drawing area.
+          var displayAspect = Math.abs(height / width);
+          var requestedAspect = Math.abs(( ybottom-ytop ) / ( xright-xleft ));
+          var excess;
+          if (displayAspect > requestedAspect) {
+             excess = (ybottom-ytop) * (displayAspect/requestedAspect - 1);
+             ybottom += excess/2;
+             ytop -= excess/2;
+          }
+          else if (displayAspect < requestedAspect) {
+             excess = (xright-xleft) * (requestedAspect/displayAspect - 1);
+             xright += excess/2;
+             xleft -= excess/2;
+          }
+       }
+       var pixelWidth = Math.abs(( xright - xleft ) / width);
+       var pixelHeight = Math.abs(( ybottom - ytop ) / height);
+       pixelSize = Math.min(pixelWidth,pixelHeight);
+       g.scale( width / (xright-xleft), height / (ybottom-ytop) );
+       g.translate( -xleft, -ytop );
+    }
+    
+    
+    //------------------ Animation framework ------------------------------
+    
+    let animating = false;
+    
+    let prevTime = null;  // time since previous call to frame()
+    // Note: To avoid having the animation play too fast on computers
+    // where requestAnimationFrame is called more than 60 times per
+    // second, the frame number has been converted into an elapsed
+    // time measured in thirtieths of a second.
+    
+    function frame(time) {
+        if (!animating) {
+            return;  // stops the animation
+        }
+        if (prevTime == null) { // Just save the start time.
+            prevTime = time;
+        }
+        else {
+            let elapsedTimeInSecs = (time - prevTime)/1000;
+            prevTime = time;
+            let delta = elapsedTimeInSecs * 30;  // time change in units of 1/30 second.
+            frameNumber += delta;
+            updateFrame();
+            draw();
+        }
+        requestAnimationFrame(frame);
+    }
+    
+    function doAnimationCheckbox() {
+        let run = document.getElementById("animateCheck").checked;
+        if (run !== animating) {
+            animating = run;
+            if (animating) {
+                prevTime = null;
+                requestAnimationFrame(frame);
+            }
+        }
+    }
+
+
+    //----------------------- initialization -------------------------------
+
+    function init() {
+        canvas = document.getElementById("maincanvas");
+        if (!canvas.getContext) {
+            document.getElementById("headline").innerHTML = "ERROR: Canvas not supported";
+            return;
+        }
+        graphics = canvas.getContext("2d");
+        document.getElementById("animateCheck").checked = true; // Make sure box is checked!
+        document.getElementById("animateCheck").onchange = doAnimationCheckbox;
+        createWorld();
+        doAnimationCheckbox();  // start the animation
+    }
+    
+    
+    window.onload = init;
+
+</script>
+</head>
+<body>
+
+<div id="content">
+
+<h3 id="headline">Hierarchical Modeling with Scene Graph</h3>
+
+<div id="canvasholder">
+<canvas id="maincanvas" width="840" height="600"></canvas>
+</div>
+
+<br style="clear:both">
+
+<p><label><input type="checkbox" id="animateCheck">Run Animation</label></p>
+
+</div>
+
+
+</body>
+</html>

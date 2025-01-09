@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<style media="print">
+   .exercise {
+      font-size: 110%;
+      font-weight: bold;
+   }
+</style>
+<style media="screen">
+   body{
+      background-image: url("birch_fade.jpg");
+      background-attachment: fixed;
+      background-repeat: repeat-y;
+      background-position: 0px 0px;
+      background-color: white;
+      margin-left: 3.5cm;
+      max-width: 750px;
+   }
+   p {
+      text-indent: 30px;
+   }
+   p.np, h3 + p, p.intro {
+      text-indent: 0;
+   }
+   h3 + p:first-letter, p.intro:first-letter {
+      font-size:150%;
+   }
+   #filter {
+      background-image: url("softcloud.jpg");
+      padding: 10px;
+      border: thin solid blue;
+      color: #005;
+   }
+   h1, h2, h3 {
+      color: #BB4400;
+   }
+   h2 {
+	  border-bottom: 5px double #BB4400
+   }
+   h3 {
+      border-bottom: 1px solid #BB4400;
+   }
+   div.section {
+      margin-top: 1.2cm;
+   }
+   .exercise {
+      font-weight: bold;
+      font-size: 110%;
+      color: #000088;
+   }
+   p.note {
+      margin-right:50px;
+      margin-left:50px;
+      font-weight: bold;
+      padding: 5px;
+      border: 1px solid black;
+      text-indent: 0;
+   }
+</style>
+<title>CS 424, Fall 2021, The Gimp Lab</title>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424, Fall 2021:<br>
+The Gimp Image Processing Program</h2>
+
+<div class="intro">
+
+<p class="intro">
+GIMP, the Gnu Image Manipulation Program,
+is a free program that has many of the capabilities of the better-known
+commercial program, Photoshop. Gimp can be used both for creating images
+from scratch and for modifying existing images.  This lab covers only
+a very limited subset of Gimp's features.  You can read more about Gimp
+in <a href="https://math.hws.edu/graphicsbook/a3/s1.html">Section&nbsp;C.3</a>
+in the textbook.  Parts of this lab are adapted from that section.
+  It's also easy to find
+documentation and tutorials on Gimp, starting with its "Help"
+menu.</p>
+
+<p>We will be using Gimp 2.10, which is installed on our Linux
+computers and is also the latest version available for download
+at <a href="https://www.gimp.org/">gimp.org</a>.  Gimp is available
+for Windows and Mac&nbsp;OS as well as for Linux.  (If you have
+Gimp 2.8, that will also work for this lab.)</p>
+
+<p><b>When you first start Gimp 2.10, I recommend changing certain
+preferences.</b>  Open the "Preferences" dialog from the "Edit" menu,
+and look in the "Toolbox" section (under "Interface" in the list on
+the left).  Turn off the "Use tool groups" option.  Under "Theme,"
+I prefer "Light," and under "Icon Theme," I prefer "Legacy."
+(The toolbox image below shows Legacy tool icons.)</p>
+
+</div>
+
+<div class="section">
+
+<h3>Assignment</h3>
+
+<p>This lab asks you to create or edit six
+images.  The images that you create should be submitted in a
+folder named <b>gimp</b> in your homework folder, in
+<i style="white-space:pre">/classes/cs424/homework</i>.  The
+file names should clearly identify the exercises for which the
+files are being submitted.  For example, you could give the
+files names such as <b>ex1.png</b>  or <b>exercise6.jpg</b>.  I will
+not look for your work until one week after the lab.
+The grading will be along the lines of:  "Not done" for an F;
+"Minimal effort and incomplete" for a D; "Minimal effort" for
+a C; "Everything&nbsp;OK" for a B; or "Excellent" for an&nbsp;A.
+"Excellent" means that your work shows substantial and thoughtful effort,
+a willingness to investigate and experiment with Gimp features,
+and some attention to aesthetics.
+</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>New, Open, Save</h3>
+
+<p>Gimp's "File" menu has a "New" command that lets you create a new image
+from scratch.  You will be able to set the size of the image and other
+properties, such as background color.  And there is an "Open" command
+that lets you open an existing image for editing.</p>
+
+<p>Saving is a little more problematic.  The "Save" command will save
+an ".xcf" file, which is Gimp's own format.  An xcf file is not an
+image, and it can only be opened with Gimp.  It saves the full
+Gimp editing environment, which you would need for more complex
+projects if you want to be able to return to editing them later.</p>
+
+<p>To save an image, instead of using "Save," you should
+use the "Export" or "Export As" command in the "File" menu.
+If you opened an image file for editing, the "Export" command becomes
+an "Overwrite" command that is used to replace the original image with
+the edited version.  These commands let you save images in a wide
+variety of formats.  <b>For the lab, you should save your images in PNG
+or JPEG format.</b> In particular, do <b>not</b> turn in xcf files!</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Painting Tools</h3>
+
+
+<p><span class="exercise">Exercises 1 and 2.</span>
+For the first two exercises, you should use Gimp to draw two images from scratch,
+using Gimp's painting tools.  Use several different tools.
+Try to make something that looks attractive and/or try to
+draw a (vaguely) representational image.  Don't just turn in
+your scribblings!  Spend some time experimenting before you decide
+what you want to draw to turn in.</p>
+
+<p>Gimp has a wide variety of drawing tools, which you can
+find in the "Toolbox" in the upper left corner of the window.
+Point to a tool button to find out what the tool is for.  Here
+is the Toolbox with a few annotations.  You might not see exactly
+the same thing, but you can hover your mouse over a tool 
+icon to see some information about the tool.</p>
+
+<p style="text-align: center"><img src="gimp-tools.png" width="431" height="288"></p>
+
+<p class="np">Below the Toolbox is the "Tool Options" dialog, which contains
+options for the drawing tool that is currently selected. The contents of
+the dialog change when you select a new tool.  Here are the options for
+the Brush tool, which is probably the most basic and useful tool:</p>
+
+<p style="text-align: center"><img src="gimp-tool-options.png" width="434" height="520"></p>
+
+<p>Use the "New" command in the file menu
+to create a new, empty image.  Don't make it too big&mdash;maybe
+640-by-480 or 800-by-600.  Try out the Brush tool, and try
+changing some of its options.  Try changing the foreground color
+(which is used for drawing) by clicking on the forgeground color
+patch in the Toolbox.  Remember that <span style="white-space:pre">Control-Z</span>
+can be used to
+undo any change you make.  Also, of course, you can always start
+over.  Remember to spend some time experimenting with
+various tools before setting out to create your final images!</p>
+
+<p>You'll notice that Gimp does not have tools for drawing shapes
+such as rectangles and circles.  However, it is possible to draw
+such shapes using <i>selections</i>.  The selection tools can be used to select regions in the
+image.  For example, click the Rectangle tool, and drag the
+mouse on the image to select a rectangular region.  Note that
+one of the options for the Rectangle select allows you
+to round off the corners of the rectangle.  The Ellipse
+Select tool can be used to select oval-shaped regions.
+The Free Select (or Lasso) tool, which is next to the Ellipse in the illustration,
+can be used to select polygonal regions: Just click a sequence
+of points to select the vertices of the polygon, and click back
+on the initial point to close the polygon.  You can also 
+drag the Lasso tool to draw the outline of a region freehand.
+Once you have a selection, there are many things that you 
+can do with it.</p>
+
+<p class="note">One important fact is that when there is 
+a selection, you can only draw inside the selection&mdash;the
+area outside the selection is unaffected by painting tools, or by
+anything else that you try to do the image!!</p>
+
+<p>The Bucket Fill Tool, which looks like a spilling paint bucket,
+is especially useful with selections.  Choose the bucket tool, and
+set its option to "Fill whole selection".  Then click inside
+the selected area to fill that area with color.  Also try setting
+the "Pattern fill" option for the Bucket tool, which allows you
+to fill the selected area with a pattern.  To change the pattern
+that is used, click on the image of the pattern, just below the
+"Pattern fill" option.</p>
+
+<p>Drawing <i>straight lines</i> in Gimp is a little strange.
+To draw a line with the brush tool, click the image and release the mouse button.
+Then immediately press the shift key.  Move the mouse while
+holding down the shift key (without holding down any button on the
+mouse).  Then click the mouse again.  A line is
+drawn from the original click to the final click.  The same technique
+works with other tools, including the pencil, erase, and smudge tools.</p>
+
+<p>
+You will certainly want to try the Gradient Tool.  A gradient is a sequence of colors, arranged in
+some pattern.  Many different gradients are available in the Gradient tool options; click the
+image of the gradient in the Tool Options, to choose a different gradient.</p>
+
+<p><b>Important Notes about the Gradient Tool:</b> In the Tool Options for
+the Gradient Tool,  I suggest turning on
+"Adaptive supersampling" to give smoother gradients. And I suggest turning on
+"Instant mode" to make the tool easier to use.</p>
+
+
+<p><img src="gradients.png" width=256 height=256 style="margin-left:15px; margin-bottom: 5px;" align="right">
+Apply a gradient by dragging the mouse to specify the points where the color sequence begins and
+ends.  The colors can be applied in various shapes; try changing the "Shape" option to 
+see how this works.  If there is no selection, then the gradient that you draw fills
+the entire image, although parts of the gradient might be transparent or translucent.
+(Remember that when there is a selection, you can only modify the part of the image
+inside the selection.)</p>
+
+
+<p>The picture on the right, for example,
+was made entirely with the Gradient tool, using the "Square Wood Frame"
+gradient with the shape option set to "Square" and the "Radial Eyeball" and "Radial Rainbow
+Hoop" gradients with the shape set to "Radial."  (A selection was used to limit the size
+of the rainbow, which would otherwise have been a full circle.)</p>
+
+<p>The Gradient tool can be used for some neat
+effects. The <a href="birch_fade.jpg">background&nbsp;image</a> for this page was prepared from 
+<a href="birch.jpg">an&nbsp;original&nbsp;image</a>  with one application of the Gradient tool, with the foreground color set to white
+and the gradient set to the "FG to Transparent" gradient.  To make a similar background image:</p>
+<ul>
+<li>Start with an existing image.  Cut a vertical strip from the image to use
+as the basis for the background.  To do that, use the Rectangle Select tool to select
+the region that you want to use, then use the "Crop to Selection" command from the
+"Image" menu.</li>
+<li>Choose the Gradient tool, and select the gradient named "FG to Transparent".</li>
+<li>Change the Foreground Color to white.  You can do this by clicking the little
+Swap Colors arrow next to the color patches in the Toolbox.</li>
+<li>Now, drag on the image from right to left.  The point where you start the
+drag will be white (the foreground color), while the point where you end will
+be unaffected.  The white color will fade in over the length of the drag.
+Use Control-Z to undo, and try again, until you get exactly what you want.</li>
+</ul>
+
+<p>You will want to try some of the other tools as well, such as the Smudge tool,
+the Eraser, and maybe the Clone tool.  For help on using any tool, look at the
+message in the bottom of the image window while using the tool.</p>
+
+
+</div>
+
+
+
+</div>
+
+<div class="section">
+
+<h3>Color Tools</h3>
+
+<p><span class="exercise">Exercise 3.</span>
+The third exercise is to use one of Gimp's color tools to change the color of the
+purple flowers in the following image (which you can save from this web page): </p>
+
+
+<p class="np" style="text-align:center"><img src="purple-flowers.jpg"></p>
+
+
+<p>You should change the color of the flowers without
+changing the color of the background.  Here is how to do it:</p>
+
+<ul>
+<li>Open the file in Gimp.</li>
+<li>Locate the "Select-by-Color Tool" in the toolbox. 
+When you click on an image using this tool, you will select all the pixels that have
+a color similar to the color of the pixel that you clicked.</li>
+<li>You will use the Select-by-Color Tool to select just the purple flowers
+in the image.  This will be easiest if you change the setting of "Threshold"
+in the Tool Options from 15 to 30.  The Threshold says how similar a color
+has to be to be selected.</li>
+<li>Holding the shift key down, click pixels in the purple flowers.  By holding
+the shift key down, the new selection will be added to the old selection
+instead of replacing it.  Your goal is to select all of the purple pixels, and
+only the purple pixels.  Remember that at any point, you can use Control-Z to
+undo the most recent action.  The quality of the final image will depend on
+how good your selection is.</li>
+<li>Now, you are ready to apply a color tool.  Select the "Hue-Saturation" command
+in the "Color" menu.  You can adjust the color by changing the "Hue" slider.
+Remember that only selected pixels can be affected by the change.  You might
+also want to change the "Saturation" and "Lightness" to get the color that
+you want.</li>
+<li>When you like the color of the flowers, make the change permanent by
+clicking "OK" in the Hue-Saturation dialog.  (Note: You can use the command
+"View" / "Hide Selection" (Control-T) to make the selection border invisible so that you can see the
+image without the selection border. Use Control-T again to show the selection border.)</li>
+<li>Use the "Export As" command in the "File" menu to save your modified
+image with a name such as <i>exercise3.png</i>.</li>
+</ul>
+
+<p>This exercise just gives you a small taste of what you can do with colors in Gimp.
+The "Color" menu in Gimp contains several tools for adjusting the colors
+of an image.  You might want to try some of the other tools!</p>
+
+
+
+</div>
+
+
+<div class="section">
+
+<h3>More About Selections</h3>
+
+<p>There's a lot more to
+learn about selections.  One of the most important things is that <b>a pixel can be partially selected</b>.
+That is, a selection is not necessarily just an outline; it's really an assignment
+of a "degree of selectedness" to each pixel.  For example, the Cut command
+(Control-X) deletes the content of a selection.  A fully selected pixel is set
+to transparent (if the image has an alpha component) or to the background color
+(if there is no alpha component).  However, a partially selected pixel will only
+be partially cut.  If there is an alpha component, the pixel becomes translucent;
+if not, the background color is blended with the current color of the pixel.
+Similarly, when you fill a selection, the current color of a partially selected
+pixel is blended with the fill color.  This is very much like alpha blending,
+with the degree of selectedness playing the role of the alpha component.</p>
+
+<p>One way to get partially selected pixels is to "feather" a selection.  When
+a selection is feathered by, say, 10 pixels, the sharp boundary is replaced by
+a 10-pixel-wide border, with the degree of selectedness decreasing from one to
+zero across the width of the border.  Use the "Feather" command in the "Select"
+menu to feather the current selection.  Alternatively, selection tools, such as the Rectangle
+Select tool, have a Tool Option that will automatically feather the border of any selection
+that you create with the tool.</p>
+
+<p><img align=right src="cactus-flower-clip.png" width="320" height="247">
+<span class="exercise">Exercise 4.</span> Use a feathered selection to create an
+image like the one shown at the right. The image is a PNG file that becomes transparent
+around the edges so that it blends with the background of the image.  You can follow
+these instructions to do the exercise:
+</p>
+<ol>
+<li>Open an existing image file in Gimp.  You might want to scale the image, if it is too big.
+I used <a href="cactus-flower.jpg">a cactus flower</a>
+from Wikimedia&nbsp;Commons.  You should
+use a different image.
+(Note: I applied the "Artistic" / "Oilify" filter to the cactus flower because I liked the effect.)</li>
+<li>This exercise requires an alpha component for the image.  A PNG image might already have one; a JPEG
+definitely will not.  To add an alpha component, use the command
+"Add Alpha Channel" from the "Transparency" submenu of the "Layer" menu.  If the image already
+had an alpha channel, the command is disabled. </li>
+<li>Make a selection around the part of the image that you want to keep. Be sure to leave space between
+the selection and the boundary of the image to allow for feathering.  The example uses an elliptical selection,
+but a rectangular selection also works, perhaps with rounded corners.</li>
+<li>Use the "Select" / "Feather" command to feather the image by a rather large amount, say 40 or 50 pixels.</li>
+<li>You want to cut away the <b>outside</b> of the selection, but the Cut command removes the
+inside of the current selection.  The solution is to <b>invert</b> the selection, which reverses
+the outside and the inside.  Use the "Invert" command in the "Select" menu to do that.</li>
+<li>Apply the "Cut" command, Control-X.</li>
+<li>You might want to crop the image, so you don't have a huge transparent border around the edge.
+To do that, make a rectangular selection around the part you want to keep, and use the
+"Crop to Selection" command from the "Image" window.</li>
+<li>Save your image using the "Export As" command in the "File" menu.  Be sure to save it in
+PNG format.  That is, use a file name that ends with&nbsp;.png.  And remember to use a name
+such as "ex4.png" or "exercise4.png" so that I will be able to identify it.</li>
+</ol>
+
+</div>
+
+<div class="section">
+
+<h3>Filters</h3>
+
+<p><span class="exercise">Exercises 5 and 6.</span>
+For the two final exercises for this week, you will apply "filters" to existing images.
+You can use your own images, or
+you can use images from the folder <a style="white-space:pre" href="gimp-pics">gimp-pics</a>,
+or another source of images is the
+<a href="https://commons.wikimedia.org">Wikimedia&nbsp;Commons</a></p>
+
+<p>A "filter" is something that can be applied to an image, usually
+to modify the image in some way.  They might better be called
+"effects."  For example, there is a filter for blurring the
+image, one for making the image look like an old photograph,
+and one to make it look like it's made out of cloth. Some filters
+in Gimp generate images from nothing, and some do even more
+complicated things.  You will find Gimp's filters in the
+"Filter" menu.</p>
+
+<p>You should make two attractive or interesting images by
+applying one or more filters to  existing images.</p>
+
+<p>As you experiment, use the "Undo" command, Control-Z, to undo
+any changes that you don't like!</p>
+
+<p>Some suggested filters to try:  Distorts/Emboss, Distorts/Mosaic,
+Distorts/Ripple, Edge-Detect, Artistic/Apply-Canvas, Artistic/Cubism,
+Decor/Old-Photo, Map/Warp.</p>
+
+</div>
+
+<div class="section">
+
+<h3>Not Covered Here</h3>
+
+<p>The exercises in this lab cover only a very small part of Gimp's
+feature set.  One of the biggest omissions is <b>layers</b>.  Another
+is <b>Paths</b>.  You can read a little about those in the
+<a href="https://math.hws.edu/graphicsbook/a3/s1.html">textbook</a>.  But if you really want to learn
+Gimp, you will have to look elsewhere.</p>
+
+</div>
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>
+
+
+
+

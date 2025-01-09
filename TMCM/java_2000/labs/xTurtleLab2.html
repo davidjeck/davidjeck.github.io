@@ -1,0 +1,442 @@
+<HTML>
+
+<HEAD> <TITLE>xTurtle Lab 2</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xTurtle Lab 2:
+         Thinking about Programs</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+1">T</font>HIS LAB CONTINUES THE STUDY
+of programming, which was begun in the
+<A HREF="xTurtleLab1.html">previous lab</A>. The emphasis here
+is on how a complex program can be developed to perform
+a specified task.
+An organized approach to programming is necessary for all but the
+most simple programs.  Complex tasks can be broken down into simpler
+tasks, and complex programs can be built up out of simple components.
+The problem is how to determine what components are needed and how
+to piece them together.</p>
+
+
+<p>Before beginning this lab, it would be useful to be familiar with
+the material in Chapter 6 of <cite>The Most Complex
+Machine</cite>, especially Section 6.3.  In particular,
+this lab uses the ideas of <font color="#E70000">preconditions</font>
+and <font color="#E70000">postconditions</font>.  This lab
+also uses the &quot;nested squares&quot; example from Section 6.3.
+You'll also find an introduction to <font color="E70000">subroutines</font>
+in this lab.  Subroutines are covered in Chapter 7 of the text.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#pre">Preconditions</A>
+   <LI><A HREF="#post">Postconditions</A>
+   <LI><A HREF="#subs">Subroutines</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>Start by clicking this button to launch xTurtle in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xTurtleClasses.zip"
+        code="tmcm.xTurtleLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xTurtlePrograms/">
+   <param name="URL"  value="NestedSquares.txt">
+   <param name="URL1" value="Quadratic.txt">
+   <param name="URL2" value="SpiralsSubroutine.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+</p>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="pre">Preconditions</A></font></H3>
+
+<p>The xTurtle applet that you have launched should have loaded
+a sample program called &quot;NestedSquares&quot;.
+Select this program using the pop-up menu at the top of the
+applet.  Read the program and the comments, and run the program
+by clicking on the &quot;Run Program&quot; button.  For
+this example, and for much of the lab, I suggest that
+you <strong>use the speed pop-up menu to reduce the speed
+at which programs are executed</strong>, so that you will
+better understand what is going on.</p>
+
+<p>As explained in the text, the key to getting this program correct was
+making sure that the preconditions for drawing each square were set
+up properly.  A <font color="#E70000">precondition</font> is something that must be true at a
+certain point in a program, <strong>if</strong> the program to
+continue correctly from that point.</p>
+
+<p><A NAME="figure1">The following picture</A>,
+taken directly from Figure 6.9 in the text, shows the correctly
+drawn squares and the results of five incorrect attempts to draw
+them. For each of the incorrect versions, the error can be
+traced to the fact that one or more preconditions was not
+met in the program that produced that picture:</p>
+
+<p align=center><IMG height=214 width=343 SRC="images/xTurtle2.gif"></p>
+
+<p>In the &quot;NestedSquares&quot; program, there are
+several statements near the end of the loop that are
+responsible for making sure that the required preconditions
+are met.  You should try to understand why each of these
+statements is required.  You will work with this example
+in Exercise 1 at the end of the lab.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="post">Postconditions</A></font></H3>
+
+<p>Preconditions are things that must be true at a given
+point in a program for that program to continue correctly.
+A <font color="#E70000">postcondition</font> is something
+that is <strong>actually</strong> true at a given point
+in the program, because of what has been done
+by the program so far.  A common way for programmers
+to think about programs is to ask, &quot;At this point in
+the program, do the postconditions from what comes
+before match up with the preconditions for what is
+done next.&quot;  In addition, the effect of a program
+<strong>as a whole</strong> can be thought of as
+a set of one or more postcondition for the entire program.
+The postconditions of a program are things that are true
+after the program has been executed.  That is, they are
+things that are accomplished by the program.  For an
+xTurtle program, the postconditions of the program include
+the picture that has been drawn on the screen.</p>
+
+<p><A NAME="figure2">The following picture</A> shows a simple &quot;staircase&quot;
+with 5 steps and another staircase, with 4 steps, leaning at
+a 30 degree angle:</p>
+
+<p align=center><IMG width=294 height=142 SRC="images/xTurtle3.gif"></p>
+
+<p>Suppose that you want a program to draw such staircases.
+Let's say that the number of steps in the staircase will
+be input by the user.  You will have to use a loop to draw
+the steps, since when you are writing the program, you don't
+know how many steps there will be.  Each execution of the loop will
+draw one of the staircase's steps.  Before drawing each step, the
+turtle must be facing in the right direction; this is a
+precondition.  After drawing the step, the turtle has changed
+direction; this is a postcondition.  You have to include commands
+that will provide &quot;splicing&quot; from the actual postcondition to the
+desired precondition.  After the loop,
+you will still have to draw the two long sides of the staircase.
+To get them into the correct positions and orientations,
+you will have to think about the <strong>postconditions</strong>
+that hold after the loop has been executed and how they
+match up with the <strong>preconditions</strong> for
+drawing the lines.  Exercise 5 at the end of the lab asks
+you to write this program.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="subs"></A>Subroutines</font></H3>
+
+
+<p>A <font color="#E70000">subroutine</font>
+is -- more or less -- a small program made into
+a black box and given a name.  Some subroutines, such as
+<font color="#007000">forward</font>
+and <font color="#007000">PenUp</font>
+are predefined; others are written by a
+programmer as part of a larger program.  Subroutines are
+an essential tool for organizing complex tasks.</p>
+
+<p>Most subroutines have <font color="#E70000">parameters</font>
+such as the 9 in <font color="#007000">forward(9)</font>
+or the 30 in <font color="#007000">turn(30)</font>. Parameters allow
+subroutines to receive information from the rest of the program or
+to send information back.  Suppose that we want to turn the
+staircase program described above into a subroutine.  Then 
+it would no longer make sense to get the input
+from the user, since that would greatly limit the generality of the
+subroutine.  Instead, the number of steps would probably be
+provided as a parameter.  From the &quot;point of view of the
+subroutine,&quot; the parameter is like input coming from &quot;somewhere
+outside,&quot; just as input from the user comes from outside the
+program.</p>
+
+<p>A subroutine definition begins with the word 
+<font color="#007000">SUB</font> and ends
+with the word <font color="#007000">END SUB</font>.
+Just after the word <font color="#007000">SUB</font> comes the
+name of the subroutine and (optionally) a list of one
+or more parameter names.  The subroutine name and the
+parameters form the <font color="#E70000">interface</font> of the
+subroutine; everything from there up until the
+<font color="#007000">END SUB</font> is the 
+<font color="#E70000">implementation</font>.</p>
+
+<p>The sample program &quot;SpiralsSubroutine&quot;
+defines a subroutine
+named <font color="#007000">spiral</font>.  Select this
+program from the pop-up menu at the top of the xTurtle applet,
+and read the program and comments.  When you click the
+&quot;Run Program&quot; button to run this program,
+it will look like nothing has happened!  But in fact,
+the effect of the program is to define the subroutine.
+Ordinarily, the computer has no idea what the word &quot;spiral&quot;
+means, but once the computer compiles the subroutine definition,
+it will then understand
+commands like <font color="#007000">spiral(61)</font> and
+<font color="#007000">spiral(89)</font>.
+Such commands can be added to the program after the
+subroutine definition, or they can be entered into the
+text-input box below the drawing area in the xTurtle applet.
+Try it. Some of the pictures you can make are rather
+pretty!</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font>
+Consider each of the pictures <strong>b)</strong>,
+<strong>c)</strong>, <strong>d)</strong>, and <strong>e)</strong>
+in the nested squares illustration, shown <A HREF="#figure1">above</A>.
+For each of these
+incorrect versions, determine what small change
+in the program &quot;NestedSquares&quot; would
+produce that picture. In each case, it's a question of
+removing one or more statements from the correct program,
+so that one or more of the required preconditions are not
+met.  In each case, determine which statement to remove
+and what precondition or preconditions are unmet in
+the resulting program.</p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+Select the sample program &quot;Quadratic&quot; from
+the pop-up menu at the top of the xTurtle applet.  When you
+run this program, it will ask you to input three numbers,
+A, B, and C.  It will then compute and display the solutions
+to the quadratic equation A*x<sup>2</sup> + B*x + C = 0.
+If you run the program and enter the values 1, 1, and -1
+for A, B, and C, it will work fine.  However, if you enter
+1, 1, and 1 as the values of A, B, and C, the program will
+crash.  This crash can be traced to the fact that at a
+certain point in the program, there is a precondition
+that might not be satisfied.  If it is not satisfied, an
+error occurs and the program crashes.  What precondition is
+not properly checked by the program?  (It has something
+to do with the square root function.  Recall that
+in some cases, the quadratic equation has no solutions.)
+Modify the program
+so that it does not crash when the input values fail to
+meet the precondition.  Instead of crashing, the program
+should display an error message and halt.
+</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>
+This is a continuation of Exercise 2.  The &quot;Quadratic&quot;
+sample program actually exhibits another precondition,
+which is violated if A equals zero.  Where does this
+precondition occur in the program, and what exactly is the
+problem with having A=0?
+</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+This is a continuation of Exercises 2 and 3.  Another way to
+deal with a precondition is to write a loop that can
+only end when the precondition is satisfied.  Modify the
+&quot;Quadratic&quot; program so that the input from 
+the user is read in a loop that can only end if the user
+has entered legal values for A, B, and C.  After the loop,
+the program can safely compute and print the solutions
+to the equation.
+</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+Write a program that can draw staircases, like those
+shown in the picture <A HREF="#figure2">above</A>.  The 
+program you write must meet the following requirements:</p>
+<OL>
+<LI>The user will be asked to specify the number of steps.
+<LI>Each step is one unit high and one unit wide.
+<LI>The orientation of the staircase will depend on the
+    starting orientation of the turtle, as shown in the 
+    second example in the picture.  This means that you
+    should draw the staircase using only 
+    <font color="#007000">forward</font>,
+    <font color="#007000">back</font>, and
+    <font color="#007000">turn</font> commands.
+    Do <strong>not</strong> use <font color="#007000">face</font>
+    or <font color="#007000">moveTo</font>.
+<LI>After the staircase is drawn, the position and heading
+    of the turtle will be the same as they were when the
+    drawing begins.  This is a postcondition for the
+    program as a whole.
+</OL>
+
+<p>Start your program with the following three lines:</p>
+
+<pre>              DECLARE NumberOfSteps
+              AskUser("How many steps?", NumberOfSteps)
+              DECLARE count
+</pre>
+
+<p>The variable named count should be used as a counting variable
+in a loop to count the number of steps that have been drawn.
+You should think about preconditions and postconditions as you write
+the program.  Include comments in your program that
+discuss specific preconditions and postconditions for various parts
+of the program, and explain how they were used -- or could have been
+used -- in developing the program.  It is a bit easier to write
+the program if you start drawing the steps at the top of the
+staircase.</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+Convert the program you wrote for Exercise 5 into a subroutine.
+<strong>Start by removing the first two lines of the program</strong>,
+which were given to you in Exercise 5.
+Replace them with:</p>
+<pre>               SUB stairs(NumberOfSteps)
+</pre>
+<p>Add the line
+<pre>               END SUB
+</pre>
+<p>at the end of your program.  These two steps turn your
+staircase-drawing program into a staircase-drawing subroutine.
+After running the modified program, you
+will be able to use commands like <font color="#007000">stairs(5)</font>
+to draw a staircase with five steps and
+<font color="#007000">turn(30) stairs(4)</font> to draw a 
+tilted staircase with four steps.  To make a more interesting
+picture, add the following lines at the end of your 
+modified program, after the definition of the subroutine,
+and then run  the program:</p>
+
+<pre>            LOOP
+               stairs(3)
+               stairs(5)
+               stairs(7)
+               turn(30)
+               EXIT IF heading = 0
+            END LOOP
+</pre>
+
+<p>What picture is drawn by one execution of the loop in
+this program?  Why?  (You will only get the correct picture
+if your solution to Exercise 5 meets the fourth requirement
+imposed on the program in that exercise.)  What picture
+is drawn by the program as a whole?  Why?
+</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+Here are some questions about the subroutine you wrote
+for Exercise 6:</p>
+<UL>
+<LI>Why does the single line <font color="#007000">SUB
+    stairs(NumberOfStairs)</font> replace the first two
+    lines of the program from Exercise 5?  Why does it
+    make sense for the <strong>variable</strong>, NumberOfStairs, in
+    the program to become a <strong>parameter</strong> in
+    the subroutine?
+<LI>In the subroutine, why don't you ask the user for
+    the number of steps to draw?  Why is it better to
+    use a parameter?
+<LI>The variable &quot;count&quot; in the program from 
+    Exercise 5 becomes a local variable in the subroutine.
+    Why?  Why is it a local variable instead of a parameter?
+<LI>What did you learn from Exercise 6 about subroutines
+    and their use in complex programs?
+</UL>
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Explain carefully why running the sample program
+&quot;SpiralsSubroutine&quot; does not produce any
+output or have any visible effect.  What exactly
+does the program do when it is executed?  What is
+the point of it, if it doesn't do anything?
+</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+Write a program that will draw pictures like the
+following, where the number of &quot;bumps&quot;
+is input by the user.  (In this picture, there are
+seven bumps.)  Note that the number of vertical lines
+is one more than the number of horizontal lines.</p>
+
+<p align=center><IMG width=395 height=32 SRC="images/xTurtle4.gif"></p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+Convert your program from Exercise 9 into a subroutine
+in which the number of bumps is specified by a parameter.
+How would your subroutine be used to produce a picture
+with seven bumps, like the one shown above?
+</p>
+
+
+<p><font color=blue><b>Exercise 11:</b></font>
+The <font color="#E70000">contract</font> of a subroutine is
+defined to be everything you need to know about a subroutine
+in order to use it correctly.  This includes the name of
+the subroutine and its list of parameters.  It also includes
+specifications of what must be true before the subroutine
+is called and what will be true after it finishes execution.
+These specifications are the preconditions and the
+postconditions of the subroutine.  In an xTurtle subroutine,
+the preconditions and postconditions usually include statements
+about the position and orientation of the turtle and about
+what is drawn on the screen.  Here are two square-drawing
+subroutines.  Describe the contract of each subroutine.
+Include complete specifications of the preconditions and
+postconditions for each subroutine.</p>
+
+<pre>       SUB square(r,g,b,size)            SUB square(x,y,size)
+          rgb(r,g,b)                        PenUp
+          forward(size)                     moveTo(x,y)
+          turn(90)                          PenDown
+          forward(size)                     move(size,0)
+          turn(90)                          move(0,size)
+          forward(size)                     move(-size,0)
+          turn(90)                          move(0,-size)
+          forward(size)                  END SUB
+          turn(90)
+       END SUB
+</pre>
+
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

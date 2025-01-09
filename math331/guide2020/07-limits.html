@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Limits</title>
+</head>
+<body>
+<div id="content">
+
+<h2>07 Limits of the form $\ds\lim_{x\to a}f(x)$</h2>
+<hr>
+
+<p>Sections 2.2 and 2.3 cover the idea of limit of a function at a point, using
+the so-called "epsilon-delta" definition of limit, which is named after
+the Greek letters that are used by convention in the definition.  (But it's
+important to remember that when the definition is applied, the corresponding
+quantities are not always named epsilon and delta.)  You might have
+already seen this definition.  In this course, we are less interested in
+using the definition to prove that a given limit has a certain value and 
+more interested in giving rigorous proofs of theorems about limits.
+Here, as is usually true in our textbook, "function" means "real-valued
+function of a single real variable."</p>
+
+<div class="def"><p><span class=dtp>Definition:</span> Let $f$ be
+a function.  Let $a$ and $L$ be real numbers.  We say that
+$\ds\lim_{x\to a}f(x)=L$ if  for every $\eps>0$, there is a $\delta>0$
+such that if $x$ is a real number satisfying $0&lt;|x-a|&lt;\delta$,
+then $f$ is defined at $x$ and $|f(x)-L|&lt;\eps$.  The notation $\ds\lim_{x\to a}f(x)=L$
+is read "the limit of $f(x)$ as $x$ approaches $a$ is equal to $L$."</p>
+</div>
+
+<p class=np>(My definition here leaves out the condition in the book's definition
+that $f$ be defined on some open interval containing $a$ except possibly at
+$a$ itself. Instead, it says that $f$ is defined for all $x$ satisfying
+$0&lt;|x-a|&lt;\delta$, which is the same thing.)</p>
+
+<p>Let's apply this definition to prove that $\ds\lim_{x\to 3}x^2=9.$
+I want to explore in some detail how one might think about this problem.
+Here, $f(x)=x^2$, $a=3$, and $L=9.$
+The function $f(x)=x^2$ is defined everywhere, so the condition that the
+function is defined is satisfied everywhere.
+(Proofs will sometimes not explicitly mention checking this condition, if
+it seems obvious, but it is an important part of the definition.)
+We must begin with an arbitrary positive number $\eps.$  We must find
+some positive number $\delta$ that satisfies: for any $x$, if $0&lt;|x-3|&lt;\delta$,
+then $|x^2-9|&lt;\eps.$  Note that our proof has to work for any $\eps.$  We have picked
+some specific but arbitrary $\eps$ to work with.  We don't know anything about
+it except that it is greater than zero.  We have to produce a specific $\delta$ that
+will work for that specific $\eps$, but because $\eps$ is arbitrary, our value
+for $\delta$ will depend on the specific $\eps$ that we are given.  This is a
+roundabout way of saying that we actually want to define $\delta$ as
+a <i>function</i> of $\eps.$</p>
+
+<p>So, our goal is to force the quantity $|x^2-9|$ to be small, and we have to do
+that by making $|x-3|$ small.  We need to figure out what $|x-3|$ might
+have to do with $|x^2-9|$.  Hopefully, we notice that $$|x^2-9|=|(x-3)(x+3)|=|x-3|\cdot|x+3|$$
+We can make $|x-3|$ as small as we like, but what to do about the $|x+3|$?
+Notice that we don't have to make $|x+3|$ small, since we can make $|x-3|$ as small
+as we like.  We just have to make sure that $|x+3|$ is not too big.  That is,
+we want to bound $|x+3|$.  In fact, since we are going to make $x$ close to 3, 
+it should follow that $x+3$ is close to $6$.  Specifically, if we make sure
+that $|x-3|\le 1$, then $2\le x\le 4$ and $5\le x+3\le 7$.  In particular,
+as long as $|x-3|\le 1$, we will have $|x+3|\le7$.  Then to make the product
+$|x-3|\cdot|x+3|$ be less than $\eps,$ we only have to make $|x-3|&lt;\frac{\eps}{7}$.
+That is, as long as $|x-3|$ is less than 1 and also less than $\frac{\eps}{7}$,
+we will have $|x^2-9|=|x-3|\cdot|x+3|&lt;\frac{\eps}{7}\cdot 7=\eps$.
+So, if we choose our $\delta$ to be the function of $\eps$ given by
+$\delta=\min\big(1,\frac\eps7\big)$, then $|x-3|&lt;\delta$ will imply $|x^2-9|&lt;\eps,$
+which is just what we needed to show.  Let's put this into a formal proof&mdash;which should
+<i>not</i> include any of the exploratory thinking that we have just worked through:</p>
+
+<p>Proof that $\ds\lim_{x\to3}x^2=9\colon$&nbsp;
+Let $\eps>0$.  We want to find $\delta>0$ such that for any $x$, if $|x-3|&lt;\delta$,
+then $|x^2-9|&lt;\eps$.  Define $\delta=\min\big(1,\frac\eps7\big).$
+Suppose $x$ satisfies $|x-3|&lt;\delta$.  Since $|x-3|\le 1$, we have $2\le x\le 4$
+and $5\le x+3\le 7$, and it follows that $|x+3|\le 7.$  Therefore, 
+$$\begin{align*}
+   |x^2-9| &amp; = |(x-3)(x+3)|\\
+           &amp; = |x-3|\cdot|x+3|\\
+           &amp; &lt; \textstyle\frac\eps 7\cdot 7\\
+           &amp; = \eps
+     \end{align*}$$
+as we wanted to show. $\qed$</p>
+
+<hr class=break>
+
+<p class=np>Let's apply similar reasoning to the proof of the sum and product rules for limits:
+If $\ds\lim_{x\to a}f(x)=L$ and $\ds\lim_{x\to a}g(x)=M$,
+then $\ds\lim_{x\to a}\big(f(x)+g(x)\big)=L+M,$
+and $\ds\lim_{x\to a}\big(f(x)g(x)\big)=LM.$
+The two limits that we are given in the hypothesis mean that we can force
+$|f(x)-L|$ and $|g(x)-M|$ to be as small as we like by making $|x-a|$ small enough (but
+non-zero, since knowing the two limits does not tell us anything about what happens
+to $f(x)$ and $g(x)$ when $x$ is exactly equal to $a$.) 
+</p>
+
+<p>For the limit of the sum $f(x)+g(x),$ we need to force $|(f(x)+g(x))-(L+M)|&lt;\eps$,
+using our control over $|f(x)-L|$ and $|g(x)-M|$.  Here, we should notice that
+$$|(f(x)+g(x))-(L+M)|=|(f(x)-L)+(g(x)-M)|$$ 
+and the triangle inequality allows us to relate this back to $|f(x)-L|$ and $|g(x)-M|\colon$
+$$|(f(x)-L)+(g(x)-M)|\le |f(x)-L| +|g(x)-M|$$
+Since we can force both $|f(x)-L|$ and $|g(x)-M|$ to be small by choosing $|x-a|$ small
+enough, we are good!  But we need to do it formally.  Given any $\eps>0$, we can force
+$|f(x)-L|&lt;\frac\eps2$ by making $0&lt;|x-a|&lt;\delta_1$ for some $\delta_1>0$.
+And we can force $|g(x)-M|&lt;\frac\eps2$ by making $0&lt;|x-a|&lt;\delta_2$ for some $\delta_2>0$.
+We can force both conditions by making $0&lt;|x-a|&lt;\min(\delta_1,\delta_2).$
+So, we choose $\delta=\min(\delta_1,\delta_2).$ Then for any $x$ satisfying
+$0&lt;|x-a|&lt;\delta$, we have
+$$\begin{align*}
+    |(f(x)+g(x))-(L+M)| &amp; = |(f(x)-L)+(g(x)-M)|\\
+       &amp;\le |f(x)-L| +|g(x)-M|\\
+       &amp;&lt;\textstyle \frac\eps2+\frac\eps2\\
+       &amp;=\eps
+ \end{align*}$$
+
+<p>For the product $f(x)g(x)$,we need to force $|f(x)g(x)-LM|$ to be small.  The proof
+is probably not something that you would come up with quickly on your own, but it
+uses the same general ideas that we have been discussing.
+Again, we want to relate the quantity  $|f(x)g(x)-LM|$ back to $|f(x)-L|$ and $|g(x)-M|.$
+Note that if we had $f(x)g(x)-Lg(x),$ we could factor out the $g(x)$ to
+get $(f(x)-L)M$, and we see the $f(x)-L$ that we are looking for.  There is no
+$Lg(x)$ in $|f(x)g(x)-LM|$, but we can use the trick of adding and subtracting
+the same quantity to introduce $Lg(x)$ into the formula, and things work out
+nicely using the triangle inequality:
+$$\begin{align*}
+     |f(x)g(x)-LM| &amp; = |(f(x)g(x)-Lg(x)) + (Lg(x)-LM)| \\
+                   &amp; \le |f(x)g(x)-Lg(x)| + |Lg(x)-LM| \\
+                   &amp; = |(f(x)-L)g(x)| + |L(g(x)-M)| \\
+                   &amp; = |f(x)-L|\cdot|g(x)| + |L|\cdot|g(x)-M|
+          \end{align*}$$
+We can force $|f(x)-L|$ and $|g(x)-M|$ to be as small as we like.
+As long as we can also put some limit on $|g(x)|$, the quantity as
+a whole will be small.  But $g(x)\to M$ as $x\to a$, which means
+that if $x$ is close to $a$, then $|g(x)|$ will not be too much 
+bigger than $|M|$.</p>
+
+<p>So, given $\eps>0$, using the fact that $\ds\lim_{x\to a}g(x)=M$,
+choose $\delta_1>0$, such that $0&lt;|x-a|&lt;\delta_1$
+implies $|g(x)-M|&lt;1$, which in turn implies $|g(x)|&lt;|M|+1.$
+(The last inequality follows from the <a href="05-applying-the-axioms.html#bound">last&nbsp;theorem</a>
+in the fifth reading guide.)  Choose $\delta_2>0$ such that $0&lt;|x-a|&lt;\delta_2$
+implies $|f(x)-L|&lt;\frac{\eps}{2(|M|+1)}.$  And choose $\delta_3>0$
+such that $0&lt;|x-a|&lt;\delta_3$ implies $|g(x)-M|&lt;\frac{\eps}{2(|L|+1)}$.
+(The denominator uses $|L|+1$ rather than $|L|$ to avoid the problem of division by zero
+in the case where $L$ is zero.)  Finally, let $\delta=\min(\delta_1,\delta_2,\delta_3)$.
+Then, for any $x$ that satisfies $0&lt;|x-a|&lt;\delta$, we have</p>
+$$\begin{align*}
+    |f(x)g(x)-LM| &amp; \le |f(x)-L|\cdot|g(x)| + |L|\cdot|g(x)-M|\\
+                  &amp; &lt; \textstyle \frac{\eps}{2(|M|+1)}\cdot(|M|+1) + |L|\cdot\frac{\eps}{2(|L|+1)}\\
+                  &amp; = \textstyle \frac\eps2 + \frac{|L|}{|L|+1}\cdot\frac\eps2\\
+                  &amp; &lt; \textstyle \frac\eps2 + \frac\eps2\\
+                  &amp; = \eps
+         \end{align*}$$
+</p>
+
+<p class=np>Note that the strange denominators in $\frac{\eps}{2(|M|+1)}$ and $\frac{\eps}{2(|L|+1)}$ were
+chosen so that we could end up with $\eps$ at the end of the preceding calculation.  Of course, I had
+to look ahead to see what was needed to make that happen.</p>
+
+<p>After all that, you should probably carefully reread the proofs from the textbook and make sure that you understand
+how the proofs of the limit theorems work.</p>
+
+<hr class=break>
+
+<p class=np>Occasionally, you might need to prove that a limit does not exist. That is,
+for some function $f$ and some $a\in\R$, $\ds \lim_{x\to a}f(x)$ is not $L$
+for <i>any</i> number $L$.  The definition of $\ds\lim_{x\to a}f(x)=L$ can
+be expressed symbolically as
+$$\forall \eps>0, \exists \delta>0, \forall x\in\R, \big(0&lt;|x-a|&lt;\delta \Rightarrow |f(x)-L|&lt;\eps\big)$$
+The negation of this statement is $\ds\lim_{x\to a}f(x)\ne L,$ which is expressed as
+$$\exists \eps>0, \forall \delta>0, \exists x\in\R, \big(0&lt;|x-a|&lt;\delta \mbox{ and } |f(x)-L|\ge\eps\big)$$
+To say that $\ds \lim_{x\to a}f(x)$ does not exist is to say $\forall L\in\R$, $\ds\lim_{x\to a}f(x)\ne L.$
+This adds another quantifier to the previous statement.  So, $\ds\lim_{x\to a}f(x)$ does not exist if and only if
+$$\forall L\in\R, \exists \eps>0, \forall \delta>0, \exists x\in\R, \big(0&lt;|x-a|&lt;\delta \mbox{ and } |f(x)-L|\ge\eps\big)$$
+This statement is quite complicated logically, and it is not surprising that it can be difficult to keep 
+things straight when proving that a limit does not exist.</p>
+
+<p>However, the basic idea is that $\ds\lim_{x\to a}f(x)\ne L$ if there are points, $x,$ arbitrarily close
+to $a$ for which the value of $f(x)$ is bounded away from $L$ by some positive distance, $\eps.$  For a simple
+example, $\ds\lim_{x\to 1}x^2 \ne 3$ because there are values of $x$ arbitrarily close to&nbsp;1 such that 
+the distance of $x^2$ from 3 is greater than&nbsp;1.  (In fact, of course, in this case, for <i>all</i> $x$
+close to&nbsp;1, the distance $|x^2-3|$ is greater than&nbsp;1 &mdash; which is a stronger condition that
+we need.)</p>
+
+<p>So, let's show that ${\ds\lim_{x\to0}}\sin\big(\frac1x\big)\ne 0.$  Now, for
+ $x=\frac{1}{\pi},\frac{1}{2\pi},\frac{1}{3\pi},\frac{1}{4\pi},\dots,$  $\sin\big(\frac1x\big)=0$, so there are
+ points $x$ arbitrarily close to&nbsp;0 for which $\sin\big(\frac1x\big)$ is very close (in fact equal to)&nbsp;0.
+ However, if we look at the points $x=\frac{2}{\pi},\frac{2}{3\pi},\frac{2}{5\pi},\frac{2}{7\pi},\dots,$
+ we have $\sin\big(\frac1x\big)=1.$ So we also get points $x$ arbitrarily close to 0 for which $\sin\big(\frac1x\big)$
+ is bounded away from 0.  In particular, letting $\eps=\frac12$, we see that for any $\delta>0$, we can
+ find a point $x$ such that $0&lt;|x-0|&lt;\delta$ and $\big|\sin\big(\frac1x\big)-0\big|>\eps$ (namely, choose an odd natural number $n$ so that 
+ $\frac{2}{n\pi}&lt;\delta$, and let $x=\frac{2}{n\pi}$).  Convince yourself that this is exactly what we need to
+ satisfy the definition given above for $\ds\lim_{x\to a}f(x)\ne L.$</p>
+
+<p>Of course, to show that ${\ds\lim_{x\to0}}\sin\big(\frac1x\big)$ does not exist, we need to
+show that for <i>any</i> number $L$, ${\ds\lim_{x\to0}}\sin\big(\frac1x\big)\ne L.$
+Here is a more formal proof of that fact:
+Let $L$ be any number.  Let $\eps=\frac12.$  We want to show that for any $\delta>0$, there is
+a number $x$ such that $0&lt;|x-0|&lt;\delta$ but $\big|\sin\big(\frac1x\big)-0\big|>\eps.$
+Let $\delta$ be any positive number.  In the case $L&lt;0$, let $n$ be an odd natural number such that
+$\frac{2}{n\pi}&lt;\delta$, which exists by the Archimedian property of $\R,$
+and let $x=\frac{2}{n\pi}$.  Then $0&lt;|x-0|&lt;\delta$ and
+$\sin\big(\frac1x\big)=1$.  Since $L&lt;0$ and $\sin\big(\frac1x\big)=1$,
+we see that $\big|\sin\big(\frac1x\big)-0\big|>1>\frac12=\eps,$ as we wanted to show.
+In the case $L\ge 0$, let $n$ be an odd natural number such that
+$\frac{2}{n\pi}&lt;\delta$, 
+and let $x=-\frac{2}{n\pi}$.  Then  $0&lt;|x-0|&lt;\delta$ and
+$\sin\big(\frac1x\big)=-1$.  Since $L\ge0$ and $\sin\big(\frac1x\big)=-1$,
+we see that $\big|\sin\big(\frac1x\big)-0\big|\ge1>\frac12=\eps,$ so that we are done in this case as well. $\qed$</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+<HTML>
+
+<HEAD> <TITLE>xModels Lab 1</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xModels Lab 1:
+         Two-D Graphics and Animation</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+2">I</font>MAGES ARE OFTEN CREATED ON COMPUTERS
+in a two step process.  First, a <font color="#E70000">geometric model</font> of a scene
+is created, then the scene is <font color="#E70000">rendered</font> using realistic
+coloring and lighting effects.  In this lab and the next, you will use an
+applet called xModels, which deals with the model-construction stage of 
+image creation.  This lab covers two-dimensional scenes, while the
+<A HREF="xModelsLab2.html">next lab</A> moves on to the problem of working with
+three-dimensional objects.</p>
+
+<p>Complex geometric models are built up out of simpler components
+which are scaled, rotated and positioned in the scene using
+<font color="#E70000">geometric transformations</font>.  Simple
+geometric shapes like circles and lines are used as a starting point
+in the modeling process.  These shapes can be combined to form more complex
+figures that can then be combined to form even more complex scenes.</p>
+
+<p>Scenes constructed from objects in this way can be used in
+a natural way to produce <font color="E70000">animations</font>.
+An animation is just a sequence of frames in which objects move slightly
+from one frame to the next.  When the frames are quickly displayed 
+one after the other, the viewer perceives objects in motion.</p>
+
+<p>In this lab, you will use the xModels applet to create two-dimensional
+geometric models and simple animations.  In the process, you will learn
+about various two-dimensional geometrical transformations.  The lab
+is based on the material in Section 12.1 of <cite>The Most Complex Machine</cite>.
+Some of the questions at the end of Chapter 12  -- and their answers in the
+back of the book -- are also relevant</p>
+
+<p>The lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#intro">Introducing xModels</A>
+   <LI><A HREF="#basics">Basic Objects and Basic Transformations</A>
+   <LI><A HREF="#animation">Animation</A>
+   <LI><A HREF="#define">Defined Objects and Structured Complexity</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p><A NAME="launch">Start</A> by clicking this button to launch the xModels applet in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xModels.zip"
+        code="tmcm.xModelsLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xModelsPrograms/">
+   <param name="URL"  value="Pinwheel.txt">
+   <param name="URL1" value="SimpleObjects.txt">
+   <param name="URL2" value="FirstAnimation.txt">
+   <param name="URL3" value="Wagon.txt">
+   <param name="URL4" value="Houses.txt">
+   <param name="URL5" value="Bounce.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="intro">Introducing xModels</A></font></H3>
+
+<p>The xModels applet that you launched <A HREF="#launch">above</A> is set
+up to load several sample programs.  Programs for xModels are actually
+scene descriptions written in a <font color="#E70000">scene
+description language</FONT>.  A scene description consists of a list
+of objects in a scene, together with geometric transformations
+to be applied to the objects and <font color="#E70000">attributes</font>
+that affect the object's appearance.  (In xModels, the only attribute that
+an object can have is a color.)  A scene description can include definitions
+of objects to be used later, perhaps repeatedly, in the scene.  Such object
+definitions are very much like subroutines in a programming language.
+Finally, there are a few special-purpose commands in the xModels
+scene description language that can be used to control such things 
+as the background color and the number of frames in an animation.</p>
+
+<p>When the applet first starts up, you should see a text area
+containing a scene description called &quot;Pinwheel.&quot;
+It describes an animation showing a revolving, colored pinwheel
+displayed on a black background.  Don't worry for now about the scene
+description itself.  Your first task is to learn how to get xModels
+to display the scene.</p>
+
+<p>To see the scene represented by a scene description in xModels, 
+you have to <font color="#E70000">render</font> it by
+clicking the &quot;RENDER!&quot; button below the text area.
+When you click this button, the applet first checks the scene description in the
+text area for errors.  Assuming that no errors are found, the applet will
+switch to a &quot;Graphics&quot; panel, where it will display the scene.
+<b>Try it now.</b>  To the right of the displayed scene is a set of controls.
+You should familiarize yourself with the controls.  Here is a brief
+description of each:</p>
+
+<UL>
+<LI>A message at the top of the column of controls shows the number of the
+frame that is currently displayed.  An animation consists of a sequence of
+frames, which are displayed one after another.  The &quot;Pinwheel&quot;
+animation has 121 frames, which are numbered from 0 to 120.  (If you get
+tired of watching this message flash, try clicking on it with your mouse.
+This might make it stop, depending on the version of Java that you are
+using.)
+<LI>The &quot;New Program&quot; button will give you a blank text area
+where you can write your own scene description from scratch.  Choosing
+&quot;[New]&quot; from the pop-up menu at the very top of the applet 
+will have the same effect.
+<LI>The &quot;Show Program&quot; button will take you back to the
+scene description that produced the image or animation displayed on
+the graphics screen.
+<LI>The next four buttons are used to control animations.  If the scene
+description specifies a single image, all four buttons are disabled.
+The &quot;Go&quot; and &quot;Pause&quot; buttons can be used to start
+and stop an animation.  If an animation has been paused, then
+the &quot;Next Frame&quot; and &quot;Previous Frame&quot; buttons can
+be used to move though the frames in the animation, one frame at a time.
+<LI>Next, there is a pop-up menu to control the speed at which animations
+are played back.  The default is 10 frames/second, which should be OK
+for most purposes.  (This menu represents only a <b>request</b> for 
+a given frame rate.  The computer might not be able to display frames
+as quickly as you request.)
+<LI>Finally, there is a pop-up menu that determines what happens when the
+computer reaches the end of an animation.  In the default setting, 
+&quot;Loop,&quot; the computer will return to the beginning of the
+animation and replay, and will keep doing this until you stop it.
+For many animations, the first frame is the same as the last, and the
+&quot;Loop&quot; option produces what looks like continuous motion.
+The second option in the menu is &quot;Back-and-Forth,&quot; which makes
+the computer reverse direction at the end of the animation and play it
+backwards.  The last option, &quot;Once Through&quot; makes the computer
+stop when it reaches the end of the animation.
+</UL>
+
+<p>After you have played with the &quot;Pinwheel&quot; animation for a bit,
+it's time to learn how to write a scene description of your own.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="basics">Basic Objects and Basic Transformations</A></font></H3>
+
+<p>To begin working with scene descriptions, click on the &quot;New Program&quot;
+button, or select &quot;[New]&quot; from the pop-up menu at the top of
+the applet.  In this section, you will work with single images.
+Animating an image will be a simple extension of this.</p>
+
+<p>To add an object to a scene, you just have to add the name of
+the object to the scene description.  Every time you use the name, you
+get a new copy of the object.  If you give only the name of the object, it will
+appear at a default size, position, and orientation.  If you want it to
+have a different size, position, or orientation, you have to apply
+one or more transformations to the object.  This is done simply by 
+listing the transformations after the object name.  For example,
+the word &quot;<font color="#007000">square</font>&quot; will add
+a square to the scene.  It will be a small square, one unit wide and
+one unit high, in the center of the scene.  (The entire image
+always includes a 20-by-20 unit region, with x-coordinates from
+-10 to 10 and y-coordinates from -10 to 10.  Since the image might
+not be exactly square, it can extend farther than this in one direction
+or the other.)</p>
+
+<p>To get a bigger or
+smaller square, you can apply a <font color="#E70000">scale
+transformation</font>.  To get a square that is five times as large as
+the default, you have to scale it by a factor of five.  This is
+done by saying <font color="#007000">square&nbsp;scale&nbsp;5</font>.
+Try typing the following scene description into the empty text area.
+The render the scene and see what you get:</p>
+
+<pre>                 square
+                 square scale 5
+</pre>
+
+<p>You should see <b>two</b> squares of different sizes.  (By the way, if
+you make some sort of mistake in the program, an error message will
+be displayed above the text area.  You can click on the message, if you like,
+to make it go away.)</p>
+
+<p>Now, using transformations is not the most obvious way of doing things,
+but it turns out to be remarkably powerful and even, after some
+experience, intuitive.  In addition to the scaling transformation,
+the geometric transformations that you can use are
+<font color="#E70000">translation</font> and <font color="#E70000">rotation</font>.
+Scaling changes an object's size.  Translation moves it.  Rotation
+pivots it about the point (0,0) or about some other specified point.
+(It is important to understand that you don't actually see the object moving.
+The applet applies the transformations to determine the size, position, and
+orientation of the object before it adds the object to the scene.  You only
+see it in its final position.  Later, you'll see how to make an animation
+in which objects do seem to move, but even then each individual frame of
+the animation is constructed as described here.)</p>
+
+<p>You've seen that the transformation <font color="#007000">scale&nbsp;5</font>
+magnifies an object by a factor of 5.  To shrink an object, you
+would use a scaling operation with a factor less than 1, as for
+example in <font color="#007000">square scale 0.5</font>.  The scale command
+can also be used with two numbers.  The first number gives
+a horizontal scaling factor and the second a vertical scaling
+factor.  For example, <font color="#007000">square&nbsp;scale&nbsp;2,5</font>
+specifies a <b>rectangle</b> that is 2 units wide and 5 units tall.
+(By the way, the comma in &quot;2,5&quot; is optional.  The xModels
+applet ignores commas.  You can put them in, if you like, for
+human readability.)</p>
+
+<p>The transformation <font color="#007000">rotate&nbsp;45</font>
+pivots an object through an angle of 45 degrees in a counterclockwise
+direction about the point (0,0).  A negative angle would rotate the
+object in a clockwise direction.  It is possible to specify a different
+pivot point.  For example, <font color="#007000">square rotate 45 about
+0.5,0.5</font> would pivot the square about its upper right corner,
+(0.5,0.5), instead of about (0,0).</p>
+
+<p>The transformation <font color="#007000">translate&nbsp;3,7</font>
+moves an object 3 units to the right and 7 units up.  Negative numbers
+can be used to move the object to the left and down.  If the
+translate command is used with just one number, as in
+<font color="#007000">translate&nbsp;-5</font>, it indicates horizontal
+movement to the left or right.  For convenience, there are also commands
+<font color="#007000">xtranslate</font> and <font color="#007000">ytranslate</font>
+for moving an object horizontally or vertically only.  For example, &quot;<font color="#007000">square
+ytranslate 5</font>&quot; produces a square translated five units upwards.</p>
+
+<p>You can apply a sequence of transformations to the same object,
+simply by listing them all after the object's name, in the
+order in which they are to be applied.  For example,</p>
+<pre>            square scale 3 rotate 30 translate 5,5
+</pre>
+<p>specifies a square that is first magnified by a factor of 3,
+then rotated through 30 degrees, then translated 5 units horizontally
+and 5 units vertically.  The order in which the transformations are
+applied can make a difference. Switching the order can produce
+a very different picture.</p>
+
+<hr align=center width="50%">
+
+<p>There are other basic objects besides squares.  A <font color="#007000">circle</font>
+is a circle of diameter one, centered at (0,0).  A <font color="#007000">line</font>
+is a line of length one that extends from the point (-0.5,0)
+to (0.5,0).  A <font color="#007000">polygon</font> can be specified by listing its
+vertices.  For example,</p>
+<pre>                      polygon 0,0 0,5 3,4
+</pre>
+<p>specifies a triangle with vertices at the points (0,0), (0,5) and (3,4).
+These few simple shapes are all that you have to work with.</p>
+
+<p>To make things a little more interesting, you can add color to your
+scenes.  The default drawing color is black.  You can use a color-change
+command to change the drawing color.  The drawing color that you specify
+remains in effect until it is changed by another color-change command.
+(That is, it does not just apply to the next object.)  The color-change
+commands include the names for the standard colors:
+<font color="#007000">red</font>,
+<font color="#007000">green</font>,
+<font color="#007000">blue</font>,
+<font color="#007000">cyan</font>,
+<font color="#007000">magenta</font>,
+<font color="#007000">yellow</font>,
+<font color="#007000">black</font>,
+<font color="#007000">white</font>, and
+<font color="#007000">gray</font>.  There is an
+<font color="#007000">rgb</font> command that uses three numbers to
+specify the red, blue, and green components of a color.  The numbers
+must be in the range zero to one. For example,
+&quot;<font color="#007000">rgb 0.7 0.7 1.0</font>&quot; represents a
+light blue color.  (There is also an <font color="#007000">hsb</font>
+command that lets you specify the hue, saturation, and brightness levels
+of a color, but I won't discuss the details here.)</p>
+
+<p>For example, here is a scene description for an image scene that contains several objects of
+different colors:</p>
+<pre>           red
+           square scale 2 translate 5,5
+           cyan
+           circle scale 5,2 rotate 30
+           rgb 0.4 0.2 0.2
+           square scale 3 rotate 30 translate -5,5
+           blue
+           polygon 0,0 0,5 3,4 translate -7,-7
+           magenta
+           line scale 5 rotate 45 translate 5,-5
+</pre>
+
+<p>You can give your scene a background color with the <font color="#007000">background</font>
+command.  The word &quot;background&quot; must be followed by the color you
+want to use for a background.  For example:</p>
+
+<pre>                  background gray
+or
+                  background rgb 1.0 0.8 0.8
+</pre>
+
+<p>The background command should occur at most once in a scene.  It will have
+the same effect no matter where it occurs.</p>
+
+<p>You'll find a copy of the above scene description, with a pink background,
+in the sample program &quot;SimpleObjects&quot;.  You can select this
+example from the pop-up menu at the top of the applet.  You should
+render the scene to see what it looks like.  You should also spend some
+time making modifications to the scene.  Try changing the color of the
+objects or the background.  Try changing the numbers for the transformations.
+Add some new objects and new transformations.  You should try to understand
+how scenes are constructed from objects, transformations, and colors.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="animation">Animation</A></font></H3>
+
+<p>Let's face it, static scenes are not all that exciting.
+Animation makes things get a lot more interesting.  To make
+an animation in xModels, you just have to do two things to
+your scene description:  put an <font color="#007000">animate</font> command
+at the beginning, and change some of the numbers in the scene description
+to number ranges.  Here is a simple example, which can also be found
+in the sample scene description, &quot;FirstAnimation&quot;:</p>
+
+<pre>
+            animate 30
+
+            circle scale 1:5
+
+            red
+            polygon  -4, -3  4, -3  -5:5, 4
+
+            blue
+            square  scale 7:15, 1  rotate 0:60
+</pre>
+
+
+<p>The first line of this scene description is an <font color="#007000">animate</font> command
+which specifies that 31 frames will be rendered.  (There are 31 frames, not
+30, because the number in the animate command gives the <b>length</b> of the
+animation, not the number of frames.  There are 30 intervals between frames,
+so there are 31 frames.)  The remaining lines are
+a standard scene description, except that in some cases number ranges, such as 1:5
+or 0:60, appear instead of single numbers.  Where such a range
+appears, the first value in the range is used in the first frame,
+the second value is used in the last frame, and intermediate
+values are used in intermediate frames.  If a range is used
+with <font color="#007000">translate</font>, the object moves during 
+the animation; if it is used with <font color="#007000">scale</font>,
+the object grows or shrinks; and if with <font color="#007000">rotate</font>,
+the object rotates through a range of angles.</p>
+
+<p>The &quot;FirstAnimation&quot; example shows a circle that grows from 
+size 1 to size 5 over the course of the animation.  It contains a red
+polygon in which the x-coordinate of one of the vertices ranges from
+-5 to 5.  And it has a blue rectangle that both changes size and rotates
+during the animation.  Try out the example, and make sure you understand
+it.  Try modifying it and adding to it!</p>
+
+<hr width="50%" align=center>
+
+<p>Computer animation uses the idea of <font color="#E70000">key
+frames</font>.  The key frames in an animation are specified explicitly.
+Other frames, which bridge the gaps between key frames, are created by
+the computer by interpolating between the key frames.  The sample animation
+given above has just two key frames, one at the beginning and one at the
+end.  In a number range such as 1:5, the first number gives the value for
+the first key frame, and the second gives the value for the second key frame.
+The xModels applet computes intermediate values for the intermediate
+frames.</p>
+
+<p>In xModels, you can create animations with more than two key frames.
+I call such animations <font color="#E70000">segmented animations</font>.
+You can specify how many frames there are in each segment, between the
+key frames.  For example,
+
+<pre>                   animate  15  30  10
+</pre>
+
+<p>specifies that there are <b>four</b> key frames.  Therefore, there
+are <b>three</b> segments in the animation.  The first segment contains
+15 frames, the second contains 30, and the third contains 10.
+The key frames are frames number 0, 15, 45, and 55.</p>
+
+<p>When you use a number range in a segmented animation, you must specify
+a number for each of the key frames.  For example, you could use
+the number range 1:3:5:2 in an animation with three segments and four
+key frames.  (Note that the number of colons is always equal to the number
+of segments.)  The number range 1:3:5:2 specifies a value of 1 for the
+first key frame, 3 for the second, 5 for the third, and 2 for
+the fourth and final key frame.</p>
+
+<p>You can leave out some of the numbers in the middle of a number range
+(as long as you don't leave out the colons).  For example, the
+number range 1:::2  provides a value of 1 for the first frame and
+a value of 2 for the last frame.  The computer interpolates smoothly
+between these two values for all the intermediate frames.</p>
+
+<p>For example, here is an animation that shows a small square moving along
+the inside edges of a big square.  You might want to type this in --
+or cut-and-paste it in -- and see how it works:</p>
+
+<pre>             animate 15 15 15 15
+             square scale 12
+             red
+             square  scale 2  translate  -5:5:5:-5:-5  5:5:-5:-5:5
+</pre>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="define">Defined Objects and Structured Complexity</A></font></H3>
+
+<p>It's a long way
+from simple geometric shapes to complex scenes.  As usual, this complexity
+is handled by tackling it level-by-level, with reasonable jumps in
+complexity from one level to the next.  In the xModels applet,
+new objects can be defined on one level that can 
+then be used on higher levels.  An object definition takes the
+form of the word <font color="#007000">define</font> followed by a scene
+description enclosed in square brackets (&quot;[&quot; and &quot;]&quot;).
+For example:</p>
+
+<pre>
+         define wheel [
+             circle
+             line
+             line rotate 60
+             line rotate 120
+         ]
+</pre>
+
+<p>When a definition like this one occurs in a scene description, it does not
+immediately add anything to the overall scene.  It just defines the
+word &quot;wheel&quot; for the computer as a new type of object made up
+of the specified parts.  Once this definition has been made, a &quot;wheel&quot;
+can be used like any other object.  You can apply the same transformations
+to wheels that apply to other objects.  For example:</p>
+<pre>                    wheel scale 2 xtranslate -2.5
+</pre>
+<p>The word <font color="#007000">wheel</font> becomes part of the 
+language of xModels, on an equal basis with <font color="#007000">square</font>
+and <font color="#007000">circle</font>.  It can even be used in the
+definitions of other objects!</p>
+
+<p>The sample program named &quot;Wagon&quot; contains an example
+in which wheels are defined and used.  Open the file, read it, and
+render it to see what it looks like.  Note that the wheels on the wagon rotate.
+Another example is given in the sample program &quot;Houses,&quot;
+which you should also look at.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font> Write a scene description for
+a still image that shows five squares of different colors nested inside one
+another, like this:</p>
+
+<p align=center><IMG SRC="images/xModels1.gif" ALT="Nested Squares"
+                                  WIDTH="163" HEIGHT="163"></p>
+
+<p>Use any colors you like (as long as you don't use the default color, white,
+for the background).</p>
+
+<p><font color=blue><b>Exercise 2:</b></font> This exercise builds on the
+nested squares that you created for Exercise 1.  Turn your scene description
+into an animation in which each of the five squares rotates about its center.
+The squares should rotate at different speeds.  Some of them should rotate
+clockwise and some should rotate counterclockwise.  (The speed of rotation has
+to do with the range of angles through which the object rotates over the course
+of the animation.)
+</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font> The first scene you looked
+at in this lab was the &quot;Pinwheel&quot; example.  The scene description
+for this example contains no comments.  Explain what each line in this
+scene description does.
+</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font> Carefully explain the
+difference between</p>
+
+<pre>                  square scale 5,2 rotate 45
+         and
+                  square rotate 45 scale 5,2
+</pre>
+
+<p>What image is produced by each command?  Why are they different?
+How does the computer carry out each command?</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font> Use two polygons to make a
+large letter A, like this:</p>
+
+<p align=center><IMG SRC="images/xModels3.gif" ALT="Letter A" WIDTH="124" HEIGHT="152"></p>
+
+<p>The triangle inside the top of the A is one polygon.  All the other
+lines form another, larger polygon.</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font> This exercise builds on
+the &quot;Pinwheel&quot; example.  Use the definition of the pinwheel
+object form that example.  Make a &quot;double_pinwheel&quot; object
+consisting of a long rectangular bar with a <b>rotating</b> pinwheel
+at each end.  Use your double_pinwheel object in an animation that
+shows a double pinwheel rotating about its center.  Here are two
+frames from such an animation:</p>
+
+<p align=center><IMG SRC="images/xModels2.gif" ALT="Double Pinwheels" 
+                          WIDTH="524" HEIGHT="247"></p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font> The sample scene description called
+&quot;Bounce&quot; contains an animation
+in which a red circle seems to bounce back and forth between two edges on
+a square.  Try it.  Add a second circle bouncing between the other two edges.
+The second circle should be blue.  This can be done by adding two short, simple
+lines at the end scene description (one for the color and one for
+the ball). Think about geometric transformations!</p>
+
+<p>Once you have the two bouncing circles inside the square, make the
+square and the two circles into a single object by putting them into
+a &quot;define&quot; command.  Make an animation in which the combination
+object rotates and changes size.</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font> Write an essay comparing
+object definitions in xModels with subroutine definitions in a programming
+language such as xTurtle.  How are they similar, and how are the different.
+(Among other things, you should discuss the fact that object definitions in
+xModels do not have parameters.  What are the consequences of this?)
+</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font> Write an essay discussing
+how objects created by the &quot;define&quot; command can be used
+to create complex scenes.  Why is the ability to define objects so
+important to dealing with complexity?  (Keep in mind that once an object
+has been defined, it can be used as a component in another, more complex
+object.  Your essay should discuss this fact.)</p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font> Design your own animated scene
+using xModels.  Try to be creative and/or aesthetic.</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

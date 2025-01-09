@@ -1,0 +1,71 @@
+To test the Larc Simulation....
+
+The files in this directory are for testing the Logisim simulation 
+of the Larc simulation.
+
+Test1, test2, test3, and test4 were written for a previous semester.
+Testall is new this semester -- if a simulation passes testall,
+it is likely to pass the other tests as well.  It will be the
+first test that is run on your simulation for grading.  However,
+it might be better to start your own testing with test1 and test2.
+Test3 and test4 will give your simulation some more substantial
+and meaningless tasks.
+
+
+To run testall:
+Load testall.ROM into the instruction memory by right-clicking
+the ROM and selecting "Load Image" from the popup menu.  Reset
+the simulation, to make sure that PC is zero and the RAM is
+empty.  Run the program until it halts.  You can then inspect
+the contents of RAM by right-clicking the RAM and selecting
+"Edit Contents" from the popup menu.  You can save the contents
+of RAM into a file by right-clicking the RAM and selecting
+"Save Image" from the popup menu.  Saving the RAM image should
+produce a file that is identical to testall.RAM-AFTER-RUN.
+Note that testall.s is the original Larc assembly program
+that was used to create testall.ROM.
+
+To run test1:
+Load test1.ROM into the instruction memory [right-click the
+ROM and select "Load Image"], reset the simulation, and let
+the computer run until it halts. (Of course, you can also
+step through the program by clicking the clock by hand.)
+This  example tests all arithmetic operations and stores 
+the results in memory.  Some of the memory store operations
+use a non-zero SIMM.  test1.RAM-AFTER-RUN contains the contents
+of data memory after running; if you save a RAM image after
+running the test, the resulting file should be identical to
+test1.RAM-AFTER-RUN.
+
+To run test2:
+Load test2.ROM into the instruction memory and run it. This
+example counts down in hexadecimal f, e, ..., 1, and stores
+the numbers in data memory.  The main point is to test 
+a conditional branch instruction.  test2.RAM-AFTER-RUN contains
+the contents of data memory after running.
+
+To run test3:
+Load test3.ROM into the instruction memory and run it.  This
+example computes the 3N+1 sequence starting from 27 (0x1b), and
+it stores the terms of the sequence into data memory starting
+at location zero.  It takes a while to run.  The contents
+of the data memory after the unmodified program was run are in 
+the file test3.RAM-AFTER-RUN. (If you want a shorter run, 
+you could change the first instruction to 8107 to compute
+the sequence starting from 7 instead of from 27.)
+
+To run test4:
+Load test4.ROM into the instruction ROM AND ALSO load the
+file test4.RAM-BEFORE-RUN into the data RAM. This test runs 
+quicksort to sort the list of numbers in memory.  It took 
+about 1/2 hour to run, using the default 8 KHz clock speed!
+It still takes a while even using a faster speed.  After running, 
+the numbers in locations 0 through 72 of the RAM will be sorted.  
+This example tests the jalr instruction pretty throughly.
+test4.RAM-AFTER-RUN contains a copy of the RAM content at the end.
+The RAM will contain some numbers at the end from memory 
+locations that were used as a stack for executing the recursive
+quicksort procedure.  (For a shorter run, you could change the 
+second instruction in the program to 8308.  Then, it will only 
+sort the first 8 numbers in the list.)
+

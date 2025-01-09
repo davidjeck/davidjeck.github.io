@@ -1,0 +1,68 @@
+{
+   This program illustrates the use of a shared variable
+   for communication between processes.  The value of a
+   shared variable, angle, is computed by one process
+   but is used by every process.  A second shared variable,
+   control, is used to control access to angle.
+
+   A GRAB statement is used to create a critical region.
+   Only one process can be in this region at any given
+   time.  This means that only one process can have 
+   access to the shared variable angle at any give time.
+}
+
+
+DECLARE angle    { Shared variable used for communication
+                   among the turtles.  The value of angle
+                   is set by Turtle #1.  Both turtles use
+                   the value of angle to decide which 
+                   direction to face at each step of the 
+                   random walk. }
+
+DECLARE control  { Shared variable used to control
+                   communication among the turtles.
+                   A turtle is allowed to access the
+                   shared variable, angle, only if
+                   the value of control is equal to the
+                   ForkNumber of that turtle. }
+
+control := 1   { This says that it is Turtle #1's turn
+                 to access the shared variable, angle. }
+
+fork(2)  { Split into two turtles.  Turtle #1 has a
+           ForkNumber = 1, while Turtle #2 has a
+           ForkNumber = 2. }
+
+PenUp
+face(180*ForkNumber)  { Turtle #1 faces left; 
+                                Turtle #2 faces right }
+forward(4)  { The turtles move in different directions. }
+PenDown
+
+IF ForkNumber = 1 THEN  { each turtle has its own color }
+   blue
+ELSE
+   green
+END IF
+
+LOOP
+   { First test whether it's this turtle's turn. }
+   IF ForkNumber = control THEN 
+      GRAB control THEN { Begin critical region. }
+         IF ForkNumber = 1 THEN
+            angle := randomInt(360)  { Turtle #1 generates a }
+                                     {    value for angle, and }
+                                     {    uses it. }
+            face(angle)
+            forward(0.3)
+            control := 2  { Says it's Turtle #2's turn next. }
+         ELSE
+            face(angle) { If this is not Turtle #1,
+                             just use the value of angle. }
+            forward(0.3)
+            control := 1  { Says it's Turtle #1's turn next. }
+         END IF
+      END GRAB { End critical region. }
+   END IF
+   EXIT IF 1=2  { loop never ends }
+END LOOP

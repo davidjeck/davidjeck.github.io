@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Lab13: Procedural 3D Textures</title>
+<style>
+body {
+    background-color: lightgray;
+}
+#canvas-holder {
+    float:left;
+    margin-right:10px;
+    border: 1px solid black;
+    background-color: white;
+}
+canvas {
+    display: block;
+}
+#tools {
+    float:left;
+    background-color:white;
+    border: 1px solid black;
+    margin: 0pt;
+    padding: 8px
+}
+#message {
+    font-weight:bold;
+    color: #AA0000;
+}
+</style>
+    
+<script src="gl-matrix.js"></script>
+<script src="trackball-rotator.js"></script>
+<script src="basic-object-models-IFS.js"></script>
+<script src="teapot-model-IFS.js"></script>
+
+
+<script>
+
+
+const vShader = `
+    attribute vec3 a_coords;
+    attribute vec3 a_normal;
+    uniform mat4 modelview;
+    uniform mat4 projection;
+    varying vec3 v_normal;
+    varying vec3 v_objCoords;
+    varying vec3 v_eyeCoords;
+    varying vec2 v_texCoords;
+    void main() {
+        vec4 objectCoords = vec4(a_coords,1.0);
+        vec4 eyeCoords = modelview * objectCoords;
+        gl_Position = projection * eyeCoords;
+        v_normal = normalize(a_normal);
+        v_objCoords = a_coords;
+        v_eyeCoords = eyeCoords.xyz/eyeCoords.w;
+    }
+`;
+
+const fShader = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+       precision highp float;
+    #else
+       precision mediump float;
+    #endif
+    uniform mat3 normalMatrix;  // For transforming the normal vector.
+    uniform int textureNum;     // Which texture should be used?
+    uniform float textureScale; // Scaling factor for the texture coordinates.
+    varying vec3 v_normal;      // Normal vector for lighting computations.
+    varying vec3 v_eyeCoords;   // Eye coordinates of point, for lighting computation.
+    varying vec3 v_objCoords;   // Object coordinates, for use as texture coordinates.
+    
+    float snoise(vec3 v);  // 3D Perlin noise function, to be defined below.
+    
+    void main() {
+        vec3 N = normalize( normalMatrix*v_normal );
+        vec3 L = normalize( -v_eyeCoords);  // (Assumes a perspective projection.)
+        float diffuseFactor = dot(N,L);  // Multiplier for diffuse color.
+        vec3 color;  // RGB color from the texture
+        
+        vec3 texCoords = v_objCoords*textureScale;  // Use object coordinates as 3D texture coordinates.
+        
+        // Compute the texture value at the point v_objCoords.
+        if (textureNum == 0)  {  // checkerboard texture
+            float a = floor(texCoords.x);
+            float b = floor(texCoords.y);
+            float c = floor(texCoords.z);
+            if (mod(a+b+c, 2.0) > 0.5) {  // a+b+c is odd
+                color = vec3(1.0, 0.5, 0.5); // pink
+            }
+            else {  // a+b+c is even
+                color = vec3(0.5, 0.5, 1.0); //blue
+            }
+        }
+        else if (textureNum == 1) {  // pure Perlin noise 3D, a "cloud texture.
+            float value = snoise( texCoords );  // value is between -1.0 and 1.0
+            value = 0.75 + value*0.25;  // now value is between 0.5 and 1.0
+            color = vec3(value,value,1.0);
+        }
+        else if (textureNum == 2) {  // Marble texture (like Blender's "sharp" marble)
+            vec3 v = texCoords;
+            float t = (v.x + 2.0*v.y + 3.0*v.z);
+            t += 1.5*snoise(v);
+            float value =  abs(sin(t));
+            color = vec3(sqrt(value));
+        }
+        else if (textureNum == 3) { // Sine waves -- average of sin() function and 1 will be in the range 0 to 1.
+            color = mix(vec3(1), sin(texCoords*3.1516)/2.0, 0.5);  // same as ((1+sin(a))/2,(1+sin(b))/2,(1+sin(c))/2) where abc = texCoords*PI
+        }
+        else if (textureNum == 4) {  // Cow texture -- with somewhat smoothed transition from (near) white to (near)  black.
+            float blend = smoothstep(-0.02, 0.02, snoise(texCoords));
+            color = mix( vec3(0.1), vec3(0.9), blend);
+        }
+        else if (textureNum == 5) {  // Camo texture using five colors
+            float noise = snoise(texCoords);
+            if (noise < -0.2)
+                color = vec3(0.0,0.2,0.0);
+            else if (noise < -0.15)
+                color = vec3(0.2,0.15,0.0);
+            else if (noise < 0.4)
+                 color = vec3(0.4,0.35,0.0);
+            else if (noise < 0.45)
+                color = vec3(0.2,0.15,0.0);
+            else
+                color = vec3(0.1,0.3,0.1);
+        }
+        else if (textureNum == 6) {  // Wood.
+             float dist = distance( vec2(0), texCoords.xy );
+             float ring = smoothstep(-1.0,-0.8,sin(dist*25.0 + 1.5*snoise(texCoords)));
+             float grain = snoise( vec3(32.0*cos(dist), 32.0*sin(dist), texCoords.z) );
+             color = mix(vec3(0.3,0.25,0.0),vec3(0.6,0.5,0.2),ring);
+             color += vec3(grain,grain,0)/15.0;
+        }
+        else {  // default to red if textureNum is not one of the supported values
+            color = vec3(1,0,0);
+        }
+
+        gl_FragColor = vec4( diffuseFactor*color, 1.0);
+    }
+
+    
+    //
+    // THE FOLLOWING CODE WAS OBTAINED FROM https://github.com/ashima/webgl-noise
+    // This is the code for 3D Perlin noise, using simplex method.
+    //
+    
+    //------------------------------- 3D Noise ------------------------------------------
+    
+    // Description : Array and textureless GLSL 3D simplex noise functions.
+    //      Author : Ian McEwan, Ashima Arts.
+    //  Maintainer : ijm
+    //     Lastmod : 20110822 (ijm)
+    //     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
+    //               Distributed under the MIT License. See LICENSE file.
+    //               https://github.com/ashima/webgl-noise
+    // 
+    
+    vec3 mod289(vec3 x) {
+        return x - floor(x * (1.0 / 289.0)) * 289.0;
+    }
+    
+    vec4 mod289(vec4 x) {
+        return x - floor(x * (1.0 / 289.0)) * 289.0;
+    }
+    
+    vec4 permute(vec4 x) {
+         return mod289(((x*34.0)+1.0)*x);
+    }
+    
+    vec4 taylorInvSqrt(vec4 r)
+    {
+      return 1.79284291400159 - 0.85373472095314 * r;
+    }
+    
+    float snoise(vec3 v)
+    { 
+        const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+        const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+      
+      // First corner
+        vec3 i  = floor(v + dot(v, C.yyy) );
+        vec3 x0 =   v - i + dot(i, C.xxx) ;
+      
+      // Other corners
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min( g.xyz, l.zxy );
+        vec3 i2 = max( g.xyz, l.zxy );
+      
+        //   x0 = x0 - 0.0 + 0.0 * C.xxx;
+        //   x1 = x0 - i1  + 1.0 * C.xxx;
+        //   x2 = x0 - i2  + 2.0 * C.xxx;
+        //   x3 = x0 - 1.0 + 3.0 * C.xxx;
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y
+        vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y
+      
+      // Permutations
+        i = mod289(i); 
+        vec4 p = permute( permute( permute( 
+                   i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+                 + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+                 + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+      
+      // Gradients: 7x7 points over a square, mapped onto an octahedron.
+      // The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)
+        float n_ = 0.142857142857; // 1.0/7.0
+        vec3  ns = n_ * D.wyz - D.xzx;
+      
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)
+      
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
+      
+        vec4 x = x_ *ns.x + ns.yyyy;
+        vec4 y = y_ *ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+      
+        vec4 b0 = vec4( x.xy, y.xy );
+        vec4 b1 = vec4( x.zw, y.zw );
+      
+        //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;
+        //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;
+        vec4 s0 = floor(b0)*2.0 + 1.0;
+        vec4 s1 = floor(b1)*2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+      
+        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+      
+        vec3 p0 = vec3(a0.xy,h.x);
+        vec3 p1 = vec3(a0.zw,h.y);
+        vec3 p2 = vec3(a1.xy,h.z);
+        vec3 p3 = vec3(a1.zw,h.w);
+      
+      //Normalise gradients
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+        p0 *= norm.x;
+        p1 *= norm.y;
+        p2 *= norm.z;
+        p3 *= norm.w;
+      
+      // Mix final noise value
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
+                                      dot(p2,x2), dot(p3,x3) ) );
+      }
+`;
+    
+"use strict";
+
+let gl;      // WebGL context
+let canvas;  // canvas where WebGL draws
+
+let a_coords_loc;      //  Locations of attrbute variables.
+let a_normal_loc;
+
+let u_modelview;       // Locations for uniform matrices
+let u_projection;
+let u_normalMatrix;
+let u_textureNum;
+
+let projection = mat4.create();    // projection matrix
+let modelview;                     // modelview matrix; value comes from rotator
+let normalMatrix = mat3.create();  // matrix, derived from modelview matrix, for transforming normal vectors
+
+let rotator;  // A TrackballRotator to implement rotation by mouse.
+
+let objects;  // array of objects, containing models created using createModel()
+              // Contains:  Cube, Sphere, Cylinder, Cone, Torus, Teapot.
+              // These objects are sized to be about 5 units.
+
+
+/**
+ * Draws the image.
+ */
+function render() {
+    gl.clearColor(1,1,1,1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    let scale;  // The texture scaling factor from the Texture Scale menu.
+    scale = Number( document.getElementById("scale").value );
+    gl.uniform1f(u_textureScale, scale);
+    let objectNum = Number(document.getElementById("object").value);
+    let textureNum = Number(document.getElementById("texture").value); 
+    gl.uniform1i(u_textureNum, textureNum);
+    modelview = rotator.getViewMatrix();
+    objects[objectNum].render();
+}
+
+
+/* Creates a program for use in the WebGL context gl, and returns the
+ * identifier for that program.  If an error occurs while compiling or
+ * linking the program, an exception of type String is thrown.  The error
+ * string contains the compilation or linking error.  If no error occurs,
+ * the program identifier is the return value of the function.
+ *    The second and third parameters are the strings that contain the 
+ * source code for the vertex and fragment shaders.
+ */
+function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
+    let vsh = gl.createShader( gl.VERTEX_SHADER );
+    gl.shaderSource(vsh,vertexShaderSource);
+    gl.compileShader(vsh);
+    if ( ! gl.getShaderParameter(vsh, gl.COMPILE_STATUS) ) {
+        throw "Error in vertex shader:  " + gl.getShaderInfoLog(vsh);
+     }
+    let fsh = gl.createShader( gl.FRAGMENT_SHADER );
+    gl.shaderSource(fsh, fragmentShaderSource);
+    gl.compileShader(fsh);
+    if ( ! gl.getShaderParameter(fsh, gl.COMPILE_STATUS) ) {
+       throw "Error in fragment shader:  " + gl.getShaderInfoLog(fsh);
+    }
+    let prog = gl.createProgram();
+    gl.attachShader(prog,vsh);
+    gl.attachShader(prog, fsh);
+    gl.linkProgram(prog);
+    if ( ! gl.getProgramParameter( prog, gl.LINK_STATUS) ) {
+       throw "Link error in program:  " + gl.getProgramInfoLog(prog);
+    }
+    return prog;
+}
+
+
+/**
+ *  Create an object representing an IFS model.  The modelData holds the data for
+ *  an IFS using the structure from basic-objects-IFS.js.  This function
+ *  creates VBOs to hold the coordinates, normal vectors, and indices
+ *  from the IFS, and it loads the data into those buffers.  The function
+ *  creates a new object whose properties are the identifiers of the
+ *  VBOs.  The new object also has a function, render(), that can be called to
+ *  render the object, using all the data from the buffers.  That object
+ *  is returned as the value of the function.  
+ */
+function createModel(modelData) {
+    let model = {};
+    model.coordsBuffer = gl.createBuffer();
+    model.normalBuffer = gl.createBuffer();
+    model.indexBuffer = gl.createBuffer();
+    model.count = modelData.indices.length;
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.coordsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, modelData.vertexPositions, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, modelData.vertexNormals, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, model.indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, modelData.indices, gl.STATIC_DRAW);
+    model.render = function() {  // This function will render the object.
+           // Since the buffer from which we are taking the coordinates and normals
+           // change each time an object is drawn, we have to use gl.vertexAttribPointer
+           // to specify the location of the data. And to do that, we must first
+           // bind the buffer that contains the data.  Similarly, we have to
+           // bind this object's index buffer before calling gl.drawElements.
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.coordsBuffer); 
+        gl.vertexAttribPointer(a_coords_loc, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+        gl.vertexAttribPointer(a_normal_loc, 3, gl.FLOAT, false, 0, 0);
+        gl.uniformMatrix4fv(u_modelview, false, modelview );
+        mat3.normalFromMat4(normalMatrix, modelview);
+        gl.uniformMatrix3fv(u_normalMatrix, false, normalMatrix);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);  
+        gl.drawElements(gl.TRIANGLES, this.count, gl.UNSIGNED_SHORT, 0);
+    }
+    return model;
+}
+
+
+/**
+ * Initialize the WebGL graphics context, and fill the canvas with white.
+ */
+function initGL() {
+    let prog = createProgram( gl, vShader, fShader );
+    gl.useProgram(prog);
+    gl.enable(gl.DEPTH_TEST);
+    gl.pixelStorei( gl.UNPACK_FLIP_Y_WEBGL, 1 );    
+
+    /* Get attribute and uniform locations */
+    
+    a_coords_loc =  gl.getAttribLocation(prog, "a_coords");
+    a_normal_loc =  gl.getAttribLocation(prog, "a_normal");
+    gl.enableVertexAttribArray(a_coords_loc);
+    gl.enableVertexAttribArray(a_normal_loc);
+    
+    u_modelview = gl.getUniformLocation(prog, "modelview");
+    u_projection = gl.getUniformLocation(prog, "projection");
+    u_normalMatrix =  gl.getUniformLocation(prog, "normalMatrix");
+    u_textureNum = gl.getUniformLocation(prog, "textureNum");
+    u_textureScale = gl.getUniformLocation(prog, "textureScale");
+    
+    mat4.perspective(projection, Math.PI/10, 1, 1, 40);
+    gl.uniformMatrix4fv(u_projection, false, projection);
+    
+    objects = new Array(6);
+    objects[0] = createModel( cube(4.5) );
+    objects[1] = createModel( uvSphere(3,64,32) );
+    objects[2] = createModel( uvCylinder(2.5,5) );
+    objects[3] = createModel( uvCone(2.5,5) );
+    objects[4] = createModel( uvTorus(3.25,1,64,24) );
+    for (let i = 0; i < teapotModel.vertexPositions.length; i++) {
+        teapotModel.vertexPositions[i] *= 0.25; // scale teapot model to a size that matches other objects
+    }
+    objects[5] = createModel( teapotModel );
+    
+}
+
+function init() {
+    try {
+        canvas = document.getElementById("webglcanvas");
+        gl = canvas.getContext("webgl") || 
+                         canvas.getContext("experimental-webgl");
+        if ( ! gl ) {
+            throw "Browser does not support WebGL";
+        }
+    }
+    catch (e) {
+        document.getElementById("canvas-holder").innerHTML =
+            "<p>Sorry, could not get a WebGL graphics context.</p>";
+        return;
+    }
+    try {
+        initGL();  // initialize the WebGL graphics context
+    }
+    catch (e) {
+        document.getElementById("canvas-holder").innerHTML =
+            "<p>Sorry, could not initialize the WebGL graphics context:" + e + "</p>";
+        return;
+    }
+    document.getElementById("object").value = "0";
+    document.getElementById("texture").value = "0";
+    document.getElementById("scale").value = "1";
+    document.getElementById("object").onchange = render;
+    document.getElementById("texture").onchange = render;
+    document.getElementById("scale").onchange = render;
+    document.getElementById("reset").onclick = function() {
+        rotator.setView(25,[2,2,3]);
+        render();
+    };
+    rotator = new TrackballRotator(canvas, render, 25, [2,2,3]);
+    render();
+ }
+
+</script>
+</head>
+<body onload="init()">
+
+<div id="content">
+
+<h3 id="headline">3D Procedural Textures in WebGL</h3>
+
+<p id="message">&nbsp;</p>
+
+
+<p><label><b>Texture:</b>&nbsp;<select id="texture">
+    <option value="0">Checkerboard 3D</option>
+    <option value="1">Perlin Noise 3D</option>
+    <option value="2">Marble (sharp)</option>
+    <option value="3">Sine Waves</option>
+    <option value="4">Cow</option>
+    <option value="5">Camo</option>
+    <option value="6">Wood</option>
+</select></label>
+<label><b style="margin-left:30px">Object:</b>&nbsp;<select id="object">
+    <option value="0">Cube</option>
+    <option value="1">Sphere</option>
+    <option value="2">Cylinder</option>
+    <option value="3">Cone</option>
+    <option value="4">Torus</option>
+    <option value="5">Teapot</option>
+</select></label>
+<label><b style="margin-left:30px">Texture Scale</b>&nbsp;<select id="scale">
+    <option value="0.2">1/5</option>
+    <option value="0.5">1/2</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="7">7</option>
+    <option value="10">10</option>
+</select></label>
+<button id="reset" style="margin-left:30px">Reset Rotation</button>
+
+<div id="canvas-holder">
+<canvas id="webglcanvas" width="600" height="600"></canvas>
+</div>
+
+
+</div>
+
+</body>
+</html>

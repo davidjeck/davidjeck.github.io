@@ -1,0 +1,21 @@
+{
+  This program illustrates the power of multitasking 
+  by using repeated "fork" commands to draw a
+  complicated, symmetrical picture.  After the last
+  fork command, there are a total of 216 turtles.
+
+  Try running this two ways:  with the "Lock
+  Step" checkbox turned on and with it turned off.
+}
+
+fork(6)                 { Draw 6 lines radiating out }
+face(60*forkNumber)     { from a common center, spaced }
+forward(6)              { every 60 degrees. }
+
+fork(6)                 { At the end of each of those }
+face(60*forkNumber+30)  { 6 lines, draw six more lines }
+forward(2)
+
+fork(6)                 { And finally, at the end of each }
+face(60*forkNumber)     { of the 36 lines already drawn, }
+forward(1)              { draw another 6 lines. }

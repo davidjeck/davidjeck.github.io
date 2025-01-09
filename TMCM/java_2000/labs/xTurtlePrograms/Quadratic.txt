@@ -1,0 +1,43 @@
+{ This program computes the solutions of
+  the equation   A*x^2 + B*x + C = 0,
+  where A, B, and C are numbers input by
+  the user.  The familiar quadratic
+  formula is used to find the solutions. }
+
+
+DECLARE A,B,C  { Constants in the equation. }
+
+DECLARE discriminant  { B^2 - 4*A*C }
+
+DECLARE root1, root2  { the two solutions }
+
+
+{ Get input values from the user. }
+
+AskUser("What is the value of A?", A)
+AskUser("What is the value of B?", B)
+AskUser("What is the value of C?", C)
+
+{ Calculate the solutions. }
+
+discriminant := B*B - 4*A*C
+root1 := (-B - sqrt(discriminant)) / (2*A)
+root2 := (-B + sqrt(discriminant)) / (2*A)
+
+{ Print the equation and its solutions
+  in the drawing area. }
+
+PenUp         { First, position the turtle. }
+moveTo(-8,5)
+PenDown
+
+DrawText("The solutions of A*x^2 + B*x + C = 0, where")
+DrawText("   A = #A")
+DrawText("   B = #B")   { Display the equation. }
+DrawText("   C = #C")
+DrawText("are:")
+
+DrawText("   #root1")
+DrawText("and")         { Display the solutions. }
+DrawText("   #root2")
+

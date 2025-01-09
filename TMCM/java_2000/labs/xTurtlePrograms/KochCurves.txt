@@ -1,0 +1,102 @@
+
+{ This program defines several subroutines.
+  It does not produce any picture when it
+  is run.  After it is run, use the
+  commands "testkoch" and "snowflake"
+  in the xTurtle applet's text-input box. }
+
+
+
+SUB Koch(dist,complexity)
+
+ { Draws a Koch curve of the given
+   complexity.  The turtle moves forward
+   a net distance given by the
+   parameter "dist". }
+
+   IF complexity <= 1 THEN
+      forward(dist)
+   ELSE
+      koch(dist/3, complexity - 1)
+      turn(60)
+      koch(dist/3, complexity - 1)
+      turn(-120)
+      koch(dist/3, complexity - 1)
+      turn(60)
+      koch(dist/3, complexity - 1)
+   END IF
+
+END SUB
+
+
+
+SUB TestKoch
+
+ { This subroutine can be called to draw
+   sample Koch curves; the user is asked
+   to specify the complexity.  A Koch
+   curve of that complexity is drawn between
+   the points (-9,0) and (9,0). }
+
+   DECLARE complexity
+
+   AskUser("What level of complexity do you want (0 to 7)?", complexity)
+
+   { Adjust complexity to a reasonable value! }
+   complexity := trunc(complexity)
+   IF complexity < 0 THEN
+      complexity := 0
+      TellUser("Using complexity = 0.")
+   END IF
+   IF complexity > 7 THEN
+      complexity := 7
+      TellUser("Using complexity = 7.")
+   END IF
+
+   penUp         { Move to starting point. }
+   MoveTo(-9,0)
+   penDown
+   face(0)
+   clear
+
+   Koch(18,complexity)  { Draw the curve. }
+
+END SUB
+
+
+
+SUB Snowflake
+
+ { Draws a "snowflake" consisting of three
+   Koch curves, with a complexity specified
+   by the user. }
+
+   DECLARE complexity
+
+   AskUser("What level of complexity do you want (0 to 7)?", complexity)
+
+   { Adjust complexity to a reasonable value. }
+   complexity := trunc(complexity)
+   IF complexity < 0 THEN
+      complexity := 0
+      TellUser("Using complexity = 0.")
+   END IF
+   IF complexity > 7 THEN
+      complexity := 7
+      TellUser("Using complexity = 7.")
+   END IF
+
+   penUp          { Move pen into position. }
+   MoveTo(-6,4)
+   penDown
+   face(0)
+   clear
+
+   Koch(12,complexity)   { Draw the 3 curves. }
+   turn(-120)
+   Koch(12,complexity)
+   turn(-120)
+   Koch(12,complexity)
+
+END SUB
+

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Using Java on Your Computer</title>
+<style>
+body,html {
+   margin: 0;
+   padding: 0;
+   background-color: lightGray;
+}
+#content {
+   max-width: 800px;
+   padding: 10px;
+   margin: 0 auto;
+   background-color: white;
+   border-left: 2px solid black;
+   border-right: 2px solid black;
+}
+img {
+  border: 1px solid black; 
+  padding: 0
+}
+</style>
+</head>
+<body>
+
+<div id=content>
+
+<h2>Java Programming on Your Computer</h2>
+
+<p>If you want to use Java on your own Windows or Mac computer,
+you will need to install some software.  Later in the semester, we
+will start using a program called Eclipse for Java programming.
+Eclipse is a GUI development system that includes everything that
+you need to write, compile, and run basic Java programs (but you
+will still need to download JavaFX to program GUI applications).
+You might want to put off installing Java on your computer until 
+we use Eclipse, or get someone to show you how to use it
+early.</p>
+
+<p>If you want to use Java on the command line, you will need
+to install a JDK (Java Development Kit).  
+You will need a plain
+text editor.  And you will need to know how to use the
+command line on your computer.  (All this stuff is free.)</p>
+
+<p><a href="https://math.hws.edu/javanotes/c2/s6.html">Section 2.6</a>
+in the textbook has more detailed information about using Java on
+your computer.  This web page has the basic information that you
+need to get going.</p>
+
+<h3>Installing OpenJDK</h3>
+
+<p>I recommend installing OpenJDK 16 from <a href="https://adoptopenjdk.net">https://adoptopenjdk.net</a>.
+Just go to that web site.  It should already be set to
+download an installer for your operating system.  
+Select "OpenJDK&nbsp;16&nbsp;(Latest)", and click the
+download button (which says "Latest release".  This should download an installer for your
+computer.  After running the installer, accepting all defaults, you should be set up to 
+compile and run Java programs on the command line using the <i>javac</i> and
+<i>java</i> commands.  (Note that OpenJDK&nbsp;11 and OpenJDK&nbsp;17, when it
+comes out in September, would also be OK for this course.)</p>
+
+<h3>Accessing the Command Line</h3>
+
+<p>MacOS has a Terminal program that works almost identically to the Terminal
+program in Linux, using the same set of commands.  You can find it in the "Utilities"
+folder inside the Applications folder, or just search for it in Spotlight.
+I suggest adding the Terminal icon permanently to the Dock.</p>
+
+<p>On Windows, you can run a program called <i>cmd</i>.  Just open the Start menu and
+type in the name to open it. (Alternatively, you could use PowerShell if you know about it.)
+The available commands are a little different from Linux.  The <i>mkdir</i> and <i>cd</i>
+commands are similar, but the command for listing the files in the current directory is
+<i>dir</i> instead of <i>ls</i>.  There is no <i>pwd</i> command, but using the
+<i>cd</i> command by itself, with no directory name, will print the path to the 
+current directory.</p>
+
+<p>Once you've managed to get to the command line, try the following commands
+to make sure that Java is properly installed.</p>
+
+<pre>
+            java -version
+   and
+            javac -version
+</pre>        
+
+<p>These commands simply tell you which version of Java is installed.</p>
+
+<h3>Getting a Text Editor</h3>
+
+<p>You can use any editor that can save files in plain text format.  (Word processing
+files are not usable since their files contain extra stuff besides the text of the document.)
+The built-in <i>TextEdit</i> on Mac or <i>Notepad</i> on Windows will work, as long as
+you make sure the file is saved as plain text.  But they are not really appropriate
+for serious programming work.</p>
+
+<p>For MacOS, I like the program <i>bbedit</i>, from <a href="http://www.barebones.com/products/bbedit/">http://www.barebones.com/products/bbedit/</a>.
+It's a commercial program, but you can download and use it for free.  (You only have to
+pay to enable advanced features that you really won't need.)</p>
+
+<p>I don't know as much about windows, but <a href="https://notepad-plus-plus.org/">Notepad++</a> seems popular.  
+<a href="https://www.activestate.com/products/komodo-ide/downloads/edit/">Komodo&nbsp;Edit</a>
+is a cross platform editor that I have used a lot on Linux. (Download Komodo Edit, <b>not</b> the
+IDE, which you have to register for.)</p>
+
+<h3>Submitting Your Work</h3>
+
+<p>Even though you are working on your own computer, you still need to submit your 
+work to your homework folder on the Linux system.  MacOS and recent versions of Windows
+both have the command <i>scp</i>, which can be used to copy files from one computer
+to another.  For example, to copy a folder named <i>lab1</i> into your homework
+submission folder, you would use a command similar to</p>
+
+<pre>      scp  -r  lab1  <b>zz9999</b>@math.hws.edu:/classes/cs124/homework/<b>LastName</b></pre>
+
+<p>This assumes that you are working in the directory that contains the lab1 directory.
+Here, <b>zz9999</b> represents your user name, the one that you use to log into Linux.
+And <b>LastName</b> is the name of your homework submission folder, which will be the
+same as your last name.  The <i>math.hws.edu</i> is the name of a computer that has
+access to our Linux system.  This command will work from anywhere in the world, not
+just on campus.  After you give the command, you might first be asked to confirm
+that you really want to connect; this will only happen the first time you try
+to contact math.hws.edu.  You will be asked for your Linux password.</p>
+
+<p>There are also GUI applications for copying files between computers.  If you
+want to use one of those, you should select <i>sftp</i> protocol and use
+<i>math.hws.edu</i> as the name of the computer, or "host", that you want
+to connect to.</p>
+
+
+<h3>JavaFX for GUI Applications</h3>
+
+<p>We will start writing GUI programs early in the course, possibly as soon as the
+second lab.  You should probably put off installing JavaFX on your own computer until we
+get there.  But to use GUI programs, you will eventually need to download JavaFX from
+<a href="https://gluonhq.com/products/javafx/">https://gluonhq.com/products/javafx/</a></p>
+
+<p>To use with OpenJDK 16, you should get the JavaFX SDK (<b>not</b> jmods), Version 16, 
+appropriate for your computer.  There is only one choice for MacOS.  For Windows, you 
+almost certainly want the first choice, JavaFX Windows x64 SDK.  Be sure to get
+Version 16, from the middle of the page, unless you are using a different version of
+OpenJDK.</p>
+
+<p>The download is a .zip file.  You will need to extract its contents, if that's not
+done automatically &mdash; and you will need to know where they are!  If you are
+doing your Java work in a directory named <i>cs124</i>, I suggest copying the contents
+of the .zip file to that directory.</p>
+
+<p>Whenever you compile or run a JavaFX program, you have to tell the <i>javac</i> or
+<i>java</i> command where to find the JavaFX SDK.  Let's say you are working in a 
+directory that is inside the <i>cs124</i> directory.  Then the command for compiling
+a program using <i>javac</i> could look something like</p>
+
+<pre>          javac  -p  ../javafx-sdk-16/lib  --add-modules=ALL-MODULE-PATH  MyProgram.java</pre> 
+
+<p>on Mac or</p>
+
+<pre>          javac  -p  ..\javafx-sdk-16\lib  --add-modules=ALL-MODULE-PATH  MyProgram.java</pre> 
+
+<p>on Windows.  Or you could use a full path to the JavaFX SDK. If the JavaFX SDK directory 
+is in your home directory, it might look something like</p>
+
+
+<pre>      javac  -p  /Users/<i>username</i>/javafx-sdk-16/lib  --add-modules=ALL-MODULE-PATH  MyProgram.java</pre> 
+
+<p>on Mac or</p>
+
+<pre>      javac  -p  C:\\Users\<i>username</i>\javafx-sdk-16\lib  --add-modules=ALL-MODULE-PATH  MyProgram.java</pre> 
+
+<p>on Windows.  The <i>java</i> command wouls be similar. </p>
+
+<p>Obviously, you don't want to
+have to type commands like this all the time.  See
+<a href="https://math.hws.edu/javanotes/c2/s6.html#basics.6.2a">Section&nbsp;2.6.3</a>
+in the textbook for some information about how to avoid that.  (And
+<a href="https://math.hws.edu/javanotes/c2/s6.html#basics.6.3a">Section&nbsp;2.6.5</a>
+explains how to use JavaFX with Eclipse.)</p>
+
+
+
+</div>
+</body>
+</html>
+

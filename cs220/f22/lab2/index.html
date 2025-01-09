@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<style type="text/css">
+  th, td { text-align: center; font-family: monospace }
+  th { border: 2px solid black }
+  td { border: 1px solid black }
+</style>
+<title>CS220, Fall 2022, Lab 2</title>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 2: Larc Programming, Part 1</h2>
+
+<div class="intro">
+
+<p>This is the first of two labs on programming the Larc model computer.
+You will be using a very simple assembly language, which is really no more
+than an alternate notation for the Larc machine language.  You will use
+a Larc simulator to run the programs.</p>
+
+<p>Before starting the lab, you should have studied the short web pages that
+document the <a href="../larc_ML.html">Larc&nbsp;machine&nbsp;language</a>
+and the <a href="../larcsim.html">Larc&nbsp;simulator</a>.  The simulator 
+is written in Java and is available as an executable jar file,
+<a href="../larcsim.jar">larcsim.jar</a>.</p>
+
+<p>For this lab, you will not use the Larc memory instructions (sw and lw)
+or the jalr instruction.  You will not work with strings.
+And the only syscalls that you will use are syscall&nbsp;0 (halt),
+syscall&nbsp;2 (print&nbsp;int), and syscall&nbsp;4 (read&nbsp;int).
+The unused features are left for next week's lab.</p>
+
+<p><b>The assignment for the lab is to write several Larc programs, as
+specified below.  The programs will be written as plain text files,
+which you should turn in by the start of next week's lab.
+You will turn in a folder named lab2 containing files named 
+ex1.x, ex2.s, ex3.s, ex4.s, and ex5.s.</b></p>
+
+</div>
+
+<div class="section">
+
+<h3>Getting Files, Running Larcsim, and Turning in Your Work</h3>
+
+<p>You can get the files that you need for this lab by downloading them
+using links on this web page.  Alternatively, if you are signed into your
+Linux account, you can find them in the folder
+<span class="white-space:pre">/classes/cs220/lab2-files</span>.  You could
+use the files directly from that folder.  Or, you can
+copy that folder onto your Linux desktop, if you want, using the GUI
+file manager or on the command line with the
+command</p>
+
+<pre class=code>cp  -r  /classes/cs220/lab2-files  ~/Desktop
+</pre>
+
+<p class=np>The tilde character ("~") in "<tt>~/Desktop</tt>" refers to
+your home directory.  The "-r" is required when copying an entire folder
+instead of just a single file.  From another computer, you could use <i>scp</i> to
+get the files, with a command like</p>
+
+<pre class=code>scp  -r  <b>zz999</b>@math.hws.edu:/classes/cs220/lab2-files  <b>.</b>
+</pre>
+
+<p class=np>Remember that a period ("<tt>.</tt>") refers to the directory that
+you are working in.</p>
+
+<hr align=center width="33%">
+
+<p>To run Larcsim on your own computer, you must have a JDK (Java Development Kit) installed, such as
+one downloaded from <a href="https://adoptium.net">adoptium.net</a>.  If you have installed a JDK,
+you can probably just double-click the <i>larcsim.jar</i> file to run the program.</p>
+
+<p>You can always run Larcsim on the command line (assuming you have a JDK) using the following command
+in a directory containing larcsim.jar:</p>
+
+<pre class=code>java  -jar  larcsim.jar
+</pre>
+
+<p>(For Linux users, our version of Linux is annoyingly picky about running executable .jar files using
+the GUI.  If you want to run larcsim.jar by clicking its icon, the larcsim.jar file must be marked as
+"executable."  That's true for the copy in <span class="white-space:pre">/classes/cs220</span>, but if
+you got the file by downloading from this web page, you need to make it executable &mdash; right-click the
+file icon, select "Properties" from the popup menu, go to the "Permissions" tab, and check the box
+labeled "Allow executing file as program".  Now, you can run the program by right-clicking
+the icon and selecting "Open with" / "OpenJDK Java 17 Runtime".  If you want to be able to run
+executable jar files by double-clicking their file icons, right-click the icon, select "Open with" / "Other Application",
+select "OpenJDK Java 17 Runtime", and click the "Set as Default" button.)</p>
+
+<hr align=center width="33%">
+
+<p>For turning in your work, you should create a new folder named <i>lab2</i> and store the program
+files that you create for this lab in that folder.  When you are ready to turn in your work, copy the
+entire <i>lab2</i> folder into your homework submission folder.  If you are working in your Linux account,
+you can use the GUI, or use a command of the following form in the directory that contains the <i>lab2</i> folder:</p>
+
+<hr align=center width="33%">
+
+<pre class=code>cp  -r  lab2  /classes/cs220/homework/<b>LastName</b>
+</pre>
+
+<p class=np>From another computer, you could use SFTP or a command similar to the following:</p>
+
+<pre class=code>scp  -r  lab2  <b>zz9999</b>@math.hws.edu:/classes/cs220/homework/<b>LastName</b>
+</pre>
+
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Practice with the Larc Simulator</h3>
+
+<p>Before you start writing your own programs, you should make sure that you
+know how to use the Larc simulator, <a href="../larcsim.jar">larcsim.jar</a>.
+Be sure to read the <a href="../larcsim.html">documentation</a>!</p>
+
+<p>Once you have Larcsim running,
+you can use the "Load Memory from File" button to load a program from a text file into the
+Larc computer's memory.  Assuming that no syntax errors are found in the program, you can
+then step through the program with the "Step" button, or run it with the "Run" button.
+If you want to start the program again from the beginning, first click "Reset&nbsp;CPU".</p>
+
+<p>You should try stepping through two sample programs,
+<a href="lab2-files/3N+1.s">3N+1.s</a> and <a href="lab2-files/product-and-sum.s" style="white-space:pre">product-and-sum.s</a>.
+(Note that ".s" is a common file extension for assembly language programs.)
+You should also open the two programs in a text editor and <b>read the comments</b>.
+We already looked at these programs in class.</p>
+
+<p>The program 3N+1.s only uses registers.  The program <span style="white-space:pre">product-and-sum.s</span>
+uses registers, but it also does integer I/O using syscalls number 2&nbsp;and&nbsp;4.
+You should note how the syscalls work in the simulator.  In particular, when a syscall&nbsp;4
+is executed, you will not be able to continue with the program until you have
+typed a legal integer into the Input/Output section of the window and pressed return.</p>
+
+<p>I suggest that you also play with the "Display Style" for the Registers and for the Memory,
+and make sure that you understand what they do.  You need to understand that what is actually
+stored in a memory location or register is a 16-bit binary number, which can be interpreted in
+several different ways.</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>The Assignments</h3>
+
+<p>Your assignment for the lab is to write five programs for the Larc computer.
+For each exercise, you will write a plain text file containing the program.
+You should name the files <tt>ex1.s</tt>, <tt>ex2.s</tt>, <tt>ex3.s</tt>, <tt>ex4.s</tt>, and
+<tt>ex5.s</tt>.  Each program <b>must have comments</b>, similar to the
+comments in 3N+1.s and <span style="white-space:pre">product-and-sum.s</span>.
+<b>And you should end each program with a Halt syscall.</b>
+(My most complex sample solution, for Exercise&nbsp;5, uses 17 instructions.)</p>
+
+
+<p><b style="font-size:110%; color:#0000BB">Exercise 1: Simple arithmetic.</b>
+The program <tt>ex1.s</tt> should compute the value of the expression&nbsp;
+<tt style="white-space:pre">7*256-25*70</tt>.  The program should start by storing the
+numbers 7, 256, 25, and 70 in different registers.  Note that 256 is 0x0100 in hexadecimal!
+The program should then compute the answer using arithmetic instructions, and leave the
+final result in register number&nbsp;10.</p>
+
+
+<p><b style="font-size:110%; color:#0000BB">Exercise 2: Big Immediate.</b> 
+The program <tt>ex2.s</tt> should put the value 0xFACE into register&nbsp;10, using only 
+<tt>li</tt>, <tt>lui</tt>, and arithmetic instructions (that is, not using <tt>lw</tt>,
+which could do it in one step).  The problem here is that
+the instruction <tt>li&nbsp;$2&nbsp;0xCE</tt> actually loads <tt>0xFFCE</tt> into 
+register&nbsp;2, since the immediate value in the <tt>li</tt> instruction is
+sign-extended.  But to complete the process, what you really need is <tt>0xCE</tt>
+in a register.  (Suggestion: Set Register Display Style to "Hexadecimal"
+while running this program.)</p>
+
+
+<p><b style="font-size:110%; color:#0000BB">Exercise 3: Maximum value.</b> 
+The program <tt>ex3.s</tt> should input two numbers from the user and print 
+the larger of the two numbers (interpreted as signed integers, since that is what
+the <i>slt</i> instruction does).  
+You might want to start with a copy of <span style="white-space:pre">product-and-sum.s</span>.</p>
+
+
+<p><b style="font-size:110%; color:#0000BB">Exercise 4: 3<sup>5</sup>.</b>
+The program <tt>ex4.s</tt> should compute 3 raised to the 5th power,
+and it should output the answer.  It should work as follows:
+Start by storing 3 and 5 in registers&nbsp;1 and&nbsp;2.
+Then start with a 1, and use a loop to multiply it repeatedly
+by the value in register&nbsp;1.  In each iteration of the loop, decrement 
+the value in register&nbsp;2.  End the loop when the value in register&nbsp;2
+is zero.  <b>Your program should work no matter what values are loaded into
+registers&nbsp;1 and&nbsp;2 at the start of the program.</b>
+That is, you are actually writing a routine to compute x<sup>y</sup>
+for any x and&nbsp;y.  (The answer, of course, will be truncated to 16 bits.)</p>
+
+
+<p><b style="font-size:110%; color:#0000BB">Exercise 5: Counting Ones.</b>
+The program <tt>ex5.s</tt> should input  an integer from the user
+and should output the number of ones in the binary representation of
+the input value.  You might want to look at 3N+1.s to see how it gets
+the rightmost bit from a binary number.  I suggest that you use a loop
+that repeatedly shifts the input value right by one bit position, until
+it becomes equal to zero.</p>
+
+
+
+</div>
+
+
+
+
+</div>
+</body>
+</html>

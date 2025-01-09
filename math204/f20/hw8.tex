@@ -1,0 +1,169 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage{graphicx}
+\def\scaledgraphics#1#2{\includegraphics[width=#1]{#2}}
+\setlength{\topmargin}{-0.4 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.5 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#8}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by 11:59 PM on Thursday, October 29}}
+
+\medskip
+
+
+
+\begin{problem}
+Let $A$ be the matrix 
+   $A=\begin{pmatrix}  
+      1& 3& 0\\
+      0& 0& 1\\
+      2& 1& 0
+   \end{pmatrix}$.  
+Put the matrix $A$ into reduced echelon form.  This can be done with four row operations.
+Now, based on your row reduction, write the matrix $A$ as a product of $3\times 3$ matrices, 
+where each matrix in the product is an elementary matrix.
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 1,  points 4
+\end{answer}
+
+
+
+
+\begin{problem}
+The $n\times n$ identity matrix, $I_n$, has the property that it is its
+own inverse.  That is, the product $I_nI_n$ is equal to $I_n$.  There are
+other $n\times n$ matrices that have the same property; that is, $AA=I_n$.
+\begin{itemize}
+\item[\bf(a)] Describe all \textbf{diagonal} $n\times n$ matrices $D$ that 
+   have the property $DD=I_n$.
+\item[\bf(b)]  Let $S$ be the $2\times 2$ matrix $S=\begin{pmatrix}0&1\\1&0\end{pmatrix}$.  Calculate the matrix
+   product $SS$ to see that $S$ is its own inverse. 
+\item[\bf(c)]  The matrix $S$ from the previous part is a \textbf{permutation matrix};
+multiplying a $2\times n$ matrix on the left by $S$ will swap the two rows of that matrix, so
+$SS$ is the matrix that you get by swapping the rows of $S$, producing the identity 
+matrix.  Find two different $3\times 3$ permutation matrices $A$ and $B$ that are their own inverses.
+That is, $AA=I_3$ and $BB=I_3$.
+\item[\bf(d)]  Find a $3\times 3$ permutation matrix $A$ that has the property $AAA=I_3$.
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 2, 5 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Let $d\colon {\mathscr P}_4 \to {\mathscr P}_3$ be the derivative,
+$d(p(x)) = p'(x)$.  Find the matrix ${\rm Rep}_{B,D}(d)$ where $B$ and $D$
+are the usual bases for ${\mathscr P}_4$ and ${\mathscr P}_3$,
+$B=\langle 1,x,x^2,x^3 \rangle$ and $D=\langle 1,x,x^2 \rangle$.
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 3, 3 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Let $h$ be the homomorphism $h\colon {\mathscr P}_2 \to {\mathscr P}_2$ given by
+$$h(a+bx+cx^2) = (a+b) + (b+c)x + (c+a)x^2$$
+Let $B$ be the basis of $\mathscr P_2$ given by $B=\langle 1, 1+x, 1+x+x^2\rangle$.
+Find the matrix ${\rm Rep}_{B,B}(h)$.
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 4, 3 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Let $f\colon \R^3\to\R^2$ be the homomorphism given by $f\begin{pmatrix}a\\b\\c\end{pmatrix}=
+\begin{pmatrix} 3a+b\\2b-c\end{pmatrix}$.  Find the matrix ${\rm Rep}_{B,D}$ where the bases
+$B$ and $D$ of $\R^2$ and $\R^2$ are given by
+$$B=\left\langle
+    \begin{pmatrix} 1\\1\\1 \end{pmatrix},
+    \begin{pmatrix} 0\\1\\1 \end{pmatrix},
+    \begin{pmatrix} 0\\0\\1 \end{pmatrix}
+  \right\rangle \mbox{\qquad and \qquad}
+ D=\left\langle
+    \begin{pmatrix} 1\\3 \end{pmatrix}, 
+    \begin{pmatrix} 0\\-1 \end{pmatrix}
+ \right\rangle$$
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 5, 3 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Let $V$ be a vector space with basis $B=\langle \vec\beta_1,\vec\beta_2,\dots,\vec\beta_n \rangle$.
+Let $g\colon V\to V$ is a homomorphism.  Suppose that there are numbers 
+$\lambda_1,\lambda_2,\dots,\lambda_n\in\R$ such that $g(\vec\beta_1)=\lambda_1\cdot\vec\beta_1$,
+$g(\vec\beta_2)=\lambda_2\cdot\vec\beta_2$, \dots, $g(\vec\beta_n)=\lambda_n\cdot\vec\beta_n$.
+What is ${\rm Rep}_{B,B}(g)\,$?
+
+(Preview:  If $h\colon V\to V$ is a homomorphism and $h(\vec v) = \lambda\cdot\vec v$ for
+some $\lambda\in\R$ and $\vec v\in V$, then $\lambda$ is called an \textbf{eigenvalue} for $h$,
+and $\vec v$ is called an \textbf{eigenvector} for $h$ with eigenvalue $\lambda$.  The homomorphism
+$g$ in this problem admits a \textbf{basis of eigenvectors}, but this is not the usual case.)
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 6, 2 points
+\end{answer}
+
+
+
+
+\end{document}
+

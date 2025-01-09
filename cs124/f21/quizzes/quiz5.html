@@ -1,0 +1,160 @@
+<html>
+<head>
+<title>CS 124 Quiz #5 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Fall 2021:
+Sample Answers to Quiz #5</h2>
+
+<p class=info><i>These are sample answers only.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+What is the effect of making a subroutine <i>private</i>?
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The subroutine can be called only in the same class where it is defined, not from other classes.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+State two different reasons for using named constants such as
+<code style="white-space:pre">static final double INTEREST_RATE = 0.025;</code>
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.&nbsp;&nbsp;a)</b>&nbsp;
+It makes the program easier to read and understand, since a name can be
+more meaningful than a constant value.
+</p>
+<p><b>b)</b>&nbsp;
+If the value needs to be changed, it only has to be changed in one place,
+in the declaration, not every place the constant value is used. 
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+The subroutine <i>stars</i>(<i>n</i>) prints out a line of <i>n</i> asterisks,
+where <i>n</i> is a parameter of type <i>int</i>.  Write a code segment that will use this subroutine to
+produce the output shown here:
+</p>
+<pre>
+           *
+           **
+           ***
+           ****
+           *****
+           ******
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+       for (int i = 1; i <= 6; i++) {
+           stars(i);
+       }
+       
+also acceptable:
+
+      stars(1);
+      stars(2);
+      stars(3);
+      stars(4);
+      stars(5);
+      stars(6);
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+Write a <i>static</i> subroutine named <i>sameParity</i> with a return type of <i>boolean</i>
+and two parameters of type <i>int</i>.  The return value should be <i>true</i> if both parameters are even or if both parameters are odd.
+The return value should be <i>false</i> if one parameter is even and the other is odd.  Recall that an integer <i>N</i> is even
+if <i>N</i>&nbsp;%&nbsp;2&nbsp;==&nbsp;0.  You get a lot of the points for this problem by getting the first line of the subroutine definition correct
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+     static boolean sameParity( int a, int b ) {
+         if ( (a % 2) == (b % 2) ) {
+             return true;
+         } 
+         else {
+             return false;
+         }
+     }
+     
+or less elegantly,
+
+     static boolean sameParity( int a, int b ) {
+         if ( ((a % 2 == 0) && (b % 2 == 0))
+                   ||  ((a % 2 == 1) && (b % 2 == 1)) ) {
+             return true;
+         } 
+         else {
+             return false;
+         }
+     }
+
+or more elegantly,
+
+     static boolean sameParity( int a, int b ) {
+         return (a % 2) == (b % 2);
+     }
+
+or maybe most elegantly,
+
+     static boolean sameParity( int a, int b ) {
+         return  (a + b) % 2 == 0;
+     }
+
+</pre>
+</div>
+
+
+
+</div>
+</body>
+</html>
+

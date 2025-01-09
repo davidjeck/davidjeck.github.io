@@ -1,0 +1,69 @@
+
+{ This program will draw a set of squares
+  nested one inside the next.  The user
+  specifies how many squares are to be
+  drawn. }
+
+DECLARE HowMany { The number of squares 
+                  to be drawn. }
+
+DECLARE count   { A counter, used to keep
+                  track of the number of
+                  squares drawn so far. }
+
+DECLARE length  { The length of the side
+                  of one of the squares;
+                  this is different for
+                  each square. }
+
+
+AskUser("How many squares do you want to draw (1 to 10)?", HowMany)
+
+count := 0   { No squares drawn yet. }
+
+length := 1  { The length of the side
+               of the first square. }
+
+LOOP
+
+   forward(length)  { Draw a square. }
+   turn(90)
+   forward(length)
+   turn(90)
+   forward(length)
+   turn(90)
+   forward(length)
+
+   count := count + 1  { Count this square. }
+   
+   EXIT IF count = HowMany  { Exit if all
+                              squares have
+                              been drawn. }
+
+   { The rest of the loop is here to set
+      up the preconditions for drawing the
+      NEXT square.  The preconditions that
+      must be met before continuting are:
+      
+         (1) The variable "length" must equal the
+             length of the side of the next square
+             to be drawn.
+         (2) The turtle must be positioned at the
+             lower left corner of that square.
+         (3) The turtle is facing to the right. 
+         (4) The pen must be down.
+   }
+
+   length := length + 2  { Each square must be two
+                           units bigger than the
+                           previous square. }
+
+   PenUp        { Raise pen, so that the turtle can
+                  move witout drawing a line. }
+   Move(-1,-1)  { Move turtle into position. }
+   PenDown      { Lower the pen so that the turtle
+                  can resume drawing. }
+
+   face(0)  { Face right. }
+
+END LOOP

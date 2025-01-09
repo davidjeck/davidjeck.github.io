@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Accuracy of Computation</title>
+</head>
+<body>
+<div id="content">
+
+<h2>07 Accuracy of Computation</h2>
+<hr>
+
+<p>"Accuracy of Computations" is one of the topics at the end of
+Chapter&nbsp;1.  We will spend just a little time on this topic,
+because it is an issue for almost any practical application of
+numerical computation&mdash;and not just in linear algebra.
+You won't really need anything from this topic in the rest of
+this course, but I feel that you should be aware of the issue.
+</p>
+
+<p>When computations are done with real numbers on a computer,
+only a limited number of decimal places are used.  This means
+that real numbers, which can have an infinite number of digits
+after the decimal point, are represented only approximately.</p>
+
+<p>And the problem is not just one of computation with a finite
+number of decimal places instead of an infinite number.  In practice,
+the problem of <i>measurement</i> is often more important.
+When the inputs to a computation come from physical or statistical
+measurements, the input is generally only accurate to a certain 
+number of digits, often a small number.
+There is a built-in error that is not going
+to be fixed by using more decimal places.</p>
+
+<p>Most often, computations are done with some fixed number of 
+digits of accuracy, say 8 or 15.  This has some funny consequences.
+For example, addition and multiplication are no longer strictly
+associative; the order of computation matters.  For example, 1.0/3.0
+with 8 digit accuracy becomes 0.33333333.  This means that
+$3.0*(1.0/3.0)=3.0*0.33333333=0.99999999$ while
+$(3.0*1.0)/3.0 = 3.0/3.0 = 1.0$.  This small discrepancy might not
+seem like a big deal, but suppose $A=1.0$ and $B=3.0$, and
+we need to compute $\frac{1.0}{1.0-3.0*A/B}$.  If this is
+computed a $\frac{1.0}{1.0-3.0*(A/B)}$, the answer is $\frac{1.0}{0.00000001}$
+or 100000000.  But if it is computed as $\frac{1.0}{1.0-(3.0*A)/B}$,
+then the denominator is zero and the answer is undefined (or infinite).</p>
+
+<p>More important for us is the fact that a small inaccuracy in the inputs
+to a computation can result in a larger inaccuracy in the output of that
+computation.  As a simple example, if quantities $A$ and $B$ can be wrong
+by some small amount $\eps$, then $A+B$ could be off by as much as $2\eps$.
+When a lot of computations are done to produce the output,
+a small error in the inputs can result in a large error in the outputs.
+This is why, to really understand what the result of a computation means,
+you sometimes need to do an error analysis as well as the
+actual computation.  There is a whole field of mathematics called <span class=nw>numerical
+analysis</span> that studies this issue, and it is certainly not an easy field.</p>
+
+
+<p>Here is a linear algebra example.  Consider a system of two equations
+$2.01x+3.00y=5.00$ and $3.99x + 6.00y = 10.00$, and suppose that there
+are possible errors of up to 0.01 in each of the coefficients.  Then
+that actual system could be, for example, any of the following
+$$\matrix{2.01x+3.00y=5.00\cr 3.99x + 6.00y = 10.00}\qquad
+  \matrix{2.00x+3.00y=5.00\cr 4.00x + 6.00y = 10.00}\qquad
+  \matrix{2.00x+3.00y=5.00\cr 4.00x + 6.00y = 9.99}$$
+The first of these systems has a unique solution, the second has infinitely
+may solutions, and the third has no solution.  So we can't even be
+certain of the most basic fact about this system!</p>
+
+<p>Computations done with integers and rational numbers are perfectly accurate,
+which is one reason why they are just about the only kinds of number that you
+will see in this course.  However, restricting yourself to rational numbers does
+not solve the problem of errors in measurement&mdash;and it can quickly lead to
+some really intimidating fractions!</p>
+
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

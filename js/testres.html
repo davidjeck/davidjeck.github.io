@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test Canvas Resolution</title>
+<script>
+function init() {
+    var canvas = document.getElementById("canvas");
+    var graphics = canvas.getContext("2d");
+    var imagedata = graphics.getImageData(0,0,1,1);
+    document.getElementById("message").innerHTML =
+       "Canvas resolution in device pixels per nominal pixel = " +
+       imagedata.width + " by " + imagedata.height;
+}
+</script>
+</head>
+<body onload="init()">
+
+<p><canvas width="10" height="10" id="canvas" style="background-color: red"></canvas></p>
+
+<p id="message"></p>
+
+</body>
+</html>

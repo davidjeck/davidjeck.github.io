@@ -1,0 +1,48 @@
+{
+   This program finds the length of the longest 3N+1
+   sequence for all starting values of N less than or
+   equal to 30.
+
+   The program uses multitasking.  Thirty turtles are
+   created.  Each one computes a different 3N+1 sequence,
+   and these computations all take place simultaneously.
+}
+  
+
+DECLARE max   { The length of the longest sequence }
+DECLARE StartValueForMax  { Starting value for that sequence }
+
+
+SUB three_n_max(values)
+      { This subroutine computes the correct
+        values for the global variables max
+        and StartValueForMax.  max is the
+        length of the longest 3N+1 sequence
+        for numbers in the range 1,2,...,values. }
+   IMPORT max, StartValueForMax
+   max := 0
+   fork(values)
+   DECLARE n
+   DECLARE ct
+   n := ForkNumber
+   ct := 1
+   LOOP  { Do 3N+1 sequence starting with n }
+      EXIT IF n = 1
+      ct := ct + 1
+      IF n/2 = trunc(n/2) THEN
+         n := n/2
+      ELSE
+         n := n*3 + 1
+      END IF
+   END LOOP
+   GRAB max THEN
+      IF ct > max THEN
+         max := ct
+         StartValueForMax := ForkNumber
+      END IF
+   END GRAB
+END SUB
+
+three_n_max(30)
+
+TellUser("The longest sequence was #max steps long, and it occured for a starting value of #StartValueForMax.")

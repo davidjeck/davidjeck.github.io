@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Continuity</title>
+</head>
+<body>
+<div id="content">
+
+<h2>08 Continuity and Uniform Continuity</h2>
+<hr>
+
+<p>Continuity is often defined in terms of limits, but continuity is actually
+the easier concept to work with, and it can be defined directly with a
+definition similar to the definition of limit.  There are several equivalent
+ways to express the continuity of a function at a point.
+
+<div class=def><p><span class=dtp>Definition:</span>
+Let $a\in \R$, and suppose that $f(x)$ is a function defined on an open interval 
+containing $a$ (including at $a$).  Then $f$ is <span class=nw>continuous at $a$</span>
+if it satisfies any, and hence all, of the following equivalent conditions:</p>
+<ul>
+<li>for any $\eps>0$, there is a $\delta>0$ such that for all $x$, if $|x-a|<\delta$ then $|f(x)-f(a)|<\eps$</li>
+<li>$\ds\lim_{x\to a}f(x)$ exists and $\ds\lim_{x\to a}f(x)=f(a)$</li>
+<li>$\ds\lim_{h\to 0}f(a+h)$ exists, and $\lim_{h\to 0}(f(a+h)-f(a)) = 0$.</li>
+</ul>
+</div>
+
+<p class=np>It is also convenient to define <span class=nw>continuity from the left</span>
+and <span class=nw>continuity from the right</span> at $a$ in the obvious way, using
+the limits of $f(a)$ from the left and from the right at $a$.</p>
+
+<p>We then define <span class=nw>continuity of $f(x)$ on an open interval $(a,b)$</span>
+to mean continuity at every point in $(a,b)$, and <span class=nw>continuity on a closed
+interval $[a,b]$</span> to mean continuity on the open interval $(a,b)$ plus continuity
+from the left at $a$ and continuity from the right at $b$.</p>
+
+<p>Rules for continuity of the sum, product, and so on follow easily from the corresponding
+rules for limits.  There is also an important new rule for continuity of composition
+of functions.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+Let $f$ and $g$ be functions, and $a\in\R$.  Suppose that $g(x)$ is continuous at $a$ and
+$f(x)$ is continuous at $f(a)$.  Then $f\circ g$ is continuous at $a$.
+</p></div>
+
+<hr class=break>
+
+<p>Continuity on a bounded, closed interval has several important consequences, including
+the Intermediate Value Theorem (IVT) and the Extreme Value Theorem (EVT). The IVT seems clearly
+to depend on the completeness (or "no-holes") property of $\R$, and it can be
+proved using the least upper bound axiom.
+
+<div class=thm><p><span class=dtp>Theorem (Intermediate Value Theorem)</span>
+Suppose that $f(x)$ is a continuous function on the closed, bounded interval $[a,b]$.
+If $y$ is some number satisfying $f(a)&lt;y&lt;f(b)$, then there is some $c\in(a,b)$
+such that $f(c) = y$.  The same holds if $f(a)>y>f(b)$.
+</p></div>
+<div class=prf><p><span class=dtp>Proof:</span>
+We prove the first assertion; the second is similar.  Define $X=\{x\in[a,b]\,|\,f(x)&lt;y\}$.
+We know that $a\in X$, by the assumption that $f(a)&lt;y$.  And $X$ has upper bound $b$ by its definition.
+So, by the Least Upper Bound Axiom, $X$ has a least upper bound, $\lambda$.  Note that
+$\lambda\in[a,b]$.  We show $f(\lambda)=y$ by proving that $f(\lambda)&lt;y$ and
+$f(\lambda)>y$ are both impossible.</p>
+
+<p>Suppose that $f(\lambda)&lt;y$.  So, $y-f(\lambda)>0$.  
+Note that since $f(\lambda)&lt;y&lt;f(b)$, we know $\lambda&lt;b$ and
+$f$ is continuous from the right at $\lambda$.  Since
+$f$ is continuous from the right at $\lambda$, then (taking $\eps=y-f(\lambda)$
+in the definition of continuity)
+there is a $\delta>0$ such that for all $x$,
+if $\lambda&lt;x&lt;\lambda+\delta$, then $|f(x)-f(\lambda)|&lt;y-f(\lambda)$.  This
+is equivalent to $-(y-f(\lambda))&lt;f(x)-f(\lambda)&lt;y-f(\lambda)$.  
+In particular, adding $f(\lambda)$ to the second inequality, $f(x)&lt;y$ and therefore $x\in X$.
+Taking any particular $x\in(\lambda,\lambda+\delta)$,
+the fact that $x\in X$ contradicts the fact that $\lambda$ is an upper bound for $X$.
+[The picture here is that if $f(\lambda)&lt;y$, then $f(x)$ is pulled less than $y$
+for some $x$'s that are bigger than $\lambda$ and those $x$'s are in $X$, which is
+impossible since they are bigger than $lub(X)$.]</p>
+
+<p>Now suppose that $f(\lambda)>y$.  So, $f(\lambda)-y>0$.  Note that
+since $f(\lambda)>y>f(a)$, we know $\lambda>a$ and $f$ is continuous from the
+left at $\lambda$.  Therefore, there is some $\delta>0$ such that for all $x$,
+if $\lambda-\delta&lt;x&lt;\lambda$, then $|f(x)-f(\lambda)|&lt;f(\lambda)-y$,
+which is equivalent to $-(f(\lambda)-y)&lt;f(x)-f(\lambda)&lt;f(\lambda)-y$.
+In particular, using the first inequality, $f(x)>y$.  This means $x\notin X$
+for all $x\in(\lambda-\delta,\lambda)$. But that contradicts the fact that
+$\lambda=lub(X)$ (since it means that there is no element of $X$ greater than
+$\lambda-\delta$).
+[The picture here is that if $f(\lambda)>y$, then $f(x)$ is pulled greater than $y$
+for all $x$'s just to the left of $y$, which means any of those $x$'s would be
+a smaller lower bound for $X$.]
+</p></div>
+
+<hr class=break>
+
+<p>The Extreme Value Theorem could be proved directly from the Heine-Borel Theorem, but
+the textbook chooses to use uniform continuity, which is itself an important new
+concept.  Uniform continuity on an interval is a stronger form of continuity
+that requires that, for a given $\eps>0$, the same $\delta$ will work for all the
+points in the interval in the definition of continuity.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Suppose that the function $f$ is defined on
+an interval $I$.  We say that $f$ is <span class=nw>uniformly continuous</span> on
+$I$ if for every $\eps>0$, there is a $\delta>0$ such that for any $x,y\in I$,
+if $|x-y|<\delta$, then $|f(x)-f(y)|<\eps$.
+</p></div>
+
+<p>The big theorem is that continuity on a closed, bounded interval implies uniform continuity
+on that interval.  The proof that is given in the textbook uses the Heine-Borel Theorem, 
+and it is similar to other proofs that we have seen that use that theorem.  The EVT can
+then be proved using uniform continuity (again, you can refer to the proof in the textbook, where
+the EVT is called the Max-Min Theorem).</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> Let $f$ be a continuous function on a
+closed, bounded interval $[a,b]$.  Then $f$ is uniformly continuous on $[a,b]$.</p></div>
+
+<div class=thm><p><span class=dtp>Theorem (Extreme Value Theorem):</span> Let $f$ be a continuous 
+function on a closed, bounded interval $[a,b]$.  Then there are points $m, M\in [a,b]$
+such that for all $x\in [a,b]$, $f(m)\le f(x)\le f(M)$.</p></div>
+
+<p class=np>The function values $f(m)$ and $f(M)$ are the minimum and maximum values of
+$f$ on the interval $[a,b]$.  The content of the theorem is that, first of all, the
+function is bounded on $[a,b]$ so that the set of function values $\{f(x)\,|\,x\in[a,b]\}$
+has a greatest lower bound and a least upper bound, and second that the function actually
+achieves those bounds.  Note that, in general, when $glb(X)\in X$, then we can refer to
+the $glb(X)$ as the minimum of $X$, and when $lub(X)\in X$, then we can refer to the
+$lub(X)$ as the maximum of $X$.</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+<title>CS424, Fall 2021, Lab 13</title>
+<style>
+    body {
+        background-color: #EEEEEE;
+    }
+    label {
+        white-space: pre;
+        margin-left: 25px;
+    }
+</style>
+
+
+
+<script src="gl-matrix.js"></script>
+<script src="basic-object-models-IFS.js"></script>
+<script src="teapot-model-IFS.js"></script>
+<script>
+
+
+const vShader = `
+    attribute vec3 a_coords;
+    attribute vec3 a_normal;
+    uniform mat4 modelview;
+    uniform mat4 projection;
+    varying vec3 v_normal;
+    varying vec3 v_eyeCoords;
+    void main() {
+        vec4 coords = vec4(a_coords,1.0);
+        vec4 eyeCoords = modelview * coords;
+        gl_Position = projection * eyeCoords;
+        v_normal = normalize(a_normal);
+        v_eyeCoords = eyeCoords.xyz/eyeCoords.w;
+    }
+`;
+
+const fShader = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+       precision highp float;
+    #else
+       precision mediump float;
+    #endif
+    struct MaterialProperties {
+        vec3 diffuseColor;      // diffuseColor.a is alpha for the fragment
+        vec3 specularColor;
+        vec3 emissiveColor;
+        float specularExponent;
+    };
+    struct LightProperties {
+        bool enabled;
+        vec4 position;
+        vec3 color;
+    };
+    uniform MaterialProperties material; // do two-sided lighting, but assume front and back materials are the same
+    uniform LightProperties lights[4];
+    uniform mat3 normalMatrix;
+    varying vec3 v_normal;
+    varying vec3 v_eyeCoords;
+    vec3 lightingEquation( LightProperties light, MaterialProperties material, 
+                                vec3 eyeCoords, vec3 N, vec3 V ) {
+           // N is normal vector, V is direction to viewer.
+        vec3 L, R; // Light direction and reflected light direction.
+        if ( light.position.w == 0.0 ) {
+            L = normalize( light.position.xyz );
+        }
+        else {
+            L = normalize( light.position.xyz/light.position.w - v_eyeCoords );
+        }
+        if (dot(L,N) <= 0.0) {
+            return vec3(0.0);
+        }
+        vec3 reflection = dot(L,N) * light.color * material.diffuseColor;
+        R = -reflect(L,N);
+        if (dot(R,V) > 0.0) {
+            float factor = pow(dot(R,V),material.specularExponent);
+            reflection += factor * material.specularColor * light.color;
+        }
+        return reflection;
+    }
+    void main() {
+        vec3 normal = normalize( normalMatrix*v_normal );
+        vec3 viewDirection = normalize( -v_eyeCoords);  // (Assumes a perspective projection.)
+        vec3 color = material.emissiveColor;
+        for (int i = 0; i < 4; i++) {
+            if (lights[i].enabled) { 
+                if (gl_FrontFacing) {
+                    color += lightingEquation( lights[i], material, v_eyeCoords,
+                                                    normal, viewDirection);
+                }
+                else { // Negate the normal, since we are rendering a back face.
+                    color += lightingEquation( lights[i], material, v_eyeCoords,
+                                                    -normal, viewDirection);
+                }
+            }
+        }
+        gl_FragColor = vec4(color, 1);
+    }
+`;
+
+"use strict";
+
+let gl;   // The webgl context
+let canvas;    // The canvas where gl draws
+
+let a_coords_loc;      // Location of the a_coords attribute variable in the shader program
+let a_normal_loc;      // Location of a_normal attribute 
+
+let u_modelview;       // Locations for uniform matrices
+let u_projection;
+let u_normalMatrix;
+
+let u_material;     // An object tolds uniform locations for the material.
+let u_lights;       // An array of objects that holds uniform locations for light properties.
+
+let projection = mat4.create();    // projection matrix
+let modelview = mat4.create();    // modelview matrix
+let normalMatrix = mat3.create();  // matrix for transforming normal vectors
+
+let frameNumber = 0;  // frame number during animation
+
+let cone, cylinder, box;   // Basic objects, created using function createModel and basic-object-models-IFS.js.
+                           // The box is a cube 1 unit on each side and is centered at (0,0,0).
+                           // the cone and cylinder have diameter 1 and height 1 and are centered at 
+                           //     (0,0,0), with their axes aligned along the z-axis.
+
+let matrixStack = [];      // A stack of matrices for implementing hierarchical graphics
+
+let currentColor = [1,1,1];   // The current diffuse color; render() functions in the basic objects set
+                              // the diffuse color to currentColor when it is called before drawing the object
+                              // Specular color properties, which don't change, are set in initGL()
+
+let rotateX = 0, rotateY = 0; // Overal rotation of model, in radians, set by mouse dragging.      
+                    
+                               
+/**
+ * Draws the scene.
+ */
+function draw() {
+    gl.clearColor(0,0,0,1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    
+    mat4.perspective(projection, Math.PI/4, 1, 1, 50);
+    gl.uniformMatrix4fv(u_projection, false, projection );
+
+    mat4.lookAt(modelview, [0,0,25], [0,0,0], [0,1,0]);
+    
+    console.log(modelview);
+    
+    mat4.rotateX(modelview,modelview,rotateX);
+    mat4.rotateY(modelview,modelview,rotateY);
+    
+    mat4.translate(modelview,modelview,[0,-1,0]);    
+    
+    // Draw the base.
+    
+    pushMatrix();
+    mat4.translate(modelview,modelview,[0,-6.5,0]);
+    mat4.scale(modelview,modelview,[6,1,6]);
+    currentColor = [0.6,0,0];
+    box.render();
+    popMatrix();
+    
+    // Draw the vanes of the windmill, with a rotation depending on frameNumber.
+    
+    currentColor = [0.7,1,1];
+    pushMatrix();
+    mat4.translate(modelview,modelview,[0,4,0.25]);
+    mat4.rotateZ(modelview,modelview,frameNumber/40);
+    vanes();
+    popMatrix();
+    
+    // Draw the pole.
+    
+    currentColor = [1, 0.7,  0.2];
+    pushMatrix();
+    mat4.translate(modelview,modelview,[0,-1,0]);
+    mat4.scale(modelview,modelview,[0.5,11,0.5]);
+    mat4.rotateX(modelview,modelview,Math.PI/2);
+    cylinder.render();
+    popMatrix();
+    
+    // Draw the teapot, standing on the base of the windmill.
+    
+    currentColor = [ 0.3, 0.7, 0.3 ];
+    mat4.translate(modelview,modelview,[1.8,-5.4,1.5]);
+    mat4.scale(modelview,modelview,[0.07, 0.07, 0.07]);
+    mat4.rotateY(modelview,modelview,-Math.PI/6);
+    teapot.render();
+    
+} // end draw();
+
+
+/**
+ * Draws the three vanes of the windmill by calling vane() three
+ * times, with rotations applied to two of the calls.
+ */
+function vanes() {
+    pushMatrix();
+    vane();
+    mat4.rotateZ(modelview,modelview,2*Math.PI/3);    
+    vane();
+    mat4.rotateZ(modelview,modelview,2*Math.PI/3);    
+    vane();
+    popMatrix();
+}
+
+/**
+ * Draws one vane of the windmill, consisting of two flattened cones.
+ * The vane lies along the y-axis from (0,0,0) to (0,6,0).
+ */
+function vane() {
+    pushMatrix();
+    
+    // Rotate from lying along the z-axis to lying along the y-axis.
+    
+    mat4.rotateX(modelview,modelview,-Math.PI/2);  
+    pushMatrix();
+    
+    // Make the vane, lying along the z-axis.  Note that the axes
+    // of the two cones lie along the z-axis.  The cones are
+    // flattened in the y-direction.  The second cone is also
+    // scaled in the z-direction, and the first is rotated so
+    // that it points into the screen.  Each cone is translated
+    // in the z-direction into position.
+    
+    mat4.translate(modelview,modelview,[0,0,0.5]);
+    mat4.rotateX(modelview,modelview,Math.PI);
+    mat4.scale(modelview,modelview,[1,0.3,1]);
+    cone.render();
+    popMatrix();
+    pushMatrix();
+    mat4.translate(modelview,modelview,[0,0,3.5]);
+    mat4.scale(modelview,modelview,[1,0.3,5]);
+    cone.render();
+    popMatrix();
+
+    popMatrix();
+}
+
+
+/**
+ *  Push a copy of the current modelview matrix onto the matrix stack.
+ */
+function pushMatrix() {
+    matrixStack.push( mat4.clone(modelview) );
+}
+
+
+/**
+ *  Restore the modelview matrix to a value popped from the matrix stack.
+ */
+function popMatrix() {
+    modelview = matrixStack.pop();
+}
+
+
+/**
+ *  Create one of the basic objects.  The modelData holds the data for
+ *  an IFS using the structure from basic-object-models-IFS.js.  This function
+ *  creates VBOs to hold the coordinates, normal vectors, and indices
+ *  from the IFS, and it loads the data into those buffers.  The function
+ *  creates a new object whose properties are the identities of the
+ *  VBOs.  The new object also has a function, render(), that can be called to
+ *  render the object, using all the data from the buffers.  That object
+ *  is returned as the value of the function. 
+ */
+function createModel(modelData) {
+    let model = {};
+    model.coordsBuffer = gl.createBuffer();  // Create buffers for this model.
+    model.normalBuffer = gl.createBuffer();
+    model.indexBuffer = gl.createBuffer();
+    model.count = modelData.indices.length;
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.coordsBuffer); // Load data into buffers.
+    gl.bufferData(gl.ARRAY_BUFFER, modelData.vertexPositions, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, model.normalBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, modelData.vertexNormals, gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, model.indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, modelData.indices, gl.STATIC_DRAW);
+    model.render = function() {  // When called, this method will render the model.
+           // To render the model, we have to use gl.vertexAttribPointer() to
+           // specify the location of the model data. And to do that, we must first
+           // bind the buffer that contains the data.  Similarly, we have to
+           // bind this object's index buffer before calling gl.drawElements().
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.coordsBuffer);
+        gl.vertexAttribPointer(a_coords_loc, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+        gl.vertexAttribPointer(a_normal_loc, 3, gl.FLOAT, false, 0, 0);
+        gl.uniform3fv(u_material.diffuseColor, currentColor);
+        gl.uniformMatrix4fv(u_modelview, false, modelview );
+        mat3.normalFromMat4(normalMatrix, modelview);
+        gl.uniformMatrix3fv(u_normalMatrix, false, normalMatrix);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+        gl.drawElements(gl.TRIANGLES, this.count, gl.UNSIGNED_SHORT, 0);
+    }
+    return model;
+}
+
+
+/**
+ * Creates a program for use in the WebGL context gl, and returns the
+ * identifier for that program.  If an error occurs while compiling or
+ * linking the program, an exception of type String is thrown.  The error
+ * string contains the compilation or linking error.  If no error occurs,
+ * the program identifier is the return value of the function.
+ *    The second and third parameters are strings that contain the source 
+ * code for the vertex and fragment shaders.
+ *     If the third parameter is present, it should be the name of an
+ * attribute variable in the shader program, and the attribute should be
+ * one that is always used.  The attribute will be assigned attribute
+ * number 0.  This is done because it is suggested that there should 
+ * always be an attribute number 0 in use.
+ */
+function createProgram(gl, vertexShaderSource, fragmentShaderSource, attribute0) {
+    let vsh = gl.createShader( gl.VERTEX_SHADER );
+    gl.shaderSource(vsh,vertexShaderSource);
+    gl.compileShader(vsh);
+    if ( ! gl.getShaderParameter(vsh, gl.COMPILE_STATUS) ) {
+        throw "Error in vertex shader:  " + gl.getShaderInfoLog(vsh);
+     }
+    let fsh = gl.createShader( gl.FRAGMENT_SHADER );
+    gl.shaderSource(fsh, fragmentShaderSource);
+    gl.compileShader(fsh);
+    if ( ! gl.getShaderParameter(fsh, gl.COMPILE_STATUS) ) {
+       throw "Error in fragment shader:  " + gl.getShaderInfoLog(fsh);
+    }
+    let prog = gl.createProgram();
+    gl.attachShader(prog,vsh);
+    gl.attachShader(prog, fsh);
+    if (attribute0) {
+       gl.bindAttribLocation(prog,0,attribute0);
+    }
+    gl.linkProgram(prog);
+    if ( ! gl.getProgramParameter( prog, gl.LINK_STATUS) ) {
+       throw "Link error in program:  " + gl.getProgramInfoLog(prog);
+    }
+    return prog;
+}
+
+
+
+/* Initialize the WebGL context.  Called from init() */
+function initGL() {
+    let prog = createProgram(gl,vShader,fShader, "a_coords");
+    gl.useProgram(prog);
+    gl.enable(gl.DEPTH_TEST);
+    
+    /* Get attribute and uniform locations */
+    
+    a_coords_loc =  gl.getAttribLocation(prog, "a_coords");
+    a_normal_loc =  gl.getAttribLocation(prog, "a_normal");
+    gl.enableVertexAttribArray(a_coords_loc);
+    gl.enableVertexAttribArray(a_normal_loc);
+    
+    u_modelview = gl.getUniformLocation(prog, "modelview");
+    u_projection = gl.getUniformLocation(prog, "projection");
+    u_normalMatrix =  gl.getUniformLocation(prog, "normalMatrix");
+    u_material = {
+        diffuseColor: gl.getUniformLocation(prog, "material.diffuseColor"),
+        specularColor: gl.getUniformLocation(prog, "material.specularColor"),
+        specularExponent: gl.getUniformLocation(prog, "material.specularExponent")
+    };
+    u_lights = new Array(4);
+    for (let i = 0; i < 4; i++) {
+        u_lights[i] = {
+            enabled: gl.getUniformLocation(prog, "lights[" + i + "].enabled"),
+            position: gl.getUniformLocation(prog, "lights[" + i + "].position"),
+            color: gl.getUniformLocation(prog, "lights[" + i + "].color")
+        };
+    }
+     
+    gl.uniform3f( u_material.diffuseColor, 1, 1, 1 );  // set to white as a default.       
+    gl.uniform3f( u_material.specularColor, 0.1, 0.1, 0.1 );  // specular properties won't change
+    gl.uniform1f( u_material.specularExponent, 32 );
+    
+    for (let i = 1; i < 4; i++) { // set defaults for lights
+        gl.uniform1i( u_lights[i].enabled, 0 ); 
+        gl.uniform4f( u_lights[i].position, 0, 0, 1, 0 );
+        gl.uniform3f( u_lights[i].color, 1,1,1 ); 
+    }
+    
+    // Set up lights here; they won't be changed.  Lights are fixed in eye coordinates.
+    
+    gl.uniform1i( u_lights[0].enabled, 1 );   // light is a "viewpoint light"
+    gl.uniform4f( u_lights[0].position, 0,0,0,1 ); // positional, at viewpoint
+    gl.uniform3f( u_lights[0].color, 0.6, 0.6, 0.6 );
+    
+    gl.uniform1i( u_lights[1].enabled, 1 );  // light 1 is a dimmer light shining from above
+    gl.uniform4f( u_lights[0].position, 0,1,0,0 ); // diretional, from directino of positive y-axis
+    gl.uniform3f( u_lights[0].color, 0.4, 0.4, 0.4 );
+    
+    gl.uniform1i( u_lights[2].enabled, 0 );  // lightes 2 and 3 are not used.
+    gl.uniform1i( u_lights[3].enabled, 0 )
+            
+} // end initGL()
+
+
+//---------------------------- rotation by mouse ----------------------------
+
+function mouseDown(evt) {
+   let prevX, prevY;
+   prevX = evt.clientX;
+   prevY = evt.clientY;
+   canvas.addEventListener("mousemove",mouseMove);
+   document.addEventListener("mouseup",mouseUp);
+   function mouseMove(evt) {
+      let dx = evt.clientX - prevX;
+      let dy = evt.clientY - prevY;
+      rotateX += dy/200;
+      rotateY += dx/200;
+      prevX = evt.clientX;
+      prevY = evt.clientY;
+      draw();
+   }
+   function mouseUp(evt) {
+      canvas.removeEventListener("mousemove",mouseMove);
+      document.removeEventListener("mouseup",mouseUp);
+   }
+}
+
+
+//--------------------------------- animation ------------------------------
+    
+let animating = false;
+
+function frame() {
+    if (animating) {
+        frameNumber += 1;
+        draw();
+        requestAnimationFrame(frame);
+    }
+}
+
+function setIsAnimating() {
+    let run = document.getElementById("animCheck").checked;
+    if (run != animating) {
+        animating = run;
+        if (animating)
+            requestAnimationFrame(frame);
+    }
+}
+
+//-------------------------------------------------------------------------
+
+
+/**
+ * initialization function that will be called when the page has loaded
+ */
+function init() {
+    try {
+        canvas = document.getElementById("webglcanvas");
+        gl = canvas.getContext("webgl");
+        if ( ! gl ) {
+            throw "Browser does not support WebGL";
+        }
+    }
+    catch (e) {
+        document.getElementById("message").innerHTML =
+            "<p>Sorry, could not get a WebGL graphics context.</p>";
+        return;
+    }
+    try {
+        initGL();  // initialize the WebGL graphics context
+    }
+    catch (e) {
+        document.getElementById("message").innerHTML =
+            "<p>Sorry, could not initialize the WebGL graphics context:" + e + "</p>";
+        console.trace(e);
+        return;
+    }
+    document.getElementById("animCheck").checked = false;
+    document.getElementById("animCheck").addEventListener("change", setIsAnimating);
+    document.getElementById("reset").addEventListener("click", function() { rotateX = rotateY = 0; draw(); });
+    canvas.addEventListener("mousedown", mouseDown);
+    
+    cone = createModel(uvCone());            // create the basic objects
+    cylinder = createModel(uvCylinder());    //   uvCone(), uvCylinder(), and cube()
+    box = createModel(cube());              //    are defined in basic-object-models-IFS.js
+    teapot = createModel(teapotModel);
+ 
+    draw();
+}
+
+</script>
+</head>
+<body onload="init()">
+
+<h2>WebGL Hierarchical Modeling</h2>
+
+
+<noscript><hr><h3>This page requires Javascript and a web browser that supports WebGL</h3><hr></noscript>
+
+<p id="message" style="font-weight:bold">Drag your mouse on the model to rotate it.</p>
+
+<p>
+   <label><input type="checkbox" id="animCheck">Animate</label>
+   <button id="reset" style="margin-left:40px">Reset</button>
+</p>
+
+
+<div>
+
+    <canvas width=700 height=700 id="webglcanvas" style="background-color:blue"></canvas>
+
+</div>
+</body>
+</html>
+

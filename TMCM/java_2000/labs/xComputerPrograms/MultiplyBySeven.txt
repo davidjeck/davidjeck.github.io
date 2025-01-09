@@ -1,0 +1,65 @@
+; This file includes a very simple subroutine called "Times7".  This
+; subroutine multiplies a number by 7.  There is also a short main
+; program that uses the subroutine to multiply 34 by 7.  When the
+; main program ends, the answer is stored in the location named
+; "Answer" (i.e. in location 6).
+
+; ************************* Main Program *************************
+                         
+                         ; Start by setting up to call the subroutine...
+          LOD-C  Return  ;    Get the return address.
+          STO  RetAddr   ;    Put the return address where the
+                         ;        subroutine expects to find it.
+          LOD-C  34      ;    Put the parameter for the subroutine in the
+                         ;        accumulator.
+          JMP Times7     ;    Call the subroutine by jumping to its
+                         ;        starting address.
+            
+Return:   STO  Answer    ; When the subroutine ends, the comptuer jumps
+                         ;     to this location.  The output from the 
+                         ;     subroutine, which is in the accumulator
+                         ;     is put into location "Answer"
+                         
+          HLT            ; Terminate the program.
+          
+Answer:   data           ; Location where the answer, 34*7, will
+                         ;      be stored.
+
+
+; ------------------------ Subroutine Times7 ---------------------
+;
+; This subroutine will multiply a number by 7.  When the subroutine
+; is called, the number should be in the Accumulator.  When the
+; subroutine ends, the answer will be in the Accumulator.
+;
+; To call this subroutine, first store the return address in
+; the location named "RetAddr".  Then jump to the starting
+; point of the subroutine, the location named "Times7".
+
+@10  ; The subroutine will be loaded starting in location 10.
+
+RetAddr:  data          ; The return address for the subroutine must
+                        ;    be stored in this location before the
+                        ;    subroutine is called.
+
+Times7:   STO num_t     ; STARTING POINT OF SUBROUTINE.
+                        ; Save a copy of the contents of the accumlator
+                        ; in location "num_t".  This is the number that
+                        ; is to be multiplied by 7.
+                      
+          SHL           ; Multiply the number in the accumlator by 8,
+          SHL           ;    by shifting it left three times.
+          SHL
+          
+          SUB num_t     ; Subtract the number from eight times the number,
+                        ;    giving an answer of 7 times the original
+                        ;    number.  This answer is in the accumlator.
+                      
+          JMP-I RetAddr ; End the subroutine by jumping back to the 
+                        ;    specified return address.
+                        
+num_t:    data          ; A memory location used by the subroutine for
+                        ;    temporary storage.  (The main program doesn't
+                        ;    need to know about this.)
+ 
+

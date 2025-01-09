@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>The Heine-Borel Theorem</title>
+</head>
+<body>
+<div id="content">
+
+<h2>06 The Heine-Borel and Bolzano-Weirstrass Theorems</h2>
+<hr>
+
+<p>We have been looking at some <a href="05-applying-the-axioms.html">consequences</a>
+of the <a href="04-axioms-for-R.html">axioms</a> for the real numbers.  It's time
+to start applying the <a href="03-least-upper-bound-axiom.html">least upper bound axiom</a>,
+which is the foundation for a number of important theorems in Calculus.  But we start
+with the Heine-Borel Theorem, which is most likely new to you and which requires some
+preliminary definitions.  In Section&nbsp;1.4, you should pay attention not just to the
+theorems, but also to how the least upper bound property is used in proving them.</p>
+
+<p>When the textbook discusses the Heine-Borel Theorm, it uses open intervals.  I prefer
+to talk about "open sets" instead.  Open intervals are open sets, but an open set
+can also be an arbitrary union of open intervals.  Thus, $(1,2)$, $(1,2)\cup(5,\infty)$, and
+$\bigcup_{n=-\infty}^\infty \big(n-\frac13,n+\frac13\big)$ are all open sets.
+$\newcommand{\O}{{\mathcal O}}$
+</p>
+
+
+<div class=def><p><span class=dtp>Definition:</span> An <span class=nw>open set</span> in $\R$
+is a union of open intervals (possibly an infinite union).  The empty set is also considered
+to be open.  If $X$ is a subset of $\R$,
+an <span class=nw>open cover</span> is a collection of open sets $\{\O_\alpha\,|\,\alpha\in A\}$
+such that $X\subseteq\bigcup_{\alpha\in A}\O_\alpha$.  A <span class="nw">subcover</span>
+for an open cover of $X$ is a subset of the open cover that still covers $X$.
+And a <span class=nw>finite subcover</span> is a subcover that contains only finitely
+many sets.</p></div>
+
+<p class=np>There is an important alternative characterization of open sets. A set is open
+if whenever it contains a point, it also contains all "nearby" points. More rigorously:</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> A subset $\O$ of $\R$ is open if and
+only if for every $x\in\O$, there is an $\eps>0$ such that $(x-\eps,x+\eps)\subseteq\O$.</p></div>
+<div class="prf"><p><span class="dtp">Proof:</span>
+Suppose $\O$ is open and $x\in\O$.  Since $\O$ is open and non-empty, it is a union of
+open intervals.  Since $x\in\O$, $x$ is an element of one of those intervals.  That
+interval must contain $(x-\eps,x+\eps)$ for some $\eps>0$.  (Just take $\eps$ to be
+smaller than the distance between $x$ and the closest endpoint of the interval.) 
+Since that interval is a subset of $\O$, it follows that $(x-\eps,x+\eps)\subseteq\O.$</p>
+<p>Conversely, suppose that for every $x\in\O$, there is an $\eps_x>0$ such that
+$(x-\eps_x,x+\eps)\subseteq\O$.  Then $\O=\bigcup_{x\in\O}(x-\eps_x,e+\eps)$.
+(The union is contained in $\O$ because each set in the union is a subset of $\O$;
+the union contains $\O$ because every $x\in\O$ is an element of one of the sets
+in the union, namely of $(x-\eps_x,x+\eps_x)$.)
+Since $(x-\eps_x,x+\eps_x)$ is an open interval, we have written $\O$ as a union of
+open intervals.
+$\qed$</p></div>
+
+<div class=thm><p><span class=dtp>Heine-Borel Theorem:</span> Let $[a,b]$ be a bounded,
+closed interval.  Every open cover of $[a,b]$ has a finite subcover.</p></div>
+<div class=prf><p><span class=dtp>Proof:</span> Let ${\mathscr C}=\{\O_\alpha\,|\,\alpha\in A\}$
+be an open cover of $[a,b]$.  Note that for any $c\in[a,b]$, $\mathscr C$ is an open
+cover of $[a,c]$.  Define $X=\{c\in[a,b]\,|\,[a,c]$ has a finite subcover for $\mathscr C\}$.
+Since $a$ is contained in some $\O_\alpha$, $[a,a]$ has a subcover consisting of a single set.
+So $a\in X$, and $X$ is non-empty.  Since $X\subseteq [a,b]$, $X$ is bounded.
+Therefore, as a bounded and non-empty set, $X$ has a least upper bound
+by the least upper bound axiom.  Let $\lambda=lub(X)$.
+We will be done if we can show $\lambda\in X$ and $\lambda=b$, since that
+will mean by definition of $X$ that $[a,b]$ has a finite subcover for ${\mathscr C}.$</p>
+<p>We first show that $\lambda\in X$.  Because $b$ is an upper bound for $X$, we
+know that $\lambda\le b$, so $\lambda\in[a,b]$.  Since $\mathscr C$ is an open cover of
+$[a,b]$, there is a $\beta\in A$ such that $\lambda\in\O_\beta$.  Since $\O_\beta$ is
+open, there is an $\eps>0$ such that $(\lambda-\eps,\lambda+\eps)\subset\O_\beta$.
+Since $\lambda=lub(X)$, there is an $x\in X$ such that $x>\lambda-\eps$, by the theorem
+at the end of the <a href="03-least-upper-bound-axiom.html#lub">third&nbsp;reading&nbsp;guide</a>.
+Note that $x\in\O_\beta$.  Since $x\in X$, then by defintion of $X$, there is a finite
+subcover $\{\O_{\alpha_1},\O_{\alpha_2},\dots,\O_{\alpha_k}\}$ of $[a,x]$ from $\mathscr C$.
+But then, adding $\O_\beta$ to that finite subcover, we get that
+$\{\O_\beta,\O_{\alpha_1},\O_{\alpha_2},\dots,\O_{\alpha_k}\}$ is a finite
+subcover of $[a,\lambda]$.  And by definition of $X$, this means
+that $\lambda\in X$.</p>
+<p>Finally, we must show that $\lambda=b$.  We know $\lambda\le b$, so suppose, for the
+sake of contradiction, that $\lambda&lt;b$. Then $b-\lambda>0$. Using the same $\O_\beta$ and $\eps$ as in the
+preceding paragraph, Let $y=\lambda+\frac12\min(\eps,b-\lambda)$.  Then $\lambda&lt;y&lt;b$, so $y\in\O_\beta$, and
+$\{\O_\beta,\O_{\alpha_1},\O_{\alpha_2},\dots,\O_{\alpha_k}\}$ is a finite
+subcover of $[a,y]$ from $\mathscr C$.  But then $y\in X$ by definition of $X$, and
+the fact that $y>\lambda$ contradicts the fact that $\lambda$ is an upper bound for $X$.
+</p></div>
+
+<p class=np>It is not immediately clear why this theorem should be important, but the property
+"every open cover of $X$ has a finite subcover" turns out to be useful for proving other
+things about $X$.</p>
+
+<hr class=break>
+
+<p>Section 1.4 also proves the Bolzano-Weirstrass Theorem.  The idea is that if you
+have an infinite set of points in some finite part of $\R$, then those points must
+"bunch up" at some point.  The technical term is "accumulate."</p>
+
+<div class=def><p><span class="dtp">Definition:</span> Let $X\subseteq\R$.
+The point $a\in\R$ is said to be an <span class=nw>accumulation point</span>
+of $X$ if for every $\eps>0$, there is an $x\in X$ such that $0&lt;|a-x|&lt;\eps$.
+(That is, there is some point in $X$, other than $a$ itself, that is within
+distance $\eps$ of $a$.)</p></div>
+
+<p>The Bolzano-Weirstrass Theorem says that every bounded, infinite subset of $\R$ has
+an accumulation point.  The textbook proves this using the least upper bound axiom.
+I want to give another proof, using the Heine-Borel Theorem.</p>
+
+<div class=thm><p><span class=dtp>Bolzano-Weirstrass Theorem:</span>
+Any bounded, infinite subset of $\R$ has an accumulation point.</p></div>
+<div class=prf><p><span class=dtp>Proof:</span>
+Let $X$ be a bounded, infinte subset of $X$.  Suppose, for the sake of contradiction
+that $X$ does not have an accumulation point.  That is, for every $c\in\R$,
+there is some $\eps_c>0$ such that no point of $X$, other than possibly $c$ itself,
+is within distance $\eps$ of $c$.  Another way of saying this is that
+the open interval $(c-\eps_c,c+\eps_c)$ is either empty (in the case $c\notin X$) or
+contains just the single point $c$ (in the case $c\in X$).</p>
+<p>Let $a$ be a lower bound for $X$, and
+let $b$ be an upper bound for $X$, so that $X\subseteq[a,b]$.  We construct an
+open cover of $[a,b]$.  Suppose $c\in[a,b]$. Let $\eps_c$ be as in the preceding
+paragraph, and let $\O_c=(c-\eps_c,c+\eps_c)$.  Then $\{\O_c\,|\,c\in[a,b]\}$ is
+an open cover of $[a,b]$.  By the Heine-Borel Theorem, there is a finite
+subcover, $\{\O_{c_1},\O_{c_2},\dots,\O_{c_k}\}$.  So, we have
+$X\subseteq[a,b]\subseteq\bigcup_{i=1}^k\O_{c_i}$.  But each of the sets $\O_{c_i}$
+contains at most one point of $X$, so $X$ can have no more than $k$ elements.
+$\qed$</p></div>
+
+<p class=np>Here is a 20-minute video in which I present another proof of the Bolzano-Weirstrass
+theorem, using the Least Upper Bound Axiom directly:</p>
+
+<p style="text-align:center"><a href="https://hws.box.com/s/1ha7qckw1cg7pu13sx8ztx1yezt25kmw">Video: The Bolzano Weirstrass Theorem</a></p>
+
+<hr class=break>
+
+<p>It might be worth noting that the names "Heine-Borel Theorem" and "Bolzano-Weirstrass Theorem"
+are usually used for theorems that are more general than the ones stated here.  We will encounter
+some of the generalizations when we study metric spaces.</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

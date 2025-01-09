@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Simple Web Version of Conway's Game of Life</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border.  Also, turn off text selection to avoid having
+       selection interfere with mouse action. */
+    body {
+        background-color: #EEEEFF;
+        -webkit-user-select: none; /* turn off text selection  / Webkit */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* IE 10  */
+        user-select: none;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid blue;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+<script>
+
+    "use strict";  // gives improved error-checking in scripts.
+
+    let canvas;    // The canvas element on which we will draw.
+    let graphics;  // A 2D graphics context for drawing on the canvas.
+    
+    let board;     // A 2D array, for storing the contents of the life board.
+    let newboard;  // An extra array in which the next generatino of the board will be created.
+    
+    let animating = false;  // Set to true when Life is running automatically
+    
+    let speedtime = 250;  // number of milliseconds between frames
+    
+    let generation;  // generation number
+ 
+    /**
+     * Compute the next generation of the game, and draw the resulting board.
+     */
+    function nextGeneration() {
+    
+        /* Create the new generation in the newboard array */
+        for (let r = 0; r < 64; r++) {
+           for (let c = 0; c < 64; c++) {
+               newboard[r][c] = board[r][c]; // default value
+               let neighbors = countNeighbors(r,c);
+               if (board[r][c]) {  // currently alive
+                   if (neighbors < 2 || neighbors > 3) {
+                       newboard[r][c] = false;  // dies
+                   }
+               }
+               else {   // currently dead
+                   if (neighbors == 3) {
+                       newboard[r][c] = true; // comes to life
+                   }
+               }
+           }
+        }
+        
+        /* Copy the new generation back to the board array. */
+        for (let r = 0; r < 64; r++) {
+           for (let c = 0; c < 64; c++) {
+              board[r][c] = newboard[r][c];
+           }
+        }
+        
+        /* Draw the board. */
+        graphics.fillStyle = "black";
+        graphics.fillRect(0,0,640,640);
+        graphics.fillStyle = "white";
+        for (let r = 0; r < 64; r++) {
+           for (let c = 0; c < 64; c++) {
+               if (newboard[r][c]) {
+                  liveSquare(r,c);
+               }
+           }
+        }
+        generation++;
+        document.getElementById("gen").innerHTML = "" + generation;
+        
+    } // end nextGeneration
+    
+    /* Color the squre at the specified row and column white. */
+    function liveSquare(row,col) {
+        let x = 10*col;
+        let y = 10*row;
+        graphics.fillRect(x,y,9,9);
+    }
+    
+    /* Count the number of live squares among the eight neighbors of the
+       square at row r and column c, wrapping around to the opposit edge
+       of the board for square on an edge.
+    */
+    function countNeighbors(r,c) {
+    
+       let up = r-1;
+       let down = r+1;
+       let left = c-1;
+       let right = c+1;
+       
+       // Adjust values that are outside of the legal range, 0 to 63, to
+       //   wrap around to the opposit edge.
+       if (up == -1)
+           up = 63;
+       if (down == 64)
+           down = 0;
+       if (left == -1)
+           left = 63;
+       if (right == 64)
+           right = 0;
+           
+       // Count the neighbors.
+       let ct = 0;
+       if (board[up][left])
+          ct++;
+       if (board[up][c])
+          ct++;
+       if (board[up][right])
+          ct++;
+       if (board[r][left])
+          ct++;
+       if (board[r][right])
+          ct++;
+       if (board[down][left])
+          ct++;
+       if (board[down][c])
+          ct++;
+       if (board[down][right])
+          ct++;
+          
+       return ct;
+    }
+    
+    /**
+     * This function is called in init() to set up mouse event handling
+     * on the canvas.  When the user clicks a square on the board, that
+     * cell is set to be alive.
+     */
+    function installMouseHandler() {
+    
+        let dragging = false;
+
+        function doMouseDown(evt) {
+            if (dragging || animating) {
+                return;  // if a drag is in progress, or animation is running, don't start another.
+            }
+            if (evt.button != 0) {
+                return;  // don't respond unless the button is the main (left) mouse button.
+            }
+            const r = canvas.getBoundingClientRect();
+            const x = Math.round(evt.clientX - r.left);  // translate mouse position from screen coords to canvas coords.
+            const y = Math.round(evt.clientY - r.top);   // round to integer values; some browsers would give non-integers.
+            hit(x,y);
+            document.addEventListener("mousemove", doMouseMove, false);
+            document.addEventListener("mouseup", doMouseUp, false);
+            dragging = true;
+        }
+        
+        function doMouseMove(evt) {
+            const r = canvas.getBoundingClientRect();
+            const x = Math.round(evt.clientX - r.left);   // (x,y) mouse position in canvas coordinates
+            const y = Math.round(evt.clientY - r.top);
+            hit(x,y);
+        }
+        
+        function doMouseUp(evt) {
+            dragging = false;
+            document.removeEventListener("mousemove", doMouseMove, false);
+            document.removeEventListener("mouseup", doMouseMove, false);
+         }
+         
+         function hit(x,y) {
+             let row = Math.floor(y/10);
+             let col = Math.floor(x/10);
+             board[row][col] = true;
+             liveSquare(row,col);
+         }
+         
+         canvas.addEventListener("mousedown", doMouseDown, false);
+
+   } // end installMouseHandler
+   
+   
+   //------- animation support ---------
+   
+   let timeout = null;
+   let lasttime;
+   
+   function doFrame() {
+       if (animating) {
+           let currenttime = Date.now();
+           if (currenttime - lasttime >= speedtime) {
+               nextGeneration();
+               lasttime = currenttime;
+           }
+           requestAnimationFrame(doFrame);
+       }
+   }
+   
+   function run() {
+       if (! animating) {
+           animating = true;
+           document.getElementById("next").disabled = true;
+           document.getElementById("run").disabled = true;
+           document.getElementById("stop").disabled = false;
+           lasttime = 0;
+           doFrame();
+       }
+   }
+   
+   function doFast() {
+      if (document.getElementById("fast").checked)
+         speedtime = 50;
+      else
+         speedtime = 250;
+   }
+   
+   function stop() {
+       if (animating) {
+           animating = false;
+           if (timeout)
+               clearTimeout(timeout);
+           document.getElementById("next").disabled = false;
+           document.getElementById("run").disabled = false;
+           document.getElementById("stop").disabled = true;
+       }
+   }
+   
+   function clear() {
+       stop();
+       for (let r = 0; r < 64; r++)
+          for (let c = 0; c < 64; c++)
+             board[r][c] = false;
+       graphics.fillStyle = "black";
+       graphics.fillRect(0,0,640,640);
+       graphics.fillStyle = "white";
+       generation = 0;
+       document.getElementById("gen").innerHTML = "0";
+   }
+
+   function random() {
+       stop();
+       graphics.fillStyle = "black";
+       graphics.fillRect(0,0,640,640);
+       graphics.fillStyle = "white";
+       for (let r = 0; r < 64; r++) {
+          for (let c = 0; c < 64; c++) {
+             board[r][c] = Math.random() < 0.5;
+             if (board[r][c])
+                 liveSquare(r,c);
+          }
+       }
+       generation = 0;
+       document.getElementById("gen").innerHTML = "0";
+   }
+
+
+    /**
+     * The init() function is called after the page has been
+     * loaded.  It initializes the canvas and graphics variables,
+     */
+    function init() {
+        try {
+            canvas = document.getElementById("canvas");
+            graphics = canvas.getContext("2d");
+            graphics.fillStyle = "black";
+            graphics.fillRect(0,0,640,640);
+            graphics.fillStyle = "white";
+        } catch(e) {
+            document.getElementById("canvasholder").innerHTML =
+               "<p>Canvas graphics is not supported.<br>" +
+               "An error occurred while initializing graphics.</p>";
+            return;
+        }
+        installMouseHandler();
+        document.getElementById("next").onclick = nextGeneration;
+        document.getElementById("run").onclick = run;
+        document.getElementById("fast").onchange = doFast;
+        document.getElementById("stop").onclick = stop;
+        document.getElementById("clear").onclick = clear;
+        document.getElementById("random").onclick = random;
+        document.getElementById("next").disabled = false;
+        document.getElementById("run").disabled = false;
+        document.getElementById("stop").disabled = true;
+        document.getElementById("fast").checked = false;
+        board = new Array(64);
+        newboard = new Array(64);
+        for (let i = 0; i < 64; i++) {
+            board[i] = new Array(64);
+            newboard[i] = new Array(64);
+        }
+        set(31,30);
+        set(30,28);
+        set(30,29);
+        set(30,30);
+        set(32,29);
+        set(9,9);
+        set(9,10);
+        set(10,9);
+        set(10,10);
+        set(30,15);
+        set(31,15);
+        set(32,15);
+        for (let i = 36; i <= 40; i++) {
+           set(40,i);
+           set(40,i+6);
+        }
+        function set(a,b) {
+           board[a][b] = true;
+           liveSquare(a,b);
+        }
+        generation = 0;
+    }
+    
+    window.onload = init; // arranges for function init to be called when page is loaded
+
+</script>
+</head>
+<body>
+
+<h2>Demo: The Game of Life</h2>
+
+<p>(When the game is not running, you can click a black square to turn it white.)</p>
+
+<noscript>
+    <!-- This message will be shown in the page if JavaScript is not available. -->
+<p>JavaScript is required to use this page.</p>
+</noscript>
+
+<p><button id="next">Next</button> 
+ <button id="run" style="margin-left:25px">Run</button>
+ <label><input type=checkbox id="fast">Fast</input></label>
+ <button id="stop" style="margin-left:25px">Stop</button>
+ <button id="clear" style="margin-left:25px">Clear</button>
+ <button id="random" style="margin-left:25px">Random</button>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <b>Generation: <span id="gen">0</span></b>
+</p>
+
+<div id="canvasholder">
+<canvas id="canvas" width="640" height="640">
+    <!-- This message is shown on the page if the browser doesn't support the canvas element. -->
+Canvas not supported.
+</canvas>
+</div>
+
+</body>
+</html>

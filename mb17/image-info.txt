@@ -1,0 +1,169 @@
+
+
+<tr><td>January</td><td><img src="icons/01-January_220x170.jpg" width="220" height="170"></td>
+<td><a href="files/01-January_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/01-January_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (3300-by-2550)
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F01-January.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<td>xmin = -0.749988802482251421450<br>
+xmax = -0.749988802288126665190<br>
+ymin = 0.006997251157506770088<br>
+ymax = 0.006997251307512263562<br>
+max iterations = 100000</td>
+
+
+<tr><td>February</td><td><img src="icons/02-February_220x170.jpg" width="220" height="170"></td>
+<td><a href="files/02-February_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/02-February_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F02-February.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<td>xmin = -1.627981282014158908030<br>
+xmax = -1.627981282012284346490<br>
+ymin = 0.022150948216372562227<br>
+ymax = 0.022150948217821087053<br>
+max iterations = 5000</td>
+
+
+<tr><td>March</td><td><img src="icons/03-March_220x170.jpg" width="220" height="170"></td>
+<td><a href="files/03-March_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/03-March_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F03-March.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<td>xmin = -0.752106738777432158050<br>
+xmax = -0.752106706479380985010<br>
+ymin = 0.039913359176751476175<br>
+ymax = 0.039913384134336473525<br>
+max iterations = 10000</td>
+
+
+<tr><td>April</td><td><img src="icons/04-April_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = -0.749999168422101720920<br>
+xmax = -0.749999160927879824920<br>
+ymin = 0.006118411181177002305<br>
+ymax = 0.006118416972166649215<br>
+max iterations = 500000</td>
+<td><a href="files/04-April_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/04-April_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F04-April.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>May</td><td><img src="icons/05-May_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = -1.940898014661807481731<br>
+xmax = -1.940898013825331526003<br>
+ymin = 0.000644945772069025465<br>
+ymax = 0.000644946418436809437<br>
+max iterations = 10000</td>
+<td><a href="files/05-May_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/05-May_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F05-May.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>June</td><td><img src="icons/06-June_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = -0.733782555460008161464<br>
+xmax = -0.733782555442613095040<br>
+ymin = 0.183829861890000524252<br>
+ymax = 0.183829861903442166488<br>
+max iterations = 10000</td>
+<td><a href="files/06-June_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/06-June_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F06-June.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>July</td><td><img src="icons/07-July_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = -0.745294029134114681780<br>
+xmax = -0.745227576497395931780<br>
+ymin = -0.113068541473170517033<br>
+ymax = -0.113017191708433301127<br>
+max iterations = 2500</td>
+<td><a href="files/07-July_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/07-July_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F07-July.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>August</td><td><img src="icons/08-August_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = -1.785951943088360310063<br>
+xmax = -1.785951938378756778375<br>
+ymin = 0.000234300253932868329<br>
+ymax = 0.000234303893171960997<br>
+max iterations = 5000</td>
+<td><a href="files/08-August_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/08-August_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F08-August.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>September</td><td><img src="icons/09-September_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = 0.308400934548031413847<br>
+xmax = 0.308400934550109715351<br>
+ymin = 0.025264563493848759733<br>
+ymax = 0.025264563495454719987<br>
+max iterations = 2500</td>
+<td><a href="files/09-September_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/09-September_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F09-September.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>October</td><td><img src="icons/10-October_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = 0.232252368640612327378<br>
+xmax = 0.232252368641481485352<br>
+ymin = 0.549499124444870695846<br>
+ymax = 0.549499124445542317916<br>
+max iterations = 1000</td>
+<td><a href="files/10-October_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/10-October_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F10-October.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>November</td><td><img src="icons/11-November_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = -0.681520476516038030052<br>
+xmax = -0.681520476514868758812<br>
+ymin = 0.322437655773236522617<br>
+ymax = 0.322437655774140050393<br>
+max iterations = 2500</td>
+<td><a href="files/11-November_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/11-November_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F11-November.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+
+
+<tr><td>December</td><td><img src="icons/12-December_220x170.jpg" width="220" height="170"></td>
+
+
+<td>xmin = 0.257402898139884963060<br>
+xmax = 0.257402898142968911540<br>
+ymin = 0.492837974420145414261<br>
+ymax = 0.492837974422528465359<br>
+max iterations = 100000</td>
+<td><a href="files/12-December_3300x2550.jpg" class="imglink" title="Download large Mandelbrot image">Large Image (3300-by-2550)</a><br>
+    <a href="smallfiles/12-December_1100x850.jpg" class="imglink" title="Download smaller Mandelbrot image">Small Image (1100x850)</a><br>
+     <a href="http://math.hws.edu/eck/js/mandelbrot/MB.html?ex=mb17%2F12-December.xml">Open in Mandelbrot Explorer</a></td>
+</tr>
+

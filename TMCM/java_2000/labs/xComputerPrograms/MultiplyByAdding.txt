@@ -1,0 +1,48 @@
+; A rather silly way of multiplying two numbers is by
+; adding over and over.  For example, 13 times 7 can
+; be computed as:  13 + 13 + 13 + 13 + 13 + 13 + 13.
+; This program multiplies two numbers, N1 and N2, by
+; adding N1 to itself N1 times.  The numbers to be
+; multiplied should be put in memory locations N1 and N2
+; before the program is run.  The answer will be in memory
+; location Ans when the program halts.  (If you watch this
+; program run, the locations to watch are Count and Ans,
+; that is, locations 14 and 15.)
+
+
+        Lod-c 0     ; Start with a zero in locations Ans and
+        Sto Ans     ;   Count.  Ans will contain the product
+        Sto Count   ;   of N1 and N2.  Count is used to count
+                    ;   how many times N1 has been added to
+                    ;   itself.
+
+Loop:   Lod Count   ; If Count is equal to N2, then N1 has
+        Sub N2      ;    been added to itself N2 times, and
+        Jmz Done    ;    the program is done.
+
+        Lod Count   ; Add 1 to Count
+        Inc
+        Sto Count
+
+        Lod Ans     ; Ans contains N1 + N1 + ...;  Add in 
+        Add N1      ;   another copy of N1 to Ans
+        Sto Ans
+
+        Jmp Loop    ; Return to start of loop
+
+Done:   Hlt
+
+Count:  data        ; "data" is not an assembly-language
+                    ; instruction.  This tells the assembler
+                    ; to set aside a memory location to hold
+                    ; some as yet unknown data.  I use this
+                    ; so that I can give that location the name
+                    ; Count.  (Actually, the assembler puts
+                    ; a zero into that location, so that "data"
+                    ; is effectively the same as the number 0.)
+
+Ans:    data
+
+N1:     13          ; Numbers to be multiplied
+N2:     7
+

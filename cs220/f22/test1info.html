@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CPSC 220, Fall 2022, Test 1 Info</title>
+</head>
+<body style="margin: 0.5cm 1cm; max-width: 750px">
+
+<h2>CPSC 220, Fall 2022<br>
+    About the First Test</h2>
+<hr noshade>
+
+<p>The first test in CS 220 will be given in class on
+Wednesday, September 28.   It will cover almost everything that
+we have done through Friday, September&nbsp;23, including
+labs.  (Exceptions include the IEEE 754 representation of floating
+point numbers and  our discussion of the memory hierarchy and caching.
+There will be no questions about using the Larcsim and Logisim programs.)</p>
+
+<p>General topics include:
+Java's bitwise logical and shift operators, the Larc computer and its
+machine language and assembly language, and logic circuits, including
+combinational circuits and memory circuits.  A detailed list of topics
+is given below.</p>
+
+<p>The test will be made up of a variety of questions.  There will be some
+short answer questions and longer essays, ranging from things as simple as
+the meaning of a single assembly language instruction to very general
+questions about computers and circuits.  There can be some problems that ask
+you to write some Larc assembly language code, or to say what some given
+code does.  You might be asked to convert between circuits and Boolean expressions,
+or determine what a given circuit does.</p>
+
+<p>You do not have to memorize the Larc machine language or the Larc
+assembly language.  You will be given a copy of the class handout containing the
+tables of <a href="29Aug-1.pdf"> instructions</a>
+and <a href="29Aug-2.pdf">hex&nbsp;digits</a>.
+<hr noshade>
+
+<p><b>Here are some terms and ideas that you should be familiar with:</b></p>
+
+<pre style="margin-left:1cm">
+CPU (Central Processing Unit)
+RAM (memory, memory locations, and memory addresses)
+ALU (Arithmetic/Logic Unit)
+registers
+PC (program counter)
+how a computer executes a program that is stored in RAM (fetch-and-execute)
+how the PC is used during program execution
+the "clock" in a computer
+
+ISA (Instruction Set Architecture)
+
+binary numbers
+counting in binary
+hexadecimal numbers
+binary arithmetic
+adding, subtracting, and multiplying binary numbers (but not dividing)
+signed and unsigned integers
+twos-complement representation of negative numbers
+
+bitwise logical operators in Java:  &amp;, |, ~
+logical shift operators in Java: &gt;&gt;&gt; and &lt;&lt;
+arithmetic shift operator in Java: &gt;&gt;
+using shift and bitwise logical operators to examine one or more bits from a number
+
+Larc, a simple model computer
+Larc registers -- 16 16-bit numbers, register 0 is always 0
+Larc RAM -- 65536 memory locations, each holding a 16-bit number
+Larc machine language
+the simple assembly language used in Larcsim
+format of Larc machine language instructions
+LIMM, SIMM, and sign extension
+immediate values for li and lui instructions
+conditional branch instructions (beqz and bnez)
+implementing loops in assembly language
+accessing memory using load and store (lw and sw)
+subroutines, return addresses, and the jalr instruction
+how strings are represented in Larc
+system traps and the syscall instruction
+why system traps are necessary
+kernel mode versus user mode
+
+logic gates and how they correspond to logic operations &amp, |, and ~
+logic circuits
+combinational logic circuits
+converting a Boolean expression to a combinational logic circuit
+converting a combinational logic circuit to a Boolean expression
+truth tables and how to build a circuit that computes a truth table
+sequential circuits (output can depend on the history of inputs)
+memory circuits
+basic circuits (but not how to build them, except for really simple ones):
+    half-adder
+    one-bit adder
+    n-bit adder
+    ALU
+    multiplexer
+    decoder
+    S-R latch
+    D-latch
+    D-flip-flop
+the clock in a computer; clock cycles
+edge-triggered memory, such as the flip-flop
+how edge-triggered memory is used to implement circuits that do computations
+
+</pre>
+<hr>
+<h3>Sample Questions</h3>
+<p>The following questions are meant as examples of questions that might be on the test.  (This is not
+meant to be a complete survey of every kind of question that you might encounter on the test.)</p>
+
+<p><b style="font-size:110%; color:darkblue">1.</b>
+Suppose that A, B, C, D, and E are <i>int</i> variables in Java, and that the following
+assignment statements are executed.  What values are assigned to the variables C, D, and E?  Write your answers
+in hexadecimal.
+</p>
+<pre style="margin-left:1in">
+A = 0x12345678;
+B = 0xABCDEFAB;
+C = A | 0xFFFF0000;
+D = B >> 8;
+E = (0xFFFF0000 &amp A) | (0x0000FFFF &amp B);
+</pre>
+
+<p><b style="font-size:110%; color:darkblue">2.</b>
+Suppose that N is the 16-bit binary number 0b0011010010100110.  Write the negation, -N, as a 16-bit binary number.
+</p>
+
+<p><b style="font-size:110%; color:darkblue">3.</b>
+The Larc model computer has 16 registers.  How is this number reflected in the format of Larc machine language instructions?
+</p>
+
+<p><b style="font-size:110%; color:darkblue">4.</b>
+Translate each of the following 16-bit numbers into a Larc assembly language instruction,
+and state what the instructions does, including how registers and memory locations are affected:
+</p>
+<pre style="margin-left:1in">
+a)  0x1442
+b)  1001000100000001
+c)  1101000100101111
+</pre>
+
+
+<p><b style="font-size:110%; color:darkblue">5.</b>
+Suppose that a, b,  and c are in registers $1, $2, and $3 respectively.
+Translate the following assignment statement into Larc assembly language.  You
+can use other registers as necessary.
+</p>
+<pre style="margin-left:1in">
+a = (b - c) * (a + 7)
+</pre>
+
+<p><b style="font-size:110%; color:darkblue">6.</b>
+Suppose that a string is stored in memory, with a zero marking the end of the string, and
+that the address of the first character
+in the string is stored in register $1.  Write Larc assembly code that will find the length of the
+string and leave the answer in register $2.  (The length is the number of characters, not counting
+the zero at the end.)</p>
+
+<p><b style="font-size:110%; color:darkblue">7.</b>
+What is the purpose of the following Larc assembly program segment?  (Explain)</p>
+<pre style="margin-left:1in">
+li $5 0
+li $1 4
+syscall
+add $5 $5 $1
+bnez $1 -4
+</pre>
+
+<p><b style="font-size:110%; color:darkblue">8.</b>
+Discuss the <i>beqz</i> instruction.  What does it do?  What do its parameters mean?
+How is it implemented?</p>
+
+<p><b style="font-size:110%; color:darkblue">9.</b>
+What is meant by a register?
+</p>
+
+<p><b style="font-size:110%; color:darkblue">10.</b>
+Explain the role of the <i>Program Counter</i> in the Larc computer,
+and discuss how and why its value changes during the fetch-and-execute
+cycle.
+</p>
+
+<p><b style="font-size:110%; color:darkblue">11.</b>
+Draw a combinational logic circuit that computes the Boolean expression</p>
+<pre style="margin-left:1in">
+(A | B | C) &amp; ~((A &amp; B) | (A &amp; C))
+</pre>
+
+<p><b style="font-size:110%; color:darkblue">12.</b>
+Find the Boolean expression computed by the following circuit:
+</p>
+<p align=center><img src="test1info-fig1.png" width="357" height="159"></p>
+
+<p><b style="font-size:110%; color:darkblue">13.</b>
+What is a <i>multiplexer</i>? What role does it play in circuits.
+</p>
+
+<p><b style="font-size:110%; color:darkblue">14.</b>
+Draw an S-R latch, and explain how it is used.
+</p>
+
+
+
+
+
+</body>
+</html>

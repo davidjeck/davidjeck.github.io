@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="URF-8">
+<title>CPSC 220: Computer Architecture, Fall 2022</title>
+<style>
+@media screen {
+    body {
+        background-color: #003355;
+    }
+    #content {
+        background-color: #EEF0FF;
+        max-width: 900px;
+        padding: 10px;
+        margin: 0pt auto;
+        border: 2px solid black;
+    }
+    h1, h2, h3 {
+        color: #003355;
+    }
+    th {
+        color: white;
+        background-color: #006699;
+    }
+}
+a {
+    white-space:pre;
+}
+h3 {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+}
+#heading {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+    padding-bottom:15px;
+    margin-bottom:15px;
+    border-bottom: 2px solid #003355;
+}
+</style>
+</head>
+
+<body>
+
+
+<div id="content">
+
+<table align=center cellpadding=8 bgcolor=white border=2><tr><td align=center><b>This course ended<br>on December 7, 2022</b></td></tr></table>
+
+
+<h2>CPSC 220:  <i>Computer Architecture</i></h2>
+
+
+<pre id="heading">
+      <A HREF="https://math.hws.edu">Department of Mathematics and Computer Science</A>
+      <A HREF="http://www.hws.edu">Hobart and William Smith Colleges</A>
+
+      Fall, 2022.
+
+      Instructor:  <A HREF="https://math.hws.edu/eck/index.html">David J. Eck</A>&nbsp; (<a href="mailto:eck@hws.edu">eck@hws.edu</a>)
+
+      Course Handout:  <a href="https://math.hws.edu/eck/courses/cpsc220_f22.html">https://math.hws.edu/eck/courses/cpsc220_f22.html</a>
+      
+      Monday, Wednesday, Friday, 12:10&ndash;1:10, Stern 203.
+      Lab: Thursday, 11:50&ndash;1:20, Rosenberg 009.
+          
+      Regular Office Hours, Lansing 313:  Monday, Wednesday, and Thursday 1:30 to 3:00.
+      Usually Available:  Tuesday, 1:00 to 3:30 and in the hour before class and lab.
+      
+</pre>
+
+
+
+<table align=center border=1 cellspacing=0 cellpadding=5 bgcolor="white">
+<tr align=center bgcolor="#CCCCCC"><td colspan=3><b>Labs and Assignments</b></td></tr>
+<tr align=center valign=top>
+    <td width="33%"><a href="f22/lab1/index.html">Lab 1, August 25<br>Numbers and Bits</a>
+         <br><br><a href="f22/solutions/BitsComplete.java">Sample solution</a></td>
+    <td width="33%"><a href="f22/lab2/index.html">Lab 2, September 1<br>Larc Programming 1</a>
+         <br><br><a href="f22/solutions/lab2/">Sample solutions</a></td>
+    <td width="33%"><a href="f22/lab3/index.html">Lab 3, September 8<br>Larc Programming 2</a>
+         <br><br><a href="f22/solutions/lab3/">Sample solutions</a></td>
+</tr>
+<tr align=center valign=top>
+    <td><a href="f22/lab4/index.html">Lab 4, September 15<br>Combinational Circuits</a>
+         <br><br><a href="f22/solutions/lab4.circ">Sample solution</a></td>
+    <td><a href="f22/lab5/index.html">Lab 5, September 22<br>Memory Circuits</a>
+         <br><br><a href="f22/solutions/lab5.circ">Sample solution</a></td>
+    <td><a href="f22/lab6/index.html">Lab 6, September 29<br>Computational Circuits</a>
+         <br><br><a href="f22/solutions/lab6.circ">Sample solution</a></td>
+</tr>
+<tr align=center valign=top>
+    <td><a href="f22/lab7/index.html">Lab 7, October 6<br>Larc in Logisim 1</a></td>
+    <td><a href="f22/lab8/index.html">Lab 8, October 13<br>Larc in Logisim 2</a>
+         <br><br><a href="f22/solutions/larc-in-logisim/">Sample solution</a></td>
+    <td><a href="f22/lab9/index.html">Lab 9, October 20<br>Intro to <i>yasm</i> and <i>ddd</i></a>
+         <br><br><a href="f22/solutions/lab9.asm">Sample solution</a></td>
+</tr>
+<tr align=center valign=top>
+    <td><a href="f22/lab10/index.html">Lab 10, October 27<br>x86-64: Control Structures</a>
+         <br><br><a href="f22/solutions/lab10.asm">Sample solution</a></td>
+    <td><a href="f22/lab11/index.html">Lab 11, November 3<br>x86-64: Functions</a>
+         <br><br><a href="f22/solutions/lab11">Sample solution</a></td>
+    <td><a href="f22/lab12/index.html">Lab 12, November 10<br>x86-64: Files and Floats</a>
+         <br><br><a href="f22/solutions/lab12.asm">Sample solution</a></td>
+</tr>
+<tr align=center valign=top>
+    <td colspan=3><a href="f22/lab13/index.html">Labs 13 and 14, November 17 and December 1: Life</a>
+         <br><br><a href="f22/solutions/lab13-basic/">Sample solution (basic one-person version)</a>
+         <br><a href="f22/solutions/lab13-full/">Full solution (with menu, files, and extra credit)</a>
+    </td>
+</tr>
+</table>
+
+
+<h3>Final Exam: December 6</h3>
+
+
+<p>The final exam for this course will be given during the exam period
+scheduled by the Registrar:  Tuesday, December 6 at 7:00 PM.  The study guide
+is available:</p>
+
+<p align=center class=np><a href="f22/finalinfo.html">Final Exam Information</a></p>
+
+
+<h3>Fifteenth Week: November 27 and 29; December 2</h3>
+
+<p>Welcome to the last week of the semester!  On Monday and Wednesday, I will 
+discuss CPU pipelining.  Friday will be review for the final exam.  Please bring
+questions!</p>
+
+<p>Once again, Wikipedia pages can be consulted for information about
+<a href="https://en.wikipedia.org/wiki/Pipeline_(computing)">pipelining&nbsp;in&nbsp;general</a>,
+<a href="https://en.wikipedia.org/wiki/Instruction_pipelining">instruction&nbsp;pipelining</a>, and
+the <a href="https://en.wikipedia.org/wiki/Classic_RISC_pipeline">"classic&nbsp;RISC&nbsppipeline"</a>.
+And here is an article on 
+<a href="https://witscad.com/course/computer-architecture/chapter/pipeline-hazards">Pipeline&nbsp;hazzards</a>.
+(These articles tend to be more technical than our discussion will be.)</p>
+
+
+
+<h3>Fourteenth Week: November 21</h3>
+
+<p>Because of Thanksgiving break, we only have class on Monday this week.  (Happy Thanksgiving!)</p>
+
+<p>We started covering virtual memory last week.  We will continue that topic on Monday.
+You might want to look at the <a href="https://en.wikipedia.org/wiki/Virtual_memory">Wikipedia&nbsp;page</a>
+on virtual memory.  I am using the term virtual memory to refer to two things: providing each application
+with its own virtual address space, and potentially swapping out pages to disk to provide extra storage
+for data that doesn't fit in main memory.  (You will often see the term used for one of these but not
+the other, and sometimes for both combined, which can be confusing.)</p>
+<p>(You might also check out <a href="https://en.wikipedia.org/wiki/Magnetic-core_memory">core memory</a> on Widipedia, 
+since it came up in class &mdash; and note the cost of about one dollar per bit.)</p>
+
+<h3>Thirteenth Week: November 14, 16, and 18</h3>
+
+<p>We are ready to move on from x86-64 assembly language programming.  For the remainder of the
+semester, we will look at some of the more advanced aspects of computer architecture, without
+going into a great deal of depth.  We will start this week with multiprocessing and interrupts.
+<a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a> has a brief overview of
+those topics in Chapters 19 and&nbsp;20.  I will do more about multiprocessing and less about
+interrupts than the textbook.  It is possible that we will start on the next topic,
+virtual memory and memory protection, by the end of the week.</p>
+
+<p><a href="f22/lab11/index.html">Lab 11</a> is due by 3:00 on Monday, and <a href="f22/lab12/index.html">Lab&nbsp;12</a>
+is due on Thursday.  (I won't actually look for Lab&nbsp;12 until Friday afternoon.)
+There is just one more lab, which you can work on for the last two lab periods of the semester.
+It will be due on the last day of classes.</p>
+
+
+<h3>Twelfth Week: November 7, 9, and 11</h3>
+
+<p>Here is the web page from Friday's class:  <a href="f22/nov11/index.html">November 11</a></p>
+
+<hr align=center width="33%">
+
+<p>There is a test in class on Wednesday, November 9.  Here is the info:</p>
+
+<p align=center><a href="f22/test2info.html">Study guide for the second test</a></p>
+
+<p>Aside from the test, we will finish our study of x86-64 assembly.  In the end, we
+will do almost nothing with syscalls, relying on C standard functions instead.
+Last Friday, we already looked briefly at floating point instructions in x86-64
+assembly.  We will finish that topic and do some examples.  Floating point
+instructions are covered in Chapter 18
+of <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>.</p>
+
+<p>Because of the test, and because it's a longer lab than usual, 
+Last week's lab, <a href="f22/lab11/index.html">Lab&nbsp;11</a> will be due next Monday,
+November 14, instead of Friday, November 11, as originally scheduled.</p>
+
+<p>Here's the sample x86-64 assembly program that uses floating point instructions:</p>
+
+<p align=center class=np><a href="f22/integral.asm">integral.asm</a></p>
+
+<p>And here's the example that uses files:</p>
+
+<p align=center class=np><a href="f22/copyfile.asm">copyfile.asm</a></p>
+
+
+<h3>Eleventh Week: October 31; November 2 and 4</h3>
+
+<p>We will continue this week with our look at at functions.  We will discuss some functions
+in the C standard library, including <i>printf</i> and <i>scanf</i>.  Note that this material
+is not in the textbook.  We will also talk about system services, which are called using the
+<i>syscall</i> instruction.  System services are covered in Chapter&nbsp;13 of
+<a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>.  If you would like
+a very short introduction to the C programming language, see:</p>
+
+<p align=center class=np><a href="https://math.hws.edu/graphicsbook/a1/s2.html">A short overview of C</a></p>
+
+<p>Here is a sample assembly language program from class on October 31, using functions from
+the C standard library:</p>
+
+<p align=center class=np><a href="f22/dots-n-dashes.asm">dots-n-dashes.asm</a></p>
+
+<p>And here is the sample assembly language program from the November&nbsp;2 class
+that uses the C standard library to read simple expressions
+entered by the user:</p>
+
+<p align=center class=np><a href="f22/calc.asm">calc.asm</a></p>
+
+
+
+<h3>Tenth Week: October 24, 26, and 28</h3>
+
+<p>We have mostly finished with implementing control structures in assembly language.
+This week, we will be looking at functions, how to call them, how to write them, and 
+how a stack is used to implement them.  In addition to writing and calling functions
+in assembly language, we will discuss how to call assembly language functions from 
+programs written in C and how to call functions written in C from assembly language
+programs. This means that we need to learn about the C "calling convention" which
+specifies how parameters and return values work in&nbsp;C. (Note that the term 
+"function" is used for all subroutines in C, including subroutines that do 
+not return a value.)  The textbook reading is Chapters&nbsp;9 and&nbsp;12
+in <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>.  This
+topic should take us into next week.</p>
+
+<p>Here is the example from class on Wednesday, which defined and uses a factorial function,
+but with a non-standard calling convention:</p>
+
+<p align=center class=np><a href="f22/factorial.asm">factorial.asm</a></p>
+
+<p>And here is the handout from Wednesday, which lists x86-64 registers and their
+use in the standard calling convention.  There is also a list of important x86-64 
+assembly language instructions:</p>
+
+<p align=center class=np><a href="f22/registers.html">Registers and Instructions Handout</a></p>
+
+
+<h3>Ninth Week: October 17, 19, and 21</h3>
+
+<p>We will finish most of <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>,
+Chapters 7 and 8.  This material includes the basic x86-64 arithmetic, logic, and jump
+instructions.  Towards the end of this week and going into next week, we will discuss
+how to use assembly code to implement control instructions like those used in C and Java
+programs.</p>
+
+<p>The Larc-in-Logisim project is due this Thursday.  Upcoming labs will focus on 
+x86-64 assembly language programming using the <i>yasm</i> assembler.</p>
+
+<p>Here is the sample x86-64 assembly language program for printing a 3N+1 sequence, which
+we looked at in class on Wednesday:</p>
+
+<p align=center><a href="f22/3N+1.asm">3N+1.asm</a></p>
+
+<p>There is also a copy in /classes/cs220.</p>
+
+
+<h3>Eighth Week: October 12 and 14</h3>
+
+<p>There is no class on Monday because of Fall Break.</p>
+
+<p>On Wednesday and Friday, we will discuss how to use the <i>yasm</i> assembler
+and the <i>ddd</i> debugger.  We will be using these tools for much of the rest
+of the semester to process x86-64 assembly language programs.  They are covered
+in Chapters 5 and&nbsp;6 of <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>.
+We will then start discussing x86-64 assembly language instructions, which will take
+us into Chapter&nbsp;7.</p>
+
+
+
+<h3>Seventh Week: October 3, 5, and 7</h3>
+
+<p>The labs for this week and next week will be the final Logisim project&mdash;building a simulation
+of the Larc model computer in Logisim.  I will discuss that project in some detail on Wednesday.</p>
+
+<p>We have just begun moving into the next phase of the course, were we will study
+x86-64 assembly language and the x86-64 architecture.  Textbook readings from
+now on will be from  <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf"
+style="white-space:normal">x86-64 Assembly Language Programming with Ubuntu</a>,
+by Ed Jorgensen.  The material for this week comes from Chapters 2, 3, and&nbsp;4.  Chapter&nbsp;2
+is a short introduction to computer architecture in general, plus information about x86-64 registers.
+Chapter&nbsp;3 is mostly a review of data representation that we covered earlier in the course, but
+it is oriented more towards x86-64 and C data types.  Note in particular that in this textbook, characters
+will always be 8-bit ASCII characters.  Chapter&nbsp;4 begins the study of x86-64 assembly by discussing
+the overall format of an assembly language program.  We will probably start Chapter&nbsp;4 by Friday.</p>
+
+
+
+<h3>Sixth Week: September 26, 28, and 30</h3>
+
+<p>There is a test in class on Wednesday, September 28.</p>
+
+<p align=center><a href="f22/test1info.html">Click here for the study guide</a></p>
+
+<p>Because we moved more quickly than I expected through logic circuits, we spent
+most of last week talking about other topics.  We looked at the memory hierarchy and
+caching, which is covered in <a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch13_v02.pdf">Tarnoff,&nbsp;Chapter&nbsp;13</a>.
+(However, Tarnoff spends much of that chapter on hard disks, which we did not cover.)
+We also started talking about the x86 architecture, which is covered in even more detail
+in <a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch16_v02.pdf">Tarnoff,&nbsp;Chapter&nbsp;16</a>.</p>
+
+<p>On Monday of this week, we will review for the test.  On Friday, we will look at the structure
+of the Larc computer and how it can be simulated in Logisim.</p>
+
+
+<h3>Fifth Week: September 19, 21, and 23</h3>
+
+<p>Last week, we covered basic memory circuits:  the S-R latch, the <span style="white-space:pre">D-latch</span>,
+and the <span style="white-space:pre">D-flip-flop</span>. This week, we will look at how these memory circuits
+are used to build computing devices.  We will be studying more complex sequential circuits.  The lab this week
+will cover memory circuits, with the more general sequential circuits to follow next week.</p>
+
+<p>Memory circuits are covered in <a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch10_v02.pdf">Chapter 10</a>
+of Tarnoff and sequential circuits in <a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch11_v02.pdf">Chapter&nbsp;11</a>.
+However, note that Tarnoff does not use exactly the same terminology and circuit structure that I am 
+using in class.  My advice for this material is that, in general, you should depend on your notes from class.</p>
+
+<p>Some people have had trouble downloading Logisim.  Here is a link to the 
+<a href="f22/logisim.jar" style="white-space:pre">Logisim jar file</a>.</p>
+
+<p>Here are the two Logisim files that were demonstrated in class on Wednesday,
+September 14, which implement multiplication and division of 16-bit numbers: 
+<a href="f22/examples/multiplication.circ">multiplication.circ</a> and
+<a href="f22/examples/division.circ">division.circ</a>.  These files can 
+be opened by Logisim.</p>
+
+<p>There is a test coming up next week, on Wednesday, September 28.  A study guide for the
+test will be avaialbe on Friday.</p>
+
+<h3>Fourth Week: September 12, 14, and 16</h3>
+
+<p>We will continue talking about logic circuits.  We are talking about "combinational logic circuits,"
+which have no loops.  Combinational circuits correspond to Boolean expressions, and we will look at
+that idea more closely.  For the reading, continue Sections 5.1 through 5.3 of
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch5_v02.pdf">Tarnoff, Chapter 5</a>. We will
+do some things that are covered in Sections 6.1 through 6.3 of 
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch6_v02.pdf">Tarnoff, Chapter 6</a>, but in less
+depth than Tarnoff's book.</p>
+
+<p>We might start looking at the other type of circuit, "sequential logic circuits," on Friday.</p>
+
+<p>Last Friday, the 9th, I demonstrated Logisim in class.  I showed two example files.  These
+are files that can be opened by Logisim.  
+<a href="f22/gates-from-transistors.circ" style="white-space:pre">gates-from-transistors.circ</a>
+shows that AND, OR, and NOT gates can be built from transistors.
+<a href="f22/MUX-examples.circ" style="white-space:pre">MUX-examples.circ</a> shows how to construct
+multiplexers.</p>
+
+<p>Addition circuits, multiplexers, and decoders are coverd in 
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch8_v02.pdf">Tarnoff, Chapter 8</a>.  That chapter
+uses Karnaugh maps to simplify circuits, but I will not cover them.  It also covers some additional
+applications, such as a 7-segment display, which I will not cover.</p>
+
+
+<h3>Third Week: September 5, 7, and 9</h3>
+
+<p>On Monday, we will spend some time on division of binary numbers.  We will then finish our 
+discussion of the Larc ISA by looking at the instructions that access memory, at strings and the
+syscalls for string I/O, and at the <i>jalr</i> instruction and how it is used to implement
+subroutine calls.  For the <a href="f22/lab3/index.html">lab</a> 
+this week, you will write Larc programs that use these features.</p>
+
+<p>By the end of Wednesday's class, we should start our next major topic: Logic circuits and
+how they are used to build computer hardware.  The textbook reading on the material for this
+week and the start of next week is 
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch4_v02.pdf">Tarnoff, Chapter 4</a> and
+Sections 5.1 through 5.3 of
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch5_v02.pdf">Tarnoff, Chapter 5</a>.
+Note that I will not use Tarnoff's notation for the Boolean operations AND, OR, and NOT.</p>
+
+<p>In class on Wednesday, I demonstrated two Larcsim programs:&nbsp;
+<a href="f22/examples/subroutine-example.s" style="white-space:pre">subroutine-example.s</a>&nbsp; and&nbsp;
+<a href="f22/examples/count-spaces.s" style="white-space:pre">count-spaces.s</a>.</p>
+
+
+<h3>Second Week: August 29 and 31; September 2</h3>
+
+<p>The main topic for this week is the Larc ISA.  In the next two labs, you will be writing
+simple assembly language programs for Larc and running them in a simulator.  You should
+read the documentation for the Larc ISA and for the simulator:</p>
+
+<p style="margin-left:100px">
+  <a href="f22/larc_ML.html">The Larc Machine Language</a><br>
+  <a href="f22/larcsim.html">The Larc Simulator</a>
+</p>
+
+<p>We will also look at arithmetic opertions on binary integers.  The textbook material on
+that topic is <a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch3_v02.pdf">Tarnoff, Chapter 3</a>,
+Sections 3.1 to 3.4.</p>
+
+<p>If you are interested in learning more about Linux and, in particular, about using the
+command line, see <a href="https://math.hws.edu/about_linux/">https://math.hws.edu/about_linux/</a>.
+If you log into your Linux account, note that some of the default settings for the GUI are 
+awful.  To make the experience less annoying, you are encouraged to change those settings 
+following <a href="https://math.hws.edu/about_linux/Mint/Mint_and_Cinnamon.html#awful">these&nbsp;instructions</a>
+from that web site.</p>
+
+<p>Here are links to PDFs of the two sides of the handout from the class on August 29:
+<a href="f22/29Aug-1.pdf">Larc&nbsp;ML&nbsp;table</a> and
+<a href="f22/29Aug-2.pdf">Larc&nbsp;syscall&nbsp;table</a>.</p>
+
+
+<h3>First Week: August 22, 24, and 26</h3>
+
+<p>Welcome to the course!</p>
+
+<p>This course will introduce you to the concrete, low-level details of computing
+on both the hardware and software level.  After a short overview of the course, we will 
+start by looking at the problem of data representation.  All data in a computer is
+represented as binary numbers &mdash; zeros and ones.  This week, we will discuss how integer
+and real numbers are represented in binary and in hexadecimal form.
+In the next few weeks, we will see how to do integer arithmetic with binary integers and how
+to implement those arithemetic operations in hardware.</p>
+
+<p>It is possible that you will get all the information that you need from this
+week's lectures and lab (and from past experience with binary numbers).  But for more
+details on binary and hexadecimal integers, you can read 
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch2_v02.pdf">Tarnoff, Chapter 2</a>,
+Sections 2.1 to 2.4 and 2.7.  By the end of the week, we will also cover binary representation
+for numbers of type <i>float</i>, which is covered in
+<a href="https://faculty.etsu.edu/tarnoff/ntes2150/Ch3_v02.pdf">Tarnoff, Chapter 3</a>, Section 3.4.</p>
+
+<p>You should read the <a href="https://math.hws.edu/eck/courses/cpsc220_f22.html">syllabus</a>,
+and you should read through the <a href="f22/lab1/index.html">lab&nbsp;writeup</a> before lab on Thursday.</p>
+
+
+
+</div>
+</body>
+</html>

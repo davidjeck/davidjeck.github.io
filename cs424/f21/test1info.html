@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>CS 424, Test 1 Info</title>
+</head>
+<body style="margin: 0.5cm 1cm; max-width: 800px">
+
+<h2>CPSC 424, Spring 2021<br>
+Information About the First Test</h2>
+
+<p>The first test will be given in class on Monday, October 4.
+It covers Chapters 1, 2, and 3 from the textbook. 
+</p>
+
+<p>Some things <b>not</b> on the test:   Java and JOGL; programming in C; SVG;
+writing HTML; questions about JavaScript programming itself;
+working with things like checkboxes and popup menus in JavaScript; GLUT and GLU; 
+the linear algebra from Section&nbsp;3.5.</p>
+
+<p>The format of the test will be the usual:  some essay questions and
+definitions; reading some code and explaining its purpose; writing
+some code.  There will be some geometrical questions that
+ask you to work with transformations and primitives.  
+I might give you some code and ask you what it draws.
+I might give you a picture and ask how it could be drawn.
+Specific questions about graphics APIs will be limited to
+Canvas2D and OpenGL&nbsp;1.1 graphics.</p>
+
+
+<hr>
+
+<p>Here are some terms and ideas that you should be familiar with:</p>
+
+<pre style="margin-left:1.2cm">
+computer graphics
+pixels
+painting programs vs. drawing programs (such as Gimp vs. Inkscape)
+
+Basic concepts about the elements of 3D Graphics:
+    geometric modeling                   lighting and material
+    geometric transformations            textures 
+    viewing and projection               animation
+
+pixels
+vector graphics
+alpha color component and translucency
+aspect ratio
+coordinate system
+stroking and filling as basic operations in 2D graphics
+paths in 2D graphics
+bezier curves; control points for cubic bezier curves
+2D transformations:  scale, rotate, translate, shear
+combining transformations
+    (transforms are applied to objects in the opposite of their order in the code)
+hierarchical modeling
+using subroutines to implement hierarchical modeling
+scene graphs
+traversing a scene graph
+how a stack of transformations is used while traversing a scene graph
+
+3D graphics, and how it differs from 2D
+rendering a scene
+3D coordinate systems and the z-axis
+the standard OpenGL coordinate system
+right-handed and left-handed coordinate system
+transformations in 3D: scale, rotate, translate
+using glPushMatrix/glPopMatrix to implement hierarchical graphics in OpenGL
+hidden surface problem
+painter's algorithm
+the depth test algorithm
+the depth buffer, also called the z-buffer
+rotation in 3D; the axis of rotation
+the right-hand rule for direction of rotation in 3D in a right-handed coordinate system
+3D coordinate systems in OpenGL
+object coordinates
+world coordinates  (no objective existence in OpenGL)
+eye coordinates
+clip coordinates  (OpenGL default coordinate system, 
+    from -1 to 1 in all directions, also called normalized device coordinates)
+device coordinates
+modeling transform
+viewing transform
+the modelview transformation
+why modeling and viewing transforms are combined (equivalence of modeling and viewing)
+projection transform
+orthographic projection
+perspective projection
+the view volume, and how it relates to the projection transformation
+the near and far clipping planes in the projection transformation
+the idea of a "camera"
+IFS (Indexed Face Set)
+front and back faces of a polygon
+basic idea of using glDrawArrays and glDrawElements, and why they are used
+
+OpenGL primitives:
+    GL_POINTS                   GL_TRIANGLES
+    GL_LINES                    GL_TRIANGLE_FAN
+    GL_LINE_LOOP                GL_TRIANGLE_STRIP
+    GL_LINE_STRIP            
+
+OpenGL 1.1 functions that you should understand and be able to use:
+    glEnable(GL_DEPTH_TEST)
+    glDisable(GL_DEPTH_TEST)
+    glBegin(primitive)  and  glEnd()
+    glVertex3f(x,y,z), glVertex2f(x,y)  // Also, the "d" versions of functions
+    glColor3f(x,y,z)
+    glScalef(a,b,c)
+    glRotatef(angle, axisX, axisY, axisZ)  // angle in degrees
+    glTranslatef(dx,dy,dz)
+    glPushMatrix()
+    glPopMatrix()
+            
+HTML Canvas2D graphics:
+
+    the properties graphics.lineWidth, graphics.fillStyle, and graphics.strokeStyle
+    
+    graphics.scale(a,b);                  graphics.beginPath();
+    graphics.rotate(angle);               graphics.moveTo(x,y);     
+    graphics.translate(dx,dy);            graphics.lineTo(x,y);   
+    graphics.save();                      graphics.bezierCurveTo(cx1,cy1,cx2,cy2,x,y);    
+    graphics.restore();                   graphics.fill();  
+    graphics.fillRect(x,y,w,h);           graphics.stroke();         
+    graphics.strokeRect(x,y,w,h);         
+                                           
+</pre>
+<hr>
+</body>
+</html>

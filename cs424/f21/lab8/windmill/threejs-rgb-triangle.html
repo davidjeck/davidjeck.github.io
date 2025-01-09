@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Three.js Demo</title>
+<script src="three.js"></script>
+<script>
+
+let canvas, scene, renderer, camera;
+
+function render() {  
+    renderer.render(scene,camera);
+}
+
+function createWorld() {
+    renderer.setClearColor( "gray" );  
+	scene = new THREE.Scene();
+        
+    camera = new THREE.PerspectiveCamera(45, 1, 3, 5);
+    camera.position.z = 4;
+	
+    let geom = new THREE.BufferGeometry();
+    let vertices = new Float32Array([
+           -1,-1,0,  1,-1,0,  0,1,0
+        ]);
+    geom.setAttribute("position", new THREE.BufferAttribute(vertices,3));
+    let colors = new Float32Array([
+           1,0,0, 0,1,0, 0,0,1
+        ]);
+    geom.setAttribute("color", new THREE.BufferAttribute(colors,3));
+
+    let tri = new THREE.Mesh(geom, new THREE.MeshBasicMaterial( { color: "white", vertexColors: true } ) );
+    
+    scene.add(tri);    
+}
+
+function init() {
+    try {
+        canvas = document.getElementById("maincanvas");
+	    renderer = new THREE.WebGL1Renderer({ canvas: canvas, antialias: true });
+    }
+    catch (e) {
+        document.getElementById("canvas-holder").innerHTML="<p><b>Sorry, an error occurred:<br>" +
+                e + "</b></p>";
+	    return;
+    }
+    createWorld();
+    render();
+}
+
+</script>
+</head>
+<body onload="init()">
+
+<div id="canvas-holder">
+<canvas id="maincanvas" width="500" height="500"></canvas>
+</div>
+
+</body>
+</html>
+

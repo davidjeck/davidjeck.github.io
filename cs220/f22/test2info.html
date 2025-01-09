@@ -1,0 +1,222 @@
+<html>
+<head>
+<title>CPSC 220, Fall 2022, Test 2 Info</title>
+</head>
+<body style="margin: 0.5cm 1cm; max-width: 750px">
+
+<hr noshade>
+<h2>CPSC 220, Fall 2022<br>
+    About the Second Test</h2>
+<hr noshade>
+
+<p>The second test in CS 220 will be given in class on Wednesday, November 9.
+Topics include: the memory hierarchy and caching; the design of 
+Larc-in-Logisim and relevant material on logic circuits; the <span style="white-space:pre">x86-64</span> architecture; 
+<span style="white-space:pre">x86-64</span> assembly language programming;
+the Linux C calling convention; and basic functions from the Linux standard
+library. This includes material from labs&nbsp;7 through&nbsp;11.  For textbook
+readings, you can consult the weekly entries on the course web page for
+the sixth through eleventh weeks.  A&nbsp;detailed list of topics is given below.</p>
+
+<p>For the memory hierarchy, there will be only general questions; you do not
+need to understand how caching is implemented.  For Larc-in-Logisim, you should
+be familiar with the overall design, and you should remember enough about logic
+circuits to do the sorts of things that were used in the implementation.  You will
+not need to memorize the commands for assembling and linking assembly language
+programs, and you will not need to memorize the details of register use or
+the Linux C calling convention beyond knowing which registers to use for
+the first four function arguments; if more information is needed, it will be
+provided to you.  There will be no questions about: debugging or ddd; C&nbsp;programming or pointers
+in C; specific syscalls; or assembly language instructions that are not listed below.</p>
+
+<p>The format of the test will be as usual.  There will be four pages.
+The types of questions might include: definitions, short-answer and longer
+essay-type questions, basic coding questions using 
+<span style="white-space:pre">x86-64</span> assembly language, reading and explaining 
+assembly language instructions, implementing control structures in assembly language,
+writing and using functions in assembly langauge, and designing basic circuits similar
+to ones used in Larc-in-Logisim.</p>
+
+
+<hr noshade>
+
+<p><b>Here are some terms and ideas that you should be familiar with:</b></p>
+
+<pre style="margin-left: 1cm">
+Larc-in-Logisim
+   how a complicated logic circuit can store and execute computer programs
+   the overall structure (like how the register file connects to the ALU)
+   the role of the clock
+   the role of the PC
+   the structure of the register file
+   how different sources of input can be selected for the PC and register
+   how the opcode is used to control the computation
+   how to build a logic circuit to test the opcode
+
+the memory hierarchy
+   registers, cache memory, RAM, hard disks and SSDs
+   how levels of the memory hierarchy compare in terms of speed, cost, and size
+   caches and why they are used
+
+the x86-64 architecture (for integers only)
+   16 general purpose registers
+   how registers are used for 8-bit, 16-bit, 32-bit, and 64-bit values
+   flag register, including the carry flag, C, and other flags
+   a memory location holds one byte; an address is 64 bits
+   little-endian representation of integers
+   
+x86-64 assembly language
+   assembling an assembly language (.asm) file with yasm to get an object (.o) file
+   linking object files with ld to get an executable program
+   sections of a program:  .data, .text
+   data sizes: byte, word, dword, qword
+   declaring initialized variables in the .data section: db, dw, dd, and dq
+   declaring strings and arrays in the .data section
+   using registers in assembly langauge
+   64-bit registers rax, rbx, rcx, rdx, r8 through 15
+   32-bit registers eax, epx, ecx, edx, r8d through r15d
+   accessing memory, with brackets []
+   using a data size in an assembly instruction, such as  inc dword [A]
+   labels
+   global and extern
+   the _start label for marking the entry point of a program
+   basic assembly language commands (see list below)
+   comparing values and jumping
+   the stack and the rsp register; push and pop
+   calling and returning from functions
+   syscall and why it exists (but nothing about any specific syscall)
+
+the difference between pointers (addresses) and values (in memory)
+translating Java-style control structures into assembly language
+accessing array elements with notations like [A + r12*8]
+writing and using functions in assembly language
+how the stack is used for functions
+
+calling convention
+the Linux C calling convention
+in the C calling convention, arguments are passed in rdi, rsi, rdx, rcx
+callee-saved and caller-saved registers in the C calling convention
+writing functions that can be called from C
+using functions from the C standard library
+using printf for output of integers and strings
+understanding C function prototypes well enough to call a function
+
+x86-64 assembly instructions that you should know for the test:
+   add &lt;dest>, &lt;src>      and &lt;dest>, &lt;src>     jmp &lt;label>
+   sub &lt;dest>, &lt;src>      or &lt;dest>, &lt;src>      je &lt;label>
+   inc &lt;dest>             not &lt;dest>, &lt;src>     jne &lt;label>
+   dec &lt;dest>                                   jg &lt;label>
+   imul &lt;dest>, &lt;src>     call &lt;label>          jge &lt;label>
+   div &lt;dest>, &lt;src>      ret                   jl &lt;label>
+   mov &lt;dest>, &lt;src>      push &lt;src>            jle &lt;label>   
+                          pop &lt;dest>            cmp &lt;op1> &lt;op2>
+
+</pre>
+<hr>
+
+<b>Here are a few sample questions.</b>  This is not meant to be a comprehensive 
+survey of all the types of questions or all of the topics that you might see on the test.</p>
+
+<p><b style="font-size:120%">1.</b>
+What memory is allocated by the following .data section in an x86-64 assembly language program?
+</p>
+<pre style="margin-left:150px">
+section .data
+   A: dq 100
+   B: dd 10, 2, 5, 3
+   C: db "fizzbuzz", 0
+</pre>
+
+<p><b style="font-size:120%">2.</b>
+Using the declarations from the .data section in the previous problem,
+what value is placed into the eax register by the following assembly language
+instructions?  Explain!
+</p>
+<pre style="margin-left:150px">
+mov eax, [B]
+imul eax, [B+4]
+imul eax, [B+8]
+imul eax, [B+12]
+</pre>
+
+<p><b style="font-size:120%">3.</b>
+Suppose that <i>list</i> is defined in a .data section to refer to an array
+of 64-bit integers.  Write assembly instructions to use 
+the standard <i>printf</i> function to output the first three items in the
+array. Use the following format string:
+</p>
+<pre style="margin-left:150px">
+listfmt: db "The first three items are %ld, %ld, and %ld.", 10, 0
+</pre>
+
+<p><b style="font-size:120%">4.</b>
+What value is placed into the rax register by the following code? Explain!
+</p>
+<pre style="margin-left:150px">
+mov rax, 24
+mov r12, 10
+mov rdx, 0
+div r12
+imul rdx, 10
+add rax, rdx
+</pre>
+
+<p><b style="font-size:120%">5.</b>
+Assume that X, Y, and Z are defined in a .data section as labels that refer
+to 64-bit values.  Translate the following if statement into x86-64 
+assembly language instructions:
+</p>
+<pre style="margin-left:150px">
+if ( X > Y ) {
+   Z = 1;
+}
+else if (X == Y) {
+   Z = 2;
+}
+else {
+   Z = 3;
+}
+</pre>
+
+<p><b style="font-size:120%">6.</b>
+What is accomplished by the following assembly language instructions?
+What would A and B have to be?  (Your answer might include a translation
+of the assembly code into pseudocode.)
+</p>
+<pre style="margin-left:150px">
+   mov r12, 0
+   mov r13, 0
+startloop:
+   cmp r12, 12
+   je done
+   add r13, [A + r12*8]
+   mov [B + r12*8], r13
+   inc r12
+   jmp startloop
+done:
+</pre>
+
+<p><b style="font-size:120%">7.</b>
+Suppose that when building the Larc computer, there is a wire that you
+want to be on for opcodes 1001, 1100, and 1011.  Draw a logic circuit
+whose input is the four-bit opcode and whose output is that wire.
+</p>
+
+<p><b style="font-size:120%">8.</b>
+When the Larc computer is executing a program, the next value of the PC can come
+from three different sources.  What are <b>two</b> of those sources and under what 
+circumstances is each source used for input to the PC?
+</p>
+
+<p><b style="font-size:120%">9.</b>
+Discuss some of the ways that an assembly language such as x86-64 assembly differs
+from a high-level language such as Java.
+</p>
+
+<p><b style="font-size:120%">10.</b>
+Explain how using a memory cache can allow a program to run faster than
+it would run without the cache.
+</p>
+
+</body>
+</html>

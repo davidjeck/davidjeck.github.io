@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="URF-8">
+<title>CPSC 327: Data Structures and Algorithms, Spring 2019</title>
+<style>
+@media screen {
+    body {
+        background-color: #003355;
+    }
+    #content {
+        background-color: #EEF0FF;
+        max-width: 900px;
+        padding: 10px;
+        margin: 0pt auto;
+        border: 2px solid black;
+    }
+    h1, h2, h3 {
+        color: #003355;
+    }
+    th {
+        color: white;
+        background-color: #006699;
+    }
+}
+a {
+    white-space:pre;
+}
+h3 {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+}
+#heading {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+    padding-bottom:15px;
+    margin-bottom:15px;
+    border-bottom: 2px solid #003355;
+}
+td {
+   white-space: pre;
+}
+</style>
+</head>
+
+<body>
+
+
+<div id="content">
+
+
+<table align=center border=2 cellpadding=10 bgcolor=white>
+<tr><td align=center><b>This course ended<br>May 13, 2019</b>
+</table>
+
+
+
+<h2>CPSC 327:  <i>Data Structures and Algorithms</i></h2>
+
+
+<pre id="heading">
+      <A HREF="http://math.hws.edu">Department of Mathematics and Computer Science</A>
+      <A HREF="http://www.hws.edu">Hobart and William Smith Colleges</A>
+
+      Spring, 2019.
+
+      Instructor:  <a href="http://math.hws.edu/eck/index.html">David J. Eck</a>
+      
+      Textbook:   <a href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844">Introduction to Algorithms, 3rd Edition</a>, by Thomas Cormen et. al.
+
+      Monday, Wednesday, Friday, 12:20&ndash;1:15 PM.  
+         Room Gulick 2000
+
+      Course Handout:  <a href="http://math.hws.edu/eck/courses/cpsc327_s19.html">http://math.hws.edu/eck/courses/cpsc327_s19.html</a>
+      
+</pre>
+
+<table align=center border=1 cellspacing=0 cellpadding=5 bgcolor="white">
+<tr align=center bgcolor="#CCCCCC"><td colspan=4><b>Homework</b></td></tr>
+<tr align=center valign=top>
+    <td width="25%"><a href="s19/homework/hw1.pdf">Homework 1</a><br>Due January 30<br><b>(<a href="s19/homework/hw1-answers.pdf">Answers</a>)</b></td>
+    <td width="25%"><a href="s19/homework/hw2.pdf">Homework 2</a><br>Due February 6<br><b>(<a href="s19/homework/hw2-answers.pdf">Answers</a>)</b></td>
+    <td width="25%"><a href="s19/homework/hw3.pdf">Homework 3</a><br>Due February 15<br><b>(<a href="s19/homework/hw3-answers.pdf">Answers</a>)</b></td>
+    <td width="25%"><a href="s19/homework/hw4.pdf">Homework 4</a><br>Due February 22<br><b>(<a href="s19/homework/hw4-answers.pdf">Answers</a>)</b></td>
+</tr>
+<tr align=center valign=top>
+    <td><a href="s19/homework/hw5.pdf">Homework 5</a><br>Due March 1<br><b>(<a href="s19/homework/hw5-answers.pdf">Answers</a>)</b></td>
+    <td><a href="s19/homework/hw6/hw6.html">Homework 6</a><br>Due March 29<br><b>(<a href="s19/homework/hw6/answers/answers.html">Sample Solutions</a>)</b></td>
+    <td><a href="s19/homework/hw7.html">Homework 7</a><br>Due April 19</td>
+    <td>&nbsp;</td>
+</table>
+
+<h3>Fifteenth Week and the End of Semester: May 6 and 13</h3>
+
+<p>Monday, May 6 is the last day of classes.  There will be some student presentations
+of their final projects.</p>
+
+<p>Final projects are due by the final exam period, Monday, May 13, at 7:00 PM.
+(Seniors are asked to turn in their projects by Sunday, May 12, since senior grades
+are due earlier than other grades.)</p>
+
+<p>There will be some student presentations during the final exam period, but 
+attendance is not required.</p>
+
+<pre style="margin-left:1in">
+<b>End-of-semester Office Hours:</b>
+
+    Monday, May 6:      1:30&ndash;4:00
+    Tuesday, May 7:    10:00&ndash;2:00
+    Wednesday, May 8:   1:00&ndash;4:00
+    Thursday, May 9:    1:00&ndash;4:00
+    Saturday, May 11:  11:00&ndash;2:00
+    Sunday, May 12:    12:00&ndash;1:20
+</pre>
+
+
+<h3>Fourteenth Week: April 29; May 1 and 3</h3>
+
+<p>There is a test on Monday, April 29.  A <a href="s19/test2info.html">study guide</a> was
+handed out in class.</p>
+
+<p>For the rest of the week, we should have some student presentations of final projects.
+I will fill any time that is not used for presentations with discussion of topics that
+didn't make it into the course.  (We might start with the proof that, if P&nbsp;&ne;&nbsp;NP, then 
+there is no approximation algorithm for the general traveling salesman problem.  Unfortunately,
+the proof is based on the fact that HAMILTONIAN_CIRCUIT is NP-complete and you will have
+to take that on faith, since we didn't prove it.</p>
+
+<p>Since there is no final exam and no further homework assignments, whatever we do for the 
+rest of the week will not be tested.  Hopefully, however, there will be some interesting things
+for you to learn about.</p>
+
+<h3>Thirteenth Week: April 22, 24, and 26</h3>
+
+<p>We finished our look at NP-completeness and looked briefly at
+approximation algorithms, Chapter 35.  We covered the approximation 
+algorithm for the Euclidean traveling salesman problem.  On Friday,
+we review for the test.</p>
+
+
+<h3>Twelfth Week: April 15, 17, and 19</h3>
+
+<p>This week, we will be working on NP-Completeness, Chapter 34.  We will define the classes
+P and NP, look at reduction of one problem to another, and define NP-completeness.</p>
+
+
+<h3>Eleventh Week: April 8, 10, and 12</h3>
+
+<p>We will continue with Dynamic Programming, Chapter 15.  We will be covering the
+longest common subsequence problem and the edit distance problem, and maybe some
+of the problems from the exercises.</p>
+
+<p>After that, we will look at some of the material from Chapter 16 on the theory
+of greedy algorithms.  We will at least look at the activity selection problem
+that is used as an example in that chapter.</p>
+
+<h3>Tenth Week: April 1, 3, and 5</h3>
+
+<p>A take-home test was distributed in class last Friday, and is due
+at the start of class this Friday, April 5.</p>
+
+<p>The topic for the week is Dynamic Programming, which is covered in Chapter&nbsp;15 in the textbook.</p>
+
+<h3>Ninth Week: March 25, 27, and 29</h3>
+
+<p>We will finish up our look at basic graph algorithms on Monday by considering
+Dijkstra's algorithm in more detail and then covering Floyd's all-pairs shortest
+path algorithm.  (We will continue to use graphs in examples and assignments.)</p>
+
+<p>For the rest of the week, will be looking at "heuristic search."  I will discuss
+<a href="https://en.wikipedia.org/wiki/Hill_climbing">hill&nbsp;climbing</a> very
+briefly and then <a href="https://en.wikipedia.org/wiki/Simulated_annealing">simulated&nbsp;annealing</a>
+and the <a href="https://en.wikipedia.org/wiki/Genetic_algorithm">genetic&nbsp;algorithm</a>
+in more detail.</p>
+
+<p><a href="s19/homework/hw6/hw6.html">Homework 6</a>, the programming assignment about graphs, is due on Friday, March 29.
+The take-home midterm exam will be handed out on the same day and will be due
+<span style="text-decoration: line-through">Wednesday</span> Friday of next week, April&nbsp;5.</p>
+
+
+<h3>Eighth Week: March 11, 13, and 15</h3>
+
+<p>We covered Kruskal's and Prim's minimal spanning tree algorithms.  In order to
+implement Kruskal's algorithm efficiently, we also covered the <span class=nb>UNION-FIND</span> 
+data structure, and we discussed how to use a heap to make Prim's algorithm efficient.
+We looked at a proof of the correctness of Kruskal's algorithm using a loop invariant.
+And at the end of the week we looked briefly at Dijkstra's shortest path algorithm.</p>
+
+
+<h3>Seventh Week: March 4, 6, and 8</h3>
+
+<p>There is a test on Monday , March 4.  A <a href="s19/test1info.html">study guide</a>
+was handed out in class last Wednesday.</p>
+
+<p>After the test, we will continue our study of graphs.  We will look at topological
+sort (Section 22.4) and then move on to minimum spanning tree algorithms,
+Chapter&nbsp;23.</p>
+
+
+<h3>Sixth Week: February 25 and 27; March 1</h3>
+
+<p>This week, we begin one of the major topics of the course: Graphs and
+graph algorithm.  We will look at the adjacency list and adjacency matrix
+representations of graphs, and we will cover basic graph traversal algorithms.
+The reading is Chapter 22.</p>
+
+<p>Reminder: There is an in-class test coming up next Monday, March 4.</p>
+
+
+<h3>Fifth Week:  February 18, 20, and 22</h3>
+
+<p>We continue talking about hash tables (Chapter 11).  We will then do some work with trees,
+especially binary sort trees (Chapter 12).  Then, instead of covering balanced binary sort trees
+in general, we will look at another approach to balanced trees: B-Trees (Chapter 18).</p>
+
+
+<h3>Fourth Week:  February 11, 13, and 15</h3>
+
+<p>At the end of last week, we proved that a comparison sort requires &Theta;(n*log(n)) comparisons,
+in the worst case (Section 8.1).  This week, we see that nevertheless there are sorting algorithms
+with worst-case running time &Theta;(n).  We will cover counting sort (Section 8.2) and
+radix sort (Section 8.3).  After that, we look at order statistics, such as the maximum and the
+median (Sections 9.1 and 9.2).  We will then move on to hash tables (Chapter 11).</p>
+
+<h3>Third Week:  February 4, 6, and 8</h3>
+
+<p>We will continue to work on sorting.  After completing Heapsort and Priority Queues, we will move
+on to Quicksort (Chapter 7 in the textbook).</p>
+
+
+
+
+<h3>Second Week:  January 28 and 30; February 1</h3>
+
+<p>We will finish the general, introductory material this week and move on to specific algorithms and data structures.
+We will spend most of the week on analysis of algorithms, including Big-Oh notation, recurrence relations, and the
+Master Theorem for solving recurrence relations.  As an example, we will cover Karatsuba's algorithm for
+multiplying n-digit numbers. By Friday, hopefully, we will be able to move on to heaps and HeapSort (Chapter 6 in
+the textbook.)</p>
+
+
+
+
+<h3>First Week:  January 23 and 25</h3>
+
+<p>Welcome to the course!</p>
+
+<p>The textbook for the course is:
+<a href="https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844">Introduction to Algorithms</a>, 
+3rd Edition, by Thomas Cormen et. al., ISBN 9780262033848.  There is a web site for the textbook, including
+answers to some of the exercises and OpenCourseware video lectures from an MIT online course,
+at</p>
+
+<p align=center> <a href="https://mitpress.mit.edu/books/introduction-algorithms-third-edition">https://mitpress.mit.edu/books/introduction-algorithms-third-edition</a></p>
+
+<p>In the first week of the course, we will discuss the difference between <b>problems</b> and
+<b>algorithms</b>, and we will look at the design and analysis of algorithms in general terms.
+The main reading for the week is Chapter 2, <i>Getting Started</i>, and Section 3.1, <i>Asymptotic Notation</i>.
+We will need to review a few topics that you might or might not already be familiar with, including
+summation notation and loop invariants.</p>
+
+
+
+
+
+
+</div>
+</body>
+</html>

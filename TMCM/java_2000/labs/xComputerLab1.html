@@ -1,0 +1,791 @@
+<HTML>
+
+<HEAD> <TITLE>xComputer Lab 1</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xComputer Lab 1:
+         Introduction to xComputer</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+1">T</font>HIS LAB INTRODUCES the
+xComputer applet, which simulates
+a simple model computer (which is also called xComputer).
+The model computer is discussed in Chapter 3 of <cite>The Most
+Complex Machine</cite>.  The xComputer consists of a
+<font color="#E70000">Central Processing
+Unit</font> (CPU) and a <font color="#E70000">main memory</font>
+that holds 1024 sixteen-bit binary numbers. The CPU contains
+an <font color="#E70000">Arithmetic-Logic Unit</font> (ALU)
+for performing basic arithmetic and logical computations.
+It also contains eight <font color="#E70000">registers</font>,
+which hold binary numbers that are being used
+directly in the CPU's computations, a
+<font color="#E70000">Control circuit</font>, which is
+responsible for supervising the computations that the CPU performs, 
+and a <font color="#E70000">clock</font>, which drives
+the whole operation of the computer by turning its single
+output wire on and off.</p>
+
+<p>The xComputer applet that you will use in this lab lets you
+load programs and data into the memory of the
+simulated xComputer.  You can 
+then watch while those programs are executed,
+and you can observe how numbers stored in the computer
+change as a program runs. The applet displays only the registers
+and main memory.  You have to take the control circuit, ALU,
+and clock on faith.</p>
+
+<p>This lab contains basic information about xComputer
+and its machine language.
+It demonstrates how instructions are fetched
+from memory and executed by the CPU.  It will also
+explain the features of the xComputer applet and the
+process of programming the xComputer.
+The <A HREF="xComputerLab2.html">next lab</A> will cover
+the programming process in more detail.</p>
+
+<p>You would find it useful to read through Chapter 3 of
+the text before doing this lab.  Chapter 3 is rather
+technical, and you might find that you need to work
+through both this lab and that chapter before you really
+understand either of them.</p>
+
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#applet">The xComputer Applet</A>
+   <LI><A HREF="#programs">Writing Programs for xComputer</A>
+   <LI><A HREF="#options">Controlling Speed and Display Style</A>
+   <LI><A HREF="#count">Count and Store</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>Start by clicking this button to launch the xComputer applet in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xComputer.zip"
+        code="tmcm.xComputerLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xComputerPrograms/">
+   <param name="URL" value="CountAndStore.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="applet">The xComputer Applet</A></font></H3>
+
+<p>The xComputer applet is divided into three sections.  The
+right-hand third of the applet represents the main memory
+of the simulated computer. This section of the applet shows the
+1024 locations in xComputer's memory.  These locations
+are numbered from 0 to 1023. Each line in the memory
+shows a location number (in blue) and the value stored in that
+location.  When the program first starts up, the memory
+contains only zeros. The scroll bar can be used to view
+any part of memory.</p>
+
+<p>The &quot;Control&quot; section of the applet is used to
+interact with and control the xComputer.  For example, you
+can use text-input boxes and buttons in the Control section to
+enter programs and data into the xComputer's memory.
+Once a program has been loaded into memory, you can tell
+the xComputer to execute it.  You'll learn about controlling
+the xComputer as you work through the lab.</p>
+
+<p>The &quot;Registers&quot; section of the applet
+shows the xComputer's eight registers. Remember that
+a <font color="#E70000">register</font> is simply a
+memory unit in the CPU that holds data being used
+directly in the CPU's computations. Each register plays a
+particular role in the execution of programs by the CPU.
+These roles are described in detail in the text and will
+be illustrated during the course of this lab, but here
+for your reference is a brief summary:</p>
+
+<UL>
+<LI>
+The X and Y registers hold two
+sixteen-bit binary numbers that are used as input by the
+ALU. For example, when the CPU needs to add two numbers, it
+must put them into the X and Y registers so that the ALU can
+be used to add them.
+<LI>
+The AC register is the
+accumulator.  It is the CPU's &quot;working memory&quot; for its
+calculations.  When the ALU is used to compute a result,
+that result is stored in the AC.  For example, if the
+numbers in the X and Y registers are added, then the
+answer will appear in the AC. Also, data can be moved
+from main memory into the AC and from the AC into main
+memory.
+<LI>
+The FLAG register stores the
+&quot;carry-out&quot; bit produced when the ALU adds two binary
+numbers.  Also, when the ALU performs a shift-left or
+shift-right operation, the extra bit that is shifted off
+the end of the number is stored in the FLAG register.
+<LI>
+The ADDR register specifies a
+location in main memory.  The CPU often needs to read values from
+memory or write values to memory.  Only one location in
+memory is accessible at any given time.  The ADDR
+register specifies that location.  So, for example, if
+the CPU needs to read the value in location 375, it must
+first store 375 into the ADDR register.  (If you turn on
+the &quot;Autoscroll&quot; checkbox beneath the memory
+display, then the memory will automatically be scrolled to
+the location indicated by the ADDR register every time the
+value in that register changes.)
+<LI>
+The PC register is the program
+counter.  The CPU executes a program by fetching
+instructions one-by-one from memory and executing them.
+(This is called the <font color="#E70000">fetch-and-execute cycle</font>.)
+The PC specifies the location in memory that holds the
+next instruction to be executed.
+<LI>
+The IR is the instruction
+register.  When the CPU fetches a program instruction
+from main memory, this is where it puts it. The IR holds
+that instruction while it is being executed.
+<LI>
+The COUNT register counts off
+the steps in a fetch-and-execute cycle.  It takes the CPU
+several steps to fetch and execute an instruction. When
+COUNT is 1, it does step 1; when COUNT is 2, it does
+step 2; and so forth. The last step is always to reset
+COUNT to 0, to get ready to start the next
+fetch-and-execute cycle. This is easier to understand
+after you see it in action.  Remember that as the
+COUNT register counts 0, 1, 2,..., just <strong>one</strong>
+machine language program is being executed.
+</UL>
+
+<p>You will learn how the xComputer works by giving it a
+short program and watching it execute that program.  
+A program is a sequence of assembly language instructions.
+You have to enter the instructions into the xComputer's
+memory.  But first, make sure that the &quot;addr&quot;
+input box in the Control area of the applet contains
+a zero.  The number in this box specifies the address in memory
+where the instruction that you type will be stored.  Then,
+type the following instructions into the &quot;data&quot;
+input box.  Press return after each instruction
+(or, equivalently, click the &quot;Data to Memory&quot;
+button):</p>
+
+<pre>              lod-c 17
+              add-c 105
+              sto 10
+              hlt
+</pre>
+
+<p>When you press return, an instruction is translated
+into a machine language instruction and is stored in
+the xComputer's memory.  (You'll actually see a number in
+the memory, rather than the assembly language instruction
+that you typed.  For example, the instruction
+&quot;<font color="#007000">lod-c 17</font>&quot; is represented by the number
+25617.)  Note that when you press return, the number
+in the &quot;addr&quot; input box is automatically
+incremented by one, to get ready for storing the next
+instruction that you type in the next memory location.
+</p>
+
+<p>The first instruction of this program, <font color="#007000">lod-c
+17</font>, tells the xComputer to load the constant 17 into the accumulator.
+The second instruction, <font color="#007000">add-c 105</font>
+tells the computer to add the constant 105 to whatever number
+is in the accumulator and to put the result back into the
+accumulator.  The <font color="#007000">sto 10</font> makes
+the computer copy the contents of the accumulator into
+memory location 10.  And the final instruction, 
+<font color="#007000">hlt</font>, tells the computer to halt.
+The net effect is that the program adds 105 to 17 and
+stores the answer in location 10.  After the program
+halts, you can look in memory at location 10 to find the
+answer.</p>
+
+
+<p>Now, how do you make the computer <strong>run</strong>
+the program?  All the computer ever does is fetch instructions
+from memory and execute them.  The value stored in the PC
+register tells the computer which memory location to
+go to to get the next instruction.  Before running
+the program, you have to make sure that it will begin
+with the first instruction of the program, which is in
+memory location zero.  This means that the PC register
+should contain a zero.  If this is not the case, you
+can put a zero into the PC by clicking the &quot;Set PC = 0&quot;
+button in the Control section of the applet.  (Zero
+is the most common starting value for the PC, but if
+you want to start at a different location, you can type
+the address of that location into the &quot;addr&quot;
+input box and click the &quot;Addr to PC&quot; button.)</p>
+
+<p>Once you have checked the value of the PC register,
+you can just click on the &quot;Run&quot; button to run
+the program.  You should think of this as turning on
+the xComputer's clock.  As soon as you do this, the
+clock stars ticking, the value in the COUNT register
+starts changing, and the fetch-and-execute cycle proceeds.
+This will continue until the computer executes a
+<font color="#007000">HLT</font> instruction, or until
+you stop it.</p>
+
+<p>You should <strong>Try this now</strong>.  Make sure that
+the PC contains a zero.  Then, click on the &quot;Run&quot;
+button. If you have done everything correctly, the
+program will run.  You will see things happening, although
+you will probably not really understand them at this point. 
+But you will notice that the instructions in the program
+appear one by one in the IR register as they are
+executed. Eventually, the <font color="#007000">HLT</font>
+instruction will be
+executed and the computer will stop running. The correct
+answer to the computation, 122, will be in memory
+location 10.  This gives you the general idea of how
+programs are executed by xComputer.  Your goal in the
+rest of the lab is to understand the details.</p>
+
+<p>After running the program once, you should run it again.
+First, <strong>reset the PC to zero</strong>.  This time,
+instead of using the &quot;Run&quot; button, use the
+&quot;Cycle&quot; button.  Clicking on &quot;Cycle&quot;
+makes the computer run, but only until the value in 
+the COUNT register is 2.  At that point, the computer
+has just loaded a new instruction into the IR and is
+about to execute that instruction.  When you click on
+&quot;Cycle&quot; again, the computer will execute that
+instruction and fetch the next instruction.  Thus, the
+&quot;Cycle&quot; button lets you step through a program
+one instruction at a time.  Try it!  Keep clicking on
+&quot;Cycle&quot; until you get to the <font color="#007000">HLT</font>
+instruction.</p>
+
+<p>Finally, you can run the program one more time, this time
+with the &quot;Step&quot; button.  Clicking on the &quot;Step&quot;
+button makes the computer perform a single step in the fetch-and-execute
+cycle.  You have to click on it several times just to execute
+one instruction in the program.  Once again, you should
+<strong>reset the PC to zero</strong>.  Then, click
+through your program with the &quot;Step&quot; button
+until the <font color="#007000">HLT</font> is executed.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="programs">Writing Programs for xComputer</A></font></H3>
+
+<p>It should be clear that entering a long program into
+xComputer by typing it into the &quot;data&quot; box would be
+very tedious and error-prone. If you accidentally leave
+out one instruction, for example, you might have to
+retype most of the program!  Fortunately, the xComputer
+applet lets you type a complete program in a
+separate text-input area and then translate the whole
+program at once and store it in xComputer's memory.
+This has three advantages:  You can
+edit the program in the window, for example by inserting
+a new instruction.  You can (if the configuration of
+your Web browser permits it) save the program
+in a file, so that you'll never have to retype it again. 
+And you can use <font color="#E70000">labels</font>
+in your program.  Labels
+are a powerful programming technique; they are described
+in the Postscript to Chapter 3 in the text.  They are not
+covered in this lab, but they will be an important part
+of the <A HREF="xComputerLab2.html">next lab</A>.</p>
+
+<p>If you want to type a new program, just click on
+the &quot;New Program&quot; button in the Control area
+of the applet.  Alternatively, you can select &quot;[New]&quot;
+from the pop-up menu at the very top of the applet.  
+The computer display will disappear and will be replaced
+by a text-input area when you can type your program.
+Enter the following program into that text area:
+
+<pre>          lod-c 1
+          sto 12
+          lod 12
+          inc
+          sto 12
+          jmp 2
+</pre>
+
+<p>This program <strong>counts</strong>.
+It starts by putting the number 1 into memory
+location 12, and then it adds one
+to the number in that location over and over, forever. 
+(You'll see this in action in a moment.) There are
+several new instructions here.  
+<font color="#007000">Lod 12</font> tells xComputer to
+copy the number from memory location 12 into the
+accumulator.  (Note how this differs from
+<font color="#007000">lod-c 12</font>,
+which puts the number 12 itself into the AC, rather
+than the number stored in memory location 12.)  The
+<font color="#007000">inc</font>
+instruction adds one to the value in the accumulator. 
+And <font color="#007000">jmp 2</font>
+is a jump instruction that sends the computer
+back to location 2.</p>
+
+<p>After typing this program, click on the
+&quot;Translate&quot; button that is located below
+the text area, on the left end of a row of buttons.
+If the program contains some error, an error message
+will be displayed.  If you've typed the program correctly,
+it will be translated into machine language and stored
+in the xComputer's memory.  The text area will be
+replaced by the computer display, and the computer will
+be ready to run the program.  Click on the &quot;Run&quot;
+button to run the program and see how it operates.
+You can watch as the PC counts off the instructions in
+the program.  You will see the assembly language
+instructions themselves as they are loaded into the IR.
+And you can observe that the value in memory location 12
+changes from 1 to 2 to 3 to 4 and so on.  This
+program will run forever, if you let it.</p>
+
+<p>You will be working with this little program throughout
+most of the remainder of the lab. Your objective is to understand
+how xComputer operates and to appreciate the
+fetch-and-execute cycle.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="options">Controlling Speed and Memory Display Style</A></font></H3>
+
+<p>As you let the counting program run, you can try varying the
+speed at which the computer executes instructions by
+changing the setting on the speed pop-up menu
+(located just below the &quot;Run&quot; button.
+The lower speeds allow you to watch what is happening
+in more detail.  The higher speeds allow the computer
+to get more done.  At the very highest speed, the
+registers are not displayed, so that the computer can run
+as quickly as possible, without updating the register
+display all the time.</p>
+
+<p>When you have had enough of this, <strong>stop the program</strong>
+and experiment with the memory display style pop-up menu,
+which is located just above the scrolling memory display.
+This menu allows you to select how you would like to view
+the contents of main memory.  (There is also a similar
+pop-up menu for setting the register display style.)
+Of course, the actual contents of memory are binary numbers,
+but a binary number can mean many things, depending on 
+how it is interpreted. 
+When the applet first starts up, it is set to display
+the contents of memory as ordinary decimal integers in the
+range -32768 to 32767.  This is only one
+possible interpretation of the binary numbers that
+are stored in memory.  Using the display style pop-up menu,
+you can select from six different interpretations:</p>
+
+<UL>
+<LI>
+The <font color="#E70000">Instructions</font>
+display shows the contents of each
+memory location as an assembly language instruction.  In
+this display style, you should see the original counting
+program in memory locations 0 through 5.  Most of the
+other locations contain <font color="#007000">Add 0</font>,
+which just happens to
+be the assembly language instruction encoded by the
+16-bit binary number 0000000000000000.  (Since not every
+16-bit binary number corresponds to a legitimate
+assembly-language instruction, you might see some funny
+things in this display style.)
+<LI>
+The <font color="#E70000">Integers</font> and
+<font color="#E70000">Unsigned Ints</font> displays show
+ordinary decimal integers. The difference is that signed
+16-bit integers are in the range -32768 to 32767, while
+unsigned 16-bit integers are in the range 0 to 65535. 
+(In either case, there are 2<sup>16</sup> different possible
+values -- it's just a question of how they are
+interpreted.  See Subsection 2.2.3 in the text.)
+<LI>
+The <font color="#E70000">Binary</font>
+display shows a 16-bit binary number in each
+memory location; this display style is closest to the
+actual physical contents of the memory.
+<LI>
+The <font color="#E70000">ASCII</font>
+display interprets each sixteen-bit number in
+memory as made up of two eight-bit ASCII  character
+codes, and shows the two characters.  Some eight-bit
+binary numbers do not represent visible ASCII characters.
+These numbers are shown in the form &lt;#N&gt;, where
+N is the number, in decimal form.  Thus, for
+example, the 16-bit binary number 0000000000000000
+is shown in ASCII display style as &lt;#0&gt;&lt;#0&gt;.
+<LI>
+The <font color="#E70000">Graphics</font>
+display is very different from the others. 
+It shows the <strong>entire</strong> memory at once.
+Each bit in memory -- all 16 times 1024 of them -- is
+represented by
+one pixel on the screen.  That pixel is white if the bit
+is zero and is black if the bit is one.  If you choose
+the Graphics display now, the memory will be almost
+entirely white, except for a few black dots at the top
+that represent the program you entered into memory.
+</UL>
+
+<p>You can try out the various memory display styles.
+You'll be using them in Exercise 1 at the end of the lab.
+I should note that when you enter information into Memory
+using the &quot;data&quot; input box in the Control area
+of the applet, you can type
+the information in several of the above display styles,
+as well as in assembly language.  You can, for example,
+enter ordinary numbers in the range -32768 to 65535. 
+You can enter a binary number, but you must precede it by
+the letter B. For example: B1011010111.  Finally, you can
+enter one or two ASCII characters, but you must precede
+them by a quote mark.  For example: '#1 or 'A.  You will
+need to do this for Exercise 1.</p>
+
+<p>There is another option in the pop-up menu:
+&quot;Control Wires&quot;.  This display
+style doesn't show memory at all.  If you select it,
+the computer's memory display will be replaced by a list of 
+<font color="#E70000">control wires</font>.
+These control wires are the key to understanding how the
+xComputer works.  The basic idea is that turning control
+wires on and off makes things happen in the computer.
+They are turned on and off by a
+<font color="#E70000">Control Circuit</font>, and
+they control the operation of other
+components of the CPU.  Each control wire has a function.
+Turning that wire on causes something to happen, such as
+moving a number from main memory into the AC register or
+adding the numbers in the X and Y registers and putting
+the answer into the AC.  Executing a program is just a
+matter of turning the right wires on and off in the right
+sequence.</p>
+
+<p>The &quot;Control Wires&quot; display lets you see what
+wires are turned on during each step in the execution
+of an instruction.  Try it with the instruction
+<font color="#007000">lod-c 17</font>,
+by doing the following:  <strong>First</strong>,
+enter the instruction &quot;lod-c 17&quot; into
+some memory location, and set the PC to the address of
+that location.  <strong>Next</strong>, set the
+display style to &quot;Control Wires&quot;.
+<strong>Then</strong>, use the &quot;Step&quot;
+button to go through the fetch-and-execute cycle
+one step at a time.  Here's what you will see:</p>
+
+<UL>
+<LI>
+First click on the &quot;Step&quot; button: COUNT
+becomes 1, indicating that the first step in the fetch
+and execute cycle is being performed. The
+Load-addr-from-PC control wire is turned on, and the
+value in the PC register is copied into the ADDR
+register.  (The PC register tells which memory location
+holds the next instruction; that location number must be
+copied into the ADDR register so that the computer can
+read that instruction from memory.)
+<LI>
+Second click: COUNT becomes
+2. The Load-IR-from-Memory control wire is turned on, and
+an instruction is copied from memory into
+the IR.  (The ADDR register determines which instruction
+is read.)  In this case, the instruction is Lod-c 17.
+<LI>
+Third click: COUNT becomes 3. The
+Increment-PC control wire is turned on, and the value
+in the PC register is incremented by 1.  Ordinarily,
+this prepares the PC for the
+<strong>next</strong> fetch-and-execute cycle.  This completes
+the &quot;fetch&quot; portion of the fetch-and-execute cycle. 
+The remaining steps in the cycle depend on the particular instruction
+that is begin executed (in this case, lod-c 17).
+<LI>
+Fourth click: COUNT becomes 4. The
+Load-AC-from-IR control wire is turned on.
+The data part of the instruction in the IR register,
+is copied into the accumulator.  In this case,
+the value is 17.  This is the only step
+necessary to execute the lod-c 17 instruction.
+<LI>
+Fifth click: COUNT becomes 5,
+but only briefly.  The Set-COUNT-to-Zero control wire
+is turned on and immediately the value of COUNT is reset
+to 0. One fetch-and-execute cycle is over.  (On the next
+click, COUNT would become 1 again, and the next cycle
+would begin.
+</UL>
+
+<p>As you click on the &quot;Step&quot; button in this exercise,
+you are actually simulating the role of the xComputer's clock. 
+Each click has the same effect as one tick of the clock,
+and you are driving the computation at your leisure in
+the same way as the ticking of the clock usually drives
+the computer with its regular ticking.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="count">Count and Store</A></font></H3>
+
+<p>For the last part of the lab, consider the following
+program, &quot;CountAndStore&quot;.  This program should
+have been automatically loaded by the xComputer applet,
+so you won't have to type it in.  Just select it from
+the pop-up menu at the top of the applet, and click
+on the &quot;Translate&quot; button to store it in
+the xComputer's memory.  Note that in an xComputer
+program, anything that comes after a semicolon on
+a line is a comment, which is meant for human readers.
+Comments are ignored by the computer.</p>
+
+<pre>
+     lod-c 1     ; Start with a 1 in location 12
+     sto 12
+
+     lod 12      ; This instruction is stored in location 2
+     inc
+     sto 13      ; This instruction is stored in location 4
+
+     lod 2       ; Add 1 to the number in location 2
+     inc
+     sto 2
+
+     lod 4       ; Add 1 to the number in location 4
+     inc
+     sto 4
+
+     jmp 2       ; Go back to the instruction in location 2
+
+</pre>
+
+<p>This program is similar to the simple
+counting program that you looked at earlier in the
+lab, except that the number for the
+second <font color="#007000">sto</font>
+command has been changed, and six new instructions
+have been inserted before the 
+<font color="#007000">jmp</font> command.
+The instructions &quot;<font color="#007000">lod 2,
+inc, sto 2</font>&quot; add 1 to the number stored
+in memory location 2.  But if you look at what's stored 
+in that location, you'll find the instruction
+<font color="#007000">lod 12</font>, which is part
+of the program.  This seems odd.  What happens when you &quot;add
+1&quot; to an <strong>instruction</strong>?</p>
+
+<p>Remember that machine language instructions are really just
+numbers.  There is no problem with adding 1 to a number. 
+However, the meaning of the instruction represented by the
+number is changed.  If you add 1 to the number that
+encodes &quot;<font color="#007000">lod 12</font>,&quot;
+the meaning of the answer is &quot;<font color="#007000">lod13</font>.&quot;
+If you want to understand exactly why this is true, look at
+the binary representations of the machine language instructions.
+(The details are given in Section 3.2 of the text, if you want
+to check there.)</p>
+
+<p>Run this program and see what it does.
+To fully appreciate this program, you should run it
+at &quot;Fastest Speed&quot; with the memory display set
+to &quot;Graphics&quot;.  You can watch as the memory
+is gradually filled with numbers.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font>
+You can use the xComputer to translate from one type of
+data to another by entering it in one form in the
+&quot;data&quot; input box and viewing it in memory in another
+form.  Use this method to do the following conversions,
+and explain briefly how you do each part:</p>
+<OL>
+<LI>Find the ASCII code for the character #.  (The ASCII code
+    is the <strong>integer</strong> that represents this ASCII character.)
+<LI>Find the character whose ASCII code is 99.
+<LI>Find the binary representation of -233.
+<LI>Find the unsigned integer that has the same binary
+    representation as the signed integer -233.
+<LI>Find the unsigned integer that represents the
+    assembly language instruction <font color="#007000">sto
+    1023</font>.
+<LI>Now, Add 1 to the number that represents
+    <font color="#007000">sto 1023</font>
+    and find the assembly language instruction
+    represented by the resulting number.
+    Why do you get a completely different instruction?
+   (Note: Do the addition yourself; you don't have to
+   program the computer to do it!)
+</OL>
+
+<p><font color=blue><b>Exercise 2:</b></font>
+In reality, the memory of a computer contains only binary numbers.
+Machine language, in particular, consists of binary numbers.
+Translate the counting program, which is repeated below, into the
+binary numbers of machine language, and write a paragraph or
+two explaining <strong>why</strong> computers use binary
+numbers instead of something more readable.</p>
+
+<pre>             lod-c 17
+             sto 12
+             lod 12
+             inc
+             sto 12
+             jmp 2
+</pre>
+
+<p><font color=blue><b>Exercise 3:</b></font>
+Write an assembly language program that computes
+34 - 17 + 103 - 12.  The instruction for
+subtracting a constant from the accumulator is
+<font color="#007000">sub-c</font>.</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Earlier in the lab, you were asked to step through
+the execution of the instruction
+<font color="#007000">lod-c 17</font>,
+which tells the computer to load the number 17 into
+the accumulator.
+The instruction <font color="#007000">lod 17</font>
+tells the computer to copy the contents of memory location
+17 into the accumulator.  Use xComputer to watch as
+this instruction is executed step-by-step, just as you did above for
+the <font color="#007000">lod-c 17</font>. 
+Enter a <font color="#007000">lod 17</font> instruction into
+memory location zero, and <strong>reset the PC to zero</strong>.
+Set the display style to &quot;Control
+Wires&quot;. Then use the &quot;Step&quot; button to
+step through the fetch-and-execute cycle as
+the <font color="#007000">lod</font> instruction is executed.
+Write down what happens during each step. Carefully
+explain the purpose of each step in the execute
+phase of the cycle (steps 4 and later).  What differences
+do you find between the execution of a 
+<font color="#007000">lod-c</font> instruction
+and the execution of a <font color="#007000">lod</font> instruction?
+How can the differences be explained in terms of what the
+instructions do?
+</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+Use the &quot;Step&quot; button to trace the execution
+of an <font color="#007000">add-c</font> instruction
+and of an <font color="#007000">add</font> instruction.
+(See Exercise 4 for detailed instructions about how to
+do this.)  Record the control wires that are on during
+each step in the execute part of the fetch and execute
+cycle, that is for steps number 4 and later, and carefully
+explain the purpose of each of those steps.  What differences
+do you observe between these two instructions?
+How can the differences be explained in terms of what the
+instructions do?</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+Carefully explain why the first three steps of the
+fetch-and-execute cycle are always the same, and why 
+they have nothing to do with the contents of the 
+instruction register.</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+Modify the first counting
+program used in this lab so that it will count just from
+one to sixteen, stopping when it reaches sixteen. 
+(The program is repeated below.)  To do
+this, each time through the loop,
+you need to test whether the number is sixteen.
+If it is, jump to a <font color="#007000">HLT</font>
+instruction at the end of the program.  Testing whether
+a number is sixteen requires two steps:
+First, subtract 16 from the number, and 
+then test whether the answer is zero.  Use a
+<font color="#007000">JMZ</font> instruction to
+test whether the answer is zero.
+(This is like a <font color="#007000">JMP</font>
+instruction, except that the jump only occurs if the
+number in the AC is zero.)  Write a paragraph
+explaining how your program works.</p>
+
+<pre>          lod-c 1    ; This is the original counting program.
+          sto 12
+          lod 12
+          inc
+          sto 12
+          jmp 2
+          hlt        ; Add a halt instruction at the end.
+</pre>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Describe what is done by
+the &quot;CountAndStore&quot; program, which you
+encountered earlier in the
+lab.  Discuss <strong>how</strong> it works in some detail.
+To do a good job on this exercise, you will have to
+step through several executions of the loop in the program
+and study how it works.
+</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+Discuss what you learn from the &quot;CountAndStore&quot;
+program about &quot;data&quot; and &quot;instructions&quot;
+and the relationship between them.  (The memory of a
+computer can hold both data and instructions.  How does
+the computer distinguish between them?  Does it?)</p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+Run the &quot;CountAndStore&quot; program at &quot;Fastest
+Speed&quot; with the display set to &quot;Graphics.&quot;
+If you let the program run long enough, it will halt.
+How is this possible, since the program contains no
+<font color="#007000">HLT</font> instruction?  To figure
+this out, you'll need to do some detective work after the
+program ends.  Look at what has happened to the program
+in the computer's memory.  Try to be as explicit and
+complete with your explanation as possible.  This is
+not an easy question.
+(Hint: something you did in Exercise 1 turns out to
+be relevant here.)</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

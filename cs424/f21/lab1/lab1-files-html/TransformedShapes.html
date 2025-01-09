@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TransformedShapes</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border. */
+    body {
+        background-color: #E8E8E8;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+<script>
+
+    let g;   // A 2D graphics context for drawing on the canvas.
+
+    //***************** Functions for drawing the three basic shapes *****************
+
+	/**
+	 * Draws a filled circle of radius 50 (diameter 100) centered at (0,0), 
+	 * subject to whatever transform(s) have been applied to g.
+	 */
+	function circle() {
+        g.beginPath();
+        g.arc(0,0,50,0,2*Math.PI,false);
+        g.fill();
+	}
+
+	/**
+	 * Draws a filled square with side 100 centered at (0,0), subject
+	 * to whatever transform(s) have been applied to g.
+	 */
+	function square() {
+		g.fillRect(-50,-50,100,100);
+	}
+
+	/**
+	 * Draws a filled triangle with vertices at (-50,50), (50,50), and 
+	 * (0,-50), subject to whatever transform(s) have been applied to g.
+	 */
+	function triangle() {
+		g.beginPath();
+        g.moveTo(-50,50);
+        g.lineTo(50,50);
+        g.lineTo(0,-50);
+        g.closePath();
+        g.fill();
+	}
+
+
+    //********************************************************************************
+    
+    /**
+     *  The draw() function is called only once, when the page loads.
+     */
+    function draw() {
+         g.fillStyle = "white";
+         g.fillRect(0,0,600,600);
+         g.fillStyle = "black";
+
+         // TODO: Delete the rest of this function, and replace it with code
+         // to draw the four assigned pictures, using ONLY the functions
+         // square(), triangle(), and circle() along with color changes and
+         // and transformations !!
+
+         //------------------------------- sample drawing -----------------------------
+
+         g.save();
+         g.translate(150,150);
+         circle();  // draw a circle of radius 50 centered at (0,0)
+         g.restore();
+
+         g.save();
+         g.translate(450,150);
+         triangle(); // draw a triangle, centered at (0,0)
+         g.restore();
+
+         g.save();
+         g.translate(150,450);
+         square();  // draw a square with side 100, centered at (0,0)
+         g.restore();
+
+         // draws a red X, consisting of two transformed squares, centered at (0,0)
+         // and then moved to the lower right quadrant
+
+         g.save();
+         g.fillStyle = "red";
+         g.translate(450,450);
+
+         g.save();
+         g.rotate(Math.PI/4);
+         g.scale(2, 0.5);
+         square();
+         g.restore();
+
+         g.save();
+         g.rotate(-Math.PI/4);
+         g.scale(2,0.5);
+         square();
+         g.restore();
+
+         g.restore();
+
+         //-------------------------------------------------------------------------
+
+     } // end of draw()
+    
+       
+    /**
+     * The init() funciton is called after the page has been
+     * loaded.  It initializes the canvas and graphics variables,
+     * and it calls draw() to draw on the canvas.  If an error
+     * occurs, a message is displayed in place of the canvas.
+     */
+    function init() {
+        try {
+            let canvas = document.getElementById("canvas");
+            g = canvas.getContext("2d");
+        } catch(e) {
+            document.getElementById("canvasholder").innerHTML =
+               "<p>Canvas graphics is not supported.<br>" +
+               "An error occurred while initializing graphics.</p>";
+            return;
+        }
+        draw();
+    }
+    
+    window.onload = init; // arranges for function init to be called when page is loaded
+    
+</script>
+</head>
+<body> 
+
+<h2>CS 424 Lab 1:  TransformedShapes</h2>
+
+<noscript>
+    <!-- This message will be shown in the page if JavaScript is not available. -->
+<p>JavaScript is required to use this page.</p>
+</noscript>
+
+<div id="canvasholder">
+<canvas id="canvas" width="600" height="600">
+    <!-- This message is shown on the page if the browser doesn't support the canvas element. -->
+Canvas not supported.
+</canvas>
+</div>
+
+
+</body>
+</html>

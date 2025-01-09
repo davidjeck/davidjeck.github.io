@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<title>CS220, Fall 2022, Lab 11</title>
+<style>
+   li {
+       margin-top:8px
+   }
+   p.exercise {
+       text-indent: 0pt;
+   }
+   p.exercise b {
+       font-size: 110%;
+       font-weight: bold;
+       font-color: #000080;
+   }
+</style>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 11: Functions in x86-64 Assembly</h2>
+
+<div class="intro">
+
+<p>This lab is about writing and using functions in assembly language.  The lab
+has two parts.  In Part&nbsp;A, you will write some functions in assembly language
+that are called from a program written in&nbsp;C.  In Part&nbsp;B, you will write an assembly language
+program that calls functions from the C standard library.  The two parts of the
+lab are completely independent.  You can work on them in either order.</p>
+
+<p>You will need to use the Linux C calling convention, which was summarized in
+<a href="../registers.html">this&nbsp;handout</a>.</p>
+
+<p><b>You have the option of working on this lab with a partner of your choice.</b>
+Two people working together should submit just <b>one</b> copy of their work, to
+the homework folder for either partner.  Both names <b>must</b> be in a comment
+at the top of the programs.</p>
+
+<p><b>Work from this lab is due by 3:00 PM next 
+<span style="text-decoration:line-through">Friday, November 11</span> 
+Monday, November 14 (later than usual
+because of the test on Wednesday).  You 
+will turn in two assembly language programs named lab11A.asm and lab11B.asm. Copy your files
+to your folder in <span style="white-space:pre">/classes/cs220/homework</span></b></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Part A: Writing Functions in Assembly for Use in C</h3>
+
+<p>For this part of the lab, you should create a new file named <i>lab11A.asm</i> to hold
+your assembly language code.  You will write three functions in that file named <i>sum8</i>,
+<i>arraySearch</i>, and <i>fibonacci</i>.  These functions will be called from a program
+written in&nbsp;C.  To work with that program, they must follow the C calling convention
+for passing arguments and returning a value.</p>
+
+<p>The C program that will test your functions is <a href="lab11main.c">lab11main.c</a>, which you can get
+from <span style="white-space:pre">/classes/cs220</span> or through the above link.</p>
+
+<p>The functions are declared <i>extern</i> in the C program.  To make them available
+for use in that program, you need to declare <i>sum8</i>, <i>arraySearch</i>, and <i>fibonacci</i>
+to be <i>global</i> in <i>lab11A.asm</i>.</p>
+
+<p>You can assemble <i>lab11A.asm</i> in the usual way with <i>yasm</i>, to get the
+object file <i>lab11A.o</i>.  But to link it with the C program, you will have to 
+complile and link it using the <i>gcc</i> compiler and linker.  The command to compile
+and link and create an executable program named <i>lab11</i> is:</p>
+
+<pre class=code>
+gcc -g -o lab11 lab11main.c lab11A.o
+</pre>
+
+<p class=np>You can then use the command <i>./lab11</i> to run the program.  (If you get a
+some error mentioning PIE when you use <i>gcc</i>, try using this command instead:</p>
+
+<pre class=code>
+gcc -g -no-pie -o lab11 lab11main.c lab11A.o
+</pre>
+
+<p class=np>but that should only happen if the assembly language code has a data, rodata, or bss section,
+and you don't need those sections for this lab.)</p>
+
+<p><b>Debugging problems.</b> You might want to run the debugger on the program.  It has
+become clear that there is a bug in some combination of the <i>yasm</i> assembler and the debugger.
+The alternative assembler, <i>nasm</i>, doesn't have the same problem.  If you want to use the
+debugger, try assembling your code with <i>nasm</i> using</p>
+
+<pre class=code>
+nasm  -felf64  -gdwarf  lab11A.asm
+</pre>
+
+<p class=np>Note the use of "-gdwarf" instead of "-gdwarf2"; that is not a typo.  Unfortunately, the syntax rules for
+<i>nasm</i> are not quite identical to <i>yasm</i> syntax rules.  It should work, but if you
+have problems, ask for help.</p>
+
+
+
+<hr align=center width="33%">
+
+<p class=np>Here is a specification of the three functions:</p>
+
+<p><b>First function: sum8(a,b,c,d,e,f,g,h).</b>  The first function is simple.  It just adds up its
+eight arguments and returns the sum.  It can be implemented with a <i>mov</i> instruction and
+eight <i>add</i> instructions.  The problem is knowing where the arguments are, and for that you
+need to understand the calling convention.  The arguments and return value are of type <i>long</i>.
+(Note: Remember that values on the stack can be accessed relative to the stack pointer, <i>rsp</i>.)</p>
+
+<p><b>Second function: long arraySearch(long A[], long len, long x).</b> This function searches an
+array for a given value.  It returns -1 if the value is not in the array, and it returns the
+array index of the item if it is found.  The first argument is (a pointer to) the array.
+The second is the number of items in the array.  And the third is the item that you are
+searching for.</p>
+
+<p><b>Third function: unsigned long fibonacci(unsigned long N).</b>  You should write a recursive
+function to compute the Nth Fibonacci number.  (This is a terrible idea, since the recursive 
+implementation is horribly inefficient, and you shouldn't call the function for N bigger than
+maybe 25 because the run time increases exponentially with&nbsp;N.)  In pseduocode, the
+recursive algorithm is:</p>
+
+<pre class=code>
+if (N < 2)
+   return 1
+else
+   return fibonacci(N-1) + fibonacci(N-2)
+</pre>
+
+<p class=np>For the recursive case, you will need to save at least one value on the stack.</p>
+
+<hr align=center width="33%">
+
+<p class=np>Here is what the program should output"</p>
+
+<pre class=code>
+sum8(10,-3,7,20,-15,2,15,6) = 42
+
+Is  10 in list1?  yes
+Is  42 in list1?  no
+Is 636 in list2?  yes
+Is -17 in list2?  no
+Is 211 in list2?  yes
+Is 238 in list2?  yes
+
+Fibonacci(0) is 1
+Fibonacci(1) is 1
+Fibonacci(2) is 2
+Fibonacci(3) is 3
+Fibonacci(4) is 5
+Fibonacci(5) is 8
+Fibonacci(6) is 13
+Fibonacci(7) is 21
+Fibonacci(8) is 34
+Fibonacci(9) is 55
+
+</pre>
+
+</div>
+
+
+<div class="section">
+
+<h3>Part B: Calling Standard C Functions</h3>
+
+<p>For this part of the lab, you should create a new file named <i>lab11B.asm</i> to hold
+your program.  You will write an assembly language program that is a direct translation
+of a program written in&nbsp;C.  The program lets the user play a guessing game.
+It is given below and in the file <a href="guessing-game.c">guessing-game.c</a>.
+If you would like to try the program before you work on the translation, you
+can compile and run it with the commands</p>
+
+<pre class=code>
+gcc -o game guessing-game.c
+./game
+</pre>
+
+<p>The program includes calls to the standard C functions printf, scanf, getchar, time, srand, and rand.
+Don't forget to declare those names as <i>extern</i> in your program.  And remember, if you work with
+32-bit integer values, use the 32-bit registers such as <i>eax</i>, <i>esi</i>, and <i>r12d</i>.</p>
+
+<p>To compile and link your program, you should use the build script <a href="build.sh">build.sh</a>,
+which can be found in <span style="white-space:pre">/classes/cs220</span>.  You can run it 
+from that folder:</p>
+
+<pre class=code>
+/classes/cs220/build.sh  -c  lab11B.asm
+</pre>
+
+<p class=np>You can also copy it into the same directory as lab11B.asm and run it from there:</p>
+
+<pre class=code>
+./build.sh  -c  lab11B.asm
+</pre>
+
+<p class=np>In any case, don't forget to include the "-c" option.  That option is needed for
+the linker to find the C standard libraries.  You will get link errors if you don't include it.</p>
+
+<p>It is possible to use the <i>ddd</i> debugger for this part of the lab, but you should use
+the <i>nasm</i> assembler instead of <i>yasm</i> to the avoid the <i>yasm</i> bugs.  To use
+<i>nasm</i> with the build script, add the "-n" option:</p>
+
+<pre class=code>
+./build.sh  -c  -n  lab11B.asm
+</pre>
+
+
+<hr align=center width="33%">
+
+<p class=np>Here is the program written in C:</p>
+
+
+<pre class=code>
+#include &lt;time.h>
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+
+/* Guessing game.  Computer picks a random number in the range 1 to 100.
+ * The user tries to guess it.  The computer tells the user if their guess
+ * is high or low.  The user has 6 tries to guess the number.
+ */
+
+int main() {
+
+    // initialize the random number generator with the current time.
+    unsigned long now = time(0);
+    srand(now);
+    
+    int N = (rand() % 100) + 1; // random number in the range 1 to 100
+    
+    printf("I picked a number in the range 1 to 100.  Try to guess it.\n\n");
+    
+    int guessCount = 0;  // Count the user's guesses.
+    int userGuess;       // The user's guess;
+    
+    while (1) {
+        guessCount++;
+        printf("What is your guess? ");
+        int i = scanf("%i", &userGuess);
+        if ( i != 1 ) {
+            printf("Please enter an integer!\n");
+            guessCount--; // don't count this guess
+            int ch;
+            do { // eat the rest of the input line
+               ch = getchar();
+            } while (ch != 10);
+        }
+        else if (userGuess == N) {
+           printf("You got it in %d tries.\n", guessCount);
+           break;
+        }
+        else if (guessCount == 6) {
+           printf("Sorry, you used up your 6 guesses.\n");
+           printf("My number was %i.\n", N);
+           break;
+        }
+        else if (userGuess > N) {
+            printf("Too high!  Try again.");
+        }
+        else {
+            printf("Too low!  Try again.");
+        }
+    }
+
+}
+</pre>
+
+</div>
+
+
+</div>
+</body>
+</html>

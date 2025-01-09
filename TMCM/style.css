@@ -1,0 +1,89 @@
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+body {
+   background-color:gray;
+}
+div.page {
+   background-color: #EEEEEE;
+   color: black;
+   max-width: 850px;
+   margin: 0 auto;
+   padding: 8px;
+   border: thin solid black;
+}
+
+h1,h2,h3,hr{
+   color: #880000;
+}
+
+a:link {
+   color: #0000AA;
+   text-decoration: underline;
+}
+a:visited {
+   color: #553377;
+   text-decoration: underline;
+}
+a:active {
+   color: #CC2222;
+   text-decoration: underline;
+}
+a:hover {
+   color: #6666FF;
+   text-decoration: underline;
+   cursor: pointer;
+}
+
+div.content {
+   margin-left: 3%;
+   margin-right: 3%;
+   padding-bottom: 15px;
+}
+
+
+pre {
+   margin-left: 60px;
+}
+
+
+span.newword {
+    color: #AA0000;
+    font-weight: bold;
+    white-space: pre;
+    cursor: help;
+    border-bottom: 1px dotted #AA0000;
+}
+
+span.word {
+    border-bottom: 2px dotted #AA0000;
+    white-space: pre;
+    cursor: help;
+}
+
+span.word:hover, span.newword:hover {
+    border-bottom: 1px solid #DD0000;
+}
+
+span.codedef {
+    color: #AA0000;
+    font-family: monospace;
+}
+
+span.ptype {
+    color: #004090;
+}
+
+span.classname {
+    color: #004090;
+    font-style: oblique;
+}
+
+span.atype {
+    color: #004090;
+    font-family: monospace;
+}
+
+

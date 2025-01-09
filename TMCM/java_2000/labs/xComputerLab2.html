@@ -1,0 +1,506 @@
+<HTML>
+
+<HEAD> <TITLE>xComputer Lab 2</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xComputer Lab 2:
+         Assembly Language Programming</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+2">T</font>HE MACHINE LANGUAGE FOR xComputer consists of
+thirty-one different instructions.  Each instruction performs a very
+simple task.  Nevertheless, very complex programs can be built up from
+these instructions.  The <a href="xComputerLab1.html">previous lab</a>
+introduced the xComputer applet and the basic xComputer machine language
+instructions.  In this lab, you will learn more about programming the
+xComputer.  Hopefully, you'll begin to appreciate how complex programs
+can be composed from very simple instructions.</p>
+
+<p>Machine language consists of binary numbers, but it would be almost
+impossible for people to program if they had to write programs directly
+in binary.  Instead, programmers use <font color="#E70000">assembly 
+language</font> or <font color="#E70000">high-level language</font>.
+The programs they write in these languages are translated by
+<font color="#E70000">assemblers</font> and <font color="#E70000">compilers</font>
+into machine language.  You'll use a high-level language called
+&quot;xTurtle&quot; in later labs.  In this lab and the next, you'll
+use assembly language.</p>
+
+<p>Assembly language is closely related to machine language,
+but has several features that make it much easier to use.  You've
+already seen that assembly language uses meaningful instruction names,
+such as <tt>ADD-C</tt>, instead of numerical instruction codes.
+In this lab, you'll see how memory locations and data values can
+also be referred to by name rather than by number.  Such names are
+called <font color="#E70000">labels</font>.  You'll also learn
+about a few new machine language instructions, which use
+<font color="#E70000">indirect addressing</font>.
+
+<p>The material in this lab is based on Chapter 3 of
+<cite><a href="http://math.hws.edu/TMCM.html">The Most Complex Machine</a></cite>.
+Labels are introduced in the postscript to that chapter.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#labels">Labels and the Assembler</A>
+   <LI><A HREF="#loops">Loops and Decisions</A>
+   <LI><A HREF="#indirect">Indirect Addressing</A>
+   <LI><A HREF="#dance">Dancing Bits</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p><a name="launch">Start</a> by clicking this button to launch the xComputer applet in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xComputer.zip"
+        code="tmcm/xComputerLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xComputerPrograms/">
+   <param name="URL" value="SimpleCounter.txt">
+   <param name="URL1" value="MultiplyByAdding.txt">
+   <param name="URL2" value="ThreeNPlusOne.txt">
+   <param name="URL3" value="ListSum.txt">
+   <param name="URL4" value="PowersOfThree.txt">
+   <param name="URL5" value="CountAndStore.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="labels">Labels and the Assembler</A></font></H3>
+
+<p>The <a href="xComputerLab1.html">previous lab</a> introduced the xComputer applet
+and the most basic aspects of xComputer's assembly language.  Here is an example
+repeated from that lab.  This program simply counts forever by adding 1 to location
+12 over and over in an infinite loop:
+
+
+<pre>                    LOD-C 1
+                    STO 12
+                    LOD 12
+                    INC
+                    STO 12
+                    JMP 2
+</pre>
+
+<p>The numbers 12 and 2 in this program are addresses of memory locations.
+While this short program is not terribly difficult to understand, it can
+be extremely tedious and error prone to keep track of the large number of
+numerical addresses that would be used by a complex program.  For this reason,
+assembly language allows you to give names to memory locations, so that
+you can refer to the locations with meaningful names rather than meaningless
+numbers.  Names used in this way are called <font color="#E70000">labels</font>.</p>
+
+<p>To give a name to a memory location in an assembly language program,
+all you have to do is put the name, followed by a colon, before the contents
+of the memory location.  For example, the line</p>
+
+<pre>            Loop:   LOD 12
+</pre>
+
+<p>in a program would give the name &quot;Loop&quot; to the memory
+location that contains the <tt>LOD 12</tt> instruction.  Elsewhere in
+the program, you can use the word &quot;Loop&quot; to refer to that location,
+instead of using the numerical address.  For example, you could jump to
+that location with the command <tt>JMP Loop</tt>.</p>
+
+<p>Memory locations can be use to hold either <b>instructions</b> or <b>data</b>.
+Labels are useful in both situations.  If &quot;Num&quot; is the label of
+a location that is used to hold data, then it would make sense to use
+&quot;Num&quot; in data-manipulation commands such as <tt>LOD Num</tt>,
+<tt>STO Num</tt>, and <tt>ADD Num</tt>.  Labels for instructions, on the
+other hand, are mostly used in jump commands.</p>
+
+<p><a name="counter">Here</a> is a version of the counting program that uses labels.  The
+name &quot;Loop&quot; is used for the instruction that begins the loop,
+and &quot;Count&quot; is used for the location that contains the value
+of the counter:</p>
+
+
+<pre>                     LOD-C 1       ; Set Count equal to 1
+                     STO Count
+             Loop:   LOD Count     ; Add 1 to Count
+                     INC
+                     STO Count
+                     JMP Loop      ; Jump back to start of loop
+
+                     @12
+             Count:  data          ; Location to be used for counting
+</pre>
+
+<p>This example introduces two other features of xComputer's assembly language:
+&quot;<tt>@</tt>&quot; and &quot;data&quot;.  The word &quot;data&quot; is used as
+a place-holder for a memory location that is going to be used by the program
+to contain a data value.  When the assembler translates the program into 
+machine language and loads it into memory, it replaces &quot;data&quot;
+with a zero.  (Actually, you could just use a 0 in the program, but &quot;data&quot;
+is more descriptive of your intentions.)  The line &quot;<tt>@12</tt>&quot;
+is not translated into machine language.  It is a directive to the assembler
+telling the computer to store the next item in location 12.  In this case,
+it means that the Count will be stored in location 12.  Without the
+&quot;<tt>@12</tt>&quot;, it would be stored in location 6, the next
+sequential location after the <tt>JMP Loop</tt> instruction.  If there
+were additional items after Count, they would be stored in locations 13, 14, and
+so on -- until the next &quot;<tt>@</tt>&quot; directive.</p>
+
+<p>This program is one of the sample programs loaded by the 
+xComputer applet that you launched <a href="#launch">above</a>.
+Select the program &quot;SimpleCounter.txt&quot; from the pop-up
+menu at the top of the xComputer window.  Load it into xComputer's
+memory by clicking on the &quot;Translate&quot; button.  Once it
+is loaded, you can use the &quot;Run,&quot; &quot;Step,&quot; or
+&quot;Cycle&quot; button to execute the program.  If you need more
+information about using the xComputer applet, please see the
+<a href="xComputerLab1.html">previous lab</a>.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="loops">Loops and Decisions</A></font></H3>
+
+<p>Complex programs can be constructed using loops, decisions, and subroutines.
+All of these things become easier to use when labels are available.  Subroutines
+will be introduced in the <a href="xComputerLab3.html">next lab</a>.  In this
+lab, you will work with loops and decisions.</p>
+
+<p>Loops, of course, are implemented with jump commands, when the computer
+jumps back to a previous location in the program.  Decisions are implemented
+with conditional jump instructions such as <tt>JMZ</tt> and <tt>JMN</tt>.
+When the computer executes one of theses instructions, it decides whether
+or not to jump, based on the current circumstances.  When the computer
+encounters the instruction <tt>JMZ Loc</tt>, it checks the accumulator
+register.  If the number in the accumulator is zero, then the computer
+jumps to location &quot;Loc.&quot;  Otherwise, the computer simply proceeds
+on to the next statement following the JMZ.  The <tt>JMN</tt> instruction is
+similar, except that it checks whether the number in the accumulator is
+negative.  Another conditional jump instruction, <tt>JMF</tt>, tests the
+value in the Flag register.  It is described in one of the exercises at
+the end of the lab.</p>
+
+<hr align=center width="33%">
+
+<p>There are two sample programs for you to look at that make effective
+use of loops and decisions.  Each of these programs is used in one of the
+exercises at the end of the lab.</p>
+
+<p>The sample program &quot;ThreeNPlusOne.txt&quot;
+computes a &quot;3N+1 sequence.&quot;  (This is a problem that you will see
+several times in these labs.)  Given a positive integer N, the
+program applies the rule: &quot;If N is even, then replace N by N/2;
+if N is odd, then replace it by 3N+1.&quot;  It applies this rule over and
+over until the number N becomes equal to 1.  
+For example, if the starting value of N is 7, then the program generates
+the sequence of values: 7, 22, 11, 34, 17, 52, 26, 13, and so on.</p>
+
+<p>Run the &quot;ThreeNPlusOne.txt&quot; program.  To see the numbers as they
+are generated, watch memory location number 17, which contains the successive
+values of N starting with 7.  You will probably want to bump the speed up
+to &quot;Fast.&quot;  You can run the program again with any other 
+starting value of N.  Modify the value of N in the assembly language
+program, and then reload it into memory with the &quot;Translate&quot;
+button.  (You could also change the number in location 17 directly
+and then run the program.  If you do this, don't forget to click the
+&quot;Set PC=0&quot; button to reset the Program Counter to zero.)</p>
+
+<p>You should also read the program and note how it uses the five
+labels, &quot;NextN,&quot; &quot;Odd,&quot;  &quot;Even,&quot;  &quot;Done,&quot; 
+and &quot;N.&quot; (The label  &quot;Odd&quot;  is defined but is never
+referred to in the program.  It is really just there for human readers.)</p>
+
+<p>Another sample program, &quot;MultiplyByAdding.txt&quot; adds two numbers
+by adding one of the numbers to itself over and over.  The program is set
+up to multiply 13 by 7.  Read the program and try it out.  Use it to multiply
+some other pairs of numbers.</p>
+
+<p>Make sure that you understand these programs and the general ideas
+of loops and decisions.  You will need to understand them to complete the
+exercises at the end of the lab.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="indirect">Indirect Addressing</A></font></H3>
+
+<p>The next sample program is &quot;ListSum.txt.&quot;
+This program illustrates a common type
+of processing where the computer processes a sequence of consecutive
+locations in memory.  In &quot;ListSum.txt&quot;, the computer adds
+up the numbers stored in consecutive locations.  It stops when it
+gets to a location that contains a zero.  In the exercises, you will
+write two programs based on this one.  Before doing those
+exercises, you should read the sample program, run it, and try to
+understand how it works.</p>
+
+<p>The &quot;ListSum.txt&quot; program uses <font color="#E70000">indirect
+addressing</font> to access numbers in the list.
+Indirect addressing is used in several assembly 
+language instructions, including <tt>LOD-I</tt>, <tt>STO-I</tt>, <tt>ADD-I</tt>,
+and  <tt>SUB-I</tt>.  Recall that <tt>LOD-C XXX</tt> tells the computer to
+load the number <tt>XXX</tt> into the accumulator.  <tt>LOD XXX</tt>, on
+the other hand, tells the computer to copy the contents of memory location
+<tt>XXX</tt> into the accumulator.  This is known as
+<font color="#E70000">direct addressing</font>.  In the <tt>LOD-I XXX</tt>
+instruction, <tt>XXX</tt> is the address of a memory location, but not
+of the memory location containing the data.  Instead, memory location
+<tt>XXX</tt> contains another address, and that address specifies the
+location whose contents are to be loaded into the accumulator.
+For example, if location 17 contains the number 42, then <tt>LOD-I 17</tt>
+will load the contents of memory location 42 into the accumulator.</p>
+
+<p>Admittedly, this is confusing, but it turns out to be just what we need
+to do list processing.  In fact, in that context, its not all that
+confusing after all.  Consider the following program outline:</p>
+
+<pre>                      .
+                      .   ; Set up 
+                      .
+                    
+                     LOD ListStart ; Load Loc with the starting location  of the list.
+                     STO Loc  
+                      
+          Loop:      LOD-I Loc
+          
+                      .
+                      .   ; Process the number.
+                      .
+                    
+                     LOD Loc       ; Add 1 to Loc.
+                     INC
+                     STO Loc
+                     
+                     JMP Loop      ; Return to the start of the loop.
+                   
+          Loc:       data          ; Location of next number to be processed.
+          
+          ListStart: 183           ; List of data to be processed.
+                     72
+                     902
+                     164
+                      .
+                      .
+                      .
+</pre>
+
+<p>The first time <tt>LOD-I Loc</tt> is executed, it loads 183, the
+first number in the list, into the accumulator, since the value of
+Loc is ListStart.  After processing the 183, the program adds 1 to
+the number in Loc and jumps back to the start of the loop.  The value
+stored in Loc is now the address of the second number in the list, 72.
+So now when <tt>LOD-I Loc</tt> is executed, it loads 72 into the accumulator.
+The next time through the loop, it will load 902, then 164, and so
+on.  So, each time through the loop a different location is processed,
+even though the instructions in the loop don't change.</p>
+
+<p>&quot;Loc&quot; is said to be a <font color="#E70000">pointer</font> since the
+value stored in Loc is not really the number we are interested in.  Instead,
+the value in Loc indicates where to go to find the number we want.  It 
+&quot;points&quot; to that value.  Pointers
+and indirect addressing are used in various ways, even in
+high-level languages.  In the next lab, you'll see how useful
+indirect addressing can be in a jump instruction.</p>
+                       
+
+<HR>
+<H3><font color="#E70000"><A NAME="dance">Dancing Bits</A></font></H3>
+
+<p>There is another sample program that I've provided mostly for your amusement, but also
+because watching it run might just give you a better appreciation of what a
+computer is really doing as it computes.  Select the sample program &quot;PowersOfThree.txt,&quot;
+from the pop-up menu in the xComputer Window.  Read the comments
+at the beginning of the file, and then load the program into xComputer's memory
+by clicking on the &quot;Translate&quot; button.  Set the display style
+to &quot;Graphics&quot; and the run speed to &quot;Fastest,&quot; and run the program.
+You will see the bits in xComputer's memory dance as a non-trivial computation is
+performed.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+
+<p><font color=blue><b>Exercise 1:</b></font>
+The sample program &quot;SimpleCounter.txt&quot; is a copy of the program
+that counts forever, which was discussed <a href="#counter">earlier</a> in this lab.
+Modify this program so that it counts to 16 and then halts.  (This was also an
+exercise in the <a href="xComputerLab1.html">previous lab</a>,
+except that in that lab, you didn't use labels.)
+Add a HLT statement after the JMP statement.  Use the name &quot;Done&quot;
+as a name for that statement.  Jump to Done when the Count reaches 16.
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+Here is a copy of the &quot;CountAndStore&quot; program that was
+used in the previous lab.  (A copy was also loaded as one of the
+sample programs by the
+xComputer applet on this page.)  Rewrite this program to
+use labels, instead of numerical addresses, for locations
+2 and 4.  Do you think the program is easier to understand with
+labels?
+</p>
+
+<pre>
+     lod-c 1     ; Start with a 1 in location 12
+     sto 12
+
+     lod 12      ; This instruction is stored in location 2
+     inc
+     sto 13      ; This instruction is stored in location 4
+
+     lod 2       ; Add 1 to the number in location 2
+     inc
+     sto 2
+
+     lod 4       ; Add 1 to the number in location 4
+     inc
+     sto 4
+
+     jmp 2       ; Go back to the instruction in location 2
+
+</pre>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>
+Modify the &quot;ThreeNPlusOne.txt&quot; program so that it counts
+the number of steps it takes for N to become equal to 1.  To do
+this, add another labeled location at the end of the program.
+Call it &quot;Count&quot;.  Change the program so that it starts
+by storing a zero in location Count.  Each time through the loop,
+it should add 1 to Count.  When the program ends, the value
+in Count is the number of times the program has gone through
+the loop.  This is also the number of steps that were computed
+in the sequence.  How many steps are there in the sequence
+that begins with N=7?  How about N=27?  Be sure to add comments
+to your program to explain how Count is being used.
+</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+The assembly language instruction <tt>SHR</tt> shifts the number in
+the Accumulator one bit to the right.  That is, each bit in the
+binary number is moved over one bit-position to the right.  The leftmost
+bit-position, which would be left empty, is filled in with a zero.
+The rightmost bit, which has no other place to go, is placed into
+the Flag register.  A <tt>JMF</tt> instruction can be used to test
+the contents of the Flag register.  Suppose <tt>XXX</tt> is a label.
+If the Flag register contains a one, then <tt>JMF XXX</tt> causes
+a jump to location <tt>XXX</tt>.  If the Flag register
+contains a zero, then <tt>JMF XXX</tt> has no effect.</p>
+
+<p>Write a program that counts the number of 1's in a binary number.
+When the program begins, the number should be stored in a memory
+location labeled <tt>Num</tt>.  There should also be a memory
+location named <tt>Count</tt> for counting the number of 1's in
+<tt>Num</tt>.  The program begins by storing a zero in <tt>Count</tt>.
+It then goes into a loop that shifts <tt>Num</tt> one bit to the
+right.  If the number that &quot;falls off the end&quot; into the
+Flag register is a 1, then the program should add 1 to <tt>Count</tt>.
+The loop continues until the value of <tt>Num</tt> becomes zero.
+At that point, <tt>Count</tt> contains the number of 1's that were
+in the original number.</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+Just as it is possible to multiply by adding over and over,
+it is possible to divide by subtracting over and over.  Suppose you want to know
+how many times N1 goes into N2.  Start with N2 and subtract N1 repeatedly until the
+answer is less than N1.  The number of subtractions you performed is the number of
+times that N1 goes into N2.  For example, you can compute that 4 goes into 14
+three times by computing  14 - 4 - 4 - 4 = 2 .  (The number 2 that you end up with here is
+the remainder when 14 is divided by 4.)</p>
+
+<p>Write a program to compute how many times a number N1 goes into another number N2.
+Your program will be somewhat similar to the sample program &quot;MultiplyByAdding.txt.&quot;
+You still need a loop, and you still need to count how many times
+that loop is executed.  However, the set-up before the loop, the action
+performed in the loop, and the test for ending the loop are different.
+Note that to test whether A &lt; B, you can subtract B from A and
+test whether the result is negative.  In the language of xComputer,
+you can use a <tt>JMN</tt> instruction to test whether a number is negative.</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+The sample program &quot;ListSum.txt&quot; adds up a list
+of numbers.  Modify this program so that instead of
+computing the sum of the numbers in the list, it will
+find the largest number in the list.  Change the
+name of the memory location &quot;Sum&quot; to
+&quot;Max&quot;.  As the program runs, this memory
+location will hold the largest number seen so far
+in the list.  When the program ends and the whole
+list has been examined, Max will hold the largest
+number in the entire list.  (You can compare two
+numbers by subtracting one from the other, and
+using a <tt>JMN</tt> instruction to test whether
+the answer is negative.)
+</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+Write another list-processing program that makes
+a copy of a list.  You can model your program
+on &quot;ListSum.txt.&quot;  However, instead of
+adding up the numbers in the list, it should
+copy them to another part of memory.  Use
+a label named &quot;Copy&quot; to indicate the
+location in memory where the copy of the
+list should begin.
+</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+The &quot;CountAndStore&quot; program in Exercise 1 is
+a self-modifying program.  That is, the machine
+language instructions in locations 2 and 4 change
+as the program is executed.  Another way to write
+the program would be to use indirect addressing.
+Use a memory location labeled &quot;Loc&quot; to keep
+track of which location the program is currently working
+on.  Use <tt>LOD-I Loc</tt> and <tt>STO-I Loc</tt> to
+load and store values in that memory location.
+To move on to the next consecutive memory location,
+add one to <tt>Loc</tt>.
+</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+Write an essay explaining in detail how indirect addressing
+is used in the program you wrote for one of the exercises
+above (Exercise 5, Exercise 6, or Exercise 7).
+</p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+Write an essay explaining how labels are used in
+assembly language programming and why they are so
+important.  Give examples of things that can
+be done with labels that would be much harder to do without them.
+</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1998</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

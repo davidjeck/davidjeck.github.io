@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CS124, Fall 2021, Lab 7</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+<style>
+   code {
+      font-weight: bold;
+      font-family: monospace;
+      color: #077;
+   }
+   div {
+      clear: both;
+   }
+</style>
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Lab 7: Introduction to Subroutines</h2>
+
+<div class="intro">
+
+<p>We have just begun <a href="https://math.hws.edu/javanotes/c4/index.html">Chapter 4</a>,
+which is mostly about subroutines.  You have already used subroutines, such as
+System.out.println() and g.fillRect().  Now, you need to learn how to write them
+and to design programs that use them.  In this lab, you will use another set of
+subroutines&mdash;ones that implement "turtle graphics"&mdash;and you will write a
+few subroutines of your own. The subroutines are relatively simple. There is
+not a lot of algorithm design work in this lab.</p>
+
+<p>Although this lab uses graphics, it does not use JavaFX.  Behind the scene, it uses the older
+Java graphics system called "Swing."  You don't have to do anything special to compile and run 
+a program that uses Swing.</p>
+
+<p>The files that you need for this lab can be found in /classes/cs124_Eck/lab7-files, or download the
+files using the links on this page.  You will probably want to create a new Eclipse file for this
+lab.  You should copy-and-paste the .java files individually into the src folder of the
+project.  Note that they should all be the default package, not in a named package.</p>
+
+<p>You will need copies of two files,
+<a href="lab7-files/TurtleGraphics.java">TurtleGraphics.java</a>,
+and <a href="lab7-files/Turtle.java">Turtle.java</a>.  You will only work on TurtleGraphics.java.
+<b>Do not make any changes to Turtle.java.</b>
+The file Turtle.java defines some subroutines that you will use.  Turtle.java has to be in your
+project for TurtleGraphics to work, but you do not need to understand how it works.
+Do NOT make any changes to Turtle.java.</p>
+
+<p>You will probably also want a copy of <a href="lab7-files/TurtleExample.java">TurtleExample.java</a>;
+that file is not required for the lab, but it has some examples of drawing using
+turtle graphis.  TurtleExamples.java is a main program, and you can run it to see
+what it draws, and you can read the source code to see how it uses turtle graphics to
+make the drawings.</p>
+
+<p><b>There is no lab next week because of Fall Break.  Your work for this
+lab is due in two weeks, at the lab on October 19.  To submit your work, it
+is enough to copy TurtleGraphics.java into your homework folder.</b></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>About the Turtle</h3>
+
+<p>This program uses <i>turtle graphics</i>. You should imagine a turtle
+moving around in a window on the screen, dragging a pen that draws a line as the
+turtle moves.  In the program, the turtle is represented by the class
+named <i>Turtle</i>.  This class contains static subroutines that represent commands
+to the turtle, telling it how to move.  For example, <i>Turtle.forward</i>(5) makes
+the turtle move forward for a distance of 5 units, in the direction that it is
+currently facing.
+</p>
+
+<p>In this program, the turtle appears in the window as a gray triangle, which is
+somewhat transparent so that any drawing behind it will show through.
+The turtle moves around in a square area that is 20-by-20 units on a side,
+with the point (0,0) at the center. So, the turtle's position inside the window can
+range from -10 to 10 both along the horizontal axis and along the vertical axis.  
+There is nothing to stop the turtle from moving
+beyond this range, out of the window.  The turtle uses its own coordinate system, not pixel coordinates.
+The turtle uses real number coordinates.  For example, in an 800-by-800
+rectangle, each unit will be equivalent to 40 pixels.</p>
+
+<p>The turtle is always facing in some direction.  The gray triangle points in that
+direction. Initially, the turtle faces to the right.  There are commands for
+changing the direction.
+Initially, the turtle is set up to draw using a one-pixel-wide red line as
+it moves. 
+However, both the width and the color of the lines can be changed by
+appropriate commands.  Also, the turtle's pen can be raised, when it is raised, the turtle
+does not draw a line as it moves.</p>
+
+<p>Here are brief descriptions of the commands that are available for use with
+the <i>turtle</i> object:</p>
+
+<ul>
+<li><code>Turtle.forward(d)</code> -- move forward d units in the current direction. The
+type of d is <i>double.</i></li>
+<li><code>Turtle.back(d)</code> -- move backwards d units.  The
+type of d is <i>double.</i></li>
+<li><code>Turtle.moveTo(x,y)</code> -- move directly to the point (x,y), without
+changing the direction that the turtle is facing.  The
+type of x and y is <i>double.</i></li>
+<li><code>Turtle.moveBy(x,y)</code> -- move x units horizontally and y units vertically
+from the current position, without changing the turtle's direction.  The
+type of x and y is <i>double.</i></li>
+<li><code>Turtle.turn(ang)</code> -- rotate by the angle ang, where a is measured in degrees,
+positive values being counterclockwise and negative values, clockwise.  The
+type of a is <i>double.</i></li>
+<li><code>Turtle.face(ang)</code> -- point in the direction ang degrees, where
+zero degrees means pointing to the right (in the direction of the positive x axis). The
+type of ang is <i>double.</i></li>
+<li><code>Turtle.penUp()</code> -- raise the pen, so that the turtle will not draw
+any line when it moves.</li>
+<li><code>Turtle.penDown()</code> -- lower the pen, so that the turtle will draw.</li>
+<li><code>Turtle.color(c)</code> -- set c to be the color of the line that the turtle will draw,
+where <i>c</i> is of type <i>Color</i>.  The default color is <i>Color.RED</i>. (But see the note
+below about <i>Colors</i>.)</li>
+<li><code>Turtle.color(r,g,b)</code> -- set the line's color to the color with red, green,
+and blue components given by the parameters r, g, and b.  The parameters are real numbers in the
+range 0.0 to 1.0.</li>
+<li><code>Turtle.randomColor()</code> -- set the line's color to be a randomly selected color,
+using random red, green, and blue color components.</li>
+<li><code>Turtle.randomHSB()</code> -- set the line's color to be a randomly selected HSB color,
+with a random hue and with saturation and brightness set eqaul to&nbsp;1.</li>
+<li><code>Turtle.lineWidth(w)</code> -- set w to be the width of the line that the turtle will draw, 
+measured in pixels. The default line width is one pixel.   The
+type of w is <i>double.</i></li>
+<li><code>Turtle.reset()</code> -- clear the screen and reset all turtle properties to their
+original values.</li>
+<li><code>Turtle.setDelay(milliseconds)</code> -- By default, a short delay of 50 milliseconds is
+inserted after each motion of the turtle, to make the sequence of motions more apparent.  This subroutine
+changes the length of the delay.  A delay of zero means there is no delay at all between motions.
+A delay of 1000 would insert a full second of delay between motions. The
+type of milliseconds is <i>int.</i>  Use a small delay to speed up the drawing.</li>
+<li><code>Turtle.wait(milliseconds)</code> -- Pause for an extra delay, given by the
+specified number of milliseconds. The type of milliseconds is <i>int.</i>
+<li><code>Turtle.setTurtleIsVisible(vis)</code> -- sets whether or not to
+draw the gray triangle that represents the turtle. The
+type of vis is <i>boolean.</i>  Turn off turtle visibility if you don't want to see it.</li>
+</ul>
+
+<p class=np>
+Turtle.java uses an older version of Java graphics, not JavaFX.  The project that you use
+it in does not need to support JavaFX.  You won't use drawing commands directly, so this won't
+affect you except that the <i>Color</i> class is different from the one in JavaFX.
+It has only a few basic standard colors, including <code>Color.RED</code>, <code>Color.GREEN</code>, 
+<code>Color.BLUE</code>, <code>Color.CYAN</code>, <code>Color.YELLOW</code>, <code>Color.MAGENTA</code>,
+and <code>color.BLACK</code>.
+</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Exercise 1: First Turtle Drawing</h3>
+
+<p>For this lab, you will only work on <i><a href="lab7-files/TurtleGraphics.java">TurtleGraphics.java</a></i>.
+Your project must also contain the file <i><a href="lab7-files/Turtle.java">Turtle.java</a></i>
+You should <b>not</b> make changes to Turtle.java,
+which defines all the turtle graphics commands; it just has to be in the same directory
+as TurtleGraphics.java.</p>
+
+<p>TurtleGraphics.java currently does not do anything when it is run, except open a window
+showing the turtle in the center of its drawing area.  For some examples of turtle graphics,
+you can add the sample program <i><a href="lab7-files/TurtleExample.java">TurtleExample.java</a></i> to
+your project and run it,</p>
+
+<p>In TurtleGraphics.java, you will see a <i>main</i>() routine
+near the top of the program.  You will add some code to the main routine, and you will add some
+new subroutine definitions outside the main routine.  There is already one subroutine,
+named <i>square</i>, defined near the end of the file.</p>
+
+<p><img src="triangle.png" width="180" height="159" align="right" hspace="10" vspace="5">
+For your first exercise, you should draw a blue triangle inside a red triangle, as shown
+at the right.  <b>Use only <i>Turtle.forward</i>, <i>Turtle.back</i>,
+<i>Turtle.turn</i>, and commands for setting color and line width.</b>  The size and position of
+the triangle are up to you.  Put your code under the
+comment that says "Exercise 1: First Turtle Drawing".  Hints:  All turns that you need
+to make are 120 degrees or 60 degrees, and the side length for the blue triangle is half
+of the side length for the red triangle.</p>
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h3>Exercise 2: Using a Subroutine</h3>
+
+<p>If you look below the <i>main</i>() routine in <i>TurtleGraphics.java</i>, you will
+see the definition of a subroutine named <i>square</i>.  It has
+a "parameter list" given by <tt>(double&nbsp;size)</tt>, which means that
+when you use the subroutine, you must provide a parameter of type <i>double</i>.
+(The type of value that you provide can also be <i>int</i>, because an
+<i>int</i> value can be assigned to a <i>double</i> variable, and that's essentially
+what is done with parameters).  So, for example, you can say <tt>square(10)</tt> to draw
+a square of size 10, or <tt>square(Math.sqrt(2))</tt> to draw a square with size given
+by the square root of 2. Note that because <i>square</i> is defined in the same
+class as the code that you are writing, you will call it using a simple name:
+<tt>square(x)</tt> rather than <tt><b>something.</b>square(x)</tt>.</p>
+
+<p><img src="squares.png" width="180" height="179" align="right" hspace="10" vspace="5">
+For your second exercise, you should draw a set of at least three nested squares,
+as shown in the picture.  This time, you can use any turtle commands that you want,
+<b>but you must use the <i>square</i> subroutine to draw the actual squares.  Do not draw the
+squares by drawing the sides yourself!  Call the subroutine!</b>  The
+size, colors, and position of the drawing are up to you.  
+The squares are not connected, so you will need to use <i>Turtle.penUp</i>() and <i>Turtle.penDown</i>() to make
+it possible to move the turtle without drawing a line.  (You might try drawing a larger
+number of squares using a for loop, but you are not required to use a loop.)</p>
+
+<p>The code that you write should be added to <i>main</i>(), under the comment
+that says, "Exercise 2: Using a Subroutine."</p>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h3>Exercise 3: Writing a Subroutine</h3>
+
+<p>For the third exercise, you will write your first complete subroutine definition.
+The definition of a subroutine <b>cannot be placed inside another subroutine</b>.
+Other than that, it can be anywhere inside the <i>class</i>.  The order in which
+subroutines are defined doesn't matter, and it doesn't matter if the definition
+comes before or after the places in the code where the subroutine is called.
+To begin the exercise, copy this empty subroutine definition into your code:</p>
+
+<pre class="code">
+private static void burst() {
+
+}
+</pre>
+
+
+<p class="np"><img src="burst.png" width="180" height="168" align="right" hspace="10" vspace="5">
+The name of the subroutine is <i>burst</i>.  It has no parameters, so it can be called
+by saying <tt>burst()</tt>, with nothing in the parentheses.   The code that defines what the subroutine
+does goes between the braces.  You should add code to the subroutine to draw a
+"burst" of lines coming out of the current turtle position, similar to the one
+shown in the picture.  Use a for loop to draw a large number of lines.
+Note that you can say "<code>Turtle.forward(length);</code> <code>turtle.back(length);</code>" 
+to a draw line of a given <i>length</i> along the direction in which the turtle is pointing
+and then return to the starting point of the line (ready to change the direction and
+draw the next line).  The <i>length</i> should be 
+chosen at random.  You can either use <code>Turtle.face</code> to point the turtle in 
+random directions, or use <code>Turtle.turn</code> to turn a small amount between each
+line and the next.  You might want to use <code>Turtle.setDelay</code> to speed up
+the drawing process.</p>
+
+<p>For a subroutine to do anything, the subroutine has to be called.  You need 
+a call to <code>burst()</code> under "Exercise&nbsp;3" in <i>main</i>().  The subroutine
+call is already there.  You just have to uncomment it.  You don't have to make any other
+changes to <i>main</i>() for this exercise.</p>
+
+<p>Add a comment for your subroutine!  The comment should go <b>before</b> the
+subroutine. Follow the style that is used for other subroutines in the file,
+beginning with <code>/**</code> and ending with <code>*/</code>.</p>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h3>Exercise 4: Subroutine with Parameter</h3>
+
+<p>Most subroutines require <i>parameters</i>.  The required parameters
+are specified in the <i>parameter list</i> that is part of the definition,
+such as the <tt>(double&nbsp;size)</tt> in the definition of <i>square</i>().
+The important thing to understand is that the value of a parameter is 
+unknown when you are writing the code inside the subroutine.  The actual
+value will come from elsewhere in the program, when the subroutine is called.
+It is <b>not</b> input from the user of the program; it is a value from another
+part of the program itself.
+When <i>square</i> is called as <tt>square(10)</tt>, the value 10 is assigned
+to the parameter <i>size</i> before the subroutine's code is executed.</p>
+
+<p>For the fourth exercise, you will make a subroutine that has a parameter.
+It will be a simple variation on the <i>square</i> subroutine.  In fact, you
+can simply copy the definition of <i>square</i> and make some minor modifications.
+(Don't forget to modify the comment, too!)</p>
+
+<p>Your subroutine should be named <i>star</i> instead of <i>square</i>.
+It will draw a five-pointed star with a specified size.  You have to change
+the name of the copied routine, but it still needs the parameter of type double.</p>
+
+<p>In the definition of the subroutine, the number of sides should be 5 instead of 4,
+and the angle through which the turtle turns should be &minus;144 instead of 90.
+Other than that, the two subroutines are the same.</p>
+
+<p>After writing the subroutine, uncomment the call to <tt>star(5)</tt> under
+"Exercise&nbsp;4" in <i>main</i>(). It should draw a 5-pointed star with sides
+of length 5.  <b>Then add some code to <i>main</i>() to draw
+several more stars with different sizes in different positions.</b></p>
+
+<p>Don't forget to edit the comment on the subroutine!!</p>
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h3>Exercise 5: Subroutine Calling Subroutine</h3>
+
+<p>An important aspect of subroutines is that one subroutine can call
+another subroutine.  This makes it possible to create
+complex programs out of subroutines, where the individual subroutines are
+not very long or complex.</p>
+
+<p align=center><img src="spiral.png" width="300" height="300"></p>
+
+<p>For this exercise, write a subroutine that draws a "spiral of shapes"
+similar to the one shown above.  The spiral is drawn using a for loop.
+Each time through the loop, one shape is drawn.  The shapes start out
+small, and a small amount is added to the size after drawing each shape.
+And the turtle is turned by a small amount after drawing each shape.
+<b>The subroutine must have two parameters of type <i>double</i>.  The first
+parameter gives the number that is added to the size after each shape,
+and the second parameter gives the angle by which the turtle turns after
+drawing each shape.</b></p>
+
+<p>My picture uses square shapes, but you can use stars instead if you want.
+My subroutine uses a loop that ends when the size exceeds&nbsp;8, but other
+approaches are possible.  You could use random colors for the shapes, if you want.
+<b>You must draw the individual squares or stars by calling
+one of the subroutines, <i>square</i>() or <i>star</i>()</b>.</p>
+
+<p>To run the subroutine, uncomment the line in <i>main</i>()
+that calls it.  You can change the values of the paramters in the subroutine call
+to values that work well for your spiral.
+I suggest using <code>Turtle.setDelay</code> to set
+a really small delay, possibly even zero; otherwise, it can
+take quite a long time to draw the spiral.</p>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h3>Exercise 6: Random Walk</h3>
+
+<p>As a final exercise, write a subroutine 
+that sends the turtle on a random walk.  The idea is to
+repeat the following two steps over and over,
+forever:  Select one of the directions 0, 90, 180, or 270
+at random and face in that direction; then move forward by a small amount.</p>
+
+
+<p class=np><img src="walk.png" width="258" height="236" align="right" hspace="10" vspace="5">
+A sample random walk created in this way is shown in the picture on the right.
+You should write a subroutine that does a random walk.  However, <b>your subroutine
+must have at least one parameter.</b>  Use several parameters if you want.
+A parameter could, for example, give the
+amount by which the turtle moves for each step. Or the parameter could
+specify the color to be used for drawing.   Another idea is to implement two different kinds of random walk,
+and use a <i>boolean</i> parameter to tell the subroutine which kind of walk to do.
+You can get a nice pattern by selecting the direction randomly from
+0, 120, and 240 instead of from 0, 90, 180, 270.  
+A different sort of random walk is obtained by
+facing in a completely random direction and moving forward a random amount
+each time.  Another idea is to use a random color for each step in the
+random walk.</p>
+
+<p>You should also add a call to your random walk subroutine at the end of <i>main</i>(),
+just under the comment that says "Exercise 6: Random Walk."</p>
+
+<p>(Note: If the random walk uses an infinite loop, then the turtle will
+eventually wander off the screen.  If you want to detect when that
+happens, note that there are functions <code>Turtle.getTurtleX()</code> and
+<code>Turtle.getTurtleY()</code> that return the current x- and y-coordinates
+of the turtle.  In my program, when either value moves outside the range -11 to 11,
+the turtle jumps back to (0,0) and chooses a new random color to draw with.)</p>
+
+</div>
+
+
+
+
+
+</div>
+</body>
+</html>

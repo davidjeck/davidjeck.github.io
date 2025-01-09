@@ -1,0 +1,567 @@
+<HTML>
+
+<HEAD> <TITLE>xTuringMachine Lab</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xTuringMachine Lab:
+         Introduction to Turing Machines</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+2">T</font>URING MACHINES are extremely simple
+calculating devices. A Turning
+machine remembers only one number, called its <font color="#E70000">state</font>.
+It moves back
+and forth along an infinite tape, scanning and writing symbols and changing
+its state.  Its action at a given step in the calculation is based on
+only two factors:  its current state number and the symbol that it
+is currently scanning on the tape.  It continues in this way until
+it enters a special state called the <font color="#E70000">halt state</font>.
+In spite of their simplicity, Turing machines
+can perform any calculation that can be performed by any computer.  In fact,
+certain individual Turing machines, called <font color="#E70000">universal
+Turing machines</font>, can actually execute arbitrary programs,
+just as a computer can.  You won't see any universal Turing machines
+in this lab, but you will experiment with Turing machines that can perform
+non-trivial calculations.</p>
+
+<p>Turing machines are covered in Chapter 4 of <cite>The Most Complex
+Machine.</cite>  Although the lab is mostly self-contained, it
+would be useful for you to have some familiarity with Turing machines
+before beginning the lab.  Especially
+important is the idea that a Turing machine is described by a
+<font color="#E70000">table of rules</font>
+that specify what action the machine will take for each combination
+of state and scanned symbol.  The action takes the form of writing
+a new (or the same) symbol to the current square, moving either
+left or right on the tape, and entering a new (or the same) state.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#applet">Using the Applet</A>
+   <LI><A HREF="#machine">A More Interesting Machine</A>
+   <LI><A HREF="#new">Making New Machines</A>
+   <LI><A HREF="#binary">Binary Arithmetic</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>In this lab, you will work with an applet called xTuringMachine.
+Start by clicking this button to launch the applet in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xTuringMachine.zip"
+        code="tmcm/xTuringMachineLauncher.class"
+        alt="(Java not enabled.)"
+        width=180 height=30>
+   <param name="BASE" value="xTuringMachinePrograms/">
+   <param name="URL"  value="Change01toXY.txt">
+   <param name="URL1" value="FindDoubleX.txt">
+   <param name="URL2" value="CopyXYZ.txt">
+   <param name="URL3" value="Increment.txt">
+   <param name="URL4" value="AddBinaryNumbers.txt">
+   <param name="URL5" value="MultiplyByAdding.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="applet">Using the Applet</A></font></H3>
+
+<p>The xTuringMachine applet can simulate Turing machines
+with up to twenty-five states.  The states are numbered from 0 to 24.
+There is also the special halt state, which is denoted by &quot;h&quot;.
+The Turing machines in this applet are restricted to using the
+following symbols:  the letters <font color="#007000">x</font>,
+<font color="#007000">y</font>, and <font color="#007000">z</font>;
+the binary digits <font color="#007000">0</font> and <font color="#007000">1</font>;
+the dollar sign, <font color="#007000">$</font>; and the
+blank space (often written as <font color="#007000">#</font>).
+We often think of the machines as working with &quot;binary numbers&quot;
+made up of 0's and 1's or with &quot;words&quot; made up of x's,
+y's, and z's.  But remember that the <b>meaning</b>
+of a symbol has no effect on any calculation performed by a
+Turing machine; all the machine does is follow its rules.</p>
+
+<p>At the very top of the xTuringMachine applet is a pop-up menu
+that you can use to select from among the machines that the applet knows
+about.  The applet is set up to load several sample machines when
+it starts up.  (Later, you'll see how to construct new machines from
+scratch.)  You'll work with the first of these sample machines,
+&quot;Change01toXY,&quot; to help you learn how to use the applet.</p>
+
+<p>Just below the pop-up menu is the Turing machine itself and its
+tape:</p>
+
+<p align=center><IMG SRC="images/xTuring1.gif" ALT="Turing machine and tape"
+                        WIDTH="504" HEIGHT="203"></p>
+                        
+<p>Below the machine, on the left, is a set of controls.  Use the 
+&quot;Run&quot; and &quot;Step&quot;buttons to control the computation
+of the machine.  If you click on the &quot;Step&quot; button,
+the Turing machine will perform one step in its computation.
+If you click on &quot;Run,&quot; the machine will compute
+until you stop it or until it enters the halt state.  You can
+control the speed of a running machine with the Speed pop-up
+menu, which is just above the run button.  (You might want to
+stick with the &quot;Step&quot; button at first, so that you 
+can follow each step of the computation in detail.)</p>
+
+<p>To do one step in its computation, the Turing machine considers the
+<b>state that it is in</b> and the <b>symbol that it is reading</b> in the
+cell where it is located.  Based on this information, it will (1) <b>write</b>
+a new symbol in the current cell; (2) <b>move</b> one cell to the left or
+to the right; and (3) change to a <b>new state</b>.  (Note, however, that the
+&quot;new symbol&quot; that the machine writes can actually be the
+same as the old symbol, and that the &quot;new state&quot; can be the
+same as the old state.)  The machine bases its action
+on the table of rules that is shown in the lower right part of
+the applet.</p>
+
+<p>For example, look at the table of rules for the sample
+machine, &quot;Change01toXY.&quot;  The first row of the table says
+&quot;If the machine is in state 0 and if the symbol in the current
+square is # (that is, a blank), then the machine will write
+a # in the square, move one square to the right, and change to
+state 0.&quot;  All the rules for a Turing machine are of this general
+form.  Note that in this case, the symbol it writes in the square
+is the same as the symbol that was already there; this is just a
+fancy way of saying that it doesn't change the contents of the
+square.  Similarly when the machine &quot;changes to state 0&quot; in this
+case, it doesn't really change its state; its new state is actually
+same state that it was already in.</p>
+
+<p>Step through the computation of the &quot;Change01toXY&quot; machine
+until it enters its halt state.  The machine moves along the tape
+changing any 0 it finds to an x and changing any 1 to a y.  What makes it
+halt?  What would happen if there were no $ on the tape?  And, by the
+way, what happens when the machine encounters the edge of the applet
+window?  You should also try running the machine with the 
+&quot;Run&quot; button.</p>
+
+<p>Note that when a Turing machine halts, it displays an &quot;h&quot; 
+as its current state, and the &quot;Step&quot; button changes to &quot;Reset.&quot;
+Clicking &quot;Reset&quot; will reset the state to zero, so the machine
+will be ready to start a new computation.  By convention, a Turing machine
+always begins its computation in state zero.</p>
+
+
+<p>Before you go on to the rest of the lab, there are a few more things
+you should know about.  First, you can use the mouse to drag the Turing
+machine to a new position on its tape.  You can also drag the tape.  If you
+want to drag the tape and the machine together, use the right mouse
+button instead of the left button, or hold down the Control key as you
+begin to drag.</p>
+
+<p>Second, and more important, you should know how to change the 
+state of the machine and the contents of its tape.  You can click
+on the Turing machine to hilite it.  You'll see a bright blue-green
+outline, and the blue rectangle below the machine will display a
+&quot;palette&quot; showing the possible states of the machine.
+To change the state of the machine, you can either type the state
+or use the mouse to click on the state in the palette.  Editing the
+tape is similar.  Click on any cell to hilite it.  The palette
+displays the symbols that the cell can contain.  You can type
+a symbol or click on it in the palette.  When you do this, the
+hilite will move to the next cell on the tape.  This makes it
+easy to type a string of symbols onto the tape.</p>
+
+<p align=center><IMG SRC="images/xTuring2.gif" ALT="Palettes"
+                             WIDTH="418" HEIGHT="125"></p>
+
+<p>Try making a new input tape for the &quot;Change01toXY&quot; machine.
+Move the machine to the beginning of the input.  Make sure that the
+machine is in state 0.  Then run the machine on your new input.</p>
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="machine">A More Interesting Machine</A></font></H3>
+
+
+<p>As another example, select the sample machine
+&quot;FindDoubleX&quot; from the pop-up menu at the top of the
+applet.  The purpose of this machine is to move to the right along its
+tape, until it finds two x's in a row; it then halts on the leftmost
+of those two x's.  The machine you looked at in the previous section
+had only a single numbered state, state 0.  The &quot;FindDoubleX&quot; machine
+has two states, number 0 and number 1.  As this machine runs, you will
+see it changing between these two states.  Try it! Use the
+&quot;Step&quot; button to step through the computation.</p>
+
+
+<p>Although its states are completely meaningless to the machine, from our
+human point of view we can assign a kind of meaning to each state.
+In state 0, this machine is &quot;moving to the right searching for an x.&quot;
+In state 1, it &quot;has found one x and needs to check the next square to see
+whether there is another x there.&quot;  In state 1, after checking the next
+square, it halts if it finds an x there and returns to state 0 if not.</p>
+
+<p>One might say that the state number <b>counts</b> the number of x's in a row
+that the machine has encountered.  In state 0 it has encountered zero
+x's in a row; in state 1, it has encountered one x in a row.
+You will need to understand this in order to do one of the exercises
+at the end of the lab.  You will also need to know about editing the rule
+table.  This is covered in the next section of the lab.</p>
+
+<p>The complete table of rules for the &quot;FindDoubleX&quot;
+machine looks like this:</p>
+
+<p align=center><IMG SRC="images/xTuring3.gif" 
+              ALT="Rules for FindDoubleX" WIDTH="404" HEIGHT="130"></p>
+              
+<p>The entries <font color="#007000">other</font> under &quot;Reading&quot;
+and <font color="#007000">same</font> under &quot;Write&quot; need
+some explanation.  The word &quot;other&quot; is used here to
+indicate a <font color="#E70000">default</font> rule.  This rule
+is used when the machine is in the state specified in the
+&quot;In State&quot; column, and no other rule applies.  For
+example, suppose that the &quot;FindDoubleX&quot; machine is in 
+state 0.  If it happens to be reading an x, it will follow the
+first rule in the table, which tells it to write an x, move
+right, and change to state 1.  However, if it is in state 0 and
+reads any <b>other</b> symbol, then it will apply the second
+rule in the table.  The word &quot;same&quot; under the &quot;Write&quot;
+column in that rule tells the machine to write the same character
+that it read.  Without this default rule, the machine would need 
+six separate rules to tell it what to do when it is in state 0
+and it reads one of the symbols y, z, 0, 1, $, or blank.</p>
+
+
+<p>For an example of a more complex word-processing Turing machine,
+you can try out the sample machine called &quot;CopyXYZ.&quot;
+This machine will make a copy of a string of x's, y's, and z's.
+Try it out!</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="new">Making New Machines</A></font></H3>
+
+<p>In this part of the lab, you will learn how to construct
+new machines in the xTuringMachine applet.  To begin a new
+machine, select &quot;[New]&quot; from the pop-up menu
+at the top of the applet.  This will give you an empty rule table
+that you can fill in to define the machine you want.</p>
+
+<p>The xTuringMachine applet
+does not allow you to simply type in a rule.  Instead, it has procedures
+for adding a new rule to the table and for modifying rules that are
+already in the table.  The type of editing that you can do is similar
+to what you already know about setting the Turing machine's state
+and changing the contents of its tape.</p>
+
+<p>New rules are added to the rule table using the &quot;Rule Maker&quot;
+that is located just above the table of rules.  The Rule Maker
+has a set of five boxes where you create the rule and a &quot;Make
+Rule&quot; button that you can click to add the rule to the table:</p>
+
+<p align=center><IMG SRC="images/xTuring5.gif" ALT="The Rule Maker"
+                                 WIDTH="435" HEIGHT="50"></p>
+                                 
+<p>You can edit any of the five items in the Rule Maker.  Just click
+on the item that you want to change.  The item will be hilited.
+In the above picture, the second item, &quot;other,&quot; is hilited.
+The blue rectangular palette will display the values that you 
+can legally put in the hilited spot.  You can either type the value
+you want or click on it in the palette.  (Note that &quot;other&quot;
+is represented in the palette by a &quot;*&quot;.  If you want to
+enter the value &quot;other,&quot; you have to type * or click on it.)
+Once you've set up the rule you want in the Rule Maker, you can
+either click the &quot;Make Rule&quot; button or press the Return key
+to add it to the table of rules.  The rule has no effect on the
+Turing machine until you add it to the table.</p>
+
+<p>A newly added rule will be displayed in the table in red.  The rule
+shown in red is selected.  You can delete the selected rule from the
+table by clicking on the &quot;Delete Rule&quot; button.  You can
+select any rule in the table by clicking on the rule.</p>
+
+<p>Once a rule has been added to the table, you can edit the 
+last three columns in the rule.  Click on the item you want to 
+change, and edit it in the usual way.  Note that
+the last three columns of the table specify the action that the
+Turing machine will take when it is in the specified state and reading the
+specified symbol.  You are only allowed to change the action part
+of the rule, once it is in the table.  Often, the easiest way
+to create a table of rules is to quickly create a bunch of rules
+without worrying about the action specified in each rule.  You can
+then edit the action parts of all the rules in the table.</p>
+
+<p>There are lots of things in the xTuringMachine applet that you
+can edit.  You can use the arrow keys and the tab key to
+move among the various editable items.  Often, this is quicker than
+using the mouse.</p>
+
+<p>You will notice that sometimes the &quot;Make Rule&quot; button
+changes into a &quot;Replace&quot; button.  This will happen whenever
+the first two items in the Rule Maker match the first two items in
+an existing rule.  If you click on the &quot;Replace&quot; button,
+the rule in the Rule Maker will replace the rule in the table.</p>
+
+<p>Before you do the exercises at the end of the lab, you should
+get some practice at creating and editing a table of rules.
+Here is a table of rules for a Turing machine that &quot;Nudges&quot;
+a string of x's, y's and z's one square to the left.  The machine must be
+started on the leftmost symbol in the string, and it will only work
+if there are a couple of blank squares surrounding the string:</p>
+
+<p align=center><IMG SRC="images/xTuring4.gif" ALT="Rules for NudgeLeft"
+                                   WIDTH="433" HEIGHT="242"></p>
+                                   
+<p>You should make a copy of this machine by adding each of the
+above rules to the applet's rule table.  Begin by selecting
+&quot;[New]&quot; from the pop-up menu at the top of the applet,
+if you haven't done so already.  You should also type an
+input string of x's, y's, and z's onto the Turing machine's
+tape, and move the machine to the leftmost symbol in the
+input.  Then you can start making the rules, one-by-one,
+and adding them to the table. When you are all done, you should
+have a machine that will perform as advertized.</p>
+
+<p>One more feature of the applet deserves to be mentioned here:
+Suppose that you click the &quot;Step&quot; or &quot;Run&quot;
+button, and the Turing machine finds itself in a situation that
+is not covered by any rule in the rule table.  In this
+case, the machine will stop and will display the message
+&quot;No Rule Defined!&quot;  It will also set up the Rule
+Maker with the its current state and the symbol that it is reading,
+so that it is all set for defining the missing rule.  It's possible
+to define a machine using this feature.  Start with an empty
+table of rules.  Click &quot;Step.&quot;  The machine will
+protest.  You can define the rule, and click &quot;Step&quot;
+again.  You can proceed in this way until the whole rule table
+has been defined.  However, you have to be careful to make sure
+that you have in fact covered all the situations that might arise.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="binary">Binary Arithmetic</A></font></H3>
+
+<p>The operations of <font color="#E70000">incrementing</font> (adding one
+to) or <font color="#E70000">decrementing</font> (subtracting one from)
+a binary number are simple enough to be done easily by Turing machines.</p>
+
+<p>The algorithm for adding one can be described as follows:  If the
+digit on the tape is a zero, then simply change that digit
+to a one.  If the digit is a one, change it to a zero,
+move left, and apply the same procedure at that position.  (This
+is like &quot;carrying&quot; a one to the next column.)
+Finally, to add one to a blank space, simply
+change that blank to a one.  (This can occur when a one is carried beyond
+the leftmost digit of the number; the blank should be treated just like a
+zero.) For example, 110_2&nbsp;+&nbsp;1_2&nbsp;=&nbsp;111_2,&nbsp;
+1011_2&nbsp;+&nbsp;1_2&nbsp;=&nbsp;1100_2,&nbsp;
+and 11_2&nbsp;+&nbsp;1_2&nbsp;=&nbsp;100_2.</p>
+
+<p>The sample Turing machine &quot;Increment&quot; is a
+simple Turing machine for incrementing a binary number
+(This same machine can be found in Figure 4.2 of <cite>The Most
+Complex Machine.</cite>)  The &quot;Increment&quot; machine should be
+started on the rightmost digit of a binary number.  It will
+add one to the number, and then it will halt on the rightmost digit
+of the answer.  Try it out!  Every time you click the &quot;Run&quot;
+button, the machine will add one to the number on its tape.</p>
+
+<p>With somewhat more work, it is possible to make a Turing machine
+that adds two binary numbers.  The sample machine &quot;AddBinaryNumbers&quot;
+does this in the ordinary way, by adding corresponding digits in the
+numbers one-by-one, starting at the right and working left.  The numbers
+to be added must be next to each other on the tape, and they must be
+separated by a single blank space.  The machine must be started on 
+the right end of the second number.  Try running this machine on the
+sample input, and then try giving it several other pairs of numbers
+to add.  Note that as the machine adds the second number to the first,
+it replaces 0's and 1's with x's and y's.  When it finishes, it erases
+the second number from the tape and changes all the x's and y's back to 
+0's and 1's.</p>
+
+<p>The final sample machine, &quot;MultiplyByAdding,&quot; multiplies two
+binary numbers.  It does not do this by the usual multiplication algorithm.
+Two numbers can be multiplied by repeatedly adding the first number
+to itself.  The second number tells how many times the
+addition is to be performed.  The &quot;MultiplyByAdding&quot; machine
+works in this way.  Each time it adds the first number to itself,
+it subtracts one from the second number.  When the second number
+reaches zero, the process is finished.
+At that point, the machine erases the two original input numbers.
+The number remaining on the tape at the end of this process
+is the product of the two inputs.  You won't have to understand this 
+machine in detail, but it's interesting to see how a relatively
+complex computation can be performed by a Turing machine.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font> Create a Turing machine that will
+move to the right until it finds a $.  Then it will erase everything
+on the tape between that $ and the next $ to the right.  
+It will halt when it gets to the second $.  The $'s themselves
+should not be erased.  You can do this with a fairly simple
+machine that uses only two states, 0 and 1.  (Note that if the machine is
+started on a tape that does not contain two $'s to the right of the machine's
+starting position, then the machine will never halt.)
+</p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font> One of the examples in the
+lab is a Turing machine called &quot;FindDoubleX.&quot;  This machine
+moves to the right until it comes to two x's in a row.  Then it halts on
+the first of the two x's.  Create a new machine
+that will move to the right until it finds <b>three</b> x's in a row.
+It should halt when it finds a group of three consecutive x's.  (Ideally,
+it should move back to the first of the three x's and halt there.)
+</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>  This exercise assumes that
+you have done Exercise 2.  Given any sequence of x's, y's, and z's, describe
+how you could construct a machine that will move to the right until it
+finds the given sequence.  For example, if the sequence is xyzzyx, it should
+move to the right until it has found the symbols x, y, z, z, y, and x in
+consecutive squares, and then it should halt.  What is the minimum number of
+states that such a machine would need (assuming that you don't care which
+square it halts on)?  Why?  
+</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Construct a Turing machine to do the following:  Assume that the
+machine is started on a tape that contains nothing but a string
+of $'s.  The machine is started on the left end of this string.
+The purpose of the machine is to multiply the length of the
+string by 3.  For example, if it is started on a string of seven $'s,
+it should halt with twenty-one $'s on the tape.  If it is started on
+a string that contains just one $, it should halt with three $'s on
+the tape.  Here is one way that the machine might operate:
+Change one of the $'s to an x, then go to the end of the string
+and write two more x's.  Go back and process the next $ in the same
+way.  Continue until all the $'s have been processed.  Then change
+all the x's to $'s.</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+Construct a Turing machine to do the following:  Assume that the
+machine is started on a tape that contains nothing but a string
+of $'s.  The machine is started on the left end of this string.
+The purpose of the machine is to divide the length of the
+string by 3.  (Throw away any extra fractional part, so that 17
+divided by 3 would be 5).  For example, if the machine is started on
+a string of twenty-one $'s, it should halt with seven $'s on the tape.
+If it is started with ten $'s on the tape, it should halt with
+three $'s on the tape.  And if it is started with
+five $'s on the tape, then it should halt with one $ on the tape.
+</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+Modify the sample machine &quot;Increment&quot; so that instead of
+halting after it adds one to its input, it enters into state 0.
+(All you have to do is change the &quot;New State&quot; in one rule 
+from h to 0.)  With this modification, you have a <b>counting</b>
+machine.  It will continue to add one to the number on the tape
+over and over, as long as you let it.  Run the counting machine 
+at &quot;Fastest&quot; speed, and time how long it takes to count
+from 0 up to 1000000000 (in binary).  The number 1000000000 has
+nine zeros and so is equivalent to 2<sup>9</sup>, or 512, in base
+10.  Based on your answer, compute approximately how long the 
+machine would take to count from 0 to 1000000000000000, that is from
+0 to 2<sup>15</sup>.  Explain how you computed your answer and why the
+method that you used is valid.
+</p>
+
+<p><font color=blue><b>Exercise 7:</b></font>
+Construct a Turing machine to do the following:  Assume that the
+tape contains a binary number, and that the machine is started on 
+the right-hand end of the number.  The machine should write a string
+of $'s, where the number of $'s is given by the binary number that
+was initially on the tape.  For example, if the number on the
+tape was 10110, which is 22 in binary, then the machine should halt
+with a string of twenty-two $'s on the tape.  In order to construct
+this machine, you will have to understand something of how the sample
+machine &quot;MultiplyByAdding&quot; works.  In that machine, the
+problem was to repeat the addition operation a specified number
+if times.  In this exercise, the problem is to repeat the
+operation &quot;add a $ to the string&quot; a specified number of
+times.</p>
+
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Construct a Turing machine to do the
+following:  Assume that the machine is started on a tape that contains
+nothing but a sequence of x's and y's.  (The machine must work for
+<b>any</b> such sequence.)  The machine is started on the
+left end of this sequence.  The purpose of the machine is to separate
+the x's from the y's.  For example, given the input xxyxyyxyxx,
+it will change the tape to read xxxxxxyyyy.  The output string
+does not have to be in the same place on the tape as the
+input string, but it should be the only thing on the tape
+when the machine halts.  There are many ways
+to make such a machine.</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+Write a description of the algorithm that is used by the 
+sample machine &quot;AddBinaryNumbers&quot; to add two binary
+numbers on its tape.  Your object is to express an understanding
+of the process used.  A description that is on too high a level --
+such as &quot;It adds the numbers digit-by-digit from the right&quot; --
+doesn't really explain the process.  A very low-level description doesn't
+provide any understanding of the goals or purpose of the actions taken.
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+The Turing machines you worked with in this lab can use only the symbols
+$, 0, 1, x, y, z, and blank.  But this is an arbitrary limitation imposed
+by the xTuringMachine applet.  In fact, a Turing machine could be built to
+use any finite number of different symbols.  But no matter how many symbols
+a Turing Machine might use, the same computation could be done by a machine that
+uses only the symbols 0, 1, and blank.  Why is this true?  (Think about the
+way data is represented in a real computer.)  If this is the case, then, why
+bother with Turing Machines that use more than the minimum number of symbols?
+</p>
+
+
+<p><font color=blue><b>Exercise 11:</b></font>
+I have claimed that Turing machines can do any computation that can
+be done by any computer.  What is your reaction to this claim?  Do you
+believe it?  What evidence is there to support this claim?  What reasons
+might someone have for doubting it?  Write a short essay discussing your
+answers to these questions.
+</p>
+
+
+<p><font color=blue><b>Exercise 12:</b></font>
+Write a short essay comparing Turing machines as computational devices with
+the model computer, xComputer, that you worked with in previous labs.
+</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

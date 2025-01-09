@@ -1,0 +1,34 @@
+{ This program draws a circle of radius 5 with
+  little circles of radius 1/2 spaced evenly along
+  it.  The big circle is drawn as a sequence
+  of eighteen 20-degree arcs.  One little circle
+  is drawn at the end of each arc. }
+
+
+PenUp 
+MoveTo(0,-5)
+PenDown     { These three commands move the
+              turtle to the point (0,-5),
+              without drawing a line.  The
+              PenDown command is necessary to
+              make the turtle start drawing 
+              again.  I do this to center the
+              picture in the drawing window. }
+
+LOOP  { Means that the following statements,
+        up to the END LOOP, are to be 
+        repeated. }
+
+   arc(5,20)   { Draws a 20 degree arc along a 
+                 circle of radius 5. }
+
+   circle(-0.5)  { A circle of raduis 1/2; the minus
+                   sign means that the cicle will be
+                   drawn to the RIGHT of the turtle. }
+                   
+   EXIT IF heading = 0   { Terminates the loop when
+                   the turtle is back in its original
+                   orientation, facing to the right. }
+
+END LOOP { Marks the end of the sequence of
+           statements that make up the loop. }

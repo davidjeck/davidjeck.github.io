@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Isomorphisms and Homomorphisms</title>
+</head>
+<body>
+<div id="content">
+
+<h2>12 Linear Maps: Isomorphisms and Homomorphisms</h2>
+<hr>
+
+<p>When we consider functions between vector spaces, it is natural to look
+at functions that preserve the vector space structure.  That is, we consider
+functions $f\colon V\to W$ that respect vector addition and scalar multiplication.</p>
+
+<div class=def><a><span class=dtp>Definition:</span> Let $V$ and $W$ be vector spaces
+and $f$ a function $f\colon V\to W$.  We say that $f$ is <span class=nw>linear</span>
+if (1)&nbsp;for all $\vec v_1,\vec v_2\in V$, $f(\vec v_1+\vec v_2) = f(\vec v_1)+f(\vec v_2)$,
+and (2)&nbsp;for all $\vec v\in V$ and $r\in\R$, $f(r\cdot \vec v) = r\cdot f(\vec v)$.
+In that case, $f$ is said to be a <span class=nw>linear function</span>,
+or <span class=nw>linear map</span>, or a <span class=nw>homomorphism</span>.
+A homomorphism that is bijective is said to be an <span class=nw>isomorphism</span>.
+An isomorphism from a vector space to itself is called an <span class=nw>automorphism</span>.</p></div>
+
+<p>Note that conditions (1) and (2) in the definition could be replaced by the
+single condition that if $\vec v_1,\vec v_2\in V$ and $r,s\in\R$, then
+$f(r\cdot\vec v_1+s\cdot\vec v_2) = r\cdot f(\vec v_1)+s\cdot f(\vec v_2)$.  Also note that on the left-hand
+side of this equation, the scalar multiplication and vector addition are operations in $V$,
+while on the right-hand side, they are operations in $W$.  The same symbols are used for
+the operations, but it is important not to be confused by that.</p>
+
+<p>The textbook covers isomorphisms first, in Chapter Three, Section I, and it introduces
+general homomorphisms in Chapter Three, Section II.</p>
+
+<p>One of the major results about isomorphisms is that two finite dimensional
+vector spaces $V$ and $W$ are isomorphic if and only if they have the same 
+dimension.  If $B=\langle\vec v_1,\vec v_2,\dots,\vec v_n\rangle$
+is a basis of $V$, and $f\colon V\to W$ is an isomorphism, then it can be
+shown that $\langle\vec f(v_1),f(\vec v_2),\dots,f(\vec v_n)\rangle$
+is a basis of $W$, which means that $W$ also has dimension $n$.
+Conversely, if $V$ and $W$ both have dimension $n$, then let
+$B=\langle\vec v_1,\vec v_2,\dots,\vec v_n\rangle$ be a basis of $V$ and
+$D=\langle\vec w_1,\vec w_2,\dots,\vec w_n\rangle$ be a basis of $W$.
+Any $\vec v\in V$ can be written in a unique way as a linear combination of
+elements of $B$:  $\vec v = c_1\vec v_1+c_2\vec v_2+\cdots+c_n\vec v_n$,
+and an isomorphism $f\colon V\to W$ can be defined by
+$$f(c_1\vec v_1+c_2\vec v_2+\cdots+c_n\vec v_n) = c_1\vec w_1+c_2\vec w_2+\cdots+c_n\vec w_n$$
+It is easy to see that $f$ is linear and has inverse function
+$$f^{-1}(c_1\vec w_1+c_2\vec w_2+\cdots+c_n\vec w_n) = c_1\vec v_1+c_2\vec v_2+\cdots+c_n\vec v_n$$
+so it is an isomorphism.</p>
+
+<p>Note that this means that every finite-dimensional vector space $V$ is isomorphic to
+$\R^n$, where $n$ is the dimension of $V$.  Also note that $\R^n$ cannot be isomorphic
+to $\R^m$ when $n\ne m$, since the dimensions of $\R^n$ and $\R^m$ would be different.
+So, every finite-dimensional vector space is isomorphic to one and only one $\R^n$.</p>
+
+<p>Turing to the case of general homomorphisms, we find a similar situation with
+regard to bases: If $f\colon V\to W$ is a homomorphism and $B=\langle\vec v_1,\vec v_2,\dots,\vec v_n\rangle$
+is a basis of $V$, then $f$ is completely determined by its values, $f(\vec v_i)$ for $i=1,2,\dots,n$, on the
+basis vectors.  This is true since for an arbitrary $\vec v \in V$, it is possible to write
+$\vec v$ uniquely as a linear combination $\vec v = c_1\vec v_1+c_2\vec v_2+\cdots+c_n\vec v_n$,
+and then $f(\vec v) = f(c_1\vec v_1+c_2\vec v_2+\cdots+c_n\vec v_n)=
+c_1f(\vec v_1)+c_2f(\vec v_2)+\cdots+c_nf(\vec v_n)$.  Furthermore, if
+$\vec w_1, \vec w_2, \dots, \vec w_n$ are <b>any</b> $n$ elements of $W$, then it
+is possible to define a homomorphism $g\colon V\to W$ by defining $g(\vec v_1)=\vec w_1,
+g(\vec v_2)=\vec w_2,\dots, g(\vec v_n)=\vec w_n$ and then extending the definition 
+to other vectors in $V$.</p>
+
+<hr class=break>
+
+<p>Let $f\colon V\to W$ be any homomorphism.  Then $f(\vec 0_V) = \vec 0_W$.  That is,
+when $f$ is applied to the zero vector in $V$, the output is the zero vector in $W$.
+(I have written $\vec 0_V$ and $\vec 0_W$ to remind you that the two zero vectors are in two
+different spaces, but usually we would write them both as $\vec 0$ or in whatever other form
+is appropriate for the particular vector spaces in question.)
+This is true since $f(\vec 0_V) = f(0\cdot \vec 0_V) = 0\cdot f(\vec 0_V) = \vec 0_W$.</p>
+
+<p>Another important fact is that certain sets associated with a linear function are in fact
+subspaces.  Suppose $f\colon V \to W$ is a homomorphism.
+The set $\{\vec v\in V\,|\,f(\vec v)=\vec 0\}$ is a subspace of $V$ known as the 
+<span class="nw">null space</span> or <span class=nw>kernel</span> of $f$.
+The textbook denotes the null space of $f$ as $\mathscr N(f)$.
+Note that $\mathscr N(f)$ is a subspace of the domain, $V$</p>
+
+<p>The set $\{f(\vec v)\,|\, \vec v\in V\}$ is also a subspace, known as the 
+<span class=nw>range space</span> or <span class=nw>image</span> of $f$.
+The textbook denotes the range space as $\mathscr R(f)$.
+Note that $\mathscr R(f)$ is a subspace of the codomain, $W$.</p>
+
+<p>For a homomorphism $f\colon V\to W$, we define the <span class=nw>rank</span>
+of $f$ to be the dimension of the range space, $\mathscr R(f)$. And we defined
+the <span class=nw>nullity</span> to be the dimension of the null space,
+$\mathscr N(f)$.  The rank of a homomorphism is related to the rank of a 
+matrix, but we won't understand that until we understand how matrices are
+related to homomorphisms.  We have the important theorem</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> Let $f\colon V\to W$ be a homomorphism.
+$f$ is one-to-one if and only if the null space of $f$ is the trivial vector space $\{\vec 0\}$, that is,
+if and only if the nullity of $f$ is zero.</p></div>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

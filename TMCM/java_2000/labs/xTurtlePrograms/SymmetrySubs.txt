@@ -1,0 +1,220 @@
+{ This file defines several subroutines for
+  drawing "symmetric" pictures.
+  
+  Note:  You don't have to read the
+  definitions of these subroutines or 
+  understand how they work in order to
+  use them.  Just use them as "black boxes."
+  
+  The subroutines defined in this file are
+
+         multiForward(dist)
+         multiBack(dist)
+         multiArc(radius,degrees)
+         multiCircle(radius)
+         multiMove(dx,dy)
+         multiMoveTo(x,y)
+}
+
+
+{-------- Definitions of Subroutines -------}
+
+SUB multiforward(d)
+
+   IF isDrawing = 0 THEN
+      forward(d)
+      RETURN
+   END IF
+
+   DECLARE save_heading, save_x, save_y
+   save_heading := heading
+   save_x := xcoord
+   save_y := ycoord
+   
+   penUp
+   moveTo(-save_y, save_x)
+   penDown
+   face(90 + save_heading)
+   forward(d)
+
+   penUp
+   moveTo(save_y, -save_x)
+   penDown
+   face(-90 + save_heading)
+   forward(d)
+
+   penUp
+   moveTo(-save_y, -save_x)
+   penDown
+   face(-90 - save_heading)
+   forward(d)   
+
+   penUp
+   moveTo(save_y,save_x)
+   penDown
+   face(90 - save_heading)
+   forward(d)
+
+   penUp
+   moveTo(save_x, -save_y)
+   penDown
+   face(-save_heading)
+   forward(d)
+
+   penUp
+   moveTo(-save_x, save_y)
+   penDown
+   face(180 - save_heading)
+   forward(d)
+
+   penUp
+   moveTo(-save_x, -save_y)
+   penDown
+   face(180 + save_heading)
+   forward(d)   
+
+   penUp
+   moveTo(save_x,save_y)
+   penDown
+   face(save_heading)
+   forward(d)
+
+END SUB
+
+
+SUB multiarc(r,d)
+
+   IF isDrawing = 0 THEN
+      arc(r,d)
+      RETURN
+   END IF
+
+   DECLARE save_heading, save_x, save_y
+   save_heading := heading
+   save_x := xcoord
+   save_y := ycoord
+   
+   penUp
+   moveTo(-save_y, save_x)
+   penDown
+   face(90 + save_heading)
+   arc(r,d)
+
+   penUp
+   moveTo(save_y, -save_x)
+   penDown
+   face(-90 + save_heading)
+   arc(r,d)
+
+   penUp
+   moveTo(-save_y, -save_x)
+   penDown
+   face(-90 - save_heading)
+   arc(-r,d)   
+
+   penUp
+   moveTo(save_y,save_x)
+   penDown
+   face(90 - save_heading)
+   arc(-r,d)
+
+   penUp
+   moveTo(save_x, -save_y)
+   penDown
+   face(-save_heading)
+   arc(-r,d)
+
+   penUp
+   moveTo(-save_x, save_y)
+   penDown
+   face(180 - save_heading)
+   arc(-r,d)
+
+   penUp
+   moveTo(-save_x, -save_y)
+   penDown
+   face(180 + save_heading)
+   arc(r,d)   
+
+   penUp
+   moveTo(save_x,save_y)
+   penDown
+   face(save_heading)
+   arc(r,d)
+
+END SUB
+
+
+SUB multiMoveTo(x,y)
+
+   IF isDrawing = 0 THEN
+      MoveTo(x,y)
+      RETURN
+   END IF
+
+   DECLARE save_heading, save_x, save_y
+   save_heading := heading
+   save_x := xcoord
+   save_y := ycoord
+   
+   penUp
+   moveTo(-save_y, save_x)
+   penDown
+   moveTo(-y,x)
+
+   penUp
+   moveTo(save_y, -save_x)
+   penDown
+   moveTo(y,-x)
+
+   penUp
+   moveTo(-save_y, -save_x)
+   penDown
+   moveTo(-y,-x)   
+
+   penUp
+   moveTo(save_y,save_x)
+   penDown
+   moveTo(y,x)
+
+   penUp
+   moveTo(save_x, -save_y)
+   penDown
+   moveTo(x,-y)
+
+   penUp
+   moveTo(-save_x, save_y)
+   penDown
+   moveTo(-x,y)
+
+   penUp
+   moveTo(-save_x, -save_y)
+   penDown
+   moveTo(-x,-y)   
+
+   penUp
+   moveTo(save_x,save_y)
+   penDown
+   moveTo(x,y)
+
+END SUB
+
+
+SUB multiback(d)
+   multiforward(-d)
+END SUB
+
+
+SUB multicircle(r)
+   multiarc(r,360)
+END SUB
+
+
+SUB multiMove(dx,dy)
+   multiMoveTo(xcoord + dx, xcoord + dy)
+END SUB
+
+
+{------ End of Subroutine Definitions -----}
+
+

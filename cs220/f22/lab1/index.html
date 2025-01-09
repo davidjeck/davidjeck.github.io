@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<style type="text/css">
+  th, td { text-align: center; font-family: monospace }
+  th { border: 2px solid black }
+  td { border: 1px solid black }
+</style>
+<title>CS220, Fall 2022, Lab 1</title>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 1: Numbers and Bits</h2>
+
+<div class="intro">
+
+<p>Welcome to the first lab for CPSC 220.  In this lab, you will
+implement conversion between values of type int and their
+string representations in decimal, binary, and hexadecimal form.
+You will also convert an int value into the float value that is 
+represented by exactly the same bits.  You will be working in Java.
+Of course, Java can do all of these conversions itself, but for this
+lab, you will have to program them yourself using only basic
+arithmetic and bitwise operations.</p>
+
+<p>You will start with an incomplete program, <a href="Bits.java">Bits.java</a>.
+This program is meant to let the user enter a 32-bit integer in any of the following
+forms: an ordinary base-10 integer, a binary number starting with "0b",
+a hexadecimal number starting with "0x", or a floating point number with a
+decimal point or exponent.  It will print out the value in all four formats.
+The program already exists in outline and can be run.</p>
+
+<p><b>The assignment is to complete the program Bits.java,
+as discussed below.  You should turn in your completed program by the start
+of next week's lab.</b></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Turning in Your Work</h3>
+
+<p>You have an account on the Math/CS Department's Linux computers.  I will 
+make sure that you have the username and password that you need to use the account.
+Note that you are <b>not</b> required to work on the lab in Linux,
+but you are required to turn your lab work in to your Linux account.
+You will submit your work by copying it into a homework folder in that account.
+The name of the folder is <i style="white-space:pre">/classes/cs220/homework/<b>LastName</b></i>,
+where "LastName" should be replaced by your actual last name.
+</p>
+
+<p>For this lab, you will submit one file, named <i>Bits.java</i>.  One way to do
+that from any computer that has a network connection is to use the <i>scp</i>
+command in a Terminal.  Change into the directory that contains <i>Bits.java</i>
+and give a command of the form</p>
+
+<pre class=code>scp  Bits.java  <b>zz9999</b>@math.hws.edu:/classes/cs220/homework/<b>LastName</b>
+</pre>
+
+<p class=np>where you have to replace <b>zz9999</b> with your username and
+replace <b>LastName</b> with your actual last named.  If you are working on one
+of our Linux computers, you can use</p>
+
+<pre class=code>cp  Bits.java  /classes/cs220/homework/<b>LastName</b>
+</pre>
+
+<p class=np>(Note that it's also possible to use an SFTP program such as 
+<a href="https://filezilla-project.org/">FireZilla&nbsp;Client</a>
+for transferring files between your computer and your Linux account.  And if you
+are working on a Linux computer in the lab, you can use the GUI to copy Bits.java
+into your homework directory.)</p>
+
+<p>If you have not managed to submit your file by the start of next week's lab,
+you can get help to submit it during lab.  You should also be able to get help
+from Teaching Fellows; their hours are Sunday through Thursday, 7:00 to 10:00 PM,
+starting Sunday, August 28.</p>
+
+
+</div>
+
+
+<div class="section">
+
+<h3>About the Conversions</h3>
+
+<p><a href="Bits.java">Bits.java</a> contains seven subroutines for converting between
+different number representations.  One of them is already complete.  Your only job
+for this lab is to <b>complete the other six conversion functions</b>.  You must do
+the conversions without using any of Java's built-in subroutines.  Furthermore,
+your subroutines should never crash the program; they should <b>detect any errors in
+the input</b> and throw an <i>IllegalArgumentException</i> for any error that is found.</p>
+
+<p>The function <i>floatStringToInt</i>() is already complete.  It uses Java's
+built-in <i>Float.parseFloat()</i> to convert an input string to the floating point 
+value that it represents.  The result is a 32-bit binary representation of the <i>float</i>
+value.  The subroutine has to return the <i>int</i> value that is represented by 
+the same 32 bits.  The conversion is done using <i>Float.floatToRawIntBits</i>().
+This function does not actually do anything with its input; it just returns the
+unmodified 32 bits, but treated as an <i>int</i> instead of as a <i>float</i>.
+I don't know of any other way to do this type conversion in Java.</p>
+
+<p>The reverse conversion from <i>int</i> to <i>float</i> could be done by
+<i>Float.intBitsToFloat</i>().  However, for this lab you are asked to implement
+the same conversion in the function <i>myIntBitsToFloat</i>().  The algorithm is
+given in the <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Float.html#intBitsToFloat(int)">documentation</a>
+for <i>Float.intBitsToFloat</i>().  You should implement that algorithms exactly.
+One note on the implementation:  When Java computes 
+<i style="white-space:pre">s*m*Math.pow(2.0,e-150)</i>, the result is of type
+<i>double</i>, and you will have to type-cast it to type <i>float</i>.</p>
+
+<p>For the remaining String conversion functions, <i>hexStringToFloat</i>(),
+<i>binaryStringToFloat</i>(), and <i>decimalStringToFloat</i>(), you should
+apply the basic algorithm for converting a base-N string to an integer:</p>
+
+<pre>            num = 0
+            for each character, ch, in the string
+               num = N*num + (base-N equivalent of the character ch)
+</pre>
+
+<p class=np>There are a few issues that you will have to deal with:
+You will want to throw <i>IllegalArgumentException</i> for illegal
+characters and values that are too big to be represented in 32-bits.
+To make it possible to check for out-of-range values, you are strongly encouraged
+to <b>use type <i>long</i> in your calculations</b>, and type-cast to type <i>int</i>
+at the end.  
+Binary and hexadecimal strings are meant to be unsigned, allowing
+values in the range 0 to <span style="white-space:pre">2<sup>32</sup>-1</span>.
+For decimal numbers, you will need to account for the fact that
+a decimal string is allowed to start with a plus or minus sign,
+and you can allow values from &ndash;2<sup>31</sup> to
+<span style="white-space:pre">2<sup>32</sup>-1</span>.</p>
+
+<p>Finally, you need to complete <i>intToBinaryString</i>() and
+<i>intToHexString</i>().  You need to produce the base-2 and base-16 strings
+that represent a 32-bit integer value,&nbsp;<i>n</i>.  To do that, you need to
+look at the individual bits or groups of four bits in&nbsp;<i>n</i>.
+For this lab, <b>you are required to do that using Java's bitwise operators</b>.
+(I&nbsp;don't care whether you include leading zeros in your strings.  For
+example, both 0x9fa3b and 0x0009fa3b are acceptable.)</p>
+
+
+</div>
+
+
+<div class="section">
+
+<h3>About the Bitwise Operators</h3>
+
+<p>The algorithm for <i>myIntBitsToFloat</i>() uses Java's bitwise operators,
+and you are also required to use them for <i>intToBinaryString</i>()
+and <i>intToHexString</i>().  You could also, optionally, use them in
+<i>hexStringToFloat</i>() and<i>binaryStringToFloat</i>().
+Since you might be new to bitwise operators and hexadecimal numbers,
+this section provides some documentation for them.</p>
+
+<p>Java (like C and many other programming languages) has four
+<b>bitwise logical operators</b> that operate on individual bits within
+integers. An integer is represented internally using the binary number
+system, that is, as a sequence of 0's and 1's.  A value of type <i>int</i>
+in Java is, for example, a 32-bit integer.  The <i>byte</i>, <i>short</i>,
+and <i>long</i> data types use, respectively, 8, 16, and 64 bits.
+The bitwise logical operators <code>&amp;</code>, <code>|</code>,
+and <code>^</code> are binary operators that operate on a pair of integers, 
+while <code>~</code> is a unary operator that operates on a single integer.
+These are the bitwise <b>and</b>, <b>or</b>, <b>exclusive&nbsp;or</b> and <b>not</b>
+operators.
+When these operators are applied to multi-bit integers, they
+apply to each bit position separately.
+Their operations on individual bits are defined by this table:</p>
+
+<table align=center bgcolor=white cellspacing=0 cellpadding=4>
+<tr>
+   <th>x</th>
+   <th>y</th>
+   <th>x &amp; y</th>
+   <th>x | y</th>
+   <th>x ^ y</th>
+   <th>~x</th>
+</tr>
+<tr>
+   <td>0</td>
+   <td>0</td>
+   <td>0</td>
+   <td>0</td>
+   <td>0</td>
+   <td>1</td>
+</tr>
+<tr>
+   <td>0</td>
+   <td>1</td>
+   <td>0</td>
+   <td>1</td>
+   <td>1</td>
+   <td>1</td>
+</tr>
+<tr>
+   <td>1</td>
+   <td>0</td>
+   <td>0</td>
+   <td>1</td>
+   <td>1</td>
+   <td>0</td>
+</tr>
+<tr>
+   <td>1</td>
+   <td>1</td>
+   <td>1</td>
+   <td>1</td>
+   <td>0</td>
+   <td>0</td>
+</tr>
+<tr>
+   <td colspan=2><b>Meaning:</b></td>
+   <td>x AND y</td>
+   <td>x OR y</td>
+   <td>x XOR y</td>
+   <td>NOT x</td>
+</tr>
+</table>
+
+<p class=np>  For example,
+<code style="white-space:pre">00101110 &amp; 10100011 = 00100010</code>, and
+<code style="white-space:pre">~00101110 = 11010001</code>.</p>
+
+<p>Java also has three <b>shift operators</b> that work on the level
+of bits.  The shift operators shift all the bits in a number
+a specified number of positions to the left or to the right. The operators
+are <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, and
+<code>&gt;&gt;&gt;</code>, and they are defined for integers
+<code>x</code> and <code>N</code> as:</p>
+
+<table align=center bgcolor=white cellspacing=0 cellpadding=4>
+<tr>
+   <td>x &lt;&lt; N</td>
+   <td style="text-align:left">The <b>left shift</b> operator.<br>
+       Shift the bits in x to the <b>left</b> by N bit positions,<br>
+       losing bits from the left end of x, and filling<br>
+       in vacated positions on the right with zeros
+   </td>
+</tr>
+<tr>
+   <td>x &gt;&gt;&gt; N</td>
+   <td style="text-align:left">The <b>logical right shift</b> operator.<br>
+       Shift the bits in x to the <b>right</b> by N bit positions,<br>
+       losing bits from the right end of x, and filling<br>
+       in vacated positions on the left with zeros
+   </d>
+</tr>
+<tr>
+   <td>x &gt;&gt; N</td>
+   <td style="text-align:left">The <b>arithmetic right-shift</b> operator.<br>
+       Shift the bits in x to the <b>right</b> by N bit positions,<br>
+       losing bits from the right end of x, and filling<br>
+       in vacated positions on the left with zeros or ones.<br>
+       (Use zeros if x is positive, ones if x is negative.)
+   </d>
+</tr>
+</table>
+
+<p>The bit positions in a 32-bit integer are numbered
+0, 1, 2, ..., 31, from right to left.  Note in particular that
+<code style="white-space:pre">(1 &lt;&lt; N)</code>
+is an integer that has a 1 in bit position <code>N</code>
+and a 0 in every other position.  And
+<code style="white-space:pre">(x &gt;&gt;&gt; N)</code>
+is a number whose 0-th bit is equal to the <code>N</code>-th bit of <code>x</code>.
+You can use this to set or test
+the <code>N</code>-th bit in an integer&nbsp;<code>x</code>:</p>
+
+<table align=center bgcolor=white cellspacing=0 cellpadding=4>
+<tr>
+   <td>x = x | (1 &lt;&lt; N);</td>
+   <td>Sets bit N of x to be 1.
+   </td>
+</tr>
+<tr>
+   <td>x = x &amp; ~(1 &lt;&lt; N);</td>
+   <td>Sets bit N of x to be 0.
+   </td>
+</tr>
+<tr>
+   <td>x = x ^ (1 &lt;&lt; N);</td>
+   <td>Flips the N-th bit of x.
+   </td>
+</tr>
+<tr>
+   <td>y = (x &gt;&gt;&gt; N) &amp; 1;</td>
+   <td>y is the N-th bit of x (0 or 1).
+   </td>
+</tr>
+<tr>
+   <td>if ( (x &amp; (1 &lt;&lt; N)) != 0 )</td>
+   <td>Tests if the N-th bit of x is 1.<br>(Parentheses around 1 &lt;&lt; N are <i>required</i>.)
+   </td>
+</tr>
+<tr>
+   <td>if ( ((x &gt;&gt;&gt; N) &amp; 1 ) != 0 )</td>
+   <td>An alternative way to test<br>if the N-th bit of x is 1.
+   </td>
+</tr>
+</table>
+
+<p>You can also work with groups of bits.  For example,
+the number 15 in binary is 00000000000000000000000000001111.
+If you compute <code style="white-space:pre">y = x &amp; 15</code>,
+then <code>y</code> has the same bits as <code>x</code> in
+positions 0, 1, 2, and 3, while all the other bits of <code>y</code>
+are&nbsp;0.  This is called <b>masking</b>; you have "masked out"
+all the bits of <code>x</code> except for the first 4.  By 
+combining this with a shift, you can get other groups of
+four bits out of <code>x</code>.  For example,
+<code style="white-space:pre">(x &gt;&gt; 4) &amp; 15</code>
+would get you bits 4, 5, 6, and 7 from&nbsp;<code>x</code>.</p>
+
+<p>Working with groups of four bits becomes easier if you use
+<b>hexadecimal numbers</b>.  Hexadecimal numbers use the
+symbols 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, and F.
+Each symbol represents a group of 4 bits, as shown in this table:
+</p>
+
+<table align=center border=0 cellspacing=6 cellpadding=1>
+<tr>
+<td>
+    <table bgcolor=white cellspacing=0 cellpadding=4>
+    <tr>
+      <th>hex</th>
+      <th>binary</th>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0000</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0001</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0010</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0011</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0100</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0101</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>0110</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>0111</td>
+    </tr>
+    </table>
+</td>
+<td>
+    <table bgcolor=white cellspacing=0 cellpadding=4>
+    <tr>
+      <th>hex</th>
+      <th>binary</th>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>1001</td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>1010</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>1011</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>1100</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>1101</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>1110</td>
+    </tr>
+    <tr>
+      <td>F</td>
+      <td>1111</td>
+    </tr>
+    </table>
+</td>
+</tr>
+</table>
+
+<p class="np">You can use hexadecimal numbers in Java by prefixing them
+with <code>0x</code>.  For example, <code>0xF</code> is 15 (a number
+with 1111 in the rightmost four bit positions), and
+<code>0xFFFF0000</code> is the number with 0's in bit positions 0 through 15
+and 1's in positions 16 through 31.</p>
+
+<p>Note that this notation is not case-sensitive. The lowercase letters a, b, c, d, e, f
+are considered to be equivalent to the uppercase A, B, C, D, E, F.</p>
+
+<p>Both hexadecimal and binary numbers can be used in a Java program to represent
+integers.  A hexadecimal literal must start with 0x or 0X &mdash; for example, 0xFACE1234.
+A binary literal must start with 0b or 0B &mdash; for example, 0b10010101.
+A 32-bit integer can be represented by a 32-bit binary literal or by an 8-digit
+hexadecimal literal.</p>
+
+</div>
+
+</div>
+</body>
+</html>

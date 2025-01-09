@@ -1,0 +1,266 @@
+<HTML>
+<HEAD>
+
+<TITLE>xLogicCircuits Intro</TITLE>
+
+
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+
+<H1 align=center><font color="#E70000">The xLogicCircuits Applet</font></H1>
+
+<p>The applet on this page lets you build simulated logic circuits from 
+AND, OR, and NOT gates and see how they behave.  This is not a serious
+circuit design tool.  It's an educational tool for learning the basics about
+logic circuits.  In particular, only the &quot;logical&quot; behavior is
+simulated, <b>not</b> the electrical components from which real gates are made.
+The xLogicCircuits applet is one of several applets
+written by <A HREF="http://math.hws.edu/eck/index.html">David&nbsp;Eck</A>
+for use with his introductory computer science textbook
+<cite><A HREF="http://math.hws.edu/TMCM.html">The&nbsp;Most&nbsp;Complex&nbsp;Machine</A></cite>.
+(They can also be used independently of the book.)
+For a list of other applets and for lab worksheets that use the applets,
+see the <A HREF="../index.html">index&nbsp;page</A>.</p>
+
+<p>The applet is set to load some sample circuits.  You should see an
+XOR circuit with two inputs on the left, some gates and wires that compute
+the exclusive or of the inputs, and an output on the right.  (The definition
+of XOR is that the output is ON if one of the inputs is ON and the other
+is OFF.)  To run a circuit, you first have to turn the power on, using the
+&quot;Power&quot; checkbox at the bottom of the applet.  Then you can 
+click on the circuit's inputs to turn them on and off.  The signals from
+the inputs propagate along the wires through the circuits.</p>
+
+<p>More instructions and more details are given on this page below the applet.</p>
+
+
+<HR>
+
+<p align=center>
+<applet codebase="../classes/" archive="xLogicCircuits.zip" 
+        code="tmcm.xLogicCircuitsApplet.class"
+        alt="(Java not enabled.)" height=380 width=500>
+    <param name = "LOAD" value = "SampleCircuits.txt">
+    <font color="#E70000">(Java not available.)</font>
+</applet>
+</p>
+
+<HR>
+
+<blockquote>
+
+<H3><font color="#E70000">Building Circuits</font></H3>
+
+<p>You can build circuits by dragging components from the scrolling pallette
+on the left of the applet.  This pallette always contains at least the six standard
+components:  NOT gate, OR gate, AND gate, Input, Output, and &quot;Tack.&quot;
+The gates are components that do computations.  An AND gate, for example,
+has two inputs and one output.  It turns its output on if <b>both</b> of
+its inputs are on.  An OR gate also has two inputs.  It turns its output on
+if either one of its inputs is on (or if both are on).  The NOT gate
+has one input and one output.  It turns its output on if and only if its
+input is off.  Inputs and Outputs can be placed anywhere along the outer
+boundary of the circuit.  An Input represents an input for the circuit
+as a whole.  When the power is on, you can turn Inputs on and off manually
+by clicking on them.  An Output represents a value computed by the circuit.
+The values of Outputs cannot be set manually.  A &quot;Tack&quot; is simply
+an attachment point for wires.  You might want to use Tacks to help make your
+circuits neater.</p>
+
+<p>Once some components have been dragged onto the circuit board, you
+can draw wires to connect them.  Every wire leads from a <font color="#E70000">source</font>
+to a <font color="#E70000">destination</font>.  To draw a wire, you have to
+click the mouse <b>first</b> on the source.  Then hold the mouse button down
+while you move the mouse to the destination.  When you release the mouse button,
+the wire will be added to the circuit.  If you release the mouse button
+when the mouse is <b>not</b> over a valid destination, no wire will be drawn.
+Circuit Inputs are valid sources for wires.  So are Tacks.  So are
+the <b>outputs</b> of gates.  Valid destinations include circuit Outputs,
+inputs of gates, and Tacks.  You can draw as many wires as you want
+<b>from</b> a source, but you can only draw <b>one</b> wire to a
+destination.  (This makes sense because when the circuit is running,
+a destination takes its value from the single wire that leads to it.
+On the other hand, the value of a source can be sent to any number of
+wires that lead from it.)</p>
+
+<p>When you are drawing wires, you'll notice some helpful visual clues.
+Sources generally have a purple sort of color.  Destinations are green.
+A Tack, which can be both a source and a destination is green until
+a line has been drawn to that Tack; then the Tack turns purple.
+When you are drawing a wire and you move the mouse over a legal destination,
+the component will be hilited.  (A hilited gate is draw in blue, a hilited
+Output is enclosed in a blue rectangle, and a hilited Tack is enclosed
+in a blue circle.)  Note that some components, such as gates, have
+multiple inputs.  When you move the mouse over a component with several
+available inputs, the wire will jump to the nearest one.  Make sure
+that you get the wire attached to the one you want.</p> 
+
+<p>The gates in the pallette can be rotated into four different orientations.
+Just click on the little red, curved arrow on the left, above the gate.
+Once a gate has been dragged onto the circuit board, it can't be rotated.
+However, it can be resized.  When the gate is hilited, a box appears around
+it with small drag handles in each corner.  Drag one of these handles to change
+the size of a gate.  (To hilite a gate, or any component or wire, just click on it.</p>
+
+<p>Any component on the circuit board can be moved around.  Just drag it
+by holding down the <b>right</b> mouse button.  Alternatively (if you have
+a one-button mouse, for example) you can hold down the control key to drag
+a component.</p>
+
+<p>Whenever a wire or component is hilited, you can delete it by clicking on
+the &quot;Delete&quot; button.  If you delete a component that has some wires 
+attached, those wires will also be deleted.  There is an &quot;Undo&quot;
+button that you can use to get back something that you delete by mistake.
+(Note that the &quot;Undo&quot; button can only undo <b>one</b>
+operation.)</p>
+
+<p>You can edit a circuit even while the power is on.</p>
+
+<hr>
+<H3><font color="#E70000">Subcircuits</font></H3>
+
+<p>In addition to the six standard components, the scrolling component pallette 
+can also contain circuits that have been built from these
+basic components and <font color="#E70000">iconified</font> using 
+the applet's &quot;Iconify&quot; button.  These iconified circuits can
+be used as components in building other, more complex circuits.  You can
+drag them onto the circuit board, just like other components. The applet
+on this page should have loaded three such iconified circuits:
+&quot;4&nbsp;Bit&nbsp;Adder,&quot; &quot;Clock,&quot; and
+&quot;One&nbsp;Bit&nbsp;Mem.&quot;</p>
+
+<p>To see inside an iconified subcircuit, hilite it and then click on the 
+&quot;Enlarge&quot; button.  The circuit will expand to fill the circuit
+board.  (You can also just double click on the subcircuit.  However,
+not all browsers respond to double clicks.)
+When you expand a circuit icon from the pallette, its icon is removed
+from the pallette.  The circuit that was on the board previously is
+iconified and moved to the pallette, unless it is empty -- in which
+case, it is discarded.  There is only one circuit on the board
+at any given time.  You can edit the circuit while it is on the circuit
+board, and the changes you make will be permanent even after you
+re-iconify the circuit.</p>
+
+<p>If the circuit on the board containes a subcircuit, you can enlarge
+that circuit to see what is inside it.  This does <b>not</b> remove the
+main circuit from the board -- it just lets you see an enlarged part of
+it.  When you shrink the subcircuit back down to its original size, the
+main circuit is still there.  For an example, Enlarge the &quot;4 Bit Adder&quot;
+sample circuit from the pallette.  You'll see that it contains four
+copies of a subcircuit called &quot;Adder.&quot;  If you hilite one of
+the &quot;Adder&quot; circuits and Enlarge it,
+you can see what's inside it.  You'll also see a big red
+message, &quot;Enlarged from 4 Bit Adder,&quot; to remind you that what
+you are looking at is a part of a larger circuit.</p>
+
+<p>It is important to understand that when you drag a subcircuit onto
+the circuit board, what you get is a <b>copy</b> of the circuit from 
+the pallette.  If you edit the original circuit on the pallette, it
+<b>doesn't</b> affect any copies that have been made.  If you edit
+one of the copies, it doesn't affect the other copies.  Note in particular that
+it's easy to get two circuits that have the same name but that are
+different internally.  (My advice, of course, is don't do it!)</p>
+
+<p>By the way, a circuit can have multiple outputs.  When you draw a wire
+from a subcircuit to another component, make sure that the wire starts
+from the output that you want.</p>
+
+
+<hr>
+<H3><font color="#E70000">Other Features</font></H3>
+
+<p>The &quot;Clear&quot; button can be used to clear all the components
+from the circuit board.  If several circuits are stacked up on the board,
+it only affects the one on top.  The Clear button does <b>not</b>
+remove circuits from
+the pallette.  (If the circuit you Clear is an enlarged subcircuit that
+is part of another circuit, the Clear button does not remove the
+circuit Inputs and Outputs.  This is on the theory that they are probably
+connected to other components in the containing circuit, and you probably don't 
+want to delete all the connecting wires.  However, you can still delete the
+Inputs and Outputs individually, if you insist.)  <b>Note:</b> You
+can use the &quot;Undo&quot; button to undo a Clear, provided that you 
+do so before you do any other operation.</p>
+
+<p>The &quot;Save&quot; and &quot;Load&quot; buttons are for working with
+files.  (Hoewever, it is likely that your browser's security policy will prevent
+you from using them.)  The Save command saves the entire state of the
+applet, including all the circuits in the pallette and on the circuit
+board.  When you Load a file, everything in the applet is thrown away
+and replaced by the data in the file.  <b>Note</b> that the Load
+command is undoable.  Pressing the Undo button immediately after loading
+a file will restore the previous data.</p>
+
+<p>Above the applet you'll also find a text-input box labeled
+&quot;Title:&quot;.  This is name of the circuit currently visible on
+the circuit board.  You can change the name by editing the contents
+of this text-input box.</p>
+
+<p>At the left of the strip of controls below the applet is a 
+Speed pop-up menu.  This menu affects the speed at which signals 
+propagate through the circuit.  You might want to use the slower speeds
+to watch what is happening in more detail.  (At the Fast speed, it is
+possible in some browsers that the circuit will not be drawn correctly.
+For example, the &quot;Clock&quot; sample circuit should blink very
+quickly when the speed is set to Fast, but your browser might not allow
+applets to draw to the screen quickly enough to show this.)</p>
+
+<p>Another interface note:  You should be able to insert a tack into
+the middle of an existing wire by double-clicking on the wire.  If you
+double-click and hold the mouse down on the second click, you can 
+drag the tack to a different position.  (Again, I note that some browsers
+might not support double-clicks.)</p>
+
+<p>And one more:  It is not possible to draw a wire directly from an output
+of a gate or circuit to an input of the same gate or subcircuit.  However,
+there is nothing to stop you from making loops out of several components,
+as is done in two of the sample circuits.</p>
+
+<hr>
+<H3><font color="#E70000">About the Sample Circuits</font></H3>
+
+<p>The sample circuits loaded by the applet on this page are all fairly 
+standard examples of logic circuits.  The XOR circuit, which is visible on
+the circuit board when the applet starts up, is discussed above.
+The &quot;4 Bit Adder&quot;  is a circuit that can be used to add
+two 4-bit binary numbers.  When the numbers are put on the eight
+input wires at the top of the circuit, the sum -- which can have
+five bits -- appears on the five output wires on the bottom and left
+of the circuit.  (The output on the left is the &quot;carry&quot; bit.)</p>
+
+<p>The &quot;Clock&quot; circuit has one input and one output.
+If you turn on the power, it will start turning its output wire on and
+off.  If you turn on the input, however, the clock will stop &quot;ticking.&quot;
+It is worthwhile to watch this example with the speed set to Moderate
+or Slow.  (You can slow down the rate of ticking by inserting more
+Tacks into the loop.  This is because of the way signals are propagated
+through circuits.  The simulated circuits in this applet use &quot;discrete time.&quot;
+At each discrete moment of time, each component in a circuit
+gets the values from its input wires, and computes values for
+each of its output wires.  Real circuits don't work this way.
+Nevertheless, the logical behavior of most simulated circuits is --
+with a few exceptions -- the same as the behavior of real circuits.)</p>
+
+<p>The &quot;One Bit Mem&quot; circuit is a memory circuit that
+remembers the value of one bit.  To store a bit (ON or OFF), put the
+value to be stored on the lower of the two Inputs on the left of the
+circuit.  Turn the upper Input ON; wait a while, until the circuit
+settles down; and turn the upper Input OFF.  The value that you've stored
+will appear on the output wire.  This value will remain stored in the
+circuit as long as the upper Input is OFF.  (If you don't wait long enough
+before turning the upper Input OFF, the value will not be properly
+stored.  In fact, strange things can happen that are different from what
+would happen in a real, electrical circuit.)</p>
+
+
+</blockquote>
+
+<HR>
+<font size="-1">
+<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>),
+August 1997
+</font>
+</BODY>
+</HTML>

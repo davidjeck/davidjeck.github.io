@@ -1,0 +1,17 @@
+DECLARE sum  { Global variable to hold the sum. }
+
+SUB SumOfSquares(top)  { Subroutine to compute 
+                            1^2 + 2^2 + ... + top^2. }
+   import sum { make global variable available
+                     in this subroutine. }
+   sum := 0   { Sum starts out at zero. }
+   fork(top)  { Creates turtles numbered 
+                     1, 2, ..., top. }
+   sum := sum + ForkNumber^2   { Each turtle adds
+                  the square of its number to sum. }
+END SUB
+
+SumOfSquares(25)  { Computes 1^2 + 2^2 + ... + 25^2 
+                         and stores the answer in sum. }
+ 
+TellUser("The sum of the squares of the first 25 integers was computed to be #sum.")

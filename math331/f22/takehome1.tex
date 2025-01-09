@@ -1,0 +1,196 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.2 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{8.8 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\par\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331, Fall 2022\hfill Take-home Test \#1}}
+\nointerlineskip
+\vskip 3pt
+\hrule height 1pt
+
+\medskip
+
+{\narrower\narrower\small{
+This test is due by the start of class on Monday, October 3.  
+\textbf{You should do any six out of the seven problems on the test.  Do not do
+all seven; if you do all seven, your answer for problem~7 will be ignored.}\par
+You should do this test on your own, using only your textbook, class notes, 
+and previous work in the course as reference.  You should
+not work with other students, you should not use the Internet or other references, and you should not
+consult anyone except the professor for the course.  You can ask questions about the test in class and by email.
+I might give some hints and clarifications, but I am unlikely to give
+extensive, detailed help.   Be sure to show all of
+your work!  If you are not able to complete a problem, you should turn in work showing
+whatever progress you have made on it, for partial credit.
+\textbf{Note: There will be no ``rewrites'' for this test.}\par
+You can submit your answers in LaTeX on overleaf.com, if you want to do 
+that, but you are welcome to write up your answers neatly by hand.\par
+Although some problems are more difficult than others, and some are fairly easy, 
+all six problems will count equally.}
+\par}
+
+\medskip
+\hrule height 1pt
+\bigskip
+
+
+\def\ds{\displaystyle}
+
+
+\begin{problem} % problem 1
+State a careful definition of $\ds\lim_{x\to a^+}f(x)=+\infty$.  Then use the definition to
+prove directly that $\ds\lim_{x\to 0^+}\frac{1}{x} = +\infty$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem}  % problem 2
+Let $X$ and $Y$ be non-empty, bounded subsets of $\R$.  Suppose that for every $x\in X$ and 
+for every $y\in Y$, $x<y$.  Prove that $lub(X)\le glb(Y)$.  Is it always true that
+$lub(X)<glb(Y)\;$? (Prove or give a counterexample!)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem}  % problem 3
+Let $A$ and $B$ be subsets of $\R$.  Suppose that $x$ is an accumulation point of the set
+$A\cup B$.  Show that $x$ is an accumulation point of $A$ or $x$ is an accumulation
+point of $B$ (or both).   (Hint: Try a proof by contradiction.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem}  % problem 4
+Let $f$ and $g$ be functions. Then we can define a new function $\max(f,g)$ whose value
+at $x$ is given by $\max(f(x),g(x))$.
+\begin{itemize}
+\item[(a)] Show that for any numbers $a$ and $b$, $\max(a,b)=\frac{1}{2}\big(|a-b|+a+b\big)$.
+(Hint: Consider two cases.)
+\item[(b)] Now, suppose that $f$ and $g$ are continuous on an interval $I$.  Show that
+the function $\max(f,g)$ is also continuous on $I$.  Be clear about what continuity rules
+or theorems you use.
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem}  % problem 5
+Let $S$ be a subset of $\R$.  Recall that $S$ is said to be {\it dense\/} in $\R$ if
+for any open interval $(a,b)$, the intersection of $S$ with the set
+$(a,b)$ is not empty.  (That is, there is at least one $s\in S$ such that $a < s < b$.)
+Prove that $S$ is dense in $\R$ if and only if every point of $\R$ is an 
+accumulation point of $S$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+ 
+
+
+
+\begin{problem}  % problem 6
+Let $f(x)$ be a continuous function on a closed, bounded interval $[a,b]$.
+In class, we used uniform continuity of $f$ to show that $f$ is bounded above.
+However, it is possible to prove that directly using the Heine-Borel Theorem.
+Follow this outline to prove that there is a number $M$ such that $f(x)\le M$ for
+all $x\in[a,b]$:
+\begin{itemize}
+\item Show that for any $z\in[a,b]$, there is a $\delta_z>0$ and
+a number $M_z$ such that $f(x)\le M_z$ for all $x\in(z-\delta_z,z+\delta_z)$.
+(This is an easy consequence of continuity.  Just let $\eps=1$ in the definition
+of continuity at $z$, and get $f(x)<f(z)+1$ for all $x$ near enough to $z$.)
+\item Define an open cover of $[a,b]$ consisting of the
+intervals $(z-\delta_z,z+\delta_z)$, for all $z\in[a,b]$.
+(State why it is a cover.)
+\item Apply the Heine-Borel Theroem, and finish the proof.
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+
+\begin{problem}  % problem 7
+Suppose that $f(x)$ and $g(x)$ are uniformly continuous
+on the interval $I$ (which is not necessarily closed or bounded).
+Show directly from the definition of uniform continuity that $f(x)+g(x)$ is
+uniformly continuous on $I$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+

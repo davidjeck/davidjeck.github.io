@@ -1,0 +1,558 @@
+<HTML>
+
+<HEAD> <TITLE>xLogicCircuits Lab 1</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xLogicCircuits Lab 1:
+         Logic Circuits</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+2">I</font>T IS POSSIBLE IN THEORY to construct a computer
+entirely out of transistors (although in practice, other types of basic
+components are also used).  Of course, in the process of assembling a computer,
+individual transistors are first assembled into relatively simple
+circuits, which are then assembled into more complex circuits, and so
+on.  The first step in this process is to build <font color="#E70000">logic gates</font>,
+which are circuits that compute basic logical operations such as <font color="#E70000">AND</font>,
+<font color="#E70000">OR</font>, and <font color="#E70000">NOT</font>.
+In fact, once AND, OR, and NOT gates are available, a 
+computer could be assembled entirely from such gates.
+In this lab you will work with simulated circuits made up of AND, OR and
+NOT gates.  You will be able to build such circuits and see how they
+operate.  And you will see how simpler circuits can be combined to
+produce more complex circuits.</p>
+
+<p>This lab covers some of the same material as Chapter 2
+in <cite>The Most Complex Machine</cite>.
+The lab is self-contained, but many of the ideas covered here are covered
+in more depth in the text, and it would be useful for you to read
+Chapter 2 before doing the lab.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#logic">Logic and Circuits</A>
+   <LI><A HREF="#building">Building Circuits</A>
+   <LI><A HREF="#subcircuits">Complex Circuits and Subcircuits</A>
+   <LI><A HREF="#arithmetic">Circuits and Arithmetic</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>The lab uses an applet called &quot;xLogicCircuits.&quot;
+<A NAME="launch">Start</A> the lab by clicking this button to launch the xLogicCircuits
+applet in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xLogicCircuits.zip"
+        code="tmcm/xLogicCircuitsLauncher.class"
+        alt="(Java not enabled.)"
+        width=180 height=30>
+   <param name="LOAD" value="xLogicCircuitFiles/FirstExamples.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+</p>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="logic">Logic and Circuits</A></font></H3>
+
+<p>A logic gate is a simple circuit with one or two inputs and one
+output.  The inputs and outputs can be either ON or OFF,
+and the value of a gate's output is completely determined by the values
+of its inputs (with the proviso that when one of the inputs is changed,
+it takes some small amount of time for the output to change in
+response). Each gate does a simple computation.  Circuits that do
+complex computations can be built by connecting outputs of some gates
+to inputs of others.  In fact, an entire computer can be built in
+this way.</p>
+
+<p>In the xLogicCircuits applet, circuits are constructed from AND gates,
+OR gates, and NOT gates.  Each type of gate has a different rule for computing
+its output value.  Circuits are laid out on a <font color="#E70000">circuit
+board</font>.  Besides gates, the circuit board can contain <font color="#E70000">Inputs</font>,
+<font color="#E70000">Outputs</font>, and <font color="#E70000">Tacks</font>.
+Later, we'll see that circuits can also contain other circuits.  All these
+components can be interconnected by wires.  To the left of the circuit board in the applet
+is a <font color="#E70000">pallette</font>.  The pallette contains components available
+to be used on the circuit board.  You can't usually see all the components at once,
+but there is a scroll bar that allows you to scroll through all the components on the
+pallette.   <A NAME="illustration">The following illustration</A> shows the part
+of the pallette that contains
+the six standard components, along with some comments and a small sample circuit:</p>
+
+<p align=center><IMG SRC="images/xLogic1.gif" 
+        ALT="The standard component pallette" WIDTH="496" HEIGHT="461"></p>
+        
+<p>(One thing you should note: Wires cannot connect to each other except at
+Tacks.  Just because two wires cross each other on the circuit board does not
+mean that they are connected.  That is, no signal will propagate from one
+of the wires to another.  Wires can only carry signals between components
+such as gates, Tacks, Inputs, and Outputs.)</p>
+
+<p>The applet that you launched <A HREF="#launch">above</A> should start
+up showing a sample circuit called &quot;Basic Gates.&quot;  At the top of the
+circuit board are an AND gate, an OR gate, and a NOT gate.  The gates are
+connected to some Inputs and Outputs.  A more complicated circuit built
+from several gates occupies the bottom of the circuit board.</p>
+
+<p>To see how the circuit works, you have to turn on the <font color="#E70000">power</font>.
+Power to the circuit board is turned on and off using the &quot;Power&quot;
+checkbox below the circuit board.  The power is ON when the box is checked.
+<b>Click on the Power checkbox now to turn
+on the power.</b>  (Why does the wire leading from the NOT gate come on when
+you do this?)  When the power is on, you have control over the Inputs on
+the circuit board: you can turn an input ON and OFF by clicking on it.
+The circuit does the rest: signals from the Inputs propagate along wires,
+through gates and other components, and to the Outputs of the circuit.
+<b>Try it</b> with the sample circuit.  If you have a problem, make sure the
+power is on and that you are clicking on an Input, not an Output.</p>
+
+<p>You should check that the AND, OR, and NOT gates at the top of the
+circuit board have the expected behavior when you turn their inputs ON
+and OFF.  You can also investigate the circuit in the bottom half of the
+logic board.  Below the circuit board, to the left of the Power switch,
+you'll find a <font color="#E70000">pop-up menu</font> that can be used to
+control the speed at which signals propagate through the circuit.  The
+speed is ordinarily set to &quot;Fast.&quot;  You can use the pop-up
+menu to change the speed to &quot;Moderate&quot; or &quot;Slow&quot;
+if you want to watch the circuit in slow motion.  (For the most part,
+though, you probably want to leave the speed set to Fast.)</p>
+
+<hr width="50%">
+
+<p>Logic gates and logic circuits are associated with mathematical
+<font color="#E70000">logic</font>, which is the study of the computations
+that can be done with the <font color="#E70000">logical values</font>
+<b>true</b> and <b>false</b> and with
+the logical <font color="#E70000">operators</font>
+<b>and</b>, <b>or</b>, and <b>not</b>.  This association
+comes about when we think of ON as representing <b>true</b> and OFF
+as representing <b>false</b>.  In that case, AND, OR, and NOT gates do the
+same computations as the operators <b>and</b>, <b>or</b>, and <b>not</b>.</p>
+
+<p>Mathematical logic uses <font color="#E70000">Boolean algebra</font>,
+in which the letters A, B, C, and so on, are used to represent logical
+values.  Letters are combined using the logical operators <b>and</b>,
+<b>or</b>, and <b>not</b>.  For example,<p>
+
+<p align=center>(A <b>and</b> C) <b>or</b>
+      (B <b>and</b> (<b>not</b> C))</p>
+
+<p>is an expression of Boolean algebra.  As soon as the letters in an
+expression are assigned values <b>true</b> or <b>false</b>, the value of
+the entire expression can be computed.</p>
+
+<p>Every expression of boolean algebra corresponds to a logic circuit.
+The letters used in the expression are represented by the Inputs to
+the circuit.  Each wire in the circuit represents some part of
+the expression.  A gate takes the values from its input wires and combines
+them with the appropriate word -- <b>and</b>, <b>or</b>, or <b>not</b> -- to
+produce the label on its output wire.  The final output of the whole
+circuit represents the expression as a whole.  <A NAME="xor">For example</A>, consider
+the sample circuit from the applet.  If the inputs are labeled A and B,
+then the wires in the circuit can be labeled as follows:</p>
+
+<p align=center><IMG SRC="images/xLogic2.gif" ALT="Circuit labeled with logical expressions" WIDTH="471" HEIGHT="116"></p>
+
+<p>The circuit as a whole corresponds to the final output expression,
+(A <b>and</b> (<b>not</b> B)) <b>or</b> (B <b>and</b> (<b>not</b> A)).
+This expression in turn serves as a <font color="#E70000">blueprint</font>
+for the circuit.  You can use it as a guide for building the circuit.
+The expression given earlier, (A <b>and</b> C) <b>or</b> (B <b>and</b> (<b>not</b> C)),
+corresponds to another sample circuit shown in the illustration <A HREF="#illustration">above</A>
+-- provided you label the inputs appropriately.</p>
+
+<p>To sum up, given any expression of Boolean algebra, a circuit can be built to
+compute that expression.  Conversely, any output of a logic circuit that does not
+contain a &quot;feedback loop&quot; can be described by a Boolean algebra expression.
+This is a powerful association that is useful in understanding and designing logic
+circuits.  (Note:  Feedback occurs when the output of a gate is connected through
+one or more other components back to an input of the same gate.  Circuits with
+feedback are not covered in this lab.  However, they have important uses
+that are covered in the <A HREF="xLogicCircuitsLab2.html">next lab</A>.)
+
+<HR>
+<H3><font color="#E70000"><A NAME="building">Building Circuits</A></font></H3>
+
+<p>You can build your own circuits in the xLogicCircuits applet.  Click on
+the &quot;Iconify&quot; button at the bottom of the applet.  This will
+put away the &quot;Basic Gates&quot; circuit, by turning it into an icon
+on the pallette.  You'll have a clear circuit board to work on.
+As an exercise, try to make a copy of the sample circuit shown
+<A HREF="#illustration">above</A>, which corresponds to the Boolean
+expression</p>
+
+<p align=center>(A <b>and</b> C) <b>or</b>
+                  (B <b>and</b> (<b>not</b> C)).</p>
+                  
+<p>To add a component to your circuit, click on the component in the pallette,
+hold down the mouse button, and use the mouse to drag the component onto
+the circuit board.  Make sure you drag it completely onto the board.  If you
+want a gate that is facing in a different direction, you have to rotate the 
+gate in the pallette <b>before</b> you drag it onto the circuit board.</p>
+
+<p>Once some components are on the board, you can draw wires between them
+using the mouse.  Every wire goes from a <font color="#E70000">source</font>
+to a <font color="#E70000">destination</font>.  To draw a wire, move the
+mouse over the source, click and hold the mouse button, move the mouse
+to the destination, and release the button.  You <b>must</b> draw the
+wire from source to destination, not the reverse.  If you release the mouse
+button when the wire is not over a legal destination, no wire will be drawn.
+When there are two possible destinations in one component -- such as the two
+inputs of an AND or OR gate -- make sure that you get the wire connected
+to the right one.</p>
+
+<p>Circuit Inputs are valid sources for wires.  So are Tacks.  So are
+the <b>outputs</b> of gates.  Valid destinations include circuit Outputs,
+inputs of gates, and Tacks.  You can draw as many wires as you want
+<b>from</b> a source, but you can only draw <b>one</b> wire to a
+destination.  (This makes sense because when the circuit is running,
+a destination takes its value from the single wire that leads to it.
+On the other hand, the value of a source can be sent to any number of
+wires that lead from it.)</p>
+
+<p>Once a component is on the board, you can still move it to a new
+position, but you have to <b>drag it using the right mouse button</b>.
+Alternatively -- if you have a one-button mouse, for example -- you can
+drag a component by <b>holding down the control key</b> as you first press
+the mouse button on it.</p>
+
+<p>You can <b>delete</b> components and wires that you've added by mistake.
+Just click on the component or wire to <font color="#E70000">hilite</font> it.
+Then click on the &quot;Delete&quot; button at the bottom of the applet.
+The hilited item will be deleted from the circuit board.  If you delete
+a component that has wires attached, the attached wires will also be deleted
+along with the component.</p>
+
+<p>If you delete an item or modify the circuit in some other way, you get
+one chance to change your mind.  You can click on the &quot;Undo&quot;
+button to undo one operation.  Only the most recent operation can be
+undone in this way.</p>
+
+<p>There is one shortcut that you might find useful, if you like using Tacks.
+You can insert a Tack into an existing wire by double-clicking on the wire. If you
+double-click and hold the mouse down on the second click, you can drag the tack
+to a different position.  (However, some browsers might not support double-clicks.)</p>
+
+<p>After you build the practice circuit, you can clear the screen, since you
+won't need that circuit again in the rest of the lab.  However, you'll get
+more practice building circuits in the Exercises at the end of the lab.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="subcircuits">Complex Circuits and Subcircuits</A></font></H3>
+
+<p>In order to have circuits that display <font color="#E70000">structured complexity</font>,
+it is important to be able to build on previous work when designing
+new circuits.  Once a circuit has been designed and saved, it should
+be possible to use that circuit as a component in a more complex
+circuit.  A lot of the power of xLogicCircuits comes from the ability to use
+circuits as components in other circuits.  Circuits used in this way are
+called <font color="#E70000">subcircuits</font>.  A circuit that has
+been saved as an icon in the pallette can simply be dragged into another
+circuit.  (More exactly, a <b>copy</b> of the circuit is created and is
+added to the circuit board.  The copy is a separate circuit; editing the original
+will not change the copy.)  This ability to build on previous work is
+essential for creating complex circuits.</p>
+
+<p>You can open a circuit from the pallette to see what's inside or to edit
+it.  Just click on the icon to hilite it, and then click on the &quot;Enlarge&quot;
+button.  The icon will be removed from the pallette and the circuit will appear
+on the circuit board.  At the same time, any circuit that was previously on
+the circuit board will be iconified and placed on the pallette.  
+You should also be able to enlarge a circuit just by double-clicking on it.
+(By the way, you can change the name of the circuit on the
+circuit board by editing the 
+text-input box at the top of the applet.  This box contains the name that
+appears on the iconified circuit.)</p>
+
+<p>The xLogicCircuits applet should have loaded several subcircuits for the
+pallette.  One of these circuits is called &quot;Two or More&quot;.  <b>Open
+this circut now.</b>
+The circuit has three inputs.  It turns its output ON whenever at least
+two of its inputs are ON.  Try it.  (Click on the inputs to turn them ON
+and OFF -- and don't forget to turn the Power on first.)</p>
+
+<p>As a simple exercise in building circuits from subcircuits, use
+the &quot;Two or More&quot; circuit as part of a &quot;At Most One&quot;
+circuit.  You want to build a circuit with three inputs that will turn on
+its output whenever zero or one of its inputs is on.  Notice that this is
+just the opposite behavior from the &quot;Two or More&quot; circuit.  That is,
+&quot;At Most One&quot; is ON whenever &quot;Two or More&quot; is <b>not</b>
+ON.  This &quot;logical&quot; description shows that the &quot;At Most One&quot;
+circuit can be built from a NOT gate and a copy of the &quot;Two or More&quot;
+circuit.  Begin by re-Iconifying the &quot;Two or More&quot; circuit,
+then drag a NOT gate and a copy of &quot;Two or More&quot; onto the empty
+circuit board.  Add Inputs, Outputs, and
+wires as appropriate, then test your circuit to make
+sure that it works.  If you like, you can give it a name and turn it into
+an icon.</p>
+
+<p>Next, open the &quot;4-Bit Adder&quot; sample circuit.  You'll see that
+it contains several copies of a subcircuit called &quot;Adder.&quot;
+It's possible to look inside one of these circuits:  Just click on the
+adder circuit to hilite it, and then click the &quot;Enlarge&quot;
+button. This does <b>not</b> remove the
+main circuit from the board -- it just lets you see an enlarged part of
+it.  When you shrink the subcircuit back down to its original size, the
+main circuit is still there. In this case, you'll see that an &quot;Adder&quot;
+circuit contains two &quot;Half Adder&quot; subcircuits, which you can
+enlarge in their turn, if you want.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="arithmetic">Circuits and Arithmetic</A></font></H3>
+
+<p>The &quot;4-Bit Adder&quot; circuit is an example of a logic circuit
+that can work with binary numbers.  Circuits can work with binary numbers
+as soon as you think of ON as representing the binary value 1 (one) and OFF
+as representing the value 0 (zero).  The &quot;4-Bit Adder&quot; can add 
+two 4-bit binary numbers to give a five digit result.  Here are some
+examples of adding 4-bit binary numbers:</p>
+
+<pre>
+      1011       1111       1111       1010       0111       0001
+      0110       0001       1111       0101       1010       0011
+     -----      -----      -----      -----      -----      -----
+     10001      10000      11110      01111      10001      00100
+
+</pre>
+
+<p>The answer has 5 bits because there can be a <font color="#E70000">carry</font>
+from the left-most column.  Each of the four &quot;Adder&quot; circuits
+in the &quot;4-Bit Adder&quot; handles one of the columns in the sum.
+You should test the &quot;4-Bit Adder&quot; to see that it gets the right
+answers for the above sums.  
+The two four-bit numbers that are to be added are put on the eight
+Inputs at the top of &quot;4-Bit Adder&quot;.  The sum appears on the
+outputs at the bottom, with the fifth bit -- the final carry -- appearing
+on the output on the right.  You should observe that it takes some time
+after you set the inputs for the circuits to perform its computations.</p>
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font>  One of the examples in this
+lab was the circuit corresponding to the expression</p>
+<p align=center>(A <b>and</b> (<b>not</b> B)) <b>or</b> (B <b>and</b> (<b>not</b> A)).</p>
+<p>This circuit is ON if <b>exactly one</b> of its inputs is on.  Another way
+to describe the output is to say that it is ON if &quot;one or the other
+of the inputs is on, but not both of the inputs are on.&quot; This description
+corresponds to the Boolean expression</p>
+<p align=center>(A <b>or</b> B) <b>and</b> (<b>not</b> ((A <b>and</b> B)).</p>
+
+<p>Build a circuit corresponding to the second expression, and check that
+it gives the same output as the first circuit for every possible combination
+of inputs.</p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+When you checked &quot;every possible combination of inputs&quot; for
+the circuit in Exercise 1, how many combinations did you have to check?
+If you wanted to check that the &quot;Two or More&quot; example circuit
+works correctly for every possible combination of inputs, how many combinations
+would you have to check? Why?  If you wanted to check that the 
+&quot;4-Bit Adder&quot; gives the correct answer for each possible set of inputs,
+how many inputs are there to check?  Why?</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>Consider the following
+three Boolean algebra expressions:</p>
+
+<p align=center>
+(A <B>and</B> B <B>and</B> C) <B>or</B> (<B>not</B> B)
+</p>
+<p align=center>
+(<B>not</B> ((<B>not</B> A) <B>and</B> (<B>not</B> B)))
+<p align=center>
+(<B>not</B> (A <B>or</B> B)) <B>or</B> (A <B>and</B> B)
+</p>
+
+<p>For each expression, build a logic circuit that computes the value of
+that expression.  Write a paragraph that explains the method that you
+apply when you build circuits from expressions.  (One note:  To build a circuit
+for an expression of the form (X <b>and</b> Y <b>and</b> Z), you should insert
+some extra parentheses, which don't change the answer.  Think of the
+expression as ((X <b>and</b> Y) <b>and</b> Z), and build the circuit using two
+AND gates.)</p>
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Given a logic circuit that does not contain any feedback loops, it
+is possible to find a Boolean algebra expression that describes each 
+output of that circuit.  Open the circuit called &quot;For Ex. 4&quot;,
+which was one of the sample circuits in the applet's pallette.
+This circuit has four inputs and three outputs.  Assuming that the inputs
+are called A, B, C, and D, find the expression that corresponds to each
+of the three outputs.  Also write a paragraph that discusses the
+procedure that you apply to find the Boolean expression for the
+output of a circuit.</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+Consider the following input/output table for a circuit with two inputs and
+one output.  The table gives the desired output of the circuit for each
+possible combination of inputs.</p>
+
+
+<center>
+<TABLE border=1>
+
+<TR align=center>
+	<TD><B>&nbsp;Input 1&nbsp;</B></TD>	<TD><B>&nbsp;Input 2&nbsp;</B></TD>	
+	                                <TD><B>&nbsp;Output&nbsp;</B></TD>
+</TR>
+<TR align=center>
+	<TD>ON</TD>	<TD>ON</TD>	<TD>ON</TD>
+</TR>
+<TR align=center>
+	<TD>ON</TD>	<TD>OFF</TD>	<TD>ON</TD>
+</TR>
+<TR align=center>
+	<TD>OFF</TD>	<TD>ON</TD>	<TD>OFF</TD>
+</TR>
+<TR align=center>
+	<TD>OFF</TD>	<TD>OFF</TD>	<TD>ON</TD>
+</TR>
+</TABLE>
+</center>
+
+<p>Construct a circuit that displays the specified behavior.  You have to 
+build <b>one</b> circuit that satisfies <b>all four</b> rows of the table.
+Section 2.1 of <cite>The Most Complex Machines</cite> gives a general 
+method for constructing a circuit specified by an input/output table.
+You can apply that method, or you can just try to reason logically about
+what the table says.  Write a paragraph discussing how you found your
+circuit.</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+One of the examples in this lab was a circuit called &quot;Two or More&quot;,
+which checks whether at least two of its inputs are on.  Consider the
+problem of finding a similar circuit with four inputs.  The output should
+be on if any two (or more) of the inputs are on.  A circuit that does
+this can be described by the Boolean expression:</p>
+
+<p align=center>(A <B>and</B> (B <B>or</B> C <B>or</B> D))
+<B>or</B> (B <B>and</B> (C <B>or</B> D))
+<B>or</B> (C <B>and</B> D)</p>
+
+<p>Use this expression to construct a &quot;Two or More&quot;
+circuit with four inputs.  Try to understand where this expression comes
+from.  Why does it make sense?  (Hint: Think of two cases, one case where
+the input A is ON, and the other case where the input A is OFF.)
+Write a paragraph explaining this.  The form of this expression
+can be extended to handle circuits with any number of inputs.
+Write down a logical expression that describes a circuit with <b>five</b>
+inputs that turns on its output whenever two or more of the inputs are on.
+</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+&quot;The structure of the 4-Bit Adder circuit reflects the structure
+of the compution it is designed to perform.&quot;  In what sense is this
+true?  What does it mean?  How does this relate to problem-solving in general?
+</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Write a short essay (of several paragraphs) that explains
+how subcircuits are used in the construction of complex circuits and
+why the ability to make and use subcircuits in this way is so important.</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+Build a &quot;Select&quot; circuit, as shown in this illustration:
+</p>
+
+<p align=center><IMG SRC="images/xLogic4.gif" ALT="Select Circuit" WIDTH="314" HEIGHT="100"></p>
+
+<p>The circuit has two inputs, A and B, at the top.  It also has two inputs,
+C and D, on the left, which serve as <font color="#E70000">control wires</font>.
+(The only thing that makes an input of a circuit a control wire is that
+the designer of the circuit says it is, but in general control wires are
+thought of as controlling the circuit in some way.)  The control wires
+determine which of the inputs, A or B, gets to the output.
+In order to do this exercise, you should think &quot;logically.&quot;
+That is, try to describe the output of the circuit using a Boolean 
+expression involving A, B, C, and D.  Then use that expression as a blueprint
+for the circuit.  <b>Test your circuit</b> and save it for use
+in Exercise 10.</p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+For this exercise, you should build a &quot;Mini ALU&quot; that can do
+either addition or subtraction of four-bit binary numbers.  An
+<font color="#E70000">Arithmetic Logic Unit</font>, or ALU, is the
+part of a computer that does the basic arithmetic and logical computations.
+It takes two binary numbers and computes some output.  The interesting
+thing is that an ALU can perform several different operations.  It
+has control wires to tell it which operation to perform.  You will
+build an ALU that can perform either addition or subtraction of
+four-bit binary numbers.  It has two control wires.  Turning on 
+one of these will make it do an addition; turning on the other will
+make it do a subtraction.  You should construct the circuit as specified
+by this illustration:</p>
+
+<p align=center><IMG SRC="images/xLogic5.gif" ALT="Mini ALU" WIDTH="480" HEIGHT="206"></p>
+
+<p>Now, an interesting thing about an ALU is that it actually performs all
+the computations that it knows how to do.  The control wires just
+control which of the answers get to the outputs of the ALU.  To make
+your &quot;Mini ALU,&quot; you can start with the &quot;4-Bit Adder&quot;
+and &quot;4-Bit Minus&quot; circuits, which were provided to you
+in the applet's palette.  (The four-bit subtraction circuit has only
+four outputs, since for subtraction the carry bit from the leftmost
+adder does not provide any useful information. You don't have to worry about how the Minus
+circuit works -- you don't even have to understand how negative numbers
+are represented in binary.)</p>
+
+<p>Start by placing a &quot;4-Bit Adder&quot; and a &quot;4-Bit Minus&quot; circuit
+on an empty circuit board, along with the eight inputs at the top of the
+circuit.  These can be connected as shown:</p>
+
+<p align=center><IMG SRC="images/xLogic3.gif" ALT="A start on the Mini ALU" WIDTH="463" HEIGHT="192"></p>
+
+<p>(Note: To change the size and shape of a subcircuit, click the circuit to hilite it.
+When a circuit is hilited, it is surrounded by a rectangle with a little
+square handle in each corner.  You can click-and-drag one of these
+handles to adjust the size of the circuit.)</p>
+
+<p>All you have to do is construct the rest of the circuit so that the
+control wires can control whether the answer from the &quot;4-Bit Adder&quot;
+or the answer from the &quot;4-Bit Minus&quot; gets through to the Outputs
+of the ALU.  One way to do this is to use four copies of the &quot;Select&quot;
+circuit that you built for Exercise 9.</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

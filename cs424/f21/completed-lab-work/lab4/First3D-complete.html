@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+-->
+
+<head>
+<meta charset="UTF-8">
+<title>OpenGL Program using glsim.js</title>
+
+<script src="glsim.js"></script>  <!-- load the OpenGL 1.1 simulation code -->
+<script src="basic-object-models-IFS.js"></script>  <!-- some standard 3D shapes -->
+
+<script>
+
+    "use strict";
+    
+    let camera;   // For setting up the view and implementing rotation by mouse.
+
+    // -------------------------- rendering code ----------------------------------
+
+    let objectNumber = 1;  // Which object to draw (1 ,2, 3, 4, 5, or 6)?
+	                       //   (Controlled by number keys.)
+
+	/**
+	 * The method that draws the current object, selected by value of objectNumber.
+	 * The value of objectNumber is 1, 2, 3, 4, 5, or 6.
+	 */
+    function draw() {
+
+        switch (objectNumber) {
+        case 1:
+        	glBegin(GL_TRIANGLE_FAN);
+        	glColor3f(1,1,1);
+        	glVertex2f(-3,0);
+        	glColor3f(1,1,0);
+        	glVertex2f(-5,-5);
+        	glColor3f(1,0,0);
+        	glVertex2f(5,-5);
+        	glColor3f(1,1,1);
+        	glVertex2f(3,0);
+        	glColor3f(0,0,1);
+        	glVertex2f(5,5);
+        	glColor3f(0,1,0);
+        	glVertex2f(-5,5);
+        	glColor3f(1,1,1);
+        	glVertex2f(-3,0);
+        	glEnd();
+        	break;
+        case 2:
+        	glDisable(GL_LIGHTING);
+        	glColor3f(1,1,1);
+        	glPushMatrix();
+        	glScalef(5,5,5);
+        	for (let i = 0; i < dodecTriangles.length; i++) {
+        		glBegin(GL_LINE_LOOP);
+        		let a = dodecTriangles[i][0];
+        		let b = dodecTriangles[i][1];
+        		let c = dodecTriangles[i][2];
+        		glVertex3dv( dodecVertices[a] );
+        		glVertex3dv( dodecVertices[b] );
+        		glVertex3dv( dodecVertices[c] );
+        		glEnd();
+        	}
+        	glPopMatrix();
+        	glEnable(GL_LIGHTING);
+        	break;
+        case 3: 
+        	glPushMatrix();
+        	glRotatef(90,-1,0,0);
+        	glTranslatef(0,0,-5);
+        	glColor3f(0.8,0.5,0.2);
+        	glutSolidCylinder(1.5, 5, 32, 8);
+        	glTranslatef(0,0,4);
+        	glColor3f(0,0.7,0.2);
+        	glutSolidCone(3.5, 8, 32, 8);
+        	glPopMatrix();
+        	break;
+        case 4:
+        	bar();
+        	break;
+        case 5:
+        	square();
+        	break;
+        case 6:
+        	cage();
+        	break;
+        }
+            
+        // TODO: INSERT DRAWING CODE HERE!!
+       
+    }
+    
+	/**
+	 * Draws a cylinder with a sphere on each end, with its axis
+	 * lying along the x-axis, centered at (0,0,0).
+	 */
+    function bar() {
+    	glPushMatrix();
+    	glColor3f(1,1,0);
+    	glTranslatef(4,0,0);
+    	glutSolidSphere(1, 32, 64);
+    	glTranslatef(-8,0,0);
+    	glutSolidSphere(1, 32, 64);
+    	glPopMatrix();
+    	glPushMatrix();
+    	glColor3f(1,0,1);
+    	glRotatef(90,0,1,0);
+    	glTranslatef(0,0,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    }
+    
+	/**
+	 * Draws an object shaped line a square with sides made of
+	 * cylinders and a sphere at each corner, lying in the
+	 * xy-plane, centered at (0,0,0). 
+	 */
+    function square() {
+    	glPushMatrix();
+    	glTranslatef(0,4,0);
+    	bar();
+    	glTranslatef(0,-8,0);
+    	bar();
+    	glPopMatrix();
+    	glColor3f(1,0,1);
+    	glPushMatrix();
+    	glTranslatef(4,0,0);
+    	glRotatef(90,1,0,0);
+    	glTranslatef(0,0,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    	glPushMatrix();
+    	glTranslatef(-4,0,0);
+    	glRotatef(90,1,0,0);
+    	glTranslatef(0,0,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    }
+    
+	/**
+	 * Draws an object shaped line a cube with edges made of
+	 * cylinders and a sphere at each corner, centered at (0,0,0).
+	 */
+    function cage() {
+    	glPushMatrix();
+    	glTranslatef(0,0,-4);
+    	square();
+    	glTranslatef(0,0,8);
+    	square();
+    	glPopMatrix();
+    	glColor3f(1,0,1);
+    	glPushMatrix();
+    	glTranslatef(4,4,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    	glPushMatrix();
+    	glTranslatef(-4,4,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    	glPushMatrix();
+    	glTranslatef(4,-4,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    	glPushMatrix();
+    	glTranslatef(-4,-4,-4);
+    	glutSolidCylinder(0.3, 8, 32, 8);
+    	glPopMatrix();    	
+    }
+    
+    //---------------- display() just sets up, then calls draw() to draw the scent ----
+    
+    function display() {
+        glClearColor(0,0,0,1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+        camera.apply(); // Let the camera set up the view and projection.
+        
+        glNormal3f(0,0,1); // (Make sure normal vector is correct for object 1.)
+       
+        draw();   // Draw the content of the scene.
+    }
+    
+    //------------------- data for stellated dodecahedron ----------------------------
+    
+    const dodecVertices  = [
+        [-0.650000,0.000000,-0.248278],
+        [0.401722,0.401722,0.401722],            // This array contains the coordinates
+        [0.650000,0.000000,0.248278],            // for the vertices of the polyhedron
+        [0.401722,-0.401722,0.401722],           // known as a stellated dodecahedron
+        [0.000000,-0.248278,0.650000],
+        [0.000000,0.248278,0.650000],            // Each row of the 2D array contains
+        [0.650000,0.000000,-0.248278],           // the xyz-coordinates for one of
+        [0.401722,0.401722,-0.401722],           // the vertices.
+        [0.248278,0.650000,0.000000],
+        [-0.248278,0.650000,0.000000], 
+        [-0.401722,0.401722,-0.401722],
+        [0.000000,0.248278,-0.650000],
+        [0.401722,-0.401722,-0.401722],
+        [0.248278,-0.650000,0.000000],
+        [-0.248278,-0.650000,0.000000],
+        [-0.650000,0.000000,0.248278],
+        [-0.401722,0.401722,0.401722],
+        [-0.401722,-0.401722,-0.401722],
+        [0.000000,-0.248278,-0.650000],
+        [-0.401722,-0.401722,0.401722],
+        [0.000000,1.051722,0.650000],
+        [-0.000000,1.051722,-0.650000],
+        [1.051722,0.650000,-0.000000],
+        [1.051722,-0.650000,-0.000000],
+        [-0.000000,-1.051722,-0.650000],
+        [-0.000000,-1.051722,0.650000],
+        [0.650000,0.000000,1.051722],
+        [-0.650000,0.000000,1.051722],
+        [0.650000,-0.000000,-1.051722],
+        [-0.650000,0.000000,-1.051722],
+        [-1.051722,0.650000,-0.000000],
+        [-1.051722,-0.650000,0.000000]
+     ];
+    
+     const dodecTriangles = [
+        [16,9,20],
+        [9,8,20],
+        [8,1,20],              // This array specifies the faces of
+        [1,5,20],              // the stellated dodecahedron.
+        [5,16,20],
+        [9,10,21],             // Each row in the 2D array is a list
+        [10,11,21],            // of three integers.  The integers
+        [11,7,21],             // are indices into the vertex array,
+        [7,8,21],              // dodecVertices.  The vertices at
+        [8,9,21],              // at those indices are the vertices
+        [8,7,22],              // of one of the triangular faces of
+        [7,6,22],              // the polyhedron.
+        [6,2,22],
+        [2,1,22],              // For example, the first row, [16,9,20],
+        [1,8,22],              // means that vertices number 16, 9, and
+        [6,12,23],             // 20 are the vertices of a face.
+        [12,13,23], 
+        [13,3,23],             // There are 60 faces.
+        [3,2,23],
+        [2,6,23],
+        [18,17,24],
+        [17,14,24],
+        [14,13,24],
+        [13,12,24],
+        [12,18,24],
+        [14,19,25],
+        [19,4,25],
+        [4,3,25],
+        [3,13,25],
+        [13,14,25],
+        [4,5,26],
+        [5,1,26],
+        [1,2,26],
+        [2,3,26],
+        [3,4,26],
+        [15,16,27],
+        [16,5,27],
+        [5,4,27],
+        [4,19,27],
+        [19,15,27],
+        [7,11,28],
+        [11,18,28],
+        [18,12,28],
+        [12,6,28],
+        [6,7,28],
+        [10,0,29],
+        [0,17,29],
+        [17,18,29],
+        [18,11,29],
+        [11,10,29],
+        [0,10,30],
+        [10,9,30],
+        [9,16,30],
+        [16,15,30],
+        [15,0,30],
+        [17,0,31],
+        [0,15,31],
+        [15,19,31],
+        [19,14,31],
+        [14,17,31]
+     ];
+    
+    
+     //------------------ Some inefficient implementatin of glut functions -----------
+    
+    function glutSolidSphere(radius, slices, stacks) {
+        drawModel(uvSphere(radius, slices, stacks));
+    }
+    
+    function glutSolidCylinder(radius, height, slices, stacks) {
+        glPushMatrix();
+        glTranslatef(0,0,height/2);
+        drawModel(uvCylinder(radius, height, slices));
+        glPopMatrix();
+    }
+    
+    function glutSolidCone(radius, height, slices, stacks) {
+        glPushMatrix();
+        glTranslatef(0,0,height/2);
+        drawModel(uvCone(radius, height, slices, true));
+        glPopMatrix();
+    }
+    
+    /**
+     *  Draws a model using glDrawElements.  The model data must be in the format produced by
+     *  the functions in basic-object-models-IFS.js.
+     */
+    function drawModel(model) {
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3,GL_FLOAT,0,model.vertexPositions);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glNormalPointer(GL_FLOAT, 0, model.vertexNormals);
+        glDrawElements(GL_TRIANGLES, model.indices.length, GL_UNSIGNED_BYTE, model.indices);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+    }
+    
+    
+    // --------------- support for key events ----------------------------------------
+    
+    /**
+     * Set up in init() to be called when the user presses a key on the keyboard.
+     */
+    function doKeyDown(evt) {
+        let keyCode = evt.keyCode;  // code for the key that was pressed
+        console.log("pressed key with keyCode = ", keyCode);
+        if (keyCode >= 49 && keyCode <= 54) {
+           objectNumber = keyCode - 48;
+           display();
+           return;
+        }
+        if (keyCode == 36 || keyCode == 13) {
+           camera.lookAt(0,0,20);
+           display();
+           return;
+        }
+        
+        if (keyCode >=34 && keyCode <= 40) {
+            evt.preventDefault(); // Stop page from scrolling for arrow keys, home, end, pageup, pagedown.
+        }
+        draw();  // Redraw the picture to account for changes.
+    }
+    
+    
+    // ------------------------- initialization functions -----------------------------------
+    
+    /**
+     *  initGL() is called just once, by main(), to do initialization of OpenGL state
+     *  and other global state.
+     */
+    function initGL() {
+        glClearColor(0.0, 0.0, 0.0, 1.0); // background color
+        glEnable(GL_DEPTH_TEST);  // Required for 3D drawing, not usually for 2D.
+        glEnable(GL_LIGHTING);        // Enable lighting.
+        glEnable(GL_LIGHT0);          // Turn on a light.  By default, shines from direction of viewer.
+        glEnable(GL_NORMALIZE);       // OpenGL will make all normal vectors into unit normals
+        glEnable(GL_COLOR_MATERIAL);  // Material ambient and diffuse colors can be set by glColor*    
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);
+        glLineWidth(3);
+    }
+    
+    function init() {  // Called by <body onload="init()">, when the page has loaded.
+        try {
+            glsimUse("glcanvas"); // OpenGL will draw to the canvas with id="glcanvas".
+                                        // TODO:  If you need to keep the image between calls
+        }
+        catch (e) {
+            document.getElementById("canvas-holder").innerHTML =
+                "Sorry, an error occured:<br>" + e;
+            return;
+        }
+        initGL();
+        camera = new Camera();
+        camera.setScale(10);
+        camera.lookAt(0,0,20);
+        camera.installTrackball(display);
+        display();  // Call display() when the page is first loaded.
+        document.onkeydown = doKeyDown;
+     }
+
+    window.onload = init;
+</script>
+
+</head>
+
+<body>
+
+<h3>CPSC 424 Lab 4</h3>
+
+<noscript>
+<p><b>Sorry, this page requires JavaScript!</b></p>
+</noscript>
+
+<p>Number keys 1 to 6 select object.<br>
+Drag on the drawing with your mouse or finger to rotate.<br>
+Home or return key restores original viewpoint.</p>
+
+<div id="canvas-holder">
+   <!-- TODO: You can set the size of the drawing area in the next line -->
+   <canvas id="glcanvas" width="700" height="700"></canvas>
+</div>
+
+</body>
+</html>

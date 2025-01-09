@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS124, Fall 2021, Lab 9</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Lab 9: Classes and Objects</h2>
+
+<div class="intro">
+
+<p>For this lab, you will write two complete classes, and you will complete a main program
+that uses those classes.  The program will use
+<a href="https://en.wikipedia.org/wiki/MIDI">Midi</a> to play short tunes.
+In addition to the classes that you write, the program will use a class named 
+SimpleSynth that provides a simplified interface to Java's Midi support.
+This lab might also teach you some things about packages, testing, and error-handling.
+</p>
+
+<p>You will need a copy of the file <a href="lab9-files/midi/SimpleSynth.java">SimpleSynth.java</a>,
+which must be inside a folder named midi because the SimpleSynth class is in a package named midi.
+You will also need a copy of <a href="lab9-files/MidiPlayer.java">MidiPlayer.java</a>,
+which is the incomplete main program that you will work on.  MidiPlayer.java is in the default package,
+and should be copied directly in the src folder of your project.
+You will probably also want copies of three short programs in the default package:
+<a href="lab9-files/TestMidi.java">TestMidi.java</a>,
+<a href="lab9-files/TestNote.java">TestNote.java</a>, and
+<a href="lab9-files/TestTune.java">TestTune.java</a>. You will not do any work on these three
+programs, but they can be used to test various aspects of the project, as discussed below.
+ <b>Note that MidiProgram, TestNote.java, and TestTune.java will have errors until
+you have written the Note and Tune classes that they use.</b>
+All of these files can be found in <a style="white-space:pre" href="lab9-files/">/classes/cs124_Eck/lab9-files</a>
+or downloaded from the web.  Since there are a lot of files, you also have the option of downloading
+<a href="lab9-files.zip">this zip archive</a> and extracting its contents to get all the files.</p>
+
+<p>You should turn in your work for the lab in a folder named "lab9" or "lab9-files" or something similar.
+It can be a complete Eclipse project folder, but does not have to be.
+The work that you turn in must include these three files:
+<b>Note.java</b>, <b>Tune.java</b>, and <b>MidiPlayer.java</b>.  These files must work with the original
+version of SimpleSynth.java, which must be in package midi.  Do not modify
+SimpleSynth.java or move it out of package midi.</p>
+
+<p><b>This lab should be due in a week &mdash; however, because of the test next Monday,
+it will not be collected until Friday, November&nbsp;5.</b>
+</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>About Midi and SimpleSynth</h3>
+
+<p>MIDI (Musical Instrument Device Interface)
+was designed as a way for computers to control musical instruments.  Midi can also be used to
+control a "synthesizer" that is part of the sound card on a computer.  A synthesizer can
+play notes through the computer's speakers that imitate the sounds of various instruments.
+Midi has a set of 128 standard "instruments", although not all of them sound realistic and some
+of them don't actually imitate instruments as such.  Also, some with different names sound
+the same to me. I expect it all depends on the sound card. The instruments are often numbered from 1 to 128 in
+the documentation, but in Midi programs, they are actually numbered from 0 to 127.  A Midi
+instrument is specified by an integer in the range 0 to&nbsp;127.</p>
+
+<p>One can do some complex things with Midi, but it supports very simple uses with a few commands
+for turning particular notes on and off, for selecting the volume, and for selecting the
+instrument that is used.  (It is possible to have several different instruments 
+playing different notes at the same time, but we won't be doing that.)
+Like instruments, the possible notes are identified by numbers in the range
+from 0 to 127, and the possible volumes are also numbered 0 to 127. 
+Note number 60 is "Middle&nbsp;C" (the middle key on a piano keyboard).
+There are 12 notes to an octave, so going up an octave means adding 12 to the 
+note number.</p>
+
+<p>The file <a href="lab9-files/midi/SimpleSynth.java">SimpleSynth.java</a> defines a simple
+interface to some of the most basic Midi capabilities.  A program really only needs one
+synthesizer, but nevertheless, you need an object of type <i>SimpleSynth</i> to represent the
+synthesizer.  If <i>synth</i> is that object, then you can call
+ <i>synth.noteOn</i>(<i>noteNumber</i>) and
+<i>synth.noteOff</i>(<i>noteNumber</i>) to turn particular notes on and off.
+(It is possible to have several notes playing at the same time, but only on the
+same instrument.)  You can use
+<i>synth.setVolume</i>(<i>volumeNumber</i>) to control volume and <i>synth.setInstrument</i>(<i>instrumentNumber</i>)
+to select the instrument.
+There are a few static named constants such as <i>SimpleSynth.PIANO</i> and <i>SimpleSynth.TIMPANI</i>
+that give the instrument
+numbers for some common instruments that should sound OK.  There is also a static method
+<i>SimpleSynth.getNameForInstrument</i>(<i>N</i>) that returns the official name for
+a given instrument number.  <b>Read the Javadoc comments in SimpleSynth.java
+for more information!</b>  The source code includes a complete list of instrument names.</p>
+
+<p>To play a note, you have to turn a note on, wait a while, and then turn the note off.
+There is a standard method <i>Thread.sleep</i>(<i>n</i>) that implements a pause of <i>n</i> milliseconds.
+(One thousand milliseconds equal one second.)
+You can use <i>Thread.sleep</i>() to implement "wait a while", but it can throw a funny exception that has to
+be caught, even though it will never happen in this program.
+So the code for delaying by n milliseconds is</p>
+
+<pre class=code>
+try {
+    Thread.sleep(n);
+}
+catch (InterruptedException e) {
+}
+</pre>
+
+<p class=np>
+You would put this code between calls to <i>synth.noteOn</i>(<i>noteNumber</i>) on
+<i>synth.noteOff</i>(<i>noteNumber</i>) to play a note.  Or use it by itself to implement
+a period of silence.
+See the sample program <a href="lab9-files/TestMidi.java">TestMidi.java</a> for
+an example of playing notes &mdash; and run it to see what it does. This will test
+the Midi system on your computer.  If you don't
+hear anything, make sure that the volume on your computer is not turned completely off. <i>TestMidi</i>
+plays no other role in this lab.</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>About the Program</h3>
+
+<p>The main program for this lab, <i>MidiPlayer.java</i>, uses two classes that
+you will write, <i>Note</i> and <i>Tune</i>, to implement playing tunes using Midi.
+You can't work on the main program until you have written those classes, but you should
+know what the program is expected to do.</p>
+
+<p>The main program that you will work on will accept and carry out commands from
+the user.  The commands will let the user create and play tunes, and select the
+volume and instrument that are used to play them.  The tunes are played using Midi.
+The program is a simple command-line program, not a GUI program.  The user types in 
+commands, and the computer responds, either by carrying out the command
+or by reporting an error in the command.  The program should never crash.
+A command is one line of input from the user, containing the command itself
+followed by any data that the command requires. Here are the commands that you will implement:</p>
+
+<ul>
+<li><b>play</b> &mdash; This command must be followed by a list of integers in the
+range -1 to 127 representing Midi note numbers, except that -1 is used to 
+represent a pause.  The program should play the tune consisting of those
+notes and it should record the tune so that it can be replayed.  The notes can all
+be of the same duration.  Note that only
+the most recently played tune is saved, so the program only has to keep track
+of one played tune.</li>
+<li><b>random</b> &mdash; Create a random tune and save it to be replayed.  No data needed.
+Information about random tunes is at the end of this web page.</li>
+<li><b>replay</b> &mdash; Play the tune that was most recently played and saved,
+either by the <i>play</i> command or by the <i>random</i> command.  No data needed.</li>
+<li><b>volume</b> &mdash; Change the volume in the Midi synthesizer.  The data is a single number giving the new volume level.</li>
+<li><b>instrument</b> &mdash; Change the instrument in the Midi synthesizer.  The data is a single number giving the Midi instrument.</li>
+</ul>
+
+<p class=np>You must implement at least this functionality.  You can add other features if you want, possibly for extra credit,
+such as the ability to specify instruments by name as well as by number or data for the random command that
+will specify parameters for the random tune that is produced.  I'm sure you can think of
+other possibilities.</p>
+
+<p>Here is a complete run of my program.  The computer prompts the user with ">>", and the program
+ends when the user inputs an empty line.  User input is shown in bold.
+Some of the possible errors are illustrated.</p>
+
+<pre class=code>
+Enter your commands at the '>>' prompt.
+Enter an empty line to exit.
+
+>> <b>replay</b>
+You don't have a tune yet!  Make one first.
+
+>> <b>play 112 88 76 -1 64 52 40 -1 28 16</b>         <span style="color:#990000; font-weight:bold">(Sounds play)</span>
+
+>> <b>instrument xylophone</b>
+
+>> <b>volume 90</b>
+
+>> <b>replay</b>                                      <span style="color:#990000; font-weight:bold">(Sounds play)</span>
+
+>> <b>rando</b>m                                      <span style="color:#990000; font-weight:bold">(Sounds play)</span>
+
+>> <b>instrument theremin</b>       
+Sorry, an error occurred:
+   The instrument must be a number or valid instrument name.
+   Valid names are:  piano xylophone flute    guitar timpani
+                     oboe  trumpet   trombone organ  harp
+Try another command.
+
+>> <b>instrument -1</b>
+Sorry, an error occurred:
+   Midi instrument numbers must be in the range 0 to 127
+Try another command.
+
+>> <b>volume fred</b>
+Sorry, an error occurred:
+   Volume must be specified as an integer.
+Try another command.
+
+>> <b>help</b>
+Sorry, an error occurred:
+   help is not a legal command.
+Try another command.
+
+>>                                <span style="color:#990000; font-weight:bold">(User just presses return)</span>
+
+Bye!
+</pre>
+
+</div>
+
+
+
+<div class="section">
+<h3>The Note Class</h3>
+
+<p>You should create a new class named <i>Note</i>.  It makes sense for Note.java
+to be in the <i>midi</i> package, since it is part of a general Midi system that could be
+used in other programs besides this one.    
+When you create the class in Eclipse, make sure that the "package" input
+in the New Java Class dialog is set to <i>midi</i>.
+(On the other hand, the main program class,
+<i>MidiPlayer</i> is just one program that uses Midi, and does not really belong in
+the <i>midi</i> package, so I put it in the default package.)</p>
+
+<p>A <i>Note</i> object will represent some specific note, to be
+played for some specific duration.  Since you are working with objects here, there will
+be nothing <i>static</i> in the class.</p>
+
+<p>A note needs two instance variables to represent the Midi note number for the note and
+the number of milliseconds for which the note will play.  To allow for silences in a tune,
+we can extend midi note numbering by using -1 to 
+represent a period of silence.  The <i>Note</i> class is required to have a constructor
+that specifies the note number and the time in milliseconds.  This means that a <i>Note</i>
+object can be created, for example, as <tt>new&nbsp;Note(60,100)</tt>.  The constructor
+should throw an <i>IllegalArgumentException</i> if the values passed as parameters to the
+constructor are not legal values for the instance variables.  The legal values for
+note number are -1 through 127.</p>
+
+<p>A note is also required to have a <i>play</i>() method, with a parameter of type
+<i>SimpleSynth</i>.  To play a note requires a
+Midi synthesizer, that is, an object of type <i>SimpleSynth</i>.  The <i>SimpleSynth</i> object
+should be a parameter to the <i>play</i>() method, <b>not</b> a variable in the <i>Note</i> class.
+This means that if <i>note</i> is a <i>Note</i>
+and <i>synth</i> is a <i>SimpleSynth</i> in some program, then that program can call <tt>note.play(synth)</tt>
+to make the synthesizer play the note.</p>
+
+<p>You should follow good style when writing <i>Note.java</i>.  For example, the instance
+variables should be <i>private</i>.  (They could, in fact, be <i>final</i>.)  And you might
+provide getter methods for the instance variables, even though they are not required by this
+project.  It would be nice to have a <i>Note</i> class that is somewhat general and could
+be used in other projects.  And don't forget comments, in Javadoc style!</p>
+
+<p>When the <i>Note</i> class is written correctly, the program <i>TestNote.java</i> should
+no longer have any errors.  You should be able to run that program, and it should play a few
+notes.  Read <i>TestNote.java</i> for an example of how the <i>Note</i> class can be used.</p>
+
+<p>(A remark about packages and <i>import</i>:  The <i>Note</i> class uses the <i>SimpleSynth</i>
+class, but it does not have to import it because both classes are in the same package.
+A class can use other classes in the same class without importing them.  The class
+<i>TestNote</i>, on the other hand, which is outside the <i>midi</i> package, has to
+import both classes.)</p>
+
+</div>
+
+
+
+<div class="section">
+<h3>The Tune Class</h3>
+
+<p>Next, you should create another new class, named <i>Tune</i>, in the <i>midi</i> package. 
+ A <i>Tune</i> object represents a list of notes. Each note
+is represented by an object of type <i>Note</i>. Playing
+a tune will mean playing each of the <i>Notes</i> in the list.</p>
+
+<p>The list of notes can be represented by a partially full array of type <i>Note</i><tt>[]</tt>.
+This would require two instance variables, one for the array and one for the number of notes 
+that are actually stored in the array.  You can make the array big enough to hold any reasonably
+sized tune &mdash; say length 1000.
+(Alternatively, if you feel comfortable with the <i>ArrayList</i> class that was mentioned
+briefly in class,
+you could store the notes in a single variable of type <i>ArrayList</i>&lt;<i>Note</i>&gt;.
+For more information about <i>ArrayList</i>, 
+see <a href="https://math.hws.edu/javanotes/c7/s3.html">Section&nbsp;7.3</a>)</p>
+
+<p>The <i>Tune</i> class is required to have a constructor that has no parameters, so that
+a <i>Tune</i> can be created by calling <tt>new&nbsp;Tune()</tt>.  The constructor can
+create the note array (or arraylist).</p>
+
+<p>The <i>Tune</i> class is also required to have a method named <i>add</i>(), with one parameter of type
+<i>Note</i> that adds one <i>Note</i> to the
+list of notes.  That is, if <i>tune</i> is a <i>Tune</i> and <i>note</i> is a <i>Note</i>,
+then calling <i>tune.add(note)</i> will add the note to the tune.</p>
+
+<p>And the <i>Tune</i> class is required to have a method named <i>play</i>(),  with one parameter of
+type <i>SimpleSynth</i> that it will use to play all of the notes in the tune.</p>
+
+<p>There are some other methods that you might add for a well-designed class, even though they
+are not used in this lab:  a method that returns the number of notes in the tune, and a method
+for getting the i<sup>th</sup> note.</p>
+
+<p>Of course, you should follow good programming style when writing the <i>Tune</i> class!
+</p>
+
+<p>When class <i>Tune</i> is correctly written, the errors in the <i>TestTune</i> class should
+be gone.  You can run that program to test the <i>Tune</i> class.</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>The MidiPlayer Class</h3>
+
+<p>Now that the <i>Note</i> and <i>Tune</i> classes are written, you can work on the main
+program, <i>MidiPlayer.java</i>.  The operation of the program is described above.
+The basic outline of the program is already there in <i>MidiPlayer.java</i>.
+You just have to implement the <i>doCommand</i>() method (and, hopefully, add a few
+more methods to handle the user inputs that can't be handled in just one or two lines
+of code).  Please also add a Javadoc command for the <i>MidiPlayer</i> class!</p>
+
+<p>The <i>MidiPlayer</i> class already has global variables <i>synth</i> and <i>tune</i>
+representing the Midi synthesizer and the tune that has been most recently played.  You 
+can use these variables in <i>doCommand</i>.</p>
+
+<p>The parameter to <i>doCommand</i>() is an array of Strings.  The strings are the individual
+items from the user's line of input.  For example, if the user inputs "play&nbsp;40&nbsp;42&nbsp;44"
+then the array will be of length four and will hold the strings "play", "40", "42", and "44".
+If the user's input was "replay", then the array will be of length one.  You have to decode
+the command and carry it out if it is a legal command.  If you discover any error in the
+command, you should throw an <i>IllegalArgumentException</i>.  You do not have to do anything
+to handle the error, except to throw the exception; the error will be caught in
+the <i>main</i>() routine and will be reported there.  Note that strings that represent
+numbers will have to be converted to values of type <i>int</i> using the method <i>Integer.parseInt</i>,
+which will throw a <i>NumberFormatException</i> if the string does not represent an integer.</p>
+
+<p>Note also that methods in the <i>Note</i> and <i>SimpleSynth</i> classes already throw
+exceptions when when they are given illegal data.  You do not have to check for or do anything
+about those errors in the <i>doCommand</i>() method.  If an error is thrown in the <i>Note</i>
+or <i>SimpleSynth</i> class, and is not caught in <i>doCommand</i>(), then it will automatically
+cause the <i>doCommand</i>() method to terminate, and the
+error will be handled in the <i>main</i>() routine.</p>
+
+</div>
+
+
+<div class="section">
+<h3>About Creating a Random Tune</h3>
+
+<p>One part of the assignment is to create random tunes.  Now, you could make a random tune simply
+by adding a bunch of notes with randomly selected note numbers to a <i>Tune</i>, but that would 
+probably sound bad, so you should do something nicer.  Notes should not jump around randomly,
+Instead, the notes should do a kind of random walk along the keyboard.
+My own idea for making a random tune was that the change from one note to
+the next should ordinarily be small, but that sometimes there should be larger jumps.
+That is, I select a random change in the note number from one note to the next,
+with small changes much more likely than large changes.
+(If you think about it, this is kind of like the problem of selecting a random number of
+runs scored in an inning in our baseball simulation.)  I also add occasional random pauses. 
+You might also play with the idea of random durations for the notes.
+My random songs are 100 notes long.</p>
+
+<p>When selecting random values or doing a random walk, you should make sure that the
+note numbers lie in a reasonable range.  Although there are 128 possible note numbers,
+many of the notes are actually just about inaudible to human hearing.  My program makes sure that
+the note numbers remain in the range from 36 to 84.</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Some Style Rules for Methods and Classes</h3>
+
+<style>
+   ul {
+      margin-left: -30px;
+      margin-right: 30px
+   }
+</style>
+
+<ul class="lessindent">
+<li>A method should have a clear, single, identifiable task.</li>
+<li>An individual method definition should
+   not be too long.  In general, a function should not be longer than
+   one printed page (and that is stretching it).</li>
+<li>Methods can access the global
+   variables that represent the state of an object or of a class, but you should avoid using 
+   global variables simply to pass information from one method to another &mdash; for
+   that, you should use parameters and return values.</li>
+<li>A class should represent a clear, single, identifiable concept.</li>
+<li>Use the modifiers <tt>public</tt>,
+   <tt>protected</tt>, and <tt>private</tt> to control access to the variables
+   and methods in a class.</li>
+<li>Most instance variables should
+   be declared to be private.  Getter and setter methods can be provided to 
+   access and manipulate the private instance variables.</li>
+<li>Use Javadoc-style comments to document any variable, method, or class that
+is public (and maybe for everything that is not <tt>private</tt> &mdash; and they can 
+even be used for <tt>private</tt> things).
+A Javadoc comment always comes immediately before the
+thing it is commenting.  Ideally, use the Javadoc tags @param, @return, @throws
+to document the parameters, return value, and exceptions used by a method.
+</ul>
+
+<p align=center class=np><img src="xkcd1513_code_quality.png"></p>
+<p align=center class=np style="font-size:smaller"><a href="https://xkcd.org/1513">https://xkcd.org/1513</a></p>
+
+</div>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.4 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.5 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newcounter{partcounter}
+\newcommand{\dspparts}[1]{\medskip
+   \halign{\hskip40pt\stepcounter{partcounter}\llap{\bfseries\alph{partcounter})\ }$\displaystyle ##$\qquad\hfil&&
+            \hskip30pt\stepcounter{partcounter}\llap{\bfseries\alph{partcounter})\ }$\displaystyle ##$\qquad\hfil\cr
+   #1\crcr}}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\par\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\newcommand{\grd}[1]{{\color{darkred}#1}}
+\pagestyle{empty}
+\allowdisplaybreaks
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331\hfill Homework 2}}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by the end of the day on Friday, September 7}}
+\centerline{\textit{Problems are mostly on Sections 1.3 and 1.4, not including Bolzano-Weirstrass.}}
+
+\bigskip
+
+\def\F{{\mathbb F}}
+\def\O{{\mathcal O}}
+
+\begin{problem}
+Prove using only the defintion of real numbers as Dedekind cuts and the definitions
+of $+$ and $<$ in terms of Dedekind cuts:  If $\alpha,\beta,\delta\in\R$ and
+$\alpha < \beta$, then $\alpha+\delta < \beta+\delta$.
+\end{problem}
+
+\begin{answer}
+% Erase this line and put your answer here!  (Problem 1, 2 points)
+\end{answer}
+
+
+\begin{problem}
+[From Problem 1.3.7 in the textbook]\ \ 
+Suppose that $(\F,+,\cdot)$ is a field, and $S\subseteq \F$. We say that $S$ is
+a subfield of $\F$ if it is a field under the same addition and multiplication as $\F$.
+To show that $S$ is a subfield of $\F$, it is enough to show that $0\in S$, $1\in S$,
+and $S$ is closed under addition, multiplication, taking additive inverses, and
+taking multiplicative inverses..
+
+Let $\Q[\sqrt 2] = \{r+s\sqrt 2\,|\, r,s\in\Q\}$.  Show that $\Q[\sqrt 2]$ is
+a subfield of $\R$.    (Note: Remember that $r$ and $s$ can be zero in $r+s\sqrt 2$.)
+\end{problem}
+
+\begin{answer}
+% Erase this line and put your answer here!  (Problem 2, 5 points)
+\end{answer}
+
+
+\begin{problem}
+[Problem 1.3.11 from the textbook]\ \ Let $(F,+,\cdot)$ be an ordered field.  Use the
+definition of $x<y$ and the order axioms to prove the
+transitive property of $<$.  That is, show that for any $a,b,c\in\F$, if $a<b$ and $b<c$,
+then $a<c$. [Note: Since $\F$ is not necessarily $\R$, you can't use common facts that you
+know about $\R$.  You can only use the actual definition and axioms.]
+\end{problem}
+
+\begin{answer}
+% Erase this line and put your answer here!  (Problem 3, 2 points)
+\end{answer}
+
+
+
+\begin{problem}
+\textbf{(a)} Let $\O_1,\O_2\dots,\O_k$ be some finite number of open subsets of
+$\R$.  Prove that their intersection, $\bigcap_{i=1}^k\O_i$, is open.  (Hint: Use the characterization
+of open that involves $\eps>0$.  Start by taking arbitrary $x\in\bigcap_{i=1}^k\O_i$.)
+
+\textbf{(b)} Show that the intersection of an infinite number of open sets is not necessarily open
+by finding $\bigcap_{n=1}^\infty\big(-1-\frac{1}{n},1+\frac{1}{n}\big)$. (Justify your answer!)
+\end{problem}
+\begin{answer}
+% Erase this line and put your answer here! (Problem 4, 4 points)
+\end{answer}
+
+
+\begin{problem}
+Consider the \textbf{unbounded} closed interval $[0,\infty)$.  Find an open cover of this
+interval that has no finite subcover.  (This problem shows that the hypothesis that the interval is 
+bounded cannot be removed from the Heine-Borel Theorem. Use a simple example, but justify your answer!)
+\end{problem}
+
+\begin{answer}
+% Erase this line and put your answer here! (Problem 5, 2 points)
+\end{answer}
+
+
+\begin{problem}
+[Problem 1.4.3 from the textbook]\ \ Suppose that $\{\O_\alpha\,|\,\alpha\in A\}$ is an open cover
+of the interval $[0,1)$.  Suppose furthermore that $1\in\bigcup_{\alpha\in A}\O_\alpha$.
+Prove that there is finite subcover of $[0,1)$ from $\{\O_\alpha\,|\,\alpha\in A\}$.
+[This question tests your understanding of the proof of the Heine-Borel Theorem.]
+\end{problem}
+
+\begin{answer}
+% Erase this line and put your answer here!  (Problem 6, 3 points)
+\end{answer}
+
+
+\begin{problem}
+Let $f(x)$ be a real-valued function that is defined on an interval $I$.  We say that $f$ is
+bounded above on $I$ if there is a number $M$ such that $f(x)<M$ for all $x\in I$.
+
+Suppose that $f(x)$ is defined on the bounded, closed interval $[a,b]$.  Suppose that for
+every $x\in[a,b]$, there is an $\eps>0$ such that $f$ is bounded above on the
+interval $(x-\eps,x+\eps)$.  Use the Heine-Borel theorem to prove that
+$f$ is bounded above on $[a,b]$.  (Hint: Compare this to an example about functions 
+that was done in class.)
+\end{problem}
+
+\begin{answer}
+% Erase this line and put your answer here! (Problem 7, 4 points)
+\end{answer}
+
+
+\end{document}

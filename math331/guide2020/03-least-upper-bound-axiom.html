@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Least Upper Bound Axiom</title>
+</head>
+<body>
+<div id="content">
+
+<h2>03 Least Upper Bound Property</h2>
+
+<hr>
+
+<p><a href="02-dedekind-cuts.html">Dedekind cuts</a> are a way of constructing a specific
+set that represents the real numbers.  But just having that set doesn't provide a full
+understanding of the real numbers, even after defining such basic operations as
+addition, multiplication, and less than.  One property that really distinguishes
+the real numbers is called "completeness," the idea that there are no gaps in the
+real numbers.  And one way to express completeness is the <span class=nw>least upper
+bound property</span>.  The other important ideas in Section 1.2 are the
+Archimedean property of the real numbers and the fact that the rational
+numbers are <span class=nw>dense</span> in the real numbers.</p>
+
+<p>A subset of $\R$ is "bounded" if it does not stretch off to infinity.  This intuitive
+idea is made precise by the following definitions:</p>
+
+<div class="def"><p><span class="dtp" id="D-bounded">Definition:</span>
+Let $X$ be a subset of $\R$.  An <span class="nw">upper bound</span> for $X$ is
+a number $b$ such that $x\le b$ for all $x\in X$.  If an upper bound exists for
+$X$, then $X$ is said to be <span class="nw">bounded above</span>.
+Similarly, a <span class="nw">lower bound</span> for $X$ is
+a number $c$ such that $x\ge c$ for all $x\in X$.  If a lower bound exists for
+$X$, then $X$ is said to be <span class="nw">bounded below</span>. If $X$ is bounded both
+above and below, then $X$ is said to be <span class="nw">bounded</span>.
+</p></div>
+
+<p class=np>A "least upper bound" for a set is then an upper bound that is as small
+as possible.  That is, it is an upper bound that is smaller than every other upper bound.
+Greatest lower bounds are defined similarly.</p>
+
+<p style="text-align:center"><img src="figures/03-fig1.png" width=454 height=130></p>
+
+<div class="def">
+<p><span class="dtp" id="D-lub">Definition:</span>
+Let $X$ be a subset of $\R$ that is bounded above.  A <span class="nw">least upper bound</span> for
+$X$ is an upper bound $\lambda$ for $X$ such that for every upper bound $b$ of $X$, $\lambda\le b$.
+Similarly, a <span class="nw">greatest lower bound</span> for
+$X$ is a lower bound $\mu$ for $X$ such that for every lower bound $c$ of $X$, $\lambda\ge c$.
+</div>
+
+<p class=np>The least upper bound property can then be proved as a theorem about the set of real
+numbers, defined as the set of Dedekind cuts.</p>
+
+<div class="thm">
+<p><span class="dtp" id="T-lub">Theorem</span> (Least Upper Bound Property):  Every non-empty
+subset of $R$ that is bounded above has a least upper bound.</p>
+</div>
+
+<p class=np>The easy proof for Dedekind cuts shows that the least upper bound of a non-empty,
+bounded-above set $X$ of Dedekind cuts is obtained by taking the union of all the Dedekind cuts
+in $X$.  The proof is in the textbook.</p>
+
+<p>Note that the Greatest Lower Bound Property follows from the Least Upper Bound Property.
+That is, every non-empty subset of $\R$ that is bounded below has a greatest lower bound:
+If $X$ is a non-empty, bounded-below subset of $\R$, let $X^-=\{-x\,|\,x\in X\}$.
+Then $X^-$ is bounded above because for any lower bound $c$ of $X$, the number $-c$
+is an upper bound for $X^-$. So, $X^-$ has a least upper bound, $\lambda$.  It follows easily
+that $-\lambda$ is a greatest lower bound for $X$.</p>
+
+<p>We will use the least upper bound property many times to prove various important
+facts about the real numbers.  The first example is the Archimedean property, which
+says that the set of natural numbers, $\N$, is not bounded above.  That is,
+there is no real number that is larger than every natural number.  (My definition
+is a little different from the book's.)
+
+<div class="thm"><p><span class="dtp">Theorem</span> (Archimedean Property of $\R$):
+For any real number $x\in X$, there is a natural number, $n$ such that $x&lt;n$.</p></div>
+<div class="prf"><p><span class="dtp">Proof</span>: Suppose, for the sake of contradiction,
+that $x$ is a real number and $x>n$ for every $n\in\N$.  Then $x$ is an upper bound for $\N$.
+Since $\N$ is a non-empty set that is bounded above, then by the least upper bound
+property, $\N$ has a least upper bound, $\lambda$.  But consider $\lambda-1$.
+For $n\in \N$, $n+1$ is also in $\N$.  Since $\lambda$ is an upper bound for $\N$,
+$\lambda \ge n+1$.  It follows that $\lambda-1\ge n$.  Since this is true for all $n\in\N$,
+$\lambda-1$ is an upper bound for $\N$.  But $\lambda-1&lt;\lambda$, and this contradicts
+the fact that $\lambda$ is the <b>least</b> upper bound for $\N$.  This contradiction proves
+that $\N$ cannot be bounded above, and that no such $x$ can exist.&nbsp;$\qed$</p></div>
+
+<p class=np>The book's statement of the property is that for any two positive real
+numbers $\alpha$ and $\beta$, there is a natural number $n$ such that $n\alpha>\beta$.
+If we let $x=\frac{\beta}{\alpha}$, then my theorem gives a natural number $n$ such
+that $\frac{\beta}{\alpha}&lt;n$, which is equivalent to $n\alpha>\beta$.</p>
+
+<p>The Archimedean property of $\R$ can be used to prove that the rational numbers
+are dense in the real numbers.  That is for any two real numbers $a$ and
+$b$, there is a rational number $r$ such that $a&lt;r&lt;b$.  The proof is in
+the textbook (but is not especially important).  Another way of expressing
+the density of the rational numbers is that for any $x\in\R$ and $\eps>0$,
+there is an $r\in\Q$ such that $0&lt;|x-r|&lt;\eps$; that is, there is a
+rational number, not equal to $x$ itself, within distance $\eps$ of $x$.</p>
+
+
+<hr class="break">
+
+<p>It is easy to see that the least upper bound of a set is unique.  That is, a set can have
+only one least upper bound.  Another way of saying this is that if $\lambda_1$ and $\lambda_2$ are
+least upper bounds for a set $X$, then $\lambda_1$ and $\lambda_2$ must be the same.
+For, suppose that $X$ is a non-empty set that is bounded above, and suppose that
+$\lambda_1$ and $\lambda_2$ both satisfy the least upper bound property for $X$.
+Since a least upper bound is, in particular, an upper bound, we have that $\lambda_1$ is a least upper bound
+for $X$ and $\lambda_2$ is an upper bound.  By the least upper bound property for $\lambda_1$,
+we must have $\lambda_1\le\lambda_2$.  But, for the same reason, we also have $\lambda_2\le\lambda_1$.
+Since $\lambda_1\le\lambda_2$ and $\lambda_2\le\lambda_1$, it follows that $\lambda_1=\lambda_2$.</p>
+
+<p>We finish with another characterization of least upper bounds.  Note that the least upper
+bound of a set might or might not be an element of that set.  For example, if
+$X=\{\frac1n\,|\,n\in\N\}=\{1,\frac12,\frac13,\frac14,\dots\}$, the least upper bound is $1$, which is in
+the set.  But if $X=\{1-\frac1n\,|\,n\in\N\}=\{0,\frac12,\frac23,\frac45,\frac56,\dots\}$,
+then the least upper bound is again 1, but is not in the set.  In a case where the least upper
+bound of a set is an element of the set, the $y$ in the following theorem can be the least upper
+bound itself.</p>
+
+<div class="thm" id="lub"><p><span class="dtp">Theorem</span>:
+Let $X$ be a non-empty subset of $\R$ that is bounded above, and let $\lambda$ be an upper bound
+for $X$.  Then $\lambda$ is the least upper bound for $X$ if and only if for every 
+$\eps>0$, there is a $y\in X$ such that $y> \lambda-\eps$.
+</p></div>
+<div class="prf"><p><span class="dtp">Proof</span>: Suppose that $\lambda$ is the least upper
+bound of $X$.  Let $\eps>0$.  Since $\lambda-\eps&lt;\lambda$, and $\lambda$ is the smallest
+upper bound of $X$, it follows that $\lambda-\eps$ is not an upper bound for $X$.
+This means that $X$ must contain some element $y\in X$ such that $\lambda-\eps$ is not
+greater than or equal to $y$.  That is, $y>\lambda-\eps$.</p>
+<p>Conversely, suppose that $\lambda$ is an upper bound for $X$ and for every $\eps>0$, there
+is a $y\in X$ such that $y\ge \lambda-\eps$.  We want to show that $\lambda$ is the least
+upper bound for $X$.  Suppose that $x$ is some upper bound of $X$.  We must show that $\lambda\le x$.
+Suppose, for the sake of contradiction, that $\lambda&lt;x$.  Let $\eps=\lambda-x$.
+Then $\eps>0$, and so there is a $y\in X$ such that $y>\lambda-\eps$.  But $\lambda-\eps=x$,
+so that $y>x$.  But that contradicts the assumption that $x$ is an upper bound for $X$.
+This contradiction shows that $\lambda$ must be the least upper bound.&nbsp;$\qed$
+</p></div>
+
+
+<p style="text-align:center"><img src="figures/03-fig2.png" width=701 height=203></p>
+
+<p class=np>If you think of yourself sitting on the number line, you are sitting at an upper
+bound of $X$ if there are no elements of $X$ to the right of your position.  You are at the least upper bound
+if that is true, and moving even the tiniest bit, $\eps$, to the left would mean that there
+is now at least one element of $X$ to the right.</p>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

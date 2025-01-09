@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    macros: {
+       R: "{\\mathbb R}",
+       N: "{\\mathbb N}",
+       seq: ["#1_1,#1_2,\\dots#1_#2", 2],
+       vec: ["\\langle \\seq{#1}{#2} \\rangle", 2],
+       eps: "\\varepsilon"
+    }
+  }
+};
+</script><script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>math 331, Nov 11</title>
+</head>
+<body>
+<div id="content">
+
+<h2>Math 331, Nov. 11</h2>
+
+<p>Due Monday:</p>
+<ul>
+<li>Homework 9</li>
+<li>Homework 8 resubmit</li>
+<li>Choice of final project topic</li>
+</ul>
+
+
+<p>Reading assignment:  Section 4.6, Sequences of Functions</p>
+
+
+<p>For next week: Section 4.7, Series of Functions</p>
+
+
+<hr>
+
+<h3>Last time</h3>
+
+<ul>
+<li>Definition of a sequence of functions $\{f_n\}_{n=1}^\infty$ on an interval [or domain]</li>
+<li>Definition of pointwise convergence</li>
+<li>Examples of pointwise convergence</li>
+<li>Pointwise convergence and continuity/integrability/differentiability</li>
+<li>Definition of uniform convergence</li>
+<li>Theorem: If a sequence of continuous functions converges uniformly on an inteval $I$ to a function $f$, then $f$ is continuous on $I$.
+</ul>
+
+<p>Pointwise convergence of $\{f_n\}_{n=1}^\infty$ on $I$:
+    $$\forall x\in I, \forall \varepsilon>0, \exists N\in\N, \forall n\in\N\ \ (n\ge N \Rightarrow |f_n(x)-f(x)|<\varepsilon)$$
+
+<p>Uniform convergence of $\{f_n\}_{n=1}^\infty$ on $I$:
+    $$\forall \varepsilon>0, \exists N\in\N, \forall x\in i, \forall n\in\N\ \ (n\ge N \Rightarrow |f_n(x)-f(x)|<\varepsilon)$$
+
+<p><b>Example:</b> Find the pointwise limit of $\{\root n \of x\}_{n=1}^\infty$ on [0,2].  (Is the convergence uniform?)</p>
+
+<p>Do we have any examples of uniform convergence?  How about $f_n(x) = \frac{1}{n+x^2}$ on $\R$?</p>
+
+<p>(Look at examples on <a href="https://math.hws.edu/~mitchell/FoundationsOfAnalysis/">Prof. Mitchell's web page</a>.)</p>
+
+<hr>
+
+<h3>Integrability</h3>
+
+<div class="thm">
+<p><span class="dtp">Theorem:</span>
+Suppose that $\{f_n\}_{n=1}^\infty$ is a sequence of integrable functions on an interval $[a,b]$, and that
+the sequence converges uniformly to an integrable function $f$ on $[a,b]$.  Then $$\int_a^b f = \lim_{n\to\infty}\int_a^b f_n$$
+</p></div>
+
+<div class="prf">
+<p><span class="dtp">Proof:</span> (Note:  The proof is pretty easy, assuming the integrability of $f$. However, as the book notes,
+that hypothesis is not actually necessary.  See Problem 4.5.9.)
+
+<p>Note that we are trying to prove that the sequence of numbers $\{\int_a^b f_n\}_{n=1}^\infty$ convereges to the number $\int_a^b f$.
+We apply the definition of a sequence of numbers.  Let $\eps>0$.  We want to find $N\in\N$ such that for all
+$n\ge N$, $\big|\int_a^b f_n - \int_a^b\big|<\eps.$</p>
+
+<p>By uniform convergence of the sequence of functions, the is an $N\in\N$ such that for all $n\ge N$ and all $x\in[a,b]$,
+$$|f_n(x)-f(x)|<\frac{\eps}{b-a}$$ Using this same $N$,
+$$\begin{align*}
+   \left|\int_a^b f_n - \int_a^b f\;\right|
+       &= \left|\int_a^b \big(f_n - f\big)\right|\\
+       &\le \int_a^b \big|f_n-f|\\
+       &\le \int_a^b \frac{\eps}{b-a}\\
+       &=\frac{\eps}{b-a}\cdot(b-a)\\
+       &=\eps
+\end{align*}$$
+which finishes the proof.
+</p></div>
+
+<hr>
+
+<h3>Why care?</h3>
+
+<p>Uniform convergence will be important for series of functions. As an example, consider the series
+$$\sum_{n=0}^\infty\frac{x^n}{n!}$$ which we know converges to $e^x$ for every $x\in\R$. Let $s_n(x)$ be the
+$n$-th partial sum, $$s_n(x) = \sum_{k=0}^n \frac{x^k}{k!}$$</p>
+
+<p>Why is the convergence uniform? $s_n(x)$ is the n-th Taylor polynomial for $f(x)=e^x$ at 0.  So at least for $x>0$, we can
+consider the Legrange form of Taylor's remainder for $s_n(x)$, which is, for some $t\le x,$
+$$\frac{f^{(n+1)}(t)}{(n+1)!}x^{n+1} = \frac{e^tx^{n+1}}{(n+1)!}\le \frac{e^xx^{n+1}}{(n+1)!}$$
+As $n\to\infty$, the remainder goes to 0.  [$e_x$ is constant as $n\to\infty$, and as soon as
+$n+1>x$, each term is multiplied by a fraction that becomes smaller as $n$ increases.]</p>
+
+<p>This means that we don't only have convergence, we have uniform convergence on the interval $[0,x]$,
+because $\frac{e^xx^{n+1}}{(n+1)!}$ is a uniform limit for the remainder term on this interval.
+So, we should find that $$\lim_{n\to\infty}\int_0^x s_n = \int_0^x f = \int_0^x e^t\,dt = e^x-e^0=e^x-1$$
+Let's try it:
+$$\begin{align*}
+\lim_{n\to\infty}\left(\int_0^x s_n\right)
+    &= \lim_{n\to\infty}\left(\int_0^x 1 + t + t^2/2 + t^3/3! + t^n/n!\,dt\right)\\
+    &= \lim_{n\to\infty}\left(t + (1/2)t^2 + (1/3)t^3/2 + (1/4)t^4/3! + (1/(n+1))t^{n+1}/n!\right)\\
+    &= \lim_{n\to\infty}\left.\left(t + t^2/2 + t^3/3! + t^4/4! + t^{n+1}/(n+1)!\right)\right|_0^x\\
+    &= \lim_{n\to\infty}\left(x + x^2/2 + x^3/3! + x^4/4! + x^{n+1}/(n+1)!\right)\\
+    &= \sum_{k=1}^\infty \frac{x^k}{k!}\\
+    &= \left(\sum_{k=0}^\infty \frac{x^k}{k!}\right) - 1\\
+    &= e^x-1
+\end{align*}$$
+
+<p>If only we could show uniform convergence of series of functions in general!!</p>
+
+<hr>
+<h3>Differentiability</h3>
+
+<div class="thm">
+<p><span class="dtp">Theorem:</span>
+Suppose that $\{f_n\}_{n=1}^\infty$ is a sequence of differentiable functions on an interval $[a,b],$ and that
+the sequence converges pointwise to a function $f$ on $[a,b]$.  Suppose also that $f_n'$ is continuous on $[a,b]$
+and that the sequence $\{f_n'\}_{n=1}^\infty$ converges uniformly on $[a,b]$.  Then $f$ is differentiable on $[a,b]$,
+and the limit of the sequence $\{f_n'\}_{n=1}^\infty$ is $f'$.  That is, for all $x\in[a,b]$,
+and $$\lim_{n\to\infty} f_n'(x)=f'(x)$$
+</p></div>
+
+<div class="prf">
+<p><span class="dtp">Proof:</span>
+Let $g(x) = \lim_{n\to\infty}f_n'x)$.  We want to show $f'(x)=g(x)$.  Now, $f_n'$ is continuous by assumption, and therefor
+integrable.  Since $g$ is the uniform limit of continuous functions, it is continuous and hence integrable.  We then have
+for any $x\in[a,b]$,
+$$\begin{align*}
+\int_a^x f(t)\,dt
+    &= \lim_{n\to\infty}\int_a^x f_n'(t)\,dt\text{, by the preceding Theorem}\\
+    &= \lim_{n\to\infty}\big(f_n(x)-f_n(a)\big)\text{, by the first FToC}\\
+    &= f(x)-f(a)\text{, by the convergence of $f_n$ to $f$}
+\end{align*}$$
+Solving for $f(x)$,
+$$f(x)=f(a)+\int_a^x g(t)\,dt$$
+Then, by the second FToC, $f$ is differentiable and $f'(x)=g(x)$.
+</p></div>
+
+<hr>
+
+<h3>Problem 4.5.13</h3>
+<p>Let $\displaystyle
+   f_n(x)=\begin{cases}
+      {\textstyle\frac{1}{n}}&\text{ if }0\le x\le n\\
+      0&\text{ if }x>n.
+   \end{cases}$
+   </p>
+   
+<p><b>(a)</b> Show that $f_n(x)$ converges uniformly to $f(x)=0$ on $[0,\infty)$.</p>
+<p><b>(b)</b> Show that ${\displaystyle\lim_{n\to\infty}} \int_0^\infty f_n(t)\,dt \ne \int_0^\infty f(t)\,dt$.</p>
+<p>Why doesn't this contradict the first theorem on this page.</p>
+<hr>
+   
+<h3>On to Infinite Series of Functions, Section 4.6</h3>
+
+<p>What should the definitions be for series of functions and convergence of a series of functions??</p>
+
+<hr>
+
+<h3>Not on the Takehome Exam</h3>
+
+<p>Let $\{x_n\}_{n=1}^\infty$ be an infinite sequence.  We define a
+<i>rearrangement</i> of the sequence as follows: Let $s\colon \N\to\N$ be a
+bijective function.  Then $\{x_{s(i)}\}_{i=1}^\infty$ is a rearrangement of the
+sequence $\{x_n\}_{n=1}^\infty$.  The rearranged sequence has exactly the same terms 
+as the original sequence, just in a different order.</p>
+
+<p>Suppose that $\{x_n\}_{n=1}^\infty$ is a convergent sequence and that
+$\displaystyle\lim_{n\to\infty}x_n=L$, and let $\{x_{s(i)}\}_{i=1}^\infty$ be a rearrangement of
+the sequence.  Show that the rearranged sequence $\{x_{s(i)}\}_{i=1}^\infty$ is
+convergent and converges to the same limit, $\displaystyle\lim_{i\to\infty}x_{s(i)}=L$.
+[Hint: This is easier than it looks.  Note that for any $N\in\N$, the set $\{x_1,x_2,\dots,x_N\}$ is
+finite.  Use the definition of convergence.]</p>
+
+
+</div>
+</body>
+</html>

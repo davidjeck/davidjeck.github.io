@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Eigenvalues and Eigenvectors</title>
+</head>
+<body>
+<div id="content">
+
+<h2>19 Eigenvalues and Eigenvectors</h2>
+<hr>
+
+<p>As we come to the end of the course, we will cover some material on eigenvalues,
+eigenvectors, diagonalizability, and similarity.  These topics are mainly from
+Chapter Five, Section II of the textbook.  All of this works best over the
+<a href="18-complex-numbers.html">complex numbers</a>.  That is, we consider
+complex vector spaces, complex eigenvalues, etc.  However, much of it also
+applies to real eigenvalues and vector spaces over the real numbers.
+We can define eigenvalues and eigenvectors of homomorphisms:</p>
+
+<div class=def><p><span class="dtp">Definition:</span> Let $h\colon V\to V$ be a vector space homomorphism.
+An <b>eigenvector</b> for $h$ is a non-zero vector $\vec v\in V$ such that
+$h(\vec v) = \lambda\cdot\vec v$ for some scalar $\lambda$.  The
+scalar $\lambda$ is then an <b>eigenvalue</b> of $h$, and $\vec v$
+is said to be an eigenvector for $h$ with eigenvalue $\lambda$.</p></div>
+
+<p class=np>However, we will work almost exclusively with eigenvalues
+and eigenvalues of matrices.  An eigenvalue or eigenvector of a
+square matrix is just an eigenvalue or eigenvector of the homomorphism
+given by multiplication by that matrix:</p>
+
+<div class=def><p><span class="dtp">Definition:</span>  Let $A$ be an $n\times n$ matrix.
+An <b>eigenvector</b> for $A$ is a non-zero vector $\vec v\in V$ such that
+$A\vec v = \lambda\cdot\vec v$ for some scalar $\lambda$.  The
+scalar $\lambda$ is then an <b>eigenvalue</b> of $A$, and $\vec v$
+is said to be an eigenvector for $A$ with eigenvalue $\lambda$.</p></div>
+
+<p>$\lambda$ is an eigenvalue of $A$ if and only if there is a non-zero
+vector $\vec v$ such that $A\vec v = \lambda\vec v = (\lambda I_n)\cdot\vec v$, which is true
+if and only if there is a non-zero vector $\vec v$ in the null space of
+the matrix $A-\lambda I_n$.  That in turn can happen if and only if the matrix
+$A-\lambda I_n$ is singular, which is the case if and only if the determinant,
+$|A-\lambda I_n|$, is zero.  So, to find the eigenvalues of $A$, we must find values
+of the variable $x$ that make $|A-x I_n| = 0$.</p>
+
+<p>Now, the determinant $|A-x I_n|$ is a polynomial in $x.$  It is called the
+<b>characteristic polynomial</b> of $A.$  The eigenvalues of $A$ are precisely
+the roots of the characteristic polynomial of $A$.</p>
+
+<p>If $\lambda$ is any eigenvalue of $A$, it must have an eigenvector.  In fact,
+any non-zero multiple of an eigenvector for $\lambda$ is also an eigenvector for $\lambda$.
+And the sum of two eigenvectors for $\lambda$ is an eigenvector for $\lambda$, as long
+as it is not $\vec 0.$  This lets us define something called an "eigenspace."</p>
+
+<div class=def><p><span class="dtp">Definition:</span> Let $A$ be an $n\times n$ matrix,
+and let $\lambda$ be an eigenvalue of $A$.  We define the <b>eigenspace</b> of $A$ for
+eigenvalue $\lambda$ to be $\{\vec v\in\C^n\,|\,A\vec v = \lambda v\}$.  This
+eigenspace consists of all of the eigenvectors for $\lambda$ together with $\vec 0.$</p></div>
+
+<p class=np>An eigenspace is a subspace of $\C^n$.</p>
+
+<hr class=break>
+
+<div class=def><p><span class=dtp>Defintion:</span> Two $n\times n$ matrices $A$ and $B$ are said to 
+be <b>similar</b> if there is a non-singular $n\times n$ matrix $Q$ such that $A = QBQ^{-1}$.
+</p></div>
+
+<p>It is easy to see that similar matrices have the same characteristic polynomial and therefore
+the same eigenvalues.  They do not have the same eigenvectors, but if $A=QBQ^{-1}$,
+then $\vec v$ is an eigenvector for $B$ with eigenvalue $\lambda$ if and only if $Q\vec v$ is
+an eigenvector for $A$ with eigenvalue $\lambda$.</p>
+
+<p>We can think of $Q$ as a change of basis matrix.  From that point of view, $A$ and $B$
+represent the same homomorphism in different bases.  (Multiplication by $A$ represents the
+homomorphism $h(\vec v) = A\vec v$ in the standard basis; $B$ represents this same homomorphism
+in the basis whose elements are the column vectors of $A$.)</p>
+
+<p>A nice special case occurs when $A$ has a <b>basis of eigenvectors</b>.  That is, there
+is a basis $B= \langle \vec\beta_1, \vec\beta_2, \dots, \vec\beta_n \rangle$ of $\C^n$
+where each basis vector in $B$ is an eigenvector for $A$.  That is, for $i = 1,2,\dots,n$,
+$A\vec\beta_i = \lambda_i\vec\beta_i$ for some scalar $\lambda_i$.  (Note that some of the
+$\lambda_i$ can be the same.)  Therefore, in the basis $B$, the homomorphism $h(\vec v) = A\vec v$
+is represented by the diagonal matrix
+$$\begin{pmatrix}
+     \lambda_1 & 0 & 0 & \cdots & 0 \\
+     0 & \lambda_2 & 0 & \cdots & 0 \\
+     0 & 0 & \lambda_3 & \cdots & 0 \\
+     \vdots & \vdots & \vdots & \ddots & \vdots \\
+     0 & 0 & 0 & \cdots & \lambda_n
+\end{pmatrix}$$
+Note that the eigenvalues of a diagonal matrix are the diagonal entries of the matrix,
+and the eigenvectors are the standard basis vectors.</p>
+
+<p>We say that an $n\times n$ matrix is <b>diagonalizable</b> if 
+it is similar to a diagonal matrix.  A matrix is diagonalizable if and only if
+$\C^n$ has a basis of eigenvectors for that matrix.  Not every matrix is diagonalizable.
+For example, the matrix $\big(\begin{smallmatrix} 1 & 1\\ 0 & 1\end{smallmatrix}\big)$ 
+is not diagonalizable:  its only eigenvectors are multiples of 
+$\big(\begin{smallmatrix} 1 \\ 0 \end{smallmatrix}\big).$ </p>
+
+<p>(If you want to find a class of fairly simply matrices such that every matrix
+is similar to one of the matrices in the class, you need to use matrices
+in "Jordan form."  Jordan form matrices are diagonal matrices except that
+some 1's can occur immediately below the diagonal.  Assuming that we are working
+with complex vector spaces, every matrix is similar to a Jordan form matrix.
+Jordan form matrices are covered in Chapter Five, Sections III and IV in the textbook,
+but they are not part of the material for this course.)</p>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

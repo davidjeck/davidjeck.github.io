@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Math 204: Linear Algebra, Fall 2020</title>
+</head>
+
+<style type="text/css" media="screen">
+   body, html {
+      margin: 0;
+      background-color: #999999;
+   }
+   #content { 
+     margin: 0 auto;
+     padding: 8px;
+     max-width: 800px;
+     font-family: serif;
+     background-color: #E8E8E8;
+     border-left: 2px solid black;
+     border-right: 2px solid black;
+   }
+   h2, h3 {
+      color: #000099;
+      font-family: sans-serif;
+   }
+   h2 {
+     padding-bottom: 5px;
+   }
+   h3 {
+   }
+   p {
+      margin-left: 0.5cm;
+   }
+   li {
+      margin-bottom: 7px;
+   }
+   hr {
+      margin-top: 25px;
+      margin-bottom: 25px;
+   }
+   td p {
+      margin: 5pt 0pt 0pt; 2pt;
+   }
+</style>
+
+<style type="text/css" media="print">
+   body {
+      font-family: serif;
+   }
+   h2, h3 {
+      font-family: sans-serif;
+   }
+   h3 {
+     padding: 3px 3px 3px 10px;
+     margin-top: 1cm;
+     border: thin solid black;
+     border-radius: 12px
+   }
+   a {
+      text-decoration: none;
+      color: black;
+   }
+</style>
+
+
+<body">
+
+<div id="content">
+
+
+
+
+<table align=center cellspacing=2 cellpadding=8 bgcolor=white border=2>
+<tr><td align=center>
+   <b>This course ended<br>
+   on December 9, 2020</b>
+</td></tr>
+</table>
+
+
+<h2>Math 204: Linear Algebra</h2>
+
+<pre>           <a href="http://math.hws.edu">Department of Mathematics and Computer Science</a>
+           <a href="http://www.hws.edu">Hobart and William Smith Colleges</a>
+
+           Fall 2020.
+
+           Instructor:  <a href="http://math.hws.edu/eck/">David J. Eck</A>&nbsp; (<a href="mailto:eck@hws.edu">eck@hws.edu</a>)
+           
+           Syllabus:  <a href="http://math.hws.edu/eck/courses/math204_f20.html">http://math.hws.edu/eck/courses/math204_f20.html</a>
+           
+           Textbook PDF:  <a href="http://joshua.smcvt.edu/linearalgebra/book.pdf">Linear Algebra, 4th edition</a>, by Jim Hefferon
+                    Supporting materials at <a href="https://hefferon.net/linearalgebra">https://hefferon.net/linearalgebra</a>
+           
+           Monday, Wednesday, Friday, 9:50&ndash;10:50 AM
+                Gearan Center 102: Froelich Recital Hall
+                
+
+</pre>
+
+
+<hr>
+
+<table border=1 cellpadding=4 cellspacing=0 bgcolor=white align=center style="margin-top:25px">
+ <tr><td colspan=4 bgcolor="#D8D8FF" align=center><b>Homework</b></td></tr>
+ <tr valign=top>
+     <td width="25%"><a href="f20/hw1.pdf">Homework 1</a>,<br>Due August 31,
+                      <p><a href="f20/hw1.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw1-answers.pdf">Sample solutions</a>
+     </td>
+     <td width="25%"><a href="f20/hw2.pdf">Homework 2</a>,<br>Due September 9,
+                      <p><a href="f20/hw2.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw2-answers.pdf">Sample solutions</a>
+     </td>
+     <td width="25%"><a href="f20/hw3.pdf">Homework 3</a>,<br>Due September 16,
+                      <p><a href="f20/hw3.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw3-answers.pdf">Sample solutions</a>
+     </td>
+     <td width="25%"><a href="f20/hw4.pdf">Homework 4</a>,<br>Due September 24,
+                      <p><a href="f20/hw4.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw4-answers.pdf">Sample solutions</a>
+     </td>
+</tr>
+<tr valign=top>
+     <td><a href="f20/hw5.pdf">Homework 5</a>,<br>Due October 1,
+                      <p><a href="f20/hw5.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw5-answers.pdf">Sample solutions</a>
+     </td>
+     <td><a href="f20/hw6.pdf">Homework 6</a>,<br>Due October 13,
+                      <p><a href="f20/hw6.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw6-answers.pdf">Sample solutions</a>
+     </td>
+     <td><a href="f20/hw7.pdf">Homework 7</a>,<br>Due October 20,
+                      <p><a href="f20/hw7.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw7-answers.pdf">Sample solutions</a>
+     </td>
+     <td><a href="f20/hw8.pdf">Homework 8</a>,<br>Due October 29,
+                      <p><a href="f20/hw8.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw8-answers.pdf">Sample solutions</a>
+     </td>
+</tr>
+</tr>
+<tr valign=top>
+     <td><a href="f20/hw9.pdf">Homework 9</a>,<br>Due November 10,
+                      <p><a href="f20/hw9.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw9-answers.pdf">Sample solutions</a>
+     </td>
+     <td><a href="f20/hw10.pdf">Homework 10</a>,<br>Due December 1,
+                      <p><a href="f20/hw10.tex">LaTeX source.</a>
+           <p><a href="f20/answers/hw10-answers.pdf">Sample solutions</a>
+     </td>
+     <td colspan = 2><a href="f20/exam.pdf">Final Exam</a>,<br>Due 8:30 AM, December 9,
+                      <p><a href="f20/exam.tex">LaTeX source.</a>
+     </td>
+  </tr>
+</table>
+
+
+<hr>
+
+<h3>Final Exam: December 9</h3>
+
+<p>The official final exam period for this course is 8:30 to 11:30 AM on Wednesday,
+December 9.  Our exam is a take-home test that is due by the start of that
+final exam period.  The exam, with full instructions, is available <a href="f20/exam.pdf">here</a>.</p>
+
+<hr>
+
+<h3>Fifteenth Week: November 30 and December 2</h3>
+
+<p>The final two classes of the semester will be online, using the usual
+Zoom meeting link for Math 204, which can be found on the Canvas page
+for this course.  These classes will look at some applications of
+matrices and eigenvalues, including solutions of first-order linear
+systems of differential equations and Markov processes.</p>
+
+<p>The final homework assignment is due on Tuesday, December 1.</p>
+
+<hr>
+
+<h3>Fourteenth Week: November 23</h3>
+
+<p>We have our final in-person class of the semester on Monday, before breaking
+for Thanksgiving.  After the break, we will be back for a couple online classes
+to end the semester.</p>
+
+<p>We have finished all of the material that we really needed to cover in this 
+course.  In the remaining time, I will add some quick introductions to several
+additional topics.  On November 23, I will talk about products, quotients, and
+direct sums of vector spaces.</p>
+
+<p>Here is my very short summary of the material from last week, posted a little late:</p>
+
+<ul>
+<li><a href="guide2020/19-eigenvalues.html">Eigenvalues and Eigenvectors</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Thirteenth Week: November 16, 18, and 20</h3>
+
+<p>This week, we will be looking at selected material from 
+Chapter 5 on eigenvalues, eigenvectors, diagonalizability,
+and similarity of matrices.  This material is in Chapter Five, Section&nbsp;II.
+I&nbsp;might state the Jordan Canonical Form theorem, but we won't do anything
+else from Chapter Five, Sections III and IV.</p>
+
+
+<hr>
+
+<h3>Twelfth Week: November 9, 11, and 13</h3>
+
+<p>There is an in-class test this Friday, November 13.  A 
+<a href="f20/test2info.pdf">study guide</a> is available.</p>
+
+<p>Any new material that we cover this week will not be on the test.
+On Monday, we will start looking at complex numbers and complex vector spaces.
+Here is a short summary of what you will need to know about this:</p>
+
+<ul>
+<li><a href="guide2020/18-complex-numbers.html">Complex Numbers and Complex Vector Spaces</a></li>
+</ul>
+
+<hr>
+
+<h3>Eleventh Week: November 2, 4, and 6</h3>
+
+
+<p>We will work on Chapter Four this week. The topic is determinants.  We will see how 
+to define and how to calculate the determinant of an n&times;n matrix, and we will
+study various properties of the determinant.  We will cover every part of Chapter Five.
+Most of what will do is from Sections I.2, II.3, and III.1.  The hope is to finish 
+entirely with determinants this week.  Some of the major
+results are covered in this guide:</p>
+
+<ul>
+<li><a href="guide2020/17-determinants.html">The Determinant</a></li>
+</ul>
+
+<p>Remember that there is a test coming up next week on Friday, November 13.</p>
+
+<hr>
+
+<h3>Tenth Week: October 26, 28, and 30</h3>
+
+<p><b>Added on October 30:</b> Here are links to the two programs that I used in class today
+to demonstrate how affine maps can be used to make fractals:</p>
+
+<p style="margin-left:1.5in"><a href="f20/sierpinski-demo.html">Sierpinski Demo</a> (Not a polished program!!)</p>
+
+<p style="margin-left:1.5in"><a href="http://math.hws.edu/eck/js/chaos-game/CG.html">"Chaos Game" Demo</a></p>
+
+
+
+<p>Choosing bases for finite-dimensional vector spaces allows us to represent vectors as column vectors in 
+<b>R</b><sup>n</sup>
+and homomorphisms as n&times;m matrices.
+We start this week by looking at what happens to these representations of vectors and
+homomorphisms when the choice of basis is changed.  This material is from Chapter Three, Section&nbsp;V
+in the textbook.  We will not cover the option section, Chapter Three, Section&nbsp;VI.
+Before we go on to Chapter Five, I am planning to introduce some material on "affine transformations,"
+which I have already mentioned in class.  An affine transformation on <b>R</b><sup>n</sup>
+can be written as a linear transformation followed by a translation. Here are my short guide to the
+basics of change of basis and of affine transformations:</p>
+
+<ul>
+<li><a href="guide2020/15-change-of-basis.html">Change of Basis</a></li>
+<li><a href="guide2020/16-affine-maps.html">Affine Transformations</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Ninth Week: October 19, 21, and 23</h3>
+
+<p>We have looked at how multiplication of vectors in <b>R</b><sup>n</sup>
+by an n&times;m matrix defines a homomorphism from <b>R</b><sup>n</sup> to 
+<b>R</b><sup>m</sup>.  And we have seen that matrix multiplication corresponds
+to composition of homomorphisms.  That material is covered in the textbook
+in Chapter Three, Section IV.  This week, we return to Chapter 3, Section III
+to look at matrix representations for general homomorphisms between finite-dimensional
+vector spaces.  My guide for this material is here (but I have to say that
+my "guides" have become more sketchy as the semester has progressed):</p>
+
+<ul>
+<li><a href="guide2020/14-representing-homomorphisms.html">Representing General Homomorphisms</a></li>
+</ul>
+
+<p>We will also finish some left-over material from Chapter 3, Section IV.  In particular,
+we will see how row operations can be represented by matrices.</p>
+
+
+
+<hr>
+
+<h3>Eighth Week: October 12, 14, and 16</h3>
+
+<p>We will continue our study of homomorphisms.  First, we will finish up Chapter Three, Section II.2
+by looking at the range space, null space, rank, and nullity of a homormorphism between finite-dimensional
+vector spaces.  After that, I will be departing somewhat from the order of material in the textbook.
+The book covers the representation of linear maps by matrices in a very general way.  I think that
+it will be less confusing to cover maps from <b>R</b><sup>n</sup> to <b>R</b><sup>m</sup>.
+This will require doing some of the material from Chapter Three, Section IV before returning
+to Chapter Three, Section III.  Here is a short guide to matrix operations and matrix representation
+of homomorphisms from <b>R</b><sup>n</sup> to <b>R</b><sup>m</sup>:</p>
+
+<ul>
+<li><a href="guide2020/13-matrices-and-linear-maps.html">Matrices and Linear Maps from <b>R</b><sup>n</sup> to <b>R</b><sup>m</sup></a></li>
+</ul>
+
+
+<hr>
+
+<h3>Seventh Week: October 5, 7, and 9</h3>
+
+<p>We have one more section to do in Chapter Two: Section III.3, which introduces the "rank" of
+a matrix.  We will not cover the optional section III.4 in Chapter Two.</p>
+
+<p>We will then move on to Chapter Three, which covers the fundamental concept of
+"homomorphism" or "linear map" between vector spaces.  A homomorphism from a vector
+space V to a vector space W is simply a function from V to W that preserves the 
+vector space operations:  f(u+v) = f(u)+f(v) for u,v in V, and f(rv) = rf(v) for
+r in <b>R</b> and v in V.  A homomorphism that is a bijection is an "isomorphism."
+The textbook introduces isomorphisms in Chapter Three, Section I and it introduces
+general homomorphisms in Chapter Three, Section II.  We should cover Section I and
+begin Section II this week. However, we will do some facts about homomorphisms in
+general, before turning to isomorphisms.
+ Short guides to this week's material can be found here:</p>
+
+<ul>
+<li><a href="guide2020/11-matrix-rank.html">Matrix Rank</a></li>
+<li><a href="guide2020/12-linear-maps.html">Linear Maps: Homomorphisms and Isomorphisms</a></li>
+</ul>
+
+<p>You can expect the test from last Friday to be returned on Wednesday.</p>
+
+
+<hr>
+
+<h3>Sixth Week: September 28 and 30; October 2</h3>
+
+<p>A test is planned for Friday, October 2.  An <a href="f20/test1info.pdf">information&nbsp;sheet</a>
+is available.  The test will be given in person in class.  If it is not possible for you to be
+in class, you should let me know.</p>
+
+<p>Aside from the test, we will be finishing up Chapter Three, Section III.2, which is
+part of the material for the test.  That section covers dimension of finite-dimensional
+vector spaces and the fact that every basis of a finite-dimensional vector space has
+the same number of elements.  We will do some review for the test, and there will 
+certainly be time for questions.  If we have extra time, we will move on to new
+material from Chapter Two, Section III.3.</p>
+
+<p>Remember that <a href="f20/hw5.pdf">Homework 5</a> is due by <b>noon</b> on Thursday, October 1.</p>
+
+
+<hr>
+
+<h3>Fifth Week: September 21, 23, and 25</h3>
+
+<p>We ended last week by introducing linear independence.  We will continue
+that this week, and we will look at the idea of a <b>basis</b> of a vector
+space and the <b>dimension</b> of a vector space.  A basis for a vector
+space is simply a subset of that vector space that spans the entire vector
+space and is linearly independent.  This is one of the central concepts
+in linear algebra.  The reading is Chapter Two, sections II.1, III.1,
+and III.2.
+Here is a reading guide:</p>
+
+<ul>
+<li><a href="guide2020/10-bases-and-dimension.html">Bases and Dimension</a></li>
+</ul>
+
+<hr>
+
+<h3>Fourth Week: September 14, 16, and 18</h3>
+
+<p>After a brief remark on accuracy of computation, which was promised for
+last week, we move on to Chapter 2, which introduces vector spaces.  We have
+been working with vectors as columns or rows of numbers, but the general
+concept of vector space is more general and more abstract.  We will look at
+the definition and some basic properties of vectors spaces,
+subspaces, spans, and linear combinations.  The reading guides for this week are</p>
+
+<ul>
+<li><a href="guide2020/08-vector-spaces.html">Vector Spaces</a></li>
+<li><a href="guide2020/09-subspaces.html">Subspaces, Spans, and Linear Independence</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Third Week: September 7, 9, and 11</h3>
+
+<p>We will finish up Chapter One this week.  The reading is Chapter One, Section III.
+The main topic is reduced row echelon form, but we will also be looking to get a
+better handle on the meaning of linear combination and how to work with it.  Along
+the way, we will need to go over the idea of equivalence relation and 
+the proof technique of mathematical induction.
+We will also be looking briefly at one of the topics at the end of the chapter,
+"Accuracy of Computation."  For the most part, we will not cover any of the
+end-of-chapter topics, but I believe that it is important to be aware of the
+complications that arise from the fact that numerical computation and
+measurement are not exact.</p>
+
+<p><a href="f20/hw2.pdf">Homework 2</a> is due on Wednesday.  You should plan to turn in 
+homework on time.  If circumstances make that difficult for you, you should consult
+with me about getting an extension.  Note that sample
+<a href="f20/answers/hw1-answers.pdf" style=white-space:pre>Homework 1 solutions</a>
+are available.  The reading guides for this week's material are:</p>
+
+<ul>
+<li><a href="guide2020/06-reduced-echelon-form.html">Reduced Echelon Form and Row Equivalence</a></li>
+<li><a href="guide2020/07-accuracy-of-computation.html">Topic: Accuracy of Computation</a></li>
+</ul>
+
+<hr>
+
+<h3>Second Week: August 31; September 2 and 4</h3>
+
+<p>For the first part of the week, we will be talking about the geometry of vectors
+and linear systems.  I am putting more emphasis on the geometry than the book
+does, so some of this material is not covered in the book, or is covered later.
+We will also be looking at "homogeneous" linear systems and how they relate to
+linear systems in general.  The reading from the book is Chapter One, Section I.3.
+There are two "reading guides" for this material:</p>
+
+<ul>
+<li><a href="guide2020/04-geometry-and-systems.html">Linear Geometry and Linear Systems</a></li>
+<li><a href="guide2020/05-homogeneous-systems.html">Homogeneous and Nonhomogeneous Systems</a></li>
+</ul>
+
+<p>Here is example shown in class on Monday: <a href="f20/examples/Aug31.pdf">August 31 example</a></p>
+
+<p>My office hours on Zoom this week will be Tuesday and Thursday, 12:30 to 2:00 and 6:30 to 8:00.
+You can use the Canvas Calendar feature to make an appointment during those times.  Note that
+I will usually be in my office between classes on Monday, Wednesday, and Friday, from about
+11:15 to 1:00.  If you want to meet either on Zoom or in person during those times, you should arrange an appointment
+by email or by talking to me after class, or you should call my office (315-781-3398) to see whether
+I am available.</p>
+
+<hr>
+
+<h3>First Week: August 24, 26, and 28</h3>
+
+<p>Added Aug. 27: A <a href="f20/m204-aug26-latex-example/row-reduce-ex.tex">LaTeX example</a> from Wednesday's 
+class and the <a href="f20/m204-aug26-latex-example/row-reduce-ex.pdf">compiled&nbsp;PDF</a>.</p>
+
+<p>Welcome to the course!</p>
+
+<p>You should download the PDF of the textbook and start reading Chapter One.  We will try to cover most of
+Sections I.1, I.2, II.1, and II.2 from that chapter this week, although we will continue that
+material into the first part of next week.  The main topics are Gauss's method for
+solving systems of linear equations and vectors in <b>R</b><sup>n</sup>.  You are probably already familiar with the general
+idea of solving linear equations, but this is a good starting point for a course in linear algebra.  And the
+sections on vectors are central to the course.  I will also spend some time in class talking about
+the LaTeX typesetting system.</p>
+
+<p>You should also carefully read the 
+<a href="http://math.hws.edu/eck/courses/math204_f20.html">syllabus</a> for the course!</p>
+
+<p>The PDF version of the textbook is free.
+You will not need a printed copy, but if you would like to have one,
+ you can order a copy from 
+amazon.com through <a href="https://www.amazon.com/Linear-Algebra-Jim-Hefferon/dp/1944325115/">this&nbsp;link</a>.
+</p>
+
+<p>The <a href="f20/hw1.pdf">first homework assignment</a> is already available.  You are encouraged to
+write up your solutions in LaTeX, using a free account at <a href="https://overleaf.com">overleaf.com</a>,
+but I will also accept handwritten work scanned to a PDF file, at least at first.  For more information
+about submitting homework, see</p>
+
+<p style="text-align:center"><a href="f20/submitting-homework.html">http://math.hws.edu/eck/math204/f20/submitting-homework.html</a></p>
+
+<p>I plan to post short "reading guides" for most lectures, which can be found at
+<a href="guide2020/index.html">this&nbsp;link</a>. The first three installments are</p>
+<ul>
+<li><a href="guide2020/01-row-operations.html">Row Operations and Gauss's Method</a></li>
+<li><a href="guide2020/02-latex.html">Using LaTeX for Homework</a></li>
+<li><a href="guide2020/03-vectors.html">Vectors in <b>R</b><sup>n</sup></a></li>
+</ul>
+<p>The third installment will take us into the beginning of the second week.</p>
+
+</div>
+
+</body>
+
+</html>

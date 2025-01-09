@@ -1,0 +1,584 @@
+<html>
+<head>
+<title>CS 124, Answers to sample questions from final exam study guide</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Fall 2021:<br>
+Sample Answers to Final Exam Study Guide Questions</h2>
+
+
+<div class="question">
+<p><b>Question 1.</b>
+Some short programming exercises...
+</p>
+<p><b>a)</b>&nbsp;  Use a <b>for</b> loop to print out all the multiples of 5 from 5 to 100,
+with each number on a separate line.
+<p><b>b)</b>&nbsp;  Write a program segment that gets an integer from the user in the
+range 1 to 100 (inclusive).  Use a <b>while</b> loop to make sure that the
+number that you get is actually in the specified range. (You can use <i>TextIO</i>
+for input.)
+<p><b>c)</b>&nbsp;  Write a program segment that simulates rolling a pair of dice 1,000,000
+times and counts how many times the dice come up doubles (that is, how many times
+the values on the two dice are the same).
+<p><b>d)</b>&nbsp;  Write a code segment to simulate the following experiment:
+Toss a coin over and over, until it has come up <i>heads</i> ten times.
+At the end, print the number of times that the coin has come up <i>tails</i>.
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+<b>a)</b>   for (int i = 5; i &lt;= 100; i = i+5) {
+         System.out.println(i);
+     }
+     
+<b>b)</b>   int n; // number read from the user
+     while (true) {
+         System.out.print("Enter a number in the range 1 to 100: ");
+         n = TextIO.getlnInt();
+         if (n &gt;= 1 &amp;&amp; n &lt;= 100) {
+             break;  // input number is OK
+         }
+         System.out.println("Please enter a number in the correct range!");
+     }
+     
+<b>c)</b>   int doubleCt = 0;  // number of doubles
+     for (int i = 0; i &lt; 1000000; i++) {
+         int d1 = (int)(6*Math.random() + 1);  // first die
+         int d2 = (int)(6*Math.random() + 1);  // second die
+         if (d1 == d2) { // it's a double
+             doubleCt++;
+         }
+     }
+     
+<b>d)</b>   int headCt = 0;  // Number of heads.
+     int tailCt = 0;  // Number of tails.
+     while (headCt &lt; 10) {
+         if (Math.random() &lt; 0.5) {
+             headCt++;
+         }
+         else {
+             tailCt++;
+         }
+     }
+     System.out.println("There were " + tailCt + " tails.");
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+Show the output of each of the following program segments:
+</p>
+<pre>
+<b>a)</b>  int x,y;
+    x = 100;
+    y = 0;
+    while (x > 0) {
+        x = x / 2;
+        System.out.println(x);
+        y++;
+    }
+    System.out.println(y);
+
+<b>b)</b>  int[] A,B;
+    A = new int[5];
+    B = new int[5];
+    A[0] = 1;
+    B[0] = 0;
+    for (int i = 1; i &lt; 5; i++) {
+        A[i] = 2 * A[i-1] + 1;
+        B[i] = A[i] + B[i-1];
+        System.out.prilnln(A[i] + " " + B[i]);
+    }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+<b>a)</b>   50
+     25
+     12
+     6
+     3
+     1
+     0
+     7
+     
+<b>b)</b>   3 3
+     7 10
+     15 25
+     31 56
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+The following code, although syntactically correct,
+has two semantic errors that would cause exceptions at run time. The
+intent is to create five buttons that are initially disabled.  Find
+the two errors and state the problem in each case.
+</p>
+<pre>
+Button[] buttons;
+buttons = new Button[5];
+for (int i = 0; i &lt;= 5; i++) {
+   buttons[i].setDisable(true);
+}
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+There would be a null pointer exception for "buttons[i].setDisable(true);"
+because no <i>Buttons</i> have been created.  When the array is created, it
+is filled with <i>null</i>, so <i>buttons</i>[<i>i</i>] is <i>null</i>.
+</p>
+<p>Once that problem is fixed, there would be an index out of bounds exception when <i>i</i> is&nbsp;5,
+since the only valid indices for the array are 0, 1, 2, 3, and 4.  The for loop
+should use "<i>i</i>&nbsp;&lt;&nbsp;5", not "<i>i</i>&nbsp;&lt;=&nbsp;5".
+</p>
+<p>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+Writing subroutines...
+</p>
+
+<p><b>a)</b>&nbsp;  Write a subroutine to count the number of times that the
+number 17 occurs in an array of type <i>int</i><code>[]</code>.  (The array
+should be a parameter; the return value is the count.)
+
+<p><b>b)</b>&nbsp;  Write a subroutine named <i>containsAll</i> with return type <i>boolean</i> and
+two parameters of type <i>String</i>.  The value of <i>containsAll</i>(<i>str, chars</i>)
+should be <i>true</i> if the string <i>str</i> contains <b>every</b> character in the string <i>chars</i>.
+(You will need to use either nested <i>for</i> loops or the string method <i>indexOf</i>.)
+
+<p><b>c)</b>&nbsp;  Write a subroutine that will strip extra spaces from a string.  The parameter
+of the subroutine is a <i>String</i>.  The return value is the same string, except
+that every substring of consecutive spaces has been replaced by a single space.
+For example, using ~ to represent a space, if the parameter is 
+<code style="white-space:pre">"Goodby~~~ cruel~~world</code>, then the value returned by the
+subroutine is <code style="white-space:pre">"Goodby~cruel~world"</code>.  (Hint: Only include a space in
+the output string if the preceding character is not also a space.)
+
+
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+<b>a)</b>   public static int count17( int[] A ) {
+         int count = 0;
+         for (int i = 0; i &lt; A.length; i++) {
+             if ( A[i] == 17 ) {
+                 count = count + 1;
+             }
+         }
+         return count;
+     }
+     
+<b>b)</b>   public static boolean containsAtll(String str, String chars) {
+         for (int i = 0; i &lt; chars.length(); i++) {
+             char ch = chars.charAt(i);  // one of the characters from chars
+             if ( str.indexOf( ch ) == -1 ) { // ch is not in str
+                 return false;
+             }
+         }
+         return true;
+     }
+     
+<b>c)</b>   public stripExtraSpaces( String str ) {
+         String copy = "";  // A copy of str with extra spaces removed.
+         for (int i = 0; i &lt; str.length(); i++) {
+             char ch = str.charAt(i);
+             if (ch != ' ') {  // ch is not a space, so add it to the copy
+                 copy = copy + ch;
+             }
+             else if (i > 0 &amp;&amp; str.charAt(i-1) != ' ') {
+                 // ch is a space; 
+                 // only add it if there is NOT a preceding space.
+                 copy = copy + ch;
+             }
+         }
+         return copy;
+     }
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 5.</b>
+A class named <i>Item</i> represents an item for sale on some web site.  It has an instance method
+named <i>getCost</i>(), with no parameters, that returns a <i>double</i> giving the cost of the item.  Write a 
+subclass of <i>Item</i>
+that adds an instance method <i>getCostWithTax</i>() that returns the cost of the item plus a 7% tax.
+(You will have to use <i>super</i>!)
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+public class ItemWithTax extends Item {
+    public double getCostWithTax() {
+       double cost = getCost();  // (In fact, you <b>don't</b> need super!)
+       return 1.07*cost;
+    }
+}
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 6.</b>
+Consider the following arrays:</p>
+<pre>
+    String[] birdNames = new String[100];&nbsp;&nbsp;// Names of 100 bird species.
+    String[] cityNames = new String[50];&nbsp;&nbsp;&nbsp;// Names of 50 cities.
+    int[][] population = new int[100][50];&nbsp;// Population of each bird in each city. 
+</pre>
+<p>Assume that the arrays have already been filled with data.  The array
+<i>population</i> contains data about the population of each of the 100 species of
+birds in each of the 50 cities.  That is, <i>population</i>[<i>b</i>][<i>c</i>] is the number
+of birds of species number <i>b</i> that live in city number <i>c</i>.
+</p>
+<p><b>a)</b>&nbsp;  Write a code segment that will add up all the numbers in the <i>population</i>
+array (giving the total number of birds of all species in all cities).
+<p><b>b)</b>&nbsp;  Write a code segment that will do the following for each city: 
+<b>Count</b> the number of bird species that are found in that city (that is, the number of
+species for which the population is greater than zero).  Then <b>print</b> the name of the
+city along with the number of bird species found in that city.
+<p><b>c)</b>&nbsp;  Which species of bird has the largest total population?  Write a code segment
+that determines the answer and prints the <b>name</b> of the species.</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+<b>a)</b>   int totalPopulation = 0;
+     for (int b = 0; b &lt; 100; b++) {
+         for (int c = 0; c &lt; 50; c++) {
+             totalPopulation += population[b][c];
+         }
+     }
+     
+<b>b)</b>   for (int city = 0; city &lt; 50; city++) {
+         int speciesCt = 0;
+         for (int bird = 0; bird &lt; 100; bird++) {
+             if (population[bird][city] > 0) {
+                 speciesCt++;
+             }
+         }
+         System.out.print("%s has %d bird species%n", 
+                              cityNames[city], speciesCt);
+     }
+     
+<b>c)</b>   int maxBird = -1;  // which bird has largest population so far
+     int max = -1;      // maximum population seen so far
+                        //  (-1 is an impossible value)
+     for (int bird = 0; bird &lt; 100; bird++) {
+        int total = 0; // total population for this bird
+        for (int city = 0; city &lt; 50; city++) {
+            total = total + population[bird][city];
+        }
+        if (total > max) { // (has to be true when bird == 0)
+            max = total;
+            maxBird = bird;
+        }
+     }
+     System.out.printf("%s has the largest population, %d.%n",
+                   birdNames[maxBird], max);
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 7.</b>
+Write a code segment to create the situation shown in the picture, including an
+array of type <i>int</i><tt>[]</tt> and a variable <i>A</i> that points to the array. (Include the variable
+declaration.)</p>
+<p align=center><img  src="pic1.png" width=112 height=116>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+    int[] A = new int[] { 0, 5, 10, 15, 20 };
+    
+OR:
+
+    int[] A;
+    A = new int[5];
+    A[0] = 0;
+    A[1] = 5;
+    A[2] = 10;  // (or use a for loop to get values into A)
+    A[3] = 15;
+    A[4] = 20;
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 8.</b>
+Consider the following declaration of the class <i>Student</i> and the array
+<i>stu</i>, and assume that the array has <b>already</b> been filled with data
+for 100 students.  Write a code segment that prints the names of all students who
+have an A average, that is the average of their <i>test1</i>, <i>test2</i>, and <i>test3</i>
+is 90 or above.</p>
+<pre>
+   public class Student {
+       public String name;
+       public double test1;
+       public double test2;
+       public double test3;
+   }
+   Student[] stu = new Student[100];
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+for (int i = 0; i &lt; 100; i++) {
+    Student s = stu[i];
+    double average = (s.test1 + s.test2 + s.test3) / 3.0;
+    if (average >= 90) {
+        System.out.println( s.name );
+    }
+}
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 9.</b>
+We have used the expression <code>(int)(1+6*Math.random())</code> to
+simulate the rolling of a standard 6-sided die, but some games use
+dice with different numbers of sides.  
+<p><b>a)</b>&nbsp;  Write a complete Java class that represents
+a <i>single die</i> with any given number of sides.  The class should have
+a constructor with no parameters that creates a standard 6-sided die.
+It should also have a constructor with one parameter of type <i>int</i>
+that specifies the number of sides of the die; the value of the parameter
+must be greater than&nbsp;1.  It should have a method for rolling the die and
+a method for reading the number that is currently showing on the die.
+<p><b>b)</b>&nbsp;  A certain game uses five dice, which have 4, 6, 8, 12, and 20 sides respectively.
+Write Java code that creates five objects belonging to the class from
+part <b>a)</b> to represent these five dice.  You can use either five
+separate variables or an array to hold the data.
+<p><b>c)</b>&nbsp;  Write Java code that will roll the five dice that you created in
+part <b>b)</b> and print the sum of the numbers showing on the five dice.</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+a)   public class Die {
+        private int sides;  // number of sides on this die
+        private int value;  // number showing on the die
+        
+        public Die() {
+            sides = 6;
+            roll();
+        }
+        
+        public Die(int sides) {
+            this.sides = sides;
+            roll();
+        }
+        
+        public void roll() {
+            value = (int)( sides*Math.random() + 1 );
+        }
+        
+        public int getValue() {
+            return value;
+        }
+     }
+     
+b)   Die[] dice;  // the five dice
+     dice = new Die[5];
+     dice[0] = new Die(4);
+     dice[1] = new Die(6);
+     dice[2] = new Die(8);
+     dice[3] = new Die(12);
+     dice[4] = new Die(20);
+     
+c)   int total = 0;
+     for (int i = 0; i &lt; 5; i++) {
+         dice[i].roll();
+         total = total + dice[i].getValue();
+     }
+     System.out.println("The total roll is " + total);
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 10.</b>
+Some short essay questions\dots
+<p><b>a)</b>&nbsp;  Define the terms <i>syntax</i> and <i>semantics</i> as they relate to programming.
+Include some examples in your discussion.
+<p><b>b)</b>&nbsp;  Some members of classes are <i>static</i>, and some are not.  Carefully explain
+the difference.
+<p><b>c)</b>&nbsp;  Discuss the <i>new</i> operator, why it is necessary, and how it relates
+to <i>constructors</i>.
+<p><b>d)</b>&nbsp;  Describe the <i>binary search</i> algorithm, and explain
+briefly why it is so much more efficient than <i>linear search</i>.
+<p><b>e)</b>&nbsp;  What does it mean for a variable to be <i>private</i>, and why should
+private variables be used?
+<p><b>f)</b>&nbsp;  What is an algorithm?  What is the difference between an algorithm and a program?
+<p><b>g)</b>&nbsp;  What are <i>pointers</i>, and where are they used in Java?</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<p><b>a)</b>&nbsp; 
+Syntax refers to the grammar of a language; it determines what is legal in a program.
+A program that has syntax errors cannot even be compiled.  An example of a syntax rule
+is that every variable must be declared, or that an assignment statement ends with
+a semicolon.  Semantics refers to meaning; semantics determines what a program does
+when it is run.  A program with semantic errors can be compiled and run, but it won't
+produce the desired result.  For example, the semantics of a while loop says that 
+the loop will end when the value of the boolean expression in the loop is false.
+</p>
+<p><b>b)</b>&nbsp; 
+The static part of a class defines things that are part of the class itself.  The
+non-static part of a class defines things that will be part of objects that are
+created from the class using the <i>new</i> operator.  For a static variable, there
+is only one copy of the variable, and it exists for the entire time that the program
+is running.  For a non-static variable, there is a copy in each object that is
+created from the class, and each copy exists only as long as the object that
+contains it exists.
+</p>
+<p><b>c)</b>&nbsp; 
+The <i>new</i> operator is used to create objects from a class.  It is the only
+way that new objects can be created.  When it is used,
+as in the expression <code>new&nbsp;Button("Stop")</code>, memory is allocated in
+the heap for the object, and a constructor subroutine in the class is called to
+initialize the object.
+</p>
+<p><b>d)</b>&nbsp; 
+Binary search only applies to a sorted list.  In binary search, the item that you
+are searching for is compared to the middle item in the list.  If it is less than
+that item, all items after the middle item are eliminated.  If it is greater,
+all items before the middle item are eliminated.  Then the same procedure is
+applied to the remaining list of items, until either the item is found or the
+list has shrunk to size zero.  In binary search, each comparison eliminates half
+of the remaining list.  In linear search, each comparison eliminates just one
+item.  This makes binary search much faster.  For example, if you start with
+1000 items, binary search will use at most ten steps, while linear search
+could use up to 1000 steps.
+</p>
+<p><b>e)</b>&nbsp; 
+A private instance variable can only be accessed in the class where it is defined.
+This protects it from being modified from outside that class, and makes it possible
+to be <b>sure</b> that the value of the variable is always legal and makes sense.
+</p>
+<p><b>f)</b>&nbsp; 
+An algorithm is an unambiguous step-by-step procedure for carrying out a certain
+task, which is guaranteed to finish in a finite number of steps.  A program is
+an expression of an algorithm, implemented in some particular programming language.
+The algorithm is the idea behind the program, but the same algorithm could be
+implemented in any programming language.
+</p>
+<p><b>g)</b>&nbsp; 
+Variables in Java don't actually store objects; they store pointers to objects.
+A pointer to an object is the address of the object in memory; it tells where
+the object can be found.  The <i>new</i> operator returns a pointer to the
+newly created object, which can be used to access the object whenever it is
+used later in the program.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 11.</b>
+Write a code segment that will get two integers from the user and will print the
+sum of the two numbers <b>unless one of the numbers is 42</b>; if one of the numbers is 42,
+print the string "Don't&nbsp;Panic!" instead.  (You can use either <i>Scanner</i> or <i>TextIO</i> for
+input.)</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+int a, b;  // numbers from the user
+System.out.print("Enter your first integer: ");
+a = TextIO.getlnInt();
+System.out.print("Enter your second integer: ");
+b = TextIO.getlnInt();
+if ( a == 42 || b == 42 ) {
+    System.out.println("Don't Panic!");
+}
+else {
+    System.out.println(a + b);
+}
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 12.</b>
+Write a JavaFX code segment that will draw the picture shown below.
+Use a <i>for</i> loop.  
+There are exactly 11 lines in the picture.
+The scale that you use is up to you, but your picture should have the same form as
+the one that is shown. You do not have to set color or line width; just draw the lines.</p>
+<p align=center><img src="pic2.png" width=221 height=109></p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+int x = 50;
+for (int i = 0; i &lt; 11; i++) {
+     // Note: When i is 5, x is 300 and the line is vertical.
+   g.strokeLine( 300, 50, x, 250 );
+   x = x + 50;
+}
+</pre>
+</div>
+
+
+
+</div>
+</body>
+</html>
+

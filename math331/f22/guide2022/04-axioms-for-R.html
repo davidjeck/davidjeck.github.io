@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Axioms for the Real Numbers</title>
+</head>
+<body>
+<div id="content">
+
+<h2>04 Axioms for $\R$</h2>
+<hr>
+
+<p>We have looked at <a href="02-dedekind-cuts.html">Dedekind cuts</a> as an explicit
+construction of the set of real numbers.  But how do we know that we have properly
+captured all of the properties that we would expect $\R$ to have?  We need a list
+of properties that express exactly what it means to be "the real numbers."
+That list is given in the textbook as a set of fifteen <span class=nw>axioms</span>.
+The axioms are statements about a system consisting of a set together with
+operations of addition, multiplication, and comparison.  It can be shown that 
+any two systems that satisfy the fifteen axioms are essentially the same;
+that is, there is a one-to-one correspondence between the two sets that preserves
+all of the operations.  Probably the most important thing to remember from
+Section 1.3 is simply what it means to have an axiomatic specification of
+the real numbers.</p>
+
+<p>Just listing the axioms does not show that there
+is any system that actually satisfies them. But it can be shown that Dedekind
+cuts satisfy the fifteen axioms.  So, we have come at the real numbers from
+two directions: We have a set of properties that
+completely characterize what we think the real numbers should be, and
+we have a particular mathematical object that has all of those properties.
+This allows us to say, in some sense, that we understand the real numbers
+(although we don't really understand them until we understand all the
+consequences of the axioms&mdash;a process that can never really be
+completed but that we will make a small start in this section).</p>
+
+<p>The first eleven axioms say that the set of real numbers, together with the
+addition and multiplication operations, is a <span class=nw>field</span>.
+They define the algebra of the real number system.  The requirement is that
+addition and multiplication are <span class=nw>commutative</span> and 
+<span class=nw>associative</span>, that <span class=nw>identities</span>
+and <span class=nw>inverses</span> exist for both addition and multiplication, 
+and multiplication <span class=nw>distributes</span> over addition.  There are
+also <span class=nw>closure</span> axioms, which say that the sum and product
+of real numbers are also real numbers. Any
+system that satisfies the field axioms will automatically have many other algebraic 
+properties.  That is, it will have properties that can be <b>proved</b> from
+the axioms.  For example, it can be proved that identities and inverses are
+unique.</p>
+
+<p>The field axioms do not completely determine the real numbers.
+There are many other fields, including $\Q,$ the set of rational numbers, and
+$\C,$ the set of complex numbers.  The set $\{a+b\sqrt{2}\,|\,a,b\in\R\}$
+is a field.  So is $\big\{\frac{p(\pi)}{q(\pi)}\,\big|\,p(x)$ and $q(x)$ are
+polynomials with rational coefficients and $q(x)$ is not the zero polynomial$\big\}.$
+For all of the these sets, the addition and multiplication operations are
+the usual operations for numbers.</p>
+
+<p>There are also finite fields.  You are probably familiar with 
+$\Z_n,$ the set $\{0,1,\dots,n-1\}$ with the operations of addition
+and multiplication $mod\;\,n.$  For a prime number $p,$ $\Z_p$ is
+a field.</p>
+
+<p>And there are algebraic systems that are not fields.  The set $\Z$ of
+integers is not a field because not every integer has a multiplicative
+inverse in $\Z.$  The set $\N$ of natural numbers is even further from
+being a field, because it is missing both additive and multiplicative inverses.
+The set $\Z_n,$ where $n$ is not prime, is not a field. (Suppose
+$n$ factors as $n=ab$ where both $a$ and $b$ are strictly between
+1 and $n.$  Then $b$ has no multiplicative inverse in $\Z_n.$
+For if <span class=nb>$bx=1$ ($mod\;\,n$)</span>, then
+<span class=nb>$0=0x=nx=abx=a1=a$ ($mod\;\,n$)</span>,
+but in fact <span class=nb>$a\ne0$ ($mod\;\,n$)</span> because $a$
+is strictly between 1 and $n.$)</p>
+
+<hr class=break>
+
+<p>$\R$ is not just a field; it is an <span class=nw>ordered field</span>.
+There is an operator $&lt;$ for comparing two real numbers.  The
+properties of this operation are expressed by three axioms, which 
+are actually properties of the set of positive numbers:
+There is a subset $P$ of $\R$ that is closed under addition and
+multiplication and $\R$ is a disjoint union of $P,$ $\{0\},$
+and $-P.$  Given the set $P,$ the comparison operation is defined
+by saying $x&lt;y$ if and only if $y-x\in P.$  The set $P$ is
+that set of <span class="nw">positive</span> elements of $\R,$
+and $-P=\{-a\,|\,a\in P\},$ the set of <span class="nw">negative</span>
+elements. </p>
+
+<p>But there are other ordered fields besides $\R,$ such as the
+rational numbers or indeed any field that is a proper subset of $\R.$
+The final piece to completely characterize the real numbers is
+<span class=nw>completeness</span>, which can be expressed by
+the <a href="03-least-upper-bound-axiom.html">least upper bound axiom</a>.
+This axiom means, intuitively, that there are no "holes" in the
+real number line.  As we have seen, it also implies the Archimedian
+property of the real numbers:  There
+is no real number $x$ that is greater than every natural number.  
+(Note that the field of rational numbers is Archimedian but is not 
+complete, so the Archimedian property does not imply completeness.)</p>
+
+<hr class=break>
+
+<p>The <a href="04-axioms-for-R.html">axioms</a> for the real numbers are a foundation
+that can be used to prove other properties of $\R.$  Section 1.3 includes some examples
+of using the field axioms to prove things that must be true in any field.    But more
+important for us is using the order axioms to define and prove things about
+absolute value and distance.  Application of the completeness axiom will begin in
+Section 1.4 with the <a href="05-heine-borel-theorem.html" class=nb>Heine-Borel Theorem</a>.</p>
+
+<p>The field axioms can be used to prove things about arithmetic operations that you
+probably use automatically and regard as intuitive.  The point here is that they are
+not things that have to be assumed separately; once we have the field axioms, these
+other "obvious" things follow logically.</p>
+
+<p>There are several <span class=nw>uniqueness</span> results:  0 is the <b>only</b>
+additive identity, 1 is the only multiplicative identity, a real number $a$ has
+exactly one additive inverse, and a non-zero number $a$ has exactly one multiplicative
+inverse.  This allows us to write $-a$ for <b>the</b> additive inverse of $a$ and
+to define subtraction by $b-a=b+(-a).$  Similarly, we can define $a^{-1}$
+for a non-zero number $a$ and division by $\frac ba = b\cdot a^{-1}.$  The existence
+of inverses is what makes "cancellation" possible.  For example,</p>
+
+<div class="thm"><p><span class="dtp">Theorem:</span> Let $a,$ $b,$ and $c$ be 
+elements of some field.  Suppose that $ab=ac$ and $a\ne 0.$  Then $b=c.$</p></div>
+<div class="prf"><p><span class="dtp">Proof:</span> Since $a$ is non-zero,
+it has a multiplicative inverse.  So, we have
+$$\begin{array}{rll}
+   ab\!\!\!\!&=ac &\mbox{(Assumption)}\\
+   a^{-1}(ab)\!\!\!\!&=a^{-1}(ac)&\mbox{($a$ has multiplicative inverse $a^{-1}$)} \\
+   (a^{-1}a)b\!\!\!\!&=(a^{-1}a)c &\mbox{(Associativity of multiplication)}\\
+   1b\!\!\!\!&=1c &\mbox{(Multiplicative inverse: $a^{-1}a=1$)}\\
+   b\!\!\!\!&=c &\mbox{(1 is the multiplicative identity) }\qed\\
+\end{array}$$
+</p></div>
+
+<p class=np>(The textbook justifies steps in some proofs by listing axiom numbers.
+Note that you do not have to memorize the axiom numbers, but you should remember
+the names of the properties.)</p>
+
+<p>We can take most of the properties of addition, multiplication, and comparison
+as being well-known, but it would still be useful to look through their proofs
+in the textbook.  We should spend
+a little more time on absolute value and distance.</p>
+
+<hr class=break>
+
+<p>The first order axiom is <span class=nw>Trichotomy</span>:
+For any real number $a,$ exactly one of the following is true:
+$a&lt;0,$ $a=0,$ or $a>0.$  The other two order axioms state that
+for any two positive numbers $a$ and $b,$ $a+b$ and $ab$ are also
+positive.  (Recall that we proved Trichotomy for $\R$ defined as the
+set of Dedekind cuts.)  We can use the Trichotomy property to define
+absolute value, and then use absolute value to
+define distance.</p>
+
+<div class="def"><p><span class=dtp>Definition:</span> For $a\in\R,$
+we define the <span class=nw>absolute value</span> of $a,$
+denoted $|a|,$ by 
+$$|a|= \begin{cases} 
+    a&\mbox{if $a>0$}\\
+    0&\mbox{if $a=0$}\\
+    -a&\mbox{if $a&lt;0$}
+\end{cases}$$
+For $a,b\in\R,$ we define the <span class=nw>distance</span> between
+$a$ and $b$ to be $|a-b|.$ (Note that $|a|$ is the distance from $a$ to&nbsp;0.)
+</p></div>
+
+<p class=np>Of course, $|a|=a$ for all $a\ge0,$ but my definition makes
+it clear that it is the Trichotomy axiom that is being used.  Some basic
+properties can be proved easily using the axioms.</p>
+
+<div class="thm"><p><span class=dtp>Theorem:</span> For $a,b\in\R,$
+$|ab|=|a|\cdot|b|,$ $|-a|=|a|,$ $|a-b|=|b-a|,$ and $|a-b|=0$ if and
+only if $a=b.$</p></div>
+<div class="prf"><p><span class=dtp>Proof:</span>
+We first prove that $|ab|=|a|\cdot|b|.$
+In the case $a=0$ or $b=0,$ both $|ab|$ and $|a|\cdot|b|$ are zero,
+so they are equal.  In the case $a>0$ and $b>0,$ we have
+$ab>0,$ so $|ab|=ab=|a|\cdot|b|,$
+In the case $a&lt;0$ and $b&lt;0,$ again $ab>0,$ so
+$|ab|=ab=(-a)(-b)=|a|\cdot|b|.$  In the case $a>0$ and $b&lt;0,$
+$ab&lt;0,$ so $|ab|=-ab=a(-b)=|a|\cdot|b|.$  And the
+case $a&lt;0$ and $b>0$ is similar.</p>
+<p>It then follows that $|-a|=|-1|\cdot|a|=1\cdot|a|=|a|.$
+From that, it follow that $|a-b|=|-(b-a)|=|b-a|.$
+Finally, by definition of absolute value, $|a-b|=0$
+if and only if $a-b=0,$ which is true if and only if $a=b.$ 
+</p></div>
+
+<p>The last part of this theorem is the important fact that the distance
+between $a$ and $b$ is zero if and only if $a$ is equal to $b.$
+And the next-to-last part says that distance is <span class=nw>symmetric</span>:
+the distance from $a$ to $b$ is the same as the distance from $b$ to $a.$
+One of the most important properties of distance is the <span class=nw>triangle
+inequality</span>, which says that for any $a,b,c\in\R,$ 
+$$|a-c|\le|a-b|+|b-c|$$ That is, going from $a$ to $c$ directly
+cannot be longer than going from $a$ to $b$ and then from $b$ to $c.$
+The triangle inequality can also be expressed as a fact about absolute
+value, which is the version given in the book:
+For any $a,b\in\R,$ $|a|+|b|\ge|a+b|.$  This is intuitively clear since
+when $a$ and $b$ are both positive or both negative, $|a|+|b|=|a+b|,$
+but when one is positive and one is negative, you get some
+cancellation on the right side of the inequality but not on the
+left (for example, $|3+(-5)| = |-2| = 2,$ but $|3|+|-5|=3+5=8$).
+The triangle inequality for distance follows from the triangle
+inequality for absolute value:  Suppose $a,b,c\in\R.$  
+Let $x=a-b$ and $y=b-c.$  Then
+$$\begin{align*}
+   |a-b|+|b-c| &= |x|+|y|\\
+               &\ge|x+y|\\
+               &=|(a-b)+(b-c)|\\
+               &=|a + (-b+b) - c|\\
+               &=|a + 0 -c|\\
+               &=|a-c|
+\end{align*}$$</p>
+
+<p>The triangle inequality will be one of the most useful tools for proofs in the rest
+of this course.  Some related facts about absolute value and distance will also be
+useful, including Theorem 1.3.12 from the textbook:</p>
+
+<div class="thm"><p><span class=dtp>Theorem:</span> For any $a,b\in \R$ with $b\ge0,$
+$|a|\le b$ if and only if $-b\le a\le b.$</p></div>
+
+<p class=np>This is used in the book's proof of the triangle inequality.
+I want to use it to prove two additional facts that will be useful in future
+proofs.  The first fact is useful when we want to show that some
+quantity, $a,$ is not too close to zero.  If we can show that $a$ is
+close to some non-zero number, $m,$ then $a$ can't be too close to zero.
+In particular, if $a$ is within $\frac{|m|}{2}$ of $m,$ then $a$
+cannot be closer to zero than $\frac{|m|}{2}.$</p>
+
+<div class="thm" id="less"><p><span class=dtp>Theorem:</span> Suppose $a,m\in \R$ and
+$|a-m|\le\frac{|m|}{2}.$  Then $|a|\ge\frac{|m|}{2}.$</p></div>
+<div class="prf"><p><span class=dtp>Proof:</span>
+Suppose that $|a-m|\le\frac{|m|}{2}.$ By the previous theorem,
+$-\frac{|m|}{2}\le a-m \le \frac{|m|}{2}.$</p>
+<p>Consider the case $m\ge0,$ so that $|m|=m.$  Then the first inequality,
+$-\frac{|m|}{2}\le a-m,$ becomes $-\frac{m}{2}\le a-m$ and adding $m$
+to both sides gives $\frac{m}{2}\le a.$ That is, $a\ge\frac{m}{2}=\frac{|m|}{2}.$  And
+because $\frac{m}{2}\ge0,$ we also have $a\ge0,$ so $a=|a|.$  So we
+get $|a|\ge\frac{|m|}{2}.$</p>
+<p>Turing to the case $|m|&lt;0,$ we have $|m|=-m$ and the inequality
+$a-m \le \frac{|m|}{2}$ becomes $a-m\le -\frac{m}{2}.$ Adding $m$ to
+both sides gives $a\le\frac{m}{2}.$  Multiplying by $-1$ then gives
+$-a\ge=-\frac{m}{2}.$  Since $\frac{m}{2}&lt;0,$ we
+see that $a$ is also negative, so the inequality $-a\ge=-\frac{m}{2}$
+can be written $|a|\ge\frac{|m|}{2}.$ $\qed$
+</p></div>
+
+<p class=np>If the proof is confusing, this diagram shows that the geometry is clear:</p>
+
+<p style="text-align:center"><img src="figures/04-fig1.png" width=358 height=248></p>
+
+<p>Sometimes, we need to <span class=nw>bound</span> $a.$  That is, we want to find
+some limit on how big $|a|$ can be.  If we can show that $a$ is close to some
+number $m,$ then we can show that $|a|$ cannot be too much bigger than $|m|.$
+
+<div class="thm" id="bound"><p><span class=dtp>Theorem:</span> Suppose $a,m\in \R$ and
+$\eps>0.$  If $|a-m|\le\eps,$ then $|a|\le|m|+\eps.$</p></div>
+<div class="prf"><p><span class=dtp>Proof:</span>
+Suppose that $|a-m|\le\eps.$  Then $-\eps\le a-m\le \eps.$  Adding
+$m$ gives $m-\eps\le a\le m+\eps.$</p>
+<p>Consider the case where $m\ge0.$ Then the inequality $a\le m+\eps$
+becomes $a\le |m|+\eps.$  [If $\eps$ is small compared to $m,$ then $a$
+will have the same sign as $m,$ so in this case, $a$ would be positive,
+and $a=|a|.$  This means we already have $|a|\le |m|+\eps;$ however, to
+cover all possibilities, we need to consider the general case where $a$
+can be negative.]
+Now, for any $m,$  $-|m|\le m,$ and so from
+the inequality $m-\eps\le a,$ we get $-(|m|+\eps)=-|m|-\eps\le m-\eps\le a.$
+Combining that with the previous inequality, we have $-(|m|+\eps)\le a\le (|m|+\eps),$ which is equivalent to
+$|a|\le|m|+\eps.$</p>
+<p>Turning to the case $m&lt;0,$ from $|m-a|&lt;\eps,$ we get $|(-m)-(-a)|=|-(m-a)|=|m-a|&lt;\eps.$
+Since $-m&gt;0,$ we can apply the previous case to $|(-m)-(-a)|&lt;\eps,$
+showing that $|-a|&le;|-m|+\eps.$  But $|-a|=|a|$
+and $|-m|=|m|,$ so we have in fact $|a|&lt;|m|+\eps.$ $\qed$
+</p></div>
+
+<p class=np>And here is a diagram showing the geometry, in the case where $\eps$
+is small compared to $|m|:$</p>
+
+<p style="text-align:center"><img src="figures/04-fig2.png" width=358 height=248></p>
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>
+

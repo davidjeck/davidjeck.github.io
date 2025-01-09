@@ -1,0 +1,144 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.2 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\bgroup\color{darkred}}{\egroup}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331\hfill Homework 3}}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework can be turned in until 3:00 PM on Thursday, September 15.}}
+
+\bigskip
+
+\def\ds{\displaystyle}
+
+
+\begin{problem}[Textbook problem 1.4.12a]
+Suppose that $\lambda$ is the least upper bound of some set $S$, and that
+$\lambda$ is \textit{not} in $S$.  Prove that $\lambda$ is an accumulation
+point of $S$.  [Hint:  For any $\eps>0$, there is a point $s\in S$ such 
+that $\lambda-\eps < s < \lambda$.  Now use the definition of accumulation
+point to finish the proof.]
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  3 points
+\end{answer}
+
+
+
+\begin{problem}
+[Textbook problems 1.4.9 and 1.4.10]
+\textbf{(a)} Prove lemma 1.4.5: If $x$ is an accumulation point of a set $S$ and if $\eps>0$,
+then there is an infinite number of points of $S$ within distance $\eps$ of $S$.
+That is, $(x-\eps,x+\eps)\cap X$ is infinite.
+[Hint: Given $\eps>0$, suppose that there is only a finite number of points,
+$s_1,s_2,\dots,s_k$, of $S$ within $\eps$ of $x$, but not equal to $x$.  
+Let $\eps'=\min(|s_1-x|,|s_2-x|,\dots,|s_k-x|)$.  Now, show that no $s\in S$
+satisfies $0<|s-x|<\eps'$.]
+\textbf{(b)} Deduce that if $S$ is a \textbf{finite} subset of $\R$, then
+$S$ has no accumulation points.  [This is trivially a corollary of the lemma.]
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  4 points
+\end{answer}
+
+
+
+\begin{problem}
+Prove directly, using the (epsilon-delta) definition of limits, that ${\ds\lim_{x\to 5}}\frac{2x+4}{7}=2$.
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  2 points
+\end{answer}
+
+
+
+\begin{problem}
+Show directly, without using the product rule for limits, that $\ds\lim_{x\to 3}x^3 = 27$.
+(Note that $a^3-b^3=(a-b)(a^2+ab+b^2)$.)
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  3 points
+\end{answer}
+
+
+
+\begin{problem}
+Suppose that $\ds\lim_{x\to a}f(x)=L$ and $c\in \R$. Prove directly, using the definition of limit,
+that $\ds\lim_{x\to a} cf(x) = cL$.  [Be careful: $c=0$ is a special case.]
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  3 points
+\end{answer}
+
+
+
+\begin{problem}[Textbook problem 2.2.9]
+Suppose that $f(x)\le 0$ for all $x$ in some open interval containing $a$, except possibly 
+at $a$.  Suppose that $\ds\lim_{x\to a} f(x) = L$.  Show that $L\le 0$. [Hint: Assume instead
+that $L > 0$.  Let $\eps=L/2$ and derive a contradiction.]  (Remark: A similar proof shows that
+if $f(x)\ge 0$ for all $x$ near $a$, then $\ds\lim_{x\to a}f(x)\ge0$, if the limit exists.)
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  3 points
+\end{answer}
+
+
+
+\begin{problem}This problem gives an alternative proof of the product rule.
+\begin{enumerate}
+\item[(a)] Suppose $\ds\lim_{x\to a}f(x)=L$.  Show directly from the definition of limit 
+(without using the product rule) that $\ds\lim_{x\to a}f(x)^2=L^2$.
+\item[(b)] Verify algebraically, by expanding the right-hand side, that $ab=\frac{1}{4}\big((a+b)^2-(a-b)^2\big)$.
+\item[(c)] Let's say that the sum, difference, and constant multiple rules for limits have
+already been proved, in addition to parts (a) and (b) of this problem.  Using all that (and \textbf{not}
+the definition of derivative), prove the product rule for limits.
+\end{enumerate}
+\end{problem}
+
+\begin{answer}
+%Your answer goes here.  6 points
+\end{answer}
+
+
+
+\end{document}

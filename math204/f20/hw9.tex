@@ -1,0 +1,204 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage{graphicx}
+\def\scaledgraphics#1#2{\includegraphics[width=#1]{#2}}
+\setlength{\topmargin}{-0.4 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.5 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#9}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by 11:59 PM on Tuesday, November 10}}
+
+\medskip
+
+
+
+\begin{problem}
+Remember that the change of basis matrix for bases $B$ and $D$ of the same
+vector space $V$ is defined to be $Rep_{B,D}(id)$, where $id\colon V\to V$
+is the identity map.  
+
+Suppose that $B$ and $D$ are bases for $\mathscr P_2$, where $D=
+   \langle x+x^2, 1-2x+x^2, 2-x \rangle$.
+Find the basis $B$ if the change of basis matrix is
+${\rm Rep}_{B,D}(id) =\begin{pmatrix}
+   -1 & 2  & 0\\
+    2 & 3  & -1\\
+    0 & 1  & 4
+\end{pmatrix}$.  (This problem is very easy!)
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 1,  points 3
+\end{answer}
+
+
+
+
+\begin{problem}
+Consider the bases $B$ and $D$ for $\R^3$, as given here:
+$$
+   B = \left\langle
+          \begin{pmatrix} 1\\ 2\\ 3 \end{pmatrix},
+          \begin{pmatrix} 0\\ -3\\ 2 \end{pmatrix},
+          \begin{pmatrix} -2\\ 4\\ -3 \end{pmatrix}
+       \right\rangle
+   \qquad\qquad\qquad
+   D = \left\langle
+          \begin{pmatrix} 1\\ 0\\ 1 \end{pmatrix},
+          \begin{pmatrix} 0\\ 1\\ -1 \end{pmatrix},
+          \begin{pmatrix} 0\\ -1\\ 0 \end{pmatrix}
+       \right\rangle
+$$
+\begin{itemize}
+\item[\bf(a)] Find the change of basis matrix ${\rm Rep}_{B,D}(id)$.
+\item[\bf(b)] Check that ${\rm Rep}_{B}\begin{pmatrix} -1\\0\\4 \end{pmatrix} = 
+                                       \begin{pmatrix} 1\\2\\1 \end{pmatrix} $.
+              (You're not asked to find the representation, just check it.)
+\item[\bf(c)] The change of basis matrix must satisfy  
+${\rm Rep}_{B,D}(id)\cdot {\rm Rep}_B(\vec v) = {\rm Rep}_D(\vec v)$.
+Verify that in fact $${\rm Rep}_{B,D}(id)\cdot {\rm Rep}_B\begin{pmatrix} -1\\0\\4 \end{pmatrix} 
+= {\rm Rep}_D\begin{pmatrix} -1\\0\\4 \end{pmatrix}$$
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 2,  points 5
+\end{answer}
+
+
+
+
+\begin{problem}Find an affine transformation $f\colon\R^2\to\R^2$ such that
+$$
+   f\begin{pmatrix} 0\\ 0 \end{pmatrix} = \begin{pmatrix} -2\\ 3 \end{pmatrix}\qquad\qquad
+   f\begin{pmatrix} 1\\ 0 \end{pmatrix} = \begin{pmatrix} 1\\ 1 \end{pmatrix}\qquad\qquad
+   f\begin{pmatrix} 0\\ 1 \end{pmatrix} = \begin{pmatrix} 2\\ 5 \end{pmatrix}
+$$
+Hint:  It's easy to find the translation\vadjust{\smallskip} part of the affine map!
+Recall that $f$ can be represented in the form $f\begin{pmatrix} x\\ y \end{pmatrix} 
+    = \begin{pmatrix} ax+by+e\\ cx+dy+f \end{pmatrix}
+    = \begin{pmatrix} a& b\\ c&d \end{pmatrix}
+          \begin{pmatrix} x\\ y \end{pmatrix} +
+          \begin{pmatrix} e\\ f \end{pmatrix}$.
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 3,  points 3
+\end{answer}
+
+
+
+
+\begin{problem}
+The cross product of two vectors $\vec v,\vec w\in \R^3$ is a vector, $\vec v\times \vec w$, that 
+is orthogonal  to both $\vec v$ and $\vec w$.  The cross product can be computed as the
+``formal determinant''
+
+\medskip
+\centerline{$\begin{pmatrix}a_1\\a_2\\a_3\end{pmatrix}
+            \times \begin{pmatrix}b_1\\b_2\\b_3\end{pmatrix}
+            =\begin{vmatrix}\vec e_1&\vec e_2&\vec e_3\\ a_1&a_2&a_3\\ b_1&b_2&b_3\end{vmatrix}$}
+
+\medskip
+\noindent Find $\begin{pmatrix} 3\\-1\\2 \end{pmatrix} \times \begin{pmatrix} 1 \\ 4 \\ -2 \end{pmatrix}$
+by writing out the formal determinant 
+$\begin{vmatrix}\vec e_1&\vec e_2&\vec e_3\\ 3& -1 & 2 \\ 1 & 4 & -2 \end{vmatrix}$,
+using the formula\vadjust{\medskip} for the determinant of a $3\times3$ matrix,
+and show that the result is, in fact, orthogonal to both vectors.
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 4,  points 3 
+\end{answer}
+
+
+
+
+\begin{problem}
+We looked at a formula for computing the determinant of a $3\times3$ matrix.  That formula can be derived using
+Laplace's expansion for the determinant.  Apply Laplace's expansion to the general $3\times3$ determinant
+$$\begin{vmatrix} a_1& a_2& a_3 \\ b_1& b_2& b_3 \\ c_1& c_2& c_3 \end{vmatrix}$$
+to derive the formula for the determinant of a $3\times3$ matrix.  (You only need to apply Laplace's expansion
+for the first step of the computation, not for the resulting $2\times2$ matrices.)
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 5,  points 2
+\end{answer}
+
+
+
+
+\begin{problem}
+Compute each of the following determinants.  Some of them are very easy, using properties of
+the determinant, and you should check for that before doing a complex computation.
+For any problem where you use a property of the determinant to find the
+answer, state the property that you use.
+
+\bigskip
+\centerline{
+   \textbf{(a)}\quad $\begin{vmatrix} 3 & 5 \\ 2 & -1 \end{vmatrix}$ \hskip 0.7 in
+   \textbf{(b)}\quad $\begin{vmatrix} 5 & 7 & 4 \\ 0 & 2 & 3 \\ 0 & 0 & 3 \end{vmatrix}$ \hskip 0.7 in
+   \textbf{(c)}\quad $\begin{vmatrix} 1 & 3 & -2 \\ 2 & 1 & 1 \\ 3 & 2 & 4 \end{vmatrix}$
+}
+
+\bigskip
+\centerline{
+   \textbf{(d)}\quad $\begin{vmatrix} 0 & 0 & 3 \\  0 & 2 & -3 \\ 4 & 5 & -1 \end{vmatrix}$ \hskip 0.5 in
+   \textbf{(e)}\quad $\begin{vmatrix} 1 & 2 & 4 & -1 \\ 3 & 5 & -3 & 7 \\
+                                      1 & 2 & 4 & -1 \\ 6 & 2 & 3 & 7 \end{vmatrix}$ \hskip 0.5 in
+   \textbf{(f)}\quad $\begin{vmatrix} 1 & 2 & 3 & -1 \\ 0 & -1 & 2 & 3 \\
+                                      2 & 5 & 6 & 1 \\ -1 & 1& 1 & 3 \end{vmatrix}$
+}
+
+\end{problem}
+
+\begin{answer}
+% Answer here for problem number 6,  points 9
+\end{answer}
+
+
+
+
+
+\end{document}
+

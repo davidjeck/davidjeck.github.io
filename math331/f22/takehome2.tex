@@ -1,0 +1,223 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.2 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{8.8 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\par\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\pagestyle{empty}
+\allowdisplaybreaks
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331, Fall 2022\hfill Take-home Test \#2}}
+\nointerlineskip
+\vskip 3pt
+\hrule height 1pt
+
+\medskip
+
+{\narrower\narrower\small{
+This test is due by the start of class on the day of the second in-class test, Friday, November 18.  
+\textbf{You should do any six out of the seven problems on the test.  Do not do
+all seven; if you do all seven, your answer for problem~7 will be ignored.}\par
+You should do this test on your own, using only your textbook, class notes, 
+and previous work in the course as reference.  You should
+not work with other students, you should not use the Internet or other references, and you should not
+consult anyone except the professor for the course.  You can ask questions about the test in class and by email.
+I might give some hints and clarifications, but I am unlikely to give
+extensive, detailed help.   Be sure to show all of
+your work!  If you are not able to complete a problem, you should turn in work showing
+whatever progress you have made on it, for partial credit.
+\textbf{Note: There will be no ``rewrites'' for this test.}\par
+You can submit your answers in LaTeX on overleaf.com, if you want to do 
+that, but you are welcome to write up your answers neatly by hand.\par
+Although some problems are more difficult than others, and some are fairly easy, 
+all seven problems will count equally.}
+\par}
+
+\medskip
+\hrule height 1pt
+\bigskip
+
+
+\def\ds{\displaystyle}
+
+
+\begin{problem} % problem 1
+\textbf{(a)} Suppose that the function $F(x)$ is differentiable at $a$.  Show directly from the definition
+of derivative that the function $G(x) = F(x)^2$ is differentiable at $a$ and $G'(a)=2F(a)F'(a)$.
+[Hint: You only need to factor $F(x)^2-F(a)^2$ in the definition.]
+
+\textbf{(b)} We know that $f(x)g(x) = \frac{1}{4}\big((f(x)+g(x))^2-(f(x)-g(x))^2\big)$ from a previous homework problem .
+Using only this fact, the result from part (a), and the sum, difference, and constant multiple rules for derivatives,
+find the formula for the derivative of $f(x)g(x)$, 
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem} % problem 2
+Let $f$ and $g$ be differentiable functions on $[a,b]$.  Suppose that $f(a)=g(a)$ and $f'(x)>g'(x)$ for all
+$x\in(a,b)$.  Prove that $f(b)>g(b)$.  [Hint:  Consider the function $h(x)=f(x)-g(x)$ and apply the Mean
+Value Theorem.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem} % problem 3
+Let $f$ be an integrable function on $[a,b]$.  Suppose that $A\le f(x) \le B$ for all $x\in [a,b]$.
+Show, from the definition of the integral, that $A\cdot (b-a)\le\int_a^b f\le B\cdot (b-a)$.
+(Hint: Use the trivial partition $P=\{x_0,x_1\}$ where $x_0=a$, $x_1=b$.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem} % problem 4
+Suppose that $f$ is integrable on $[a,b]$.  
+Define $F(x)=\int_a^x f$ for $x\in[a,b]$,
+and define $G(x)=\int_a^x F$ for $x\in[a,b]$.  How do we know $\int_a^x F$ exists?  Show that
+$G$ is differentiable on $[a,b]$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+\begin{problem} % problem 5
+Let $\sum_{k=1}^\infty a_k$ be a convergent series of non-negative terms.
+Prove that the series $\sum_{k=1}^\infty a_k^2$ also converges.
+[Hints: $\big(\frac{1}{2}\big)^2=\frac{1}{4}$, and remember that you only
+need to show $\sum_{k=N}^\infty a_k^2$ converges for some $N$.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+\begin{problem} % problem 6
+[\it Textbook problem 4.5.7, 8]
+\textbf{(a)}\ Let $\{f_n\}_{n=1}^\infty$
+be a sequence of functions defined on an interval $I$. Assume that each $f_n$ is bounded; that is,
+there are constants $M_n$ such that $|f_n(x)|\le M_n$ for all $x\in I$. Prove: If 
+$\{f_n\}_{n=1}^\infty$ converges uniformly to $f$, then $f$ must also be bounded on $I$.
+
+\textbf{(b)}\ Show that the hypothesis of uniform convergence is necessary
+by finding a sequence of bounded functions that converges pointwise to a function that
+is not bounded.  ([Hint: Take $I=[0,\infty)$ and look for a simple example.]
+\end{problem}
+
+\begin{answer}
+\end{answer}
+
+
+
+\begin{problem} % problem 7
+Suppose that the function $f:\R\to\R$ satisfies $|f(x)-f(y)|\le r|x-y|$ for all $x,y\in\R$,
+where $r$ is a constant in the interval $0\le r<1$.  Such a function is said to be a 
+\textbf{contraction} on $\R$.  Note that a contraction is simply a Lipschitz function with
+Lipschitz constant strictly less than 1, so we already know that $f$ is continuous.
+\begin{itemize}
+\item[\bf(a)]
+   Let $t$ be any real number.  Define a sequence $\{a_n\}_{n=0}^\infty$ by 
+   $a_0 = t$, $a_n = f(a_{n-1})$ for $n>0$.   That is $a_0 = t, a_1 = f(t), a_2=f(f(t)), 
+   a_3=f(f(f(t))), \dots, a_n = f^n(t),\dots$, where $f^n$ is the composition of
+   $f$ with itself $n$ times.  Show that the sequence $\{a_n\}_{n=0}^\infty$ is contracting,
+   and hence is convergent.
+\item[\bf(b)]
+   Let $z = \ds\lim_{n\to\infty} a_n$.  Show that $f(z) = z$, that is, $z$ is a fixed point of $f$.
+   [Hint: Write $f(z)=f\big(\ds\lim_{n\to\infty}a_n\big)=f\big(\lim_{n\to\infty}f^n(t)\big)$. and
+   use the fact that $f$ is continuous.]
+\end{itemize}
+(Note: Recall that a \textbf{fixed point} of a function $f$ is a point $y$ such that $f(y) = y$.
+It is clear that a contraction can have at most one fixed point.  This problem shows that
+a contraction always does have a fixed point.  Furthermore, if $t$ is any real number, then
+the sequence $\{f^n(t)\}_{n=0}^\infty$ converges to that unique fixed point.  This is the
+\textbf{Contraction Mapping Theorem} for $\R$.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+
+%\begin{problem} % problem 7
+%Let $\{x_n\}_{n=1}^\infty$ be an infinite sequence.  We define a
+%{\it rearrangement\/} of the sequence as follows: Let $s\colon \N\to\N$ be a
+%bijective function.  Then $\{x_{s(i)}\}_{i=1}^\infty$ is a rearrangement of the
+%sequence $\{x_n\}_{n=1}^\infty$.  The rearranged sequence has exactly the same terms 
+%as the original sequence, just in a different order.
+%
+%Suppose that $\{x_n\}_{n=1}^\infty$ is a convergent sequence and that
+%$\ds\lim_{n\to\infty}x_n=L$, and let $\{x_{s(i)}\}_{i=1}^\infty$ be a rearrangement of
+%the sequence.  Show that the rearranged sequence $\{x_{s(i)}\}_{i=1}^\infty$ is
+%convergent and converges to the same limit, $\ds\lim_{i\to\infty}x_{s(i)}=L$.
+%[Hint: This is easier than it looks.  Note that for any $N\in\N$, the set $\{x_1,x_2,\dots,x_N\}$ is
+%finite.  Use the definition of convergence.]
+%\end{problem}
+%
+%\begin{answer}
+%You can put your answer here.
+%\end{answer}
+%
+
+
+
+
+
+
+
+
+\end{document}
+
+
+

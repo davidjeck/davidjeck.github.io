@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>CS 124 Quiz #6 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Fall 2021:
+Sample Answers to Quiz #6</h2>
+
+<p class=info><i>These are sample answers only.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+Discuss  "getter methods" and "setter methods."
+What are they, why are they used, and why are they often used for private instance
+variables?
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+Getters and Setters are associated with instance variables.  A getter method for an instance
+variable is a method that returns the value of that variable.  A setter method for an instance
+variable sets the value of the variable to a specified value.   Getters and setters are used
+because they protect the variable by controlling  over what can be done to the variable.  
+For example, a setter method can check whether the value that it is given is a legal value 
+for the variable.  It not, it can through an exception.  This will mean that as long as the 
+variable's value is set using the setter method, then it can never have an illegal value.</p>
+
+<p>Getters and setters are often used with private instance variables because private variables
+can only be directly accessed in the file where they are declared.  By making the variable
+private, you make sure that the variable can only be changed from outside the class by
+using the setter method.  If the variable is public, then it can be changed to any value
+from outside the class, without using the setter method.  But then there is no way to guarantee
+that it will always have a legal value.</p>
+
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+Explain what <i>null</i> means in a Java program.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+An object variable (whose type is given by a class) can hold a pointer to an object,
+or it can hold the special value <i>null</i>, which is a special pointer value that
+indicates that the variable is not currenctly pointing to any object.
+</p>
+</div>
+
+
+<div class="question">
+<p>
+<img src="quiz6.png" width="305" height="125" align=right
+         style="background-color:white; border:thin solid black; padding: 5px; margin-left:8px">
+<b>Question 3.</b>
+Consider the class <i>Point</i> defined below.  Write a Java code
+segment that will produce the picture at the right when it is executed.
+That is, declare three variables named <i>pt1</i>, <i>pt2</i>, and <i>pt3</i>.  Then
+create some objects, with the end result as shown in the picture.
+</p>
+<pre>
+   public class Point {
+       public int x,y;
+       public Point(int a, int b) {
+           x = a;
+           y = b;
+       }
+   }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+     Point pt1, pt2, pt3;
+     
+     pt1 = new Point(5,18);
+     pt2 = new Point(32,7);
+     pt3 = pt2;
+</pre>
+</div>
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>
+

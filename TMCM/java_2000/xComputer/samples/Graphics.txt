@@ -1,0 +1,48 @@
+; Example 2: Graphics
+
+; This is a very simple program that is meant to demonstrate a
+; "Graphics" memory display.  If you select "Graphics" from
+; the pop-up menu above the scrolling memory display area of
+; the xComputer, the scrolling display will be replaced by
+; a rectangle that shows the entire contents of memory at
+; once.  Each pixel in the rectangle represents one bit
+; in memory.  The pixel is white if that bit is zero and
+; is black if that bit is one.  The rectangle is 64 pixels
+; wide, so each row of dots represents four 16-bit memory
+; locations.  As the computer executes a program, you can
+; watch the dots change as memory is modified.  This can
+; be particularly nice if you set the Speed pop-up menu
+; to "Fastest Speed".
+
+; The program simply stores the numbers 1, 2, 3, ... in
+; consecutive memory locations, starting at location 20.
+; To run the program, click the "Translate" button located
+; below this program.  Once the computer reappears, set the
+; memory display pop-up menu to "Graphics".  The program will
+; appear as a few dots at the top of the memory rectangle.
+; Set the run speed to "Fastest Speed" and then click the
+; "Run" button.  You should see memory fill up with a 
+; rather attractive pattern.
+
+; (Note: This is a self-modifying program, an old-fashioned
+; but cute idea.  The commands in locations 2 and 4 are
+; changed as the program runs so that they load and store
+; into different locations each time they are executed.)
+
+lod-c 1   ; Put the starting number in location 20
+sto 20
+
+lod 20    ; Add 1 to the number in location 20 and put the
+inc       ;     result into location 21
+sto 21
+
+lod 2     ; Modify the instruction in location 2 so it
+inc       ;   loads from the next location.
+sto 2
+
+lod 4     ; Modify the instruction in location 4 so it
+inc       ;   stores into the next location.
+sto 4
+
+jmp 2     ; Go back to the "LOD" instruction in
+          ;     location 2.

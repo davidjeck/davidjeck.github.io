@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+-->
+
+<head>
+<meta charset="UTF-8">
+<title>CPSC 424, Spring 2021, Lab 5</title>
+
+<script src="glsim.js"></script>  <!-- load the OpenGL 1.1 simulation code -->
+<script src="polyhedra.js"></script>  <!-- IFS models of various standard polyhedra -->
+
+<script>
+
+    "use strict";
+    
+    const polyhedron = [ // Polyhedron IFS models defined in polyhedra.js
+        cubeIFS,
+        dodecahedronIFS,
+        icosahedronIFS,
+        octahedronIFS,
+        rhombicDodecahedronIFS,
+        socerBallIFS,
+        stellatedDodecahedronIFS,
+        stellatedIcosahedronIFS,
+        stellatedOctahedronIFS,
+        tetrahedronIFS,
+        truncatedIcosahedronIFS,
+        truncatedRhombicDodecahedronIFS
+    ];
+
+    let camera;   // For setting up the view and implementing rotation by mouse.
+
+    // -------------------------- TODO: Complete this section ----------------------------------
+    
+    let pointCloud;  // A Float32Array containing the data for a cloud of points.
+    
+    /**
+     * Draws a large number of random points inside the sphere of radius 8.
+     */
+    function drawPointCloud() {
+    
+/* This is the basic code for drawing a GL_POINTS primitive with glDrawArrays
+    
+         glDisable(GL_LIGHTING);
+         glColor3f(1,1,0);
+         glPointSize(2);
+         glVertexPointer(3,GL_FLOAT,0,pointCloud);
+         glEnableClientState(GL_VERTEX_ARRAY);
+         glDrawArrays( GL_POINTS, 0, pointCt );
+         glDisableClientState(GL_VERTEX_ARRAY);
+         glEnable(GL_LIGHTING);
+*/
+
+    } // end drawPointCloud()
+    
+    
+    
+    /**
+     * Draws the selected polyhedron in the selected style.  The style parameter 
+     * is one of "faces", "wire", or "both".  If style is "faces" or "both", the faces 
+     * are drawing using glDrawArrays with the GL_TRIANGLES primitive.  If style is
+     * "wire" or "both", then the wireframe is drawing using glDrawArrays with the
+     * GL_LINES primitive.  The faces are drawn using polygonOffset to make the
+     * wireframe look OK when both are drawn.
+     *     The poly parameter is one of the polyhedron models from polyhedra.js.  The
+     * model is a JavaScript object with the following properties:
+     *     poly.vertices -- an array of vertices where each vertex is given
+     *                           as an array of three numbers.
+     *     poly.faces -- an array of faces, where each face is an array of integers.
+     *                   The integers in the array are indices into the array of
+     *                   vertices, and they give the vertices of the face in 
+     *                   counterclockwise order as seen from the outside.
+     *     poly.faceNormals -- an array of normal vectors, one for each face.
+     *                   Each normal is given as an array of three numbers.
+     * These properties are not in the correct form for use with glDrawArrays.
+     * The correct data arrays are created and added to the object as additional
+     * properties, (if that has not already been done).
+     */
+    function drawPolyhedron( poly, style ) {
+       
+/* 
+   This is the basic code for drawing the faces of the polyhedron,
+   assuming that poly.faceCoords and poly.normalCoords have been
+   created:
+   
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,poly.faceCoords);
+            glNormalPointer(GL_FLOAT,0,poly.normalCoords);
+            glPolygonOffset(1,1);
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glDrawArrays(GL_TRIANGLES,0,poly.faceCoords.length/3);
+            glDisable(GL_POLYGON_OFFSET_FILL);
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_NORMAL_ARRAY);
+
+   This is the basic code for drawing the faces of the polyhedron,
+   assuming that poly.lineCoords has been created:
+
+            glDisable(GL_LIGHTING);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,poly.lineCoords);
+            glLineWidth(2);
+            glDrawArrays(GL_LINES,0,poly.lineCoords.length/3);
+            glEnable(GL_LIGHTING);
+            glDisableClientState(GL_VERTEX_ARRAY);
+            
+   Remember that color also needs to be set.
+            
+*/
+    }  // end drawPolhedron()
+    
+    
+    //---------------- display() just sets up the view, the calls drawPolyhedron()  ----
+    
+    function display() {
+        glClearColor(0,0,0,1); // background color is black
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+        camera.apply(); // Let the camera set up the view and projection.
+        
+        let object = Number( document.getElementById("polyChoice").value );
+        if (object == 12)
+        
+            drawPointCloud();
+        else {
+            let poly = polyhedron[ object ];
+            let style = document.getElementById("styleChoice").value;
+            drawPolyhedron( poly, style );
+         }
+    }    
+    
+    // ------------------------- initialization functions -----------------------------------
+    
+    /**
+     *  initGL() is called just once, by main(), to do initialization of OpenGL state
+     *  and other global state.
+     */
+    function initGL() {
+        glClearColor(0.0, 0.0, 0.0, 1.0); // background color
+        glEnable(GL_DEPTH_TEST);      // Required for 3D drawing, not usually for 2D.
+        glEnable(GL_LIGHTING);        // Enable lighting.
+        glEnable(GL_LIGHT0);          // Turn on a light.  By default, shines from direction of viewer.
+        glEnable(GL_NORMALIZE);       // OpenGL will make all normal vectors into unit normals
+        glEnable(GL_COLOR_MATERIAL);  // Material ambient and diffuse colors can be set by glColor*    
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);  // Make OpenGL draw back sides of triangles.
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]); // Add some ambient light.
+    }
+    
+    function init() {  // Called  when the page has loaded.
+        try {
+            glsimUse("glcanvas"); // OpenGL will draw to the canvas with id="glcanvas".
+        }
+        catch (e) {
+            document.getElementById("canvas-holder").innerHTML =
+                "Sorry, an error occured:<br>" + e;
+            return;
+        }
+        initGL();
+        camera = new Camera();
+        camera.setScale(10);
+        camera.lookAt(0,0,20);
+        camera.installTrackball(display);
+        display();  // Call display() when the page is first loaded.
+     }
+
+    window.onload = init;
+</script>
+
+</head>
+
+<body>
+
+<h3>CPSC 424 Lab 5</h3>
+
+<noscript>
+<p><b>Sorry, this page requires JavaScript!</b></p>
+</noscript>
+
+
+<p>Drag on the drawing with your mouse or finger to rotate.<br>
+Home or return key restores original viewpoint.</p>
+
+<p><b>Select the Object to be Drawn:</b>
+   <select id="polyChoice" onchange="display()">
+      <option value="12">Point Cloud</option>
+      <option value="0">Cube</option>
+      <option value="1">Dodecahedron</option>
+      <option value="2">Icosahedron</option>
+      <option value="3">Octahedron</option>
+      <option value="4">Rhombic Dodecahedron</option>
+      <option value="5">Soccer Ball</option>
+      <option value="6">Stellated Dodecahedron</option>
+      <option value="7">Stellated Icosahedron</option>
+      <option value="8">Stellated Octahedron</option>
+      <option value="9">Tetrahedron</option>
+      <option value="10">Truncated Icosahedron</option>
+      <option value="11">Truncated Rhombic Dodecahedron</option>
+   </select>
+</p>
+<p><b>Select the View Style for Polyhedra:</b>
+   <select id="styleChoice" onchange="display()">
+      <option value="faces">Show the faces only</option>
+      <option value="wire">Show wireframe only</option>
+      <option value="both" selected>Draw Both</option>
+   </select>
+<div id="canvas-holder">
+   <!-- You can set the size of the drawing area in the next line -->
+   <canvas id="glcanvas" width="600" height="600"></canvas>
+</div>
+
+</body>
+</html>

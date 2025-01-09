@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Other Kinds of Limit</title>
+</head>
+<body>
+<div id="content">
+
+<h2>07 Other Kinds of Limit</h2>
+<hr>
+
+<p>Section 2.4 covers one-sided limits, limits at infinity, and infinite limits.
+All of these types of limit are less important for us than the basic
+limit of a function at a point from the <a href="06-limits.html">previous&nbsp;reading</a>.
+Nevertheless, you should know the definitions and be able to work with them.
+We will be most interested in $\ds\lim_{x\to+\infty}f(x)$ because of its analogy
+with limits of sequences.</p>
+
+<p>The <span class=nw>limit from the left</span> of a function $f$ at a point $a$ 
+is denoted $\ds\lim_{x\to a^-}f(x)$ and is defined as follows:
+$\ds\lim_{x\to a^-}f(x)=L$ if for every $\eps>0$, there is a $\delta>0$ such that
+for every $x$ satisfying $-\delta&lt;x-a&lt;0$, $f(x)$ is defined and
+$|f(x)-L|&lt;\eps.$  Note that for this limit to be defined, $f$ must be defined
+on some open interval, $(c,a)$, to the left of $a.$  The <span class=nw>limit from the right</span>
+is defined similarly: $\ds\lim_{x\to a^+}f(x)=L$ if for every $\eps>0$, there is a $\delta>0$ such that
+for every $x$ satisfying $0&lt;x-a&lt;\delta$, $f(x)$ is defined and
+$|f(x)-L|&lt;\eps.$</p>
+
+<p>Probably the most important thing about one-sided limits is the fact that
+$\ds\lim_{x\to a}f(x)=L$ exists if and only if both one sided limits at $a$ exist
+and are equal to $L.$  This is clear from the definitions and the fact that
+$|x-a|&lt;\delta$ if and only if $-\delta&lt;x-a&lt;\delta.$</p>
+
+<hr class=break>
+
+<p>$\ds\lim_{x\to a}f(x)=L$ means, informally, that when $x$ is "near" $a$, then
+$f(x)$ is "near" $L.$  The epsilon-delta definition makes this idea rigorous.
+When thinking about infinite limits and limits at infinity, the question is,
+What does it mean for a number to be "near" infinity?  Being near $+\infty$ should
+mean being greater than some number $M$ (where $M$ is thought of as being big in
+the same way that $\eps$ is thought of as being small).  Being near $-\infty$
+should mean being less than $-M$ for some big number $M.$</p>
+
+<p>So, $\ds\lim_{x\to+\infty}f(x)=L$, which means informally that $f(x)$ is near $L$ when
+$x$ is near $+\infty,$ is defined rigorously as follows: $\ds\lim_{x\to+\infty}f(x)=L$
+if for every $\eps>0$, there is an $M$ such that for every $x> M,$
+$f(x)$ is defined and $|f(x)-L|&lt;\eps.$  Similarly, $\ds\lim_{x\to a}f(x)=+\infty$
+is defined as follows:  $\ds\lim_{x\to a}f(x)=+\infty$ if for every $M$,
+there is a $\delta>0$ such that for every $x$ satisfying $0&lt;|x-a|&lt;\delta$,
+$f(x)>M.$  Limits involving $-\infty$ are handled similarly.</p>
+
+<p>It is important to note that writing  $\ds\lim_{x\to a}f(x)=+\infty$ is an example
+of <span class=nw>abuse of notation</span>, since $\ds\lim_{x\to a}f(x)=+\infty$
+means that the limit <i>does not exist.</i> but the notation makes it looks like
+the limit does exist.  Of course, infinity is not a number so saying that the limit
+is infinite really means that the limit does not exist because the function grows
+larger than any finite bound as $x$ gets closer to $a.$</p>
+
+<p>(I will sometimes write $\infty$ when I should be writing $+\infty,$ but $+\infty$
+is more correct to avoid any ambiguity.)</p>
+
+<hr class=break>
+
+<p>One sided limits and limits at infinity have pretty much all of the same properties
+as basic limits, and the proofs are easy adaptations of the proofs in the basic
+case.  I will do one of the more complex proofs as an example.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> If $\ds\lim_{x\to+\infty}f(x)=L$
+and $\ds\lim_{x\to+\infty}g(x)=K$ and $K\ne 0$, then ${\ds\lim_{x\to+\infty}}\frac{f(x)}{g(x)}=\frac LK.$</div>
+<div class=prf><p><span class=dtp>Proof:</span>
+Let $\eps>0$.  We want to find $M$ such that $x> M$ implies $\frac{f(x)}{g(x)}$ is defined and 
+$\big|\frac{f(x)}{g(x)}-\frac LK\big|<\eps.$</p>
+
+<p>Since the limits at $+\infty$ of $f$ and $g$ exist and $K\ne0,$  We can find an
+$M_1$ such that for $x> M_1,$ $f(x)$ and $g(x)$ both exist, and $|g(x)|>\frac{|K|}{2}.$
+[For the last inequality, since $\ds\lim_{x\to+\infty}g(x)=K$ and $\frac{|K|}{2}>0$,
+there is an $N$ such that for $x> N$,  $|g(x)-K|&lt;\frac{|K|}{2}.$
+This implies that for $x> N,$ $|g(x)|>\frac{|K|}{2}$.  See the
+<a style="white-space:pre" href="04-axioms-for-R.html#less">next-to-last theorem</a>
+in the fifth reading guide.]</p>
+
+<p>Note that when $x>M_1$, we have $|g(x)|>\frac{|K|}2,$ which in turn implies $\frac{1}{|g(x)|}&lt;\frac2{|K|}$.
+Using $\ds\lim_{x\to+\infty}f(x)=L,$ choose $M_2$ such that for any $x>M_2$,
+$|f(x)-L|<|K|\frac\eps4.$ Using $\ds\lim_{x\to+\infty}g(x)=K,$ choose $M_3$ such that for any $x>M_3$,
+$|g(x)-K|<\frac{|K|^2\eps}{4(|L|+1)}.$  [Obviously, it took a lot of looking ahead to figure out
+what values were needed here!] Let $M=\max(M_1,M_2,M_3).$  Then for
+any $x>M,$ $\frac{f(x)}{g(x)}$ is defined, and
+$$\begin{align*}
+  \left|\frac{f(x)}{g(x)} - \frac LK\right|
+      &amp; = \left|\frac{Kf(x)-Lg(x)}{Kg(x)}\right| \\[8pt]
+      &amp; = \frac{1}{|Kg(x)|}\cdot |Kf(x)-Lg(x)| \\[8pt]
+      &amp; = \frac{1}{|Kg(x)|}\cdot |(Kf(x)-KL)+(KL-Lg(x))| \\[8pt]
+      &amp; \le \frac{1}{|Kg(x)|}\cdot (|Kf(x)-KL| + |KL-Lg(x)|) \\[8pt]
+      &amp; = \frac{1}{|K|}\cdot \frac{1}{|g(x)|}\cdot (|K|\cdot|f(x)-L| + |L|\cdot|g(x)-K|) \\[8pt]
+      &amp; &lt; \frac{1}{|K|} \cdot \frac{2}{|K|}\cdot \left(|K|\cdot|K|\frac\eps4 + |L|\cdot \frac{|K|^2\eps}{4(|L|+1|)}\right) \\[8pt]
+      &amp; = \frac{2}{|K|^2}\cdot\left(|K|^2\frac\eps4 +\frac{|L|}{|L|+1}|K|^2\frac\eps4\right) \\[8pt]
+      &amp; &lt; 2\cdot (\frac\eps4 + 1\cdot\frac\eps4)\\[8pt]
+      &amp; = \eps
+\end{align*}$$
+which is what we needed to show. $\qed$
+</p></div>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

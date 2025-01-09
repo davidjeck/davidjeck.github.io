@@ -1,0 +1,139 @@
+<HTML>
+<HEAD>
+
+<TITLE>Data Representations Applet</TITLE>
+
+
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+<H2><font color="#E70000">Data Representations Applet</font></H2>
+
+<hr>
+
+<p>What can you do with thirty-two bits?
+Computers use strings of bits to represent all the different types
+of data that they have to work with, so the answer must be that you
+can do a lot of different things.  A given string of
+32 bits can represent all kinds of things, depending on the context
+in which it is used.  That is, the same bits can encode different
+things, depending on how they are interpreted.</p>
+
+<p>This page contains
+an applet that lets you see different interpretations of the
+same 32-bit binary number.
+The applet lets you type in a data value.  You can select the type of data
+you want to enter by clicking on one of the five radio buttons.  Just type
+your data into the input box at the top of the applet, and press return.
+You can also click on the 8-by-4 grid of &quot;big pixels&quot; at the
+center of the applet.  The various data representations are described 
+<a href="#reps">below</a>.<p>
+
+<p>This applet
+was originally written by <A HREF="http://math.hws.edu/eck/index.html">David&nbsp;Eck</A>
+for use with his introductory computer science textbook
+<cite><A HREF="http://math.hws.edu/TMCM.html">The&nbsp;Most&nbsp;Complex&nbsp;Machine</A></cite>.
+However, it can also be used on its own.</p>
+
+<p>For a list of other applets and for lab worksheets that use the applets,
+see the <A HREF="../index.html">index&nbsp;page</A>.</p>
+
+
+<hr>
+</blockquote>
+<p align=center>
+<applet codebase="../classes/" archive="DataReps.zip" code="tmcm.DataRepsApplet.class"
+        alt="(Java not enabled)"
+        width=400 height=330>
+<font color="#E70000">Sorry! Your browser doesn't do Java!</font>
+</applet>
+<blockquote>
+</p>
+<hr>
+
+<H3><font color="#E70000"><a name="reps">Data Types</a></font></H3>
+
+<p>The Data Representation Applet shows six different
+interpretations for the same string of thirty-two
+bits.  The six interpretations are: a binary number, an integer, 
+a hexadecimal number, a real
+number, a string of four characters and an eight-by-four grid of
+pixels. Here is a short explanation of each of the six data displays.</p>
+
+<DL>
+<DT><font color="#E70000">Binary</font>
+<DD>This is the most direct display of the
+32 bit binary number, showing a zero or one to represent each 
+individual bit.
+</DL>
+<DL>
+<DT><font color="#E70000">Base-ten Integer</font>
+<DD> A binary number can be 
+interpreted as a normal positive integer (0, 1, 2, 3, 4,...) written in
+the &quot;base ten&quot;. 
+With 32 bits, you can represent 2<sup>32</sup> different numbers.  Usually,
+you want to use both positive and negative numbers.  The scheme for representing
+negative numbers is a bit strange.  It is explained in Subsection 2.2.3 of
+<cite>The Most Complex Machine</cite>.
+Using 32 bits, the integers from -2147483648 to 2147483647 can be represented.
+</DL>
+<DL>
+<DT><font color="#E70000">Hexadecimal</font>
+<DD>It is difficult (for humans) to read
+long strings of zeros and ones.  Hexadecimal numbers are a kind of shorthand
+for writing such strings.  A hexadecimal number is written using the
+sixteen &quot;hexadecimal digits&quot; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+A, B, C, D, E, and F.  Each hexadecimal digit stands for four bits.
+So 0 represents 0000, 1 represents 0001, 2 represents 0010, ..., E represents
+1110, and F represents 1111.  We could also say that in the base ten, the
+hexadecimal digit A stands for the number 10 (ten), B stands for 11 (eleven),
+C stands for 12, D for 13, E for 14, and F for 15.
+A 32-bit binary number can be expressed as an 8-digit hexadecimal number.
+</DL>
+<DL>
+<DT><font color="#E70000">Real Number</font>
+<DD>Real numbers are numbers that can contain decimal points, like 3.14159 or
+-234.5, or 12.0.  They can also be written using &quot;scientific notation.&quot;
+For example, 2.15e12 is a way of writing 2.15 times 10<sup>12</sup>.  The representation
+used in computers for real numbers is very complicated.  And it allows some strange
+possibilities, such as INF and -INF, which stand for infinity and minus infinity.
+There are also NAN's.  NAN stands for &quot;not a number.&quot;  NAN's are used
+to represent the results of illegal operations such as taking a square root of
+a negative number.  Note that the <b>integer</b> 17 and the <b>real number</b>
+17 have completely different representations in the computer, even though 
+they are the same number mathematically.
+I will not describe the representation of real numbers in detail.
+</DL>
+<DL>
+<DT><font color="#E70000">ASCII Text</font>
+<DD>Characters can be encoded using ASCII code.
+Each possible character is assigned a code that is one byte (that is, 
+eight bits) long.  With 32 bits, you can represents 4 characters in ASCII code.
+Not every possible byte represents an ordinary, printable character.  The applet
+shows other bytes in the form &lt;#n&gt;, where n is the base-ten number corresponding
+to the byte.  For example, the byte 00000111, which is equivalent to 7 in base ten,
+is shown as &lt;#7&gt;.
+</DL>
+<DL>
+<DT><font color="#E70000">Pixels</font>
+<DD>At the center of the applet, you will see an 8-by-4 grid of little squares.
+Each of these thirty-two squares corresponds to one byte in the binary number.
+You should think of these squares as being very big pixels.  Each pixel can
+be either black or white.  One bit specifies the color of one pixel -- 0 for
+white or 1 for black.  This is how two-color graphical images can be represented
+by binary numbers.  Again, see Section 1.1 of the text.  In the applet, you can
+change the color of a pixel by clicking on it.
+</DL>
+
+<hr>
+<font size="-1">
+<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>),
+June 1997
+</font>
+
+</blockquote>
+
+</BODY>
+</HTML>

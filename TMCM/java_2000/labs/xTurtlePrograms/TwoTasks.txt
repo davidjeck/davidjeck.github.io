@@ -1,0 +1,42 @@
+{ 
+  It is possible to use multitasking in xTurtle to perform
+  any two or more tasks simultaneously.  In this example,
+  two turtles perform independent "random walks".
+
+  When you run this program, you will need to use the 
+  "Kill Program" command in the "Run" menu to stop it.
+}
+
+fork(2)  { Split into two turtles }
+
+IF ForkNumber = 1 THEN
+
+   { Task to be performed by turtle #1... }
+   { A random "square" walk in the default color, red. }
+
+   PenUp
+   MoveTo(3,0)
+   PenDown
+   LOOP
+      face(90 * randomInt(4))
+      forward(0.5)
+      EXIT IF 1=2
+   END LOOP
+
+OR IF ForkNumber = 2 THEN
+
+   { Task to be performed by turtle #2... }
+   { A randome "triangular" walk done with blue. }
+
+   PenUp
+   MoveTo(-3,0)
+   PenDown
+   blue
+   LOOP
+      face(120 * randomInt(3))
+      forward(0.5)
+      EXIT IF 1=2
+   END LOOP
+
+END IF
+

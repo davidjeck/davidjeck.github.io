@@ -1,0 +1,134 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.5 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.5 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+%\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}\noindent\textbf{Answer:}\par\medskip}{\egroup\medskip}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\medskip}
+\newenvironment{secondans}{\par\medskip\bgroup\color{darkgreen}}{\egroup\medskip}
+\newcommand{\grd}[1]{{\color{darkred}#1}}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331, Fall 2022\hfill Homework 7}}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework covers Sectsion 3.4 to 3.6.  It is due on Monday, October 24.}}
+
+\bigskip
+
+\def\ds{\displaystyle}
+
+
+\begin{problem}  % problem 1, 2 points
+We showed that if $f$ is integrable on $[a,b]$, then $|f|$ is also integrable on $[a,b]$.
+Now, suppose we know that $|g|$ is integrable on $[a,b]$.  Is it necessarily true
+that $g$ is integrable on $[a,b]$?  [Hint: Consider a simple modification of the
+Dirichlet function.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+\begin{problem}  %problem 2, 2 points
+Suppose $f$ is a continuous function on $[a,b]$ and $f(x)>0$ for $x\in[a,b]$.
+Define $F(x)=\int_a^xf$.  Prove that $F$ is strictly increasing on $[a,b]$.
+[Hint: This is trivial, using two facts that have already been proved.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here.
+\end{answer}
+
+
+
+
+\begin{problem} %problem 3, 3 points
+[Textbook problem 3.4.11]
+Assume that $f$ is integrable on $[a,b]$.  Suppose that $J$ is a real number such that
+$L(f,P)\le J \le U(f,P)$ for every partition $P$ of $[a,b]$.  Show that $J=\int_a^b f$.
+[Hint: Use properties of \textit{sup} and \textit{inf}, that is of lub and glb, 
+and the definition of integrable.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+\begin{problem} %problem 4, 5 points
+Prove the following statements.
+\begin{itemize}
+\item[(a)] Assume that $f$ is an integrable function on $[a,b]$ and $f(x)\ge 0$ for all $x\in[a,b]$.
+Prove directly, using the definition of the integral, that $\int_a^b f\ge 0$.
+\item[(b)] Assume that $f$ and $g$ are integrable on $[a,b]$ and that $f(x)\ge g(x)$ for all $x\in [a,b]$.
+Prove that $\int_a^b f \ge \int_a^b g$, using part (a) and the linearity of the integral (Theorems 3.5.6 and 3.5.7).
+\item[(c)] Assume that $f$ is continuous on $[a,b]$, that $f(x)\ge 0$ for all $x\in[a,b]$, and that $f(c)>0$,
+where $c$ is some number in $(a,b)$.  Show that $\int_a^b f>0$.  [Hint:  A previous homework problem already 
+showed that there is a $\delta>0$ such that $f(x)>\frac{f(c)}{2}$ for all $x\in(c-\delta,c+\delta)$.]
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+\begin{problem}  % problem 5, 4 points
+[Textbook problem 3.6.3]
+Suppose that $f$ and $g$ are continuously differentiable functions on $[a,b]$.  So,
+$f$, $g$, $f'$ and $g'$ are all continuous.  Prove the \textit{Integration by Parts}
+formula $$\int_a^b f(x)'(x)\,dx = f(x)g(x)\bigg|_a^b - \int_a^bf'(x)g(x)\,dx$$
+[Hint: One way to do this is to define, for $x\in[a,b]$,  $P(x) = \int_a^xf(t)g'(t)dt$
+and $Q(x) = f(t)g(t)\big|_a^x - \int_a^x f'(t)g(t)dt = f(x)g(x)- f(a)g(a) - \int_a^xf'(t)g(t)dt$. 
+Show that $P'(x) = Q'(x)$ and $P(a)=Q(a)$, and explain why this means $P(x) = Q(x)$
+for all $x\in[a,b]$.] 
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+
+
+\end{document}

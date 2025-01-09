@@ -1,0 +1,23 @@
+
+; This is an assembly language program for xComputer that
+; will fill xComputer's memory with the numbers 1, 2, 3,...,
+; starting at location 12.
+
+lod-c 1     ; Start with a 1 in location 12
+sto 12
+
+lod 12      ; This instruction is stored in location 2
+inc
+sto 13      ; This instruction is stored in location 4
+
+lod 2       ; Add 1 to the number in location 2
+inc
+sto 2
+
+lod 4       ; Add 1 to the number in location 4
+inc
+sto 4
+
+jmp 2       ; Go back to the instruction in location 2
+
+

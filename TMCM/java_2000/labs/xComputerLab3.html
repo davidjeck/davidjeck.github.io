@@ -1,0 +1,467 @@
+<HTML>
+
+<HEAD> <TITLE>xComputerLab 3</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xComputerLab 3:
+         Subroutines</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+2">A </font>SUBROUTINE IS A SET OF INSTRUCTIONS for performing some
+task, chunked together and thought of as a unit.  Like loops and
+decisions, subroutines are useful in the construction of complex
+programs.  The machine language for xComputer does not provide
+direct support for subroutines.  But then again, it doesn't
+really provide direct support for loops and decisions, which
+must be implemented by the programmer with jump and conditional
+jump instructions.  Similarly, it is possible to implement
+subroutines using jump instructions.  They are not as easy, as
+neat, or as safe as subroutines in a high-level language, but
+they can still be a useful tool.  Furthermore, by working with
+subroutines on xComputer, you'll get to see some of the details
+of how subroutines can be implemented on a very low level.
+(You should understand, though, that the machine languages
+of real computers do provide more support for subroutines
+than what is covered here.)</p>
+
+<p>Before doing this lab, you should be very familiar with the
+xComputer applet and with assembly language programming for
+xComputer, as covered in <a href="xComputerLab1.html">xComputerLab 1</a>
+and <a href="xComputerLab2.html">xComputer Lab 2</a>.  The material 
+in this lab is not covered in <cite>The Most Complex Machine.</cite></p>
+
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#calling">There and Back Again</A>
+   <LI><A HREF="#params">Parameters and Local Names</A>
+   <LI><A HREF="#pointers">Passing Pointers</A>
+   <LI><A HREF="#reality">Reality Check</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>Start by clicking this button to launch the xComputer applet in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xComputer.zip"
+        code="tmcm/xComputerLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xComputerPrograms/">
+   <param name="URL" value="MultiplyBySeven.txt">
+   <param name="URL1" value="MultiplyTwoNumbers.txt">
+   <param name="URL2" value="ListSumSubroutine.txt">
+   <param name="URL3" value="PrimesAndRemainders.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="calling">There and Back Again</A></font></H3>
+
+<p>The idea of subroutines is simple enough.  A subroutine is just
+a sequence of instructions that performs some specific task.
+Whenever a program needs to perform that task, it can <font color="#E70000">call</font>
+the subroutine to do so.  The subroutine only has to be written once,
+and once it is written, you can forget about the details of how it
+works.  If the same task needs to be performed in another program,
+then it can simply be copied from one program to another
+using cut-and-paste .  So the work done on writing the subroutine doesn't have
+to be repeated over and over.  The subroutine can be <font color="E70000">reused</font>.
+In fact, real computers have large <font color="E70000">libraries</font>
+of subroutines that are available for use by programs.  The complex programs
+that are used on modern computers would be extremely difficult to write,
+if these libraries of pre-written subroutines were not available.</p>
+
+<p>In xComputer's assembly language, &quot;calling&quot; a subroutine
+means jumping to the first instruction in the subroutine, using
+a JMP instruction.  The execution of the subroutine will end with
+a jump back to the same point in the program from which the subroutine was
+called, so that the program can pick up where it left off before calling the
+subroutine.
+This is known as <font color="E70000">returning</font> from the subroutine.
+(Other computers provide special commands for calling and returning
+from subroutines.)</p>
+
+<p>There is more to it than a few jump instructions, though.
+For one thing, if the subroutine is to be reusable in a meaningful
+sense, it must be possible to call the subroutine from many
+different places in a program.  If this is the case, how does the
+computer know what point in the program to return to when the 
+subroutine ends?  The answer is that the return point has to be
+recorded somewhere before the subroutine is called.  The address in
+memory to which the computer is supposed to return after the subroutine
+ends is called the <font color="#E70000">return address</font>.  Before
+jumping to the start of the subroutine, the program must store
+the return address in a place where the subroutine can find it.
+When the subroutine has finished performing its assigned task, it
+ends with a jump back to the return address. If, for example,
+the return address has been stored in a memory location labeled
+&quot;<tt>RetAddr</tt>&quot;, then the subroutine can finish with
+the statement:</p>
+
+<pre>                  JMP-I  RetAddr
+</pre>
+
+<p>In the language of xComputer, <tt>JMP-I</tt> is an 
+<font color="#E70000">indirect jump</font> instruction, which
+uses indirect addressing.  It tells the computer to jump to the
+location whose address is stored in <tt>RetAddr</tt>.  In this
+case, that will be the return address for the subroutine.</p>
+
+<p>All of the subroutines that you will work with in this lab
+use return addresses in the same way.  A memory location in the
+subroutine is reserved for holding the return address.  Before
+jumping to the beginning of the subroutine, the program will
+save the appropriate address in that memory location.  The
+subroutine ends with an indirect jump instruction to the return
+address.</p>
+
+<p>As a first example, look at the sample program &quot;MultiplyBySeven.txt&quot;
+This program uses a very simple subroutine whose task is to multiply a
+number by seven.  The subroutine, which is named <tt>Times7</tt>, is
+at the end of the program.  It begins with the lines:</p>
+
+<pre>        RetAddr:  data          ; The return address for the subroutine must
+                                ;    be stored in this location before the
+                                ;    subroutine is called.
+
+        Times7:   STO num_t     ; STARTING POINT OF SUBROUTINE.
+</pre>
+
+<p>The first line reserves a memory location to hold the return address.
+The &quot;main program,&quot; which uses the subroutine, stores the
+return address in this memory location.  It then jumps to the location
+&quot;Times7&quot;, which is where the instructions for the subroutine
+begin.  The last instruction in the subroutine is &quot;<tt>JMP-I RetAddr</tt>&quot;
+which returns control back to the main program.</p>
+
+<p>The return address is not the only item of information that the
+program has to send to the subroutine.  The task of the subroutine is
+to multiply a number by seven.  The main program has to tell the
+subroutine <b>which</b> number to multiply by seven.  This information
+is said to be a <font color="#E70000">parameter</font> of the subroutine.
+Similarly, the subroutine has to get its answer -- the result of multiplying
+the parameter value by seven -- back to the main program.  This answer
+is called the <font color="#E70000">return value</font> of the subroutine.
+In &quot;MultiplyBySeven.txt,&quot; the program puts the parameter
+value in the accumulator before calling the subroutine.  The subroutine
+knows to look for it there.  Before it jumps back to the main program,
+the subroutine puts its return value in the accumulator.  The main
+program knows to look for it there.  Passing parameter values and
+return values back and forth in a register, such as the accumulator,
+is a very simple and efficient method of communication between a
+subroutine and the rest of a program.  In the next section, we'll look
+at other methods of communication.</p>
+
+<p>You should read the &quot;MultiplyBySeven.txt&quot; sample program
+and be sure you understand it.  Load it into memory with the &quot;Translate&quot;
+button and execute it.  You might want to execute it by hand with the
+&quot;Cycle&quot; button so that you can follow in detail how it works.
+Modify the program so that it computes 103*7 instead of 34*7.
+(Would you have thought of multiplying a number by seven using the method
+in this subroutine?  Of course, a major point about subroutines is that
+when you are using a subroutine that someone else has written for you,
+you don't really care so much <b>how</b>
+it performs its task, as long as it does it correctly.  You use the
+subroutine as a &quot;<font color="#E70000">black box</font>.&quot;)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="params">Parameters and Local Names</A></font></H3>
+
+<p>It is not always possible to pass parameter values in registers.  In xComputer,
+for example, there is only register (the accumulator) that can be used for
+parameter-passing.  But some subroutines require two or more parameters.
+The solution is to use reserved memory locations for the parameter
+values, just as is done for the subroutine's return address.  Similarly,
+a return value from a subroutine can be placed in a reserved memory location
+rather than in a register.  This method is a little more difficult than
+using registers, but it is also more flexible.</p>
+
+<p>Look at the sample program &quot;MultiplyTwoNumbers.txt.&quot;  This
+sample program includes a subroutine that can multiply any two numbers.
+The numbers that are to be multiplied are parameters to the subroutine,
+and the product of the two numbers is its return value.  The memory
+locations labeled <tt>N1</tt>, <tt>N2</tt>, and <tt>Answer</tt> are used
+to hold the two parameter values and the return value.  These locations
+can be found at the beginning of the subroutine, along with a memory
+location to hold the return address.  Before it calls the subroutine,
+the main program must load the two numbers that it wants to multiply
+into <tt>N1</tt> and <tt>N2</tt>.  When the subroutine ends, the
+main program can get the answer by loading the contents of memory
+location <tt>Answer</tt>  You should read the program, try it out,
+and make sure that you understand all this.  The program contains a list of
+detailed instructions for using the subroutine.  (Note that you don't
+have to understand the method that the subroutine uses for multiplying
+the numbers.  In fact, it's a fairly complex procedure.)</p>
+
+<hr align=center width="33%">
+
+<p>By the way, when you read the &quot;Multiply&quot; subroutine, you'll notice that
+it uses nine different labeled memory locations.  Five of these --
+<tt>ret_addr</tt>, <tt>N1</tt>, <tt>N2</tt>, <tt>Answer</tt>, and <tt>Multiply</tt> --
+are used for communication with the main program.  The other four are part of
+the internal working of the subroutine.  Ideally, the main program wouldn't
+have to know about them at all, because the main program is only interested
+in the task performed by the subroutine, not in its internal workings.
+These labels are called <font color="#e70000">local</font> names,
+since they are meant to be used only &quot;locally&quot; inside the
+subroutine.  Unfortunately, in the simple assembly language of xComputer,
+it is not possible to actually &quot;hide&quot; these names from the
+main program, and you have to be careful not to use the same name
+for a different purpose in the main program.  In my sample subroutines,
+I have tried to use local names that are not likely to occur elsewhere
+in the program, such as <tt>loop_m</tt> and <tt>done_m</tt>.
+In real programming languages, local names are actually invisible to
+the rest of the program, so there is no possibility of a conflict.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="pointers">Passing Pointers</A></font></H3>
+
+<p>The final sample program, &quot;ListSumSubroutine.txt,&quot;
+illustrates one more aspect of parameter passing.  The subroutine in
+this example is meant to add up an entire list of numbers.  There is
+no limit placed on the number of items in the list.  How is it possible
+to pass a potentially limitless number of parameters to the subroutine?</p>
+
+<p>The solution is that the numbers in the list are not passed to the
+subroutine at all!  Instead, the main program tells the subroutine
+<b>where in memory</b> to look for the list.  There is only one
+parameter: the address of the starting location of the list.
+This address is said to be a <font color="#E70000">pointer</font>
+to the list.</p>
+
+<p>In the &quot;ListSumSubroutine.txt&quot; example, the main program
+stores a pointer to the list in the memory location labeled
+&quot;ListStart.&quot;  The subroutine then accesses the numbers
+in the list using indirect addressing (in a <tt>LOD-I</tt> instruction).
+This is a nice example that demonstrates once again the usefulness of
+pointers and indirect addressing.</p>
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="reality">Reality Check</A></font></H3>
+
+<p>It's actually kind of crazy to try to write subroutines for xComputer.
+The limited variety of machine language instructions for xComputer makes
+it very hard to express the idea of a subroutine in that language.
+Not surprisingly, real computers have special-purpose machine language
+instructions for working with subroutines.</p>
+
+<p>The first thing that a machine language needs is a pair of instructions
+for calling a subroutine and for returning from a subroutine.  These
+instructions might be called <font color="#E70000">jump-to-subroutine</font>
+and <font color="#E70000">return-from-subroutine</font>.  The
+jump-to-subroutine instruction would automatically save a return address
+and then jump to the starting point of the subroutine.  The computer could
+figure out the return address on its own -- instead of leaving it up to
+the programmer -- by looking at the value in the Program Counter register.
+(The Program Counter holds the address of the <b>next</b> instruction
+after the one that is currently being executed, and that's exactly the
+point that the subroutine should jump back to.)  The
+return-from-subroutine instruction would get the return address that
+was previously saved by jump-to-subroutine and jump back to that address.
+These two instructions would make it unnecessary for a programmer
+to even think about return addresses.</p>
+
+<p>Real computers also have a more systematic way of dealing with
+parameters.  An area of memory called the <font color="#E70000">stack</font>
+is used to hold the parameters for <b>all</b> subroutines.  In fact,
+the stack also holds return addresses and data values used internally
+by subroutines.  The stack is just a list of values.  When a subroutine
+is called, the parameters and return address for the subroutine are
+added to the end of the list.  When the subroutine ends, the return
+address and parameters are removed from the stack.  The jump-to-subroutine
+instruction stores the return address on the stack, and
+return-from-subroutine removes it from the stack when it's time for
+the subroutine to end.  Typically, a computer has a register called
+the <font color="#E70000">Stack Pointer</font> to keep track of
+how big the stack currently is.  And machine language typically includes
+instructions called <font color="#E70000">push</font> and
+<font color="#E70000">pop</font> to add items from the stack and to
+remove items from the end of the stack.</p>
+
+<p>When one subroutine calls another, all the data for the second
+subroutine is simply added to the stack, on &quot;top&quot; of the
+data that is already there.  When the second subroutine ends, its
+data is removed from the stack, but the data for the first subroutine
+is still there so that the first subroutine can simply pick up where
+it left off.  The whole system is really rather elegant.</p>
+
+<p>Maybe it's not so crazy to write a few subroutines for xComputer
+after all, since doing everything by hand can help you understand
+what really goes on when a subroutine is called.  And it can also
+help you appreciate the elegance of more sophisticated computers
+and programming languages.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+
+<p><font color=blue><b>Exercise 1:</b></font>
+The main program in the &quot;MultiplyTwoNumbers.txt&quot;
+sample program is as follows: 
+</p>
+<pre>           lod-c 13         ; Set up to call the subroutine with
+           sto N1           ;   N1 = 13, N2 = 56, and ret_addr = back.
+           lod-c 56
+           sto N2
+           lod-c back
+           sto ret_addr
+           jmp Multiply     ; Call the subroutine.
+      
+     back: lod Answer       ; When the subroutine ends, it returns
+                            ;    control to this location, and the
+                            ;    product of N1 and N2 is in Answer.
+                            ;    This LOD instruction puts the answer
+                            ;    in the accumulator.
+
+           hlt              ; Terminate the program by halting the computer.
+</pre>
+
+<p>Carefully explain each instruction in this program.  Explain exactly
+what each of the first 8 instructions has to do with calling the
+subroutine.</p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+Write a main program that uses the <tt>Multiply</tt> subroutine
+in &quot;MultiplyTwoNumbers.txt&quot; to compute the product
+5 * 23 * 17.  Do not modify the subroutine.  The main program should
+call the subroutine <b>twice</b>.
+</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>
+Write a subroutine to add three numbers.
+(This is a pretty silly thing to do, but the point is to demonstrate
+that you understand the basic concepts involved.)  Your subroutine
+should have three parameters and a return value  (the three numbers to be added and
+their sum).  Write a main program that uses your subroutine to
+add 17, 42, and 105.  Your program will be very similar to
+the sample program &quot;MultiplyTwoNumbers.txt.&quot;  Make sure
+to include comments in your program!
+</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Read the <a href="#reality">Reality Check</a> section above.
+Why can't you express the jump-to-subroutine and return-from-subroutine
+operations in the language of xComputer?  What do these
+instructions need to do that can't be expressed in that language?
+What sort of modifications would have to be made to xComputer to add them
+to xComputer's machine language?
+</p>
+
+<p><font color=blue><b>Exercise 5:</b></font>
+The sample program &quot;ListSumSubroutine.txt&quot; uses a subroutine
+to add up a list of numbers.  Suppose you would like to multiply the
+numbers instead.  To do this, copy the multiplication subroutine
+from the &quot;MultiplyTwoNumbers.txt&quot; sample program, and
+paste it onto the end of &quot;ListSumSubroutine.txt.&quot;
+Modify the <tt>ListSum</tt> subroutine so that instead of adding
+two numbers, it uses the <tt>Multiply</tt> subroutine to multiply.
+You have to replace the instruction &quot;<tt>add Sum</tt>&quot;
+with several instructions that set up a call to the <tt>Multiply</tt>
+subroutine.  And you'll need to make up a return address label for
+the subroutine to jump back to.  Once you've made this modification,
+the program will compute the product 1*2*3*4*5*6*7 instead of the sum
+1+2+3+4+5+6+7.  (You might want to change the name of the
+subroutine from <tt>ListSum</tt> to <tt>ListMul</tt>, and change
+the name of the memory location <tt>Sum</tt> to <tt>Product</tt>.
+This will require that you also change the names in the main program.)
+</p>
+
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+The sample file &quot;PrimesAndRemainders.txt&quot; defines two subroutines.
+One of the subroutines can be used to find the remainder when one integer
+is divided into another.  The other subroutine can be used to determine
+whether a number is prime.  The file does not contain a main program.
+If you want to use one or both of the subroutines, you can add a main
+program at the beginning of the file.</p>
+<p>You should read the comments on the two subroutines
+to find out how to use them.  Then write two programs that use the
+subroutines.  The first program should use the &quot;Remainder&quot;
+subroutine to compute the remainder when 609 is divided by 81.  
+The second program should use the &quot;PrimeTest&quot; subroutine
+to determine whether or not 51 is prime.  Note that you do <b>not</b>
+have to understand how the subroutines work.  You just need to 
+know how to call them and pass the proper parameters to them.</p>
+
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+This exercise, like the previous one, involves writing a main program
+for the &quot;PrimesAndRemainders.txt&quot; example.  However, this
+exercise is much more challenging.  Write a main program that makes
+a list of prime numbers.  The program should use the &quot;PrimeTest&quot;
+subroutine to test whether each of the numbers 2, 3, 4, 5, 6, and so on,
+is prime.  Each number that is found to be prime should be added to a
+list.  You can write a program that runs in an infinite loop.
+</p>
+
+<p>Use a location named &quot;p&quot; to store the number that you are checking.
+Start by storing a 2 in p.  In a loop, you should call PrimeTest to
+see whether p is prime.  If p is prime, then add it to the list.
+In any case, you should then add 1 to p and jump back to the start of
+the loop to test the next value of p.</p>
+
+<p>Making a list of primes means storing primes in consecutive memory 
+locations.  Use a location named &quot;<tt>list</tt>&quot; to point to the end of
+the list.  That is, the value of <tt>list</tt> is the location where
+you want to store the next prime that you find.  Let's say that you want
+the list of primes to begin at location 50.  At the beginning of the
+program, you should store a 50 in <tt>list</tt>.  When you find a
+prime number, you can add it to the end of the list with a
+<tt>STO-I list</tt> command.  Then you should add 1 to the value of list
+to get ready for the next number.</p>
+
+<p>If you run your program at high speed, you can watch it store the
+numbers 2, 3, 5, 7, 11, 13, and so on in memory.  You might want to
+watch the program in graphics mode so that you can watch the activity
+in the main program and in the two subroutines.</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Write a short essay discussing how subroutines can
+make it easier to design and write complex programs.
+(Your answer should show that you understand that they can do
+more than save you typing!)  In your essay, use some of the work
+you did in this lab for examples.</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1998</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

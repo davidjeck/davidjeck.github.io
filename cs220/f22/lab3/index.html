@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<title>CS220, Fall 2022, Lab 3</title>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 3: Larc Programming, Part 2</h2>
+
+<div class="intro">
+
+<p>This is the second of two labs on programming the Larc model computer,
+using the <a href="lab3-files/larcsim.jar">Larcsim</a> simulator program.
+This lab concentrates on accessing Larc memory with the sw and lw 
+instructions,  on implementing subroutines with the jalr 
+instructions, and on using strings.  You should have already completed
+the <a href="../lab2/index.html">previous&nbsp;lab</a>, and you should
+be familiar with the <a href="../larc_ML.html">Larc&nbsp;computer</a>
+and <a href="../larcsim.html">Larc&nbsp;simulator</a> documentation.
+The first two sections of this lab write-up, below, have some
+additional documentation and sample programs.  The exercises for
+the lab are in the third section.  The <b>optional</b> fourth section is not
+really part of the lab (since I decided to put off the material
+that it covers until we do <span style="white-space:pre">x86-64</span> programming later in the semester).
+You can read it, and try the two sample programs, to get a preview of
+that material if you are interested.</p>
+
+<p>All the files that you need for this lab can be found in the folder
+<a href="lab3-files/" style="white-space:pre">/classes/cs220/lab3-files</a>.  
+They can also be downloaded using links on this web page.  (The files referenced 
+in the optional material are only available through links.)</p>
+
+<p><b>The assignment for the lab is to write several Larc programs, as
+specified below.  The programs will be written as plain text files
+named ex6.x, ex7.s, ex8.s, and ex9.s.  You should save those files
+in a folder named lab3.  Turn in your work by copying the entire
+lab3 folder to your homework submission folder in <span style="white-space:pre">/classes/cs220/homework</span>.
+As usual, work must be submitted by the start of next week's lab.
+</b></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Strings</h3>
+
+<p>For our purposes, a "string" is just a sequences of 16-bit numbers,
+representing Unicode characters, stored in consecutive locations in memory,
+with a zero stored at the end to mark the end of the string.
+The Larcsim simulator program, <a href="../larcsim.jar">larcsim.jar</a>,
+includes some support for working with strings.  In particular, 
+syscalls&nbsp;1 and&nbsp;3 let a program do input and output of strings.
+Furthermore, the built-in assembler program allows you to place a string 
+in memory when the program is loaded, by including a line in the
+program that starts with a double-quote.  And you can control where
+that string is placed in memory using a line starting with&nbsp;@.
+For example,</p>
+
+<pre class=code>@100
+"Hello World!</pre>
+
+<p class="np">puts the string "Hello World!" in memory, starting at
+location 100, with a zero added to mark the end of the string.</p>
+
+<p>As a simple example of doing string input/output, the sample Larc program 
+<a href="lab3-files/string-io.s">string-io.s</a> reads strings from the user and echos
+them.  Try running that program, and set the memory display to "Character."  Look in
+memory starting at location 50 to see the string that is output at the start of
+the program.  As the program runs, look at location 100 to see the string entered
+by the user.<p>
+</div>
+
+
+<div class="section">
+
+<h3>Subroutines</h3>
+
+<p>The last exercise for this lab will ask you to write and use a subroutine.
+The file <a href="lab3-files/3N+1-with-subroutine.s" style="white-space:pre">3N+1-with-subroutine.s</a>
+is an example of using a subroutine in a Larc machine language program.
+</p>
+
+<p>To implement subroutines on the machine level, there must be a
+way to pass parameters to the subroutine, to jump to the address
+where the subroutine is stored in memory, to jump back to the
+point from which the subroutine was called when the subroutine ends, and possibly to return
+some value to the caller.  There could be many ways to do all that,
+but in any case, the subroutine and he caller must agree on the
+details.  In a given environment &mdash; such as C programs compiled with the gcc compiler running
+on an x86 processor &mdash; there will generally be some <b>calling
+convention</b> that all callers and subroutines will know about and
+follow.  For this lab, we have the freedom to make up any calling
+convention that we want to use.</p>
+
+<p>Remember that a subroutine can be called from different points
+in a program.  When a subroutine ends, it has to transfer control back to
+the particular place in the program from which the subroutine was called.
+To do that, it needs to know the <b>return address</b>.  The return address
+is something like a parameter, which needs to be passed to the subroutine
+when it is called.  In the Larc model computer,
+this is made possible by the <i>jalr</i> instruction.</p>
+
+<p>A jalr instruction takes two registers as parameters.  When Larc
+executes an instruction of the form <tt style="white-space:pre">jalr $A $B</tt>,
+it copies the current value of the program counter, PC, into register&nbsp;A and
+then copies the value from register&nbsp;B into the program counter.  The
+value stored into register&nbsp;A is the address of the instruction that
+follows the jalr instruction; this is the return address, where the the subroutine
+needs to return when it ends.  The value from register&nbsp;B should be the
+address of the start of the subroutine, and copying that value to the PC has the
+effect of jumping to the start of the subroutine.</p>
+
+<p>Let's say that we have a subroutine that is stored starting at memory
+location 100, and that we want to save the return address in register&nbsp;14.
+A&nbsp;call to the subroutine can be implemented with the two instructions</p>
+
+<pre class=code>li $8 100  # (any register could be used here instead of $8)
+jalr $14 $8</pre>
+
+<p class=np>When the subroutine ends, it just has to jump to the address
+stored in register&nbsp;14.  Since there is no need to save a return address
+in this case, the jump can be implemented with</p>
+
+<pre class=code>jalr $0 $14</pre>
+
+<p class=np>(Remember that the value of register 0 is always equal to zero, so 
+this instruction does not save the current PC.)</p>
+
+<p>Of course, there is also the question of parameters and return values.
+A simple calling convention might be for the caller to store any paramters in registers
+1, 2, 3,&nbsp;&#8230; before calling the subroutine, and for the subroutine to
+store the return value in register&nbsp;1 before returning.  For strings, arrays,
+and other data structures, the address of the start of the data structure in 
+memory can be passed.  (You should recognize this pattern from working with
+syscalls.  A syscall is just a special kind of subroutine call, which calls
+a subroutine in the operating system.)</p>
+
+<p>The sample program <a href="lab3-files/3N+1-with-subroutine.s" style="white-space:pre">3N+1-with-subroutine.s</a>
+computes and prints a 3N+1 sequence, using a subroutine to compute the next term in the
+sequence.  The subroutine has one parameter, representing the current value of N, and
+a return value, representing the next value of&nbsp;N.  Here is the well-documented
+subroutine code:</p>
+
+<pre class=code>#---------------------------------------------------------------------------
+# A subroutine to compute the next term in a 3N+1 sequence.  The subroutine
+# is at location 256.  When it is called, the current value of N must be
+# in register 1.  The subroutine should be called with jalr, saving the
+# return address in register 14.  When it returns, the next value of N is 
+# in register 1.   Note that this subroutine also uses registers 10, 11, 12, 
+# and 13.  Values in in those registers (as well as register 14) before the 
+# subroutine is called are not preserved.
+
+@256
+
+li $11 1        # Store the constants used in the calculation
+li $12 3
+li $13 15
+
+add $10 $0 $1   # Copy N into register 10
+
+sll $10 $10 $13 # Set register 10 to the low-order bit in N.
+srl $10 $10 $13 #     so register 10 will be non-zero when N is odd.
+
+bnez $10 2      # If N is odd, jump to the "odd" case.
+
+srl $1 $1 $11   # N is even; divide N by 2.
+jalr $0 $14     # Return from subroutine.
+
+mul $1 $1 $12   # N is odd; multiply N by 3, then add 1
+add $1 $1 $11
+jalr $0 $14     # Return from subroutine.
+#---------------------------------------------------------------------------
+</pre>
+
+<p class=np>In the program, N is in stored in register 4.  Calling the subroutine looks like this:</p>
+
+<pre class=code>add $1 $0 $4    # Copy the parameter, N, to register 1.
+lui $2 1        # Address of start of subroutine, 256, in register 2.
+jalr $14 $2     # Call subroutine.
+
+add $4 $0 $1    # Copy return value, the new value of N, to register 4.
+</pre>
+
+
+</div>
+
+<div class="section">
+
+<h3>Assignments</h3>
+
+
+<p style="text-indent:0"><b style="font-size:110%; color: #0000AA">Exercise 6:</b>
+The file <a href="lab3-files/ex6.s">ex6.s</a> is a copy of the second sample
+program from the <a href="../lab2/index.html">previous&nbsp;lab</a>,
+which reads two integers from the user and prints their sum and their
+product.  You should edit that file so that it prompts the user
+for each input and labels the output.  A run of the program might
+produce this:</p>
+
+<pre class=code>
+Your first number: 5
+Your second number: 12
+The sum is 17
+The product is 60</pre>
+           
+<p class=np>Note that after outputting the sum, you will need to output
+an end-of-line (that is, a string containing only the character&nbsp;\n).</p>
+
+
+
+<hr align=center width="33%">
+
+<p style="text-indent:0"><b style="font-size:110%; color: #0000AA">Exercise 7:</b>
+For this exercise, create a new file named ex7.s.
+This is a fairly easy exercise in storing numbers in memory.
+You should write a program that reads a sequence of integers from the user
+and stores that list of numbers in memory, starting at some specific memory
+location.  Use a loop to read the numbers.  End the program when the user's number is zero.
+In a more realistic program, you would want to do something with the 
+list of numbers, but for this exercise, your only assignment is to store
+them in memory.</p>
+
+<p>You will need to use a register to hold 
+the address of the memory location where the input number is stored.  Use any
+initial address that you like (as long as you don't overwrite the program!).
+After storing each number, increment the address.</p>
+
+<p>Note that the sample program <a href="lab3-files/string-io.s">string-io.s</a>
+reads items in a loop that ends when the user enters a certain input.  The general
+flow of that program is similar to what you need to do for this exercise.</p>
+
+
+<hr align=center width="33%">
+
+<p style="text-indent:0"><b style="font-size:110%; color: #0000AA">Exercise 8:</b>
+For this exercise, create a new file named ex8.s.
+The program should read a string from the user, then print the length
+of the string, and then print the reverse of the string.  (The reverse of a string
+means the characters of the string in reverse order from the end of the string
+back to the start.)  Put a very large maxlength in Register 3, to avoid having
+the program discard some of the user's input.
+You should prompt the user for the input, but you do not
+have to label the outputs.  A typical run of the program might produce this
+in the input/output area of the Larcsim window:</p>
+
+<pre class=code>Enter a string, and I will print the length and the reverse.
+Hello World!
+12
+!dlroW olleH</pre>
+
+<p>After the syscall that inputs the string, Register 3 will contain the length of
+the string, plus&nbsp;1. The 1 accounts for the zero stored in memory at the end
+of the string. (<b>Note: There is an error in the documentation</b>, which says that
+the value in Register&nbsp;3 does not include the zero at the end.)</p>
+
+<p>To print the reverse of the string, Store the address of the <b>end</b> of the
+string in a register.  (You know the starting address, and you know the length,
+so you can compute the ending address.)  Then use a loop to print individual
+characters from the string in reverse order.  Subtract one from the address
+each time through the loop, to get the memory address of the next character
+to be printed.</p>
+
+<p>An easy way to know when to exit the loop is to also subtract one from the string
+length each time the loop.  When that value becomes zero, you know that you have
+output all of the characters.</p>
+
+
+<p>Note that to output a single character, you might think that you need to copy that
+character somewhere.  But you can avoid that.  You want to output a string of length&nbsp;1.
+You can use a print-string syscall with the maximum string length (register&nbsp;3) set
+equal to&nbsp;1.  Since the maximum length is one, the syscall will only print one
+character, and you do not need a zero in memory to mark the end of the string.</p>
+
+<hr align=center width="33%">
+
+<p style="text-indent:0"><b style="font-size:110%; color: #0000AA">Exercise 9:</b>
+For this exercise, start with a copy of the file <a href="lab3-files/ex9.s">ex9.s</a>.
+You will write a subroutine to find the sum of a list of
+numbers stored in memory.  And you will write a program that uses that subroutine to find the sum
+of two specific lists.  The parameters to the subroutine should be the address
+of the start of the list in memory and the number of integers in the list.
+The return value from the subroutine should be the sum of the list.
+Don't forget to document the subroutine fully!</p>
+
+<p>The file ex9.s already includes
+two lists of numbers, a list of five integers starting at memory location 256, 
+and a list of 25 integers starting at memory location 512.  Start with
+a copy of that file, and add your code for the program and subroutine.
+The program should
+find and print the sum of each list.  The output when the program is run should be
+exactly as follows:</p>
+
+<pre class=code>Sum of the first list: 17
+Sum of the second list: 3253</pre>
+
+
+
+
+<div class="section">
+
+<h3>Using a Stack</h3>
+
+<p><b>This section is not part of the lab.</b>  It is just some extra information
+and examples that you can read later, if you are interested.  This material is
+fairly complicated, and it will take us some time to cover it when we get to it in
+class, so don't worry about skipping it for now.  We will return 
+to this topic later in the term, using a different assembly language.
+The examples are
+<a href="factorial.s">factorial.s</a> and <a href="fibonacci.s">fibonacci.s</a>,
+which use recursive subroutines.</p>
+
+<p>A more realistic implementation of subroutines has to take several things
+into account.  First, a subroutine can call another subroutine, which can call
+another, and so on.  In general, then, there is not just one return address to keep 
+track of &mdash; there could be some arbitrary number.  So it's not enough to
+use a single register for storing return addresses.</p>
+
+<p>Second, it is possible that we might want to pass more parameter data to 
+a subroutine than will fit in available registers.</p>
+
+<p>And third, registers are a scarce resource, and a subroutine that uses
+a register for scratch work or to store a local variable might be replacing values that 
+some other routine has saved in that register for later use.  In general, there is a convention
+that certain registers are always available for scratch work, while other
+registers are "saved registers".  If a subroutine wants to use a saved register,
+it must first save the value in that register, and it must restore that value
+before returning.</p>
+
+<p>In order to solve all of these problems, some data will have to be stored
+in main memory instead of in registers.  The solution is to reserve a part of
+memory for use as a <b>stack</b>.  A stack is a data structure that can grow and
+shrink.  The staring point, or <b>bottom</b>, of the stack is at some fixed point in
+memory.  The stack grows upwards, in the direction of decreasing addresses.
+The <b>top</b> of the stack changes as the stack grows and shrinks.  A specific
+register, which is called the <b>stack pointer</b>, is dedicated to keeping track
+of the address of the top of the stack.  For my examples, the stack pointer
+is register&nbsp;15.</p>
+
+<p>The memory occupied by the stack grows and shrinks as subroutines are called 
+and return.  When a subroutine is called, the stack pointer is decreased to make
+room on the top of the stack for the memory space that is needed by the subroutine;
+that memory is called the <b>activation record</b> for that subroutine call.
+The activation record can for example hold the return address, local variables, and
+copies of values from saved registers.  When the subroutine returns, the
+value of the stack pointer is increased to restore the value that it had before
+the subroutine was called.  This effectively discards the activation record.</p>
+
+<p>Exactly who is responsible for managing the activation record &mdash; creating it,
+deleting it, and copying data to and from it &mdash; depends on the subroutine
+calling convention that is being used.  In my examples, the calling convention is
+that the subroutine is responsible for everything, but in other conventions,
+the caller of the subroutine might also be involved.  Note that a simple subroutine
+that does not call other subroutines might not even need an activation record.
+My calling convention goes like this, for a subroutine that does use an activation record:</p>
+
+<ol>
+<li>The caller loads parameter values into registers (as specified by the subroutine documentation).</li>
+<li>The caller uses <i>jalr</i> to jump to the subroutine, with return address saved in register&nbsp;14.</li>
+<li>The subroutine subtracts R from register 15, where R is the size of the activation record needed by
+the subroutine.</li>
+<li>The subroutine copies the return address from register 14 into the activation record.</li>
+<li>The subroutine runs, possibly using other space in the activation record for local variables, etc.</li>
+<li>The subroutine stores the return value (if there is one) in register&nbsp;1.</li>
+<li>The subroutine copies the return address from the activation record to register 14.</li>
+<li>The subroutine adds R to register 15, restoring the value of the stack pointer and
+deleting the activation record.</li>
+<li>The subroutine jumps unconditionally to the return address in register&nbsp;14.</li>
+</ol>
+
+<p>The sample program <a href="factorial.s">factorial.s</a> computes factorial(6) using
+a recursive factorial function.  Factorial(N) is equal to 1 if N is 0, and is
+<span style="white-space:pre">N*factorial(N-1)</span> for N&gt;0.  When the
+factorial subroutine is called with a non-zero parameter, N, it saves N and the return
+address in an activation record.  Note that N has to be saved because N will have a
+different value in the recursive call to the subroutine, and the original value of N
+will be needed after that subroutine call returns.</p>
+
+<p>The sample program <a href="fibonacci.s">fibonacci.s</a> computes 
+fibonacci(5) using a recursive subroutine.  Fibonacci(N) is defined to be 1
+if N is 0 or 1, and is <span style="white-space:pre">fibonacci(N-1) + fibonacci(N-2)</span>
+for N&gt;1.  The fibonacci subroutine uses an activation record of size 3 to hold
+the return address, the value of <span style="white-space:pre">N-1</span>,
+and the value of <span style="white-space:pre">fibonacci(N-1)</span>.
+It needs to save <span style="white-space:pre">N-1</span> while computing the
+value of <span style="white-space:pre">fibonacci(N-1)</span>, and it needs 
+to save <span style="white-space:pre">fibonacci(N-1)</span> while computing
+the value of <span style="white-space:pre">fibonacci(N-2)</span>.</p>
+
+<p>These examples demonstrate how and why to use a stack of activation records.
+(However, they are not really good examples of recursion, since there are
+more efficient, non-recursive methods for computing factorial(N) and fibonacci(N).
+In fact, the recursive version of fibonacci(N) is really ridiculously inefficient.)</p>
+
+<hr align=center width="33%"</hr>
+
+<p>One note about Larc machine language and the stack.  The memory instructions,
+lw and sw, have an optional third parameter.  That parameter is a four-bit signed integer,
+representing a number in the range &minus;8 to&nbsp;7.  It represents an offset
+that is added to the memory address specified in the instruction.  For example,</p>
+
+<pre class=code>lw $1 $15 3</pre>
+
+<p class=np>loads a value from the memory location whose address is given by
+the number in register&nbsp;15 <b>plus&nbsp;3</b>.  This can be very useful for
+accessing specific values that are stored in an activation record on the top
+of the stack.  The stack pointer, $15, is the address of the first item in
+the activation record.  That item can be read into register&nbsp;1 using 
+<tt style="white-space:pre">lw $1 $15</tt> or <tt style="white-space:pre">lw $1 $15 0</tt>.
+The second item can be loaded using <tt style="white-space:pre">lw $1 $15 1</tt>, the
+third with <tt style="white-space:pre">lw $1 $15 2</tt>, and so on.  Note that without
+the extra offset, you would have to modify the value in $15 to access items in the
+activation record.  As an example, the sample program
+<a href="factorial.s">factorial.s</a> creates an activation record and stores
+values in it as follows:</p>
+
+<pre class=code># Add an activation record containing N and return address to the stack.
+
+li $2 2           # size of the activation record
+sub $15 $15 $2    # makes space on the stack for the activation record
+sw $1 $15 0       # store N at offset 0 from the top of the stack
+sw $14 $15 1      # store return address at offset 1</pre>
+
+</div>
+
+
+
+
+</div>
+</body>
+</html>

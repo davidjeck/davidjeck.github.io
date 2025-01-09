@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\bgroup\color{darkred}}{\egroup}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#5}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by \textbf{noon} on Thursday, October 1,}}
+\centerline{\textit{There is a \textbf{test} on Friday, October 2.}}
+\centerline{\textit{Because of the test, this homework will not be accepted late,}}
+\centerline{\textit{and there will be no rewrites.}}
+\centerline{\textit{Solutions for Homeworks 4 an 5 will be published at noon on October 1.}}
+
+\medskip
+
+%This is a defintion to define a shorter way of writing column vectors,
+% \vc{a\\b\\c} instead of \begin{pmatrix}a\\b\\b\end{pmatrix}
+\def\vc#1{\begin{pmatrix}#1\end{pmatrix}}
+
+
+\begin{problem}
+Decide whether each set of vectors is a basis for $\R^3$.  Give a reason for 
+your answer.  In some cases, the reason can be very short.  In other cases, a
+calculation is required.
+\begin{enumerate}
+  \item[(a)] $\left\{\vc{1 \\ 3 \\ 7},\vc{2 \\ 0 \\ 4}\right\}$
+  \item[(b)] $\left\{\vc{1 \\ 2 \\ 3},\vc{1 \\ 1 \\ 0},\vc{8 \\ 5 \\ 1},\vc{4 \\ 7 \\ 5}\right\}$
+  \item[(c)] $\left\{\vc{1 \\ 3 \\ 2},\vc{2 \\ 6 \\ 4},\vc{1 \\ 0 \\ 1}\right\}$
+  \item[(d)] $\left\{\vc{1 \\ 2 \\ 0},\vc{2 \\ 1 \\ 3},\vc{3 \\ 4 \\ 5}\right\}$
+\end{enumerate}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+\begin{problem}
+Suppose that $(V,+,\cdot)$ is a vector space and $\mathcal U$ is a basis of $V$, where
+$\mathcal{U} = \langle \vec\beta_1, \vec\beta_2, \dots, \vec\beta_n \rangle$.
+Let $\mathcal{D} = \langle \vec\beta_n, \vec\beta_{n-1}, \dots, \vec\beta_1 \rangle$.
+(Then $\mathcal{D}$ is also a basis of $V$.  It is a different basis, since these bases
+are ordered.)  
+For a vector $\vec v\in V$, how
+does ${\rm Rep}_{\mathcal{U}}(\vec v)$ compare to ${\rm Rep}_{\mathcal{D}}(\vec v)$?
+Justify your answer.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+\begin{problem}
+The sequence $\mathcal{B}=\left\langle\vc{1 \\ 0 \\ 0},\vc{1 \\ 1 \\ 0},\vc{1 \\ 1 \\ 1}\right\rangle$ is
+a basis for $\R^3$.\vadjust{\bigskip} 
+ Let $\vec v=\vc{5 \\ 7 \\ 3}$.  Find
+${\rm Rep}_{\mathcal{B}}(\vec v)$. (You do \textbf{not} need to prove that $\mathcal B$ is a basis.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+\begin{problem}
+ Using the basis, $\mathcal B$, from  problem 3, suppose that
+${\rm Rep}_{\mathcal{B}}(\vec v)=\vc{1 \\ 2 \\ 3}$.  Find $\vec v$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+\begin{problem}
+Let $\mathscr{P}_3$ be the vector space of polynomials of degree less than or equal to 3.
+Let $\mathcal{B}$ be the basis of $\mathscr{P}_3$ given by
+$$\mathcal{B}= \langle 1+x, x-x^2, 1+x^3, 2x-x^2+x^3 \rangle$$
+Find ${\rm Rep}_{\mathcal{B}}(3-4x+4x^2+x^3)$.
+(You do \textbf{not} have to prove that $\mathcal{B}$ is a basis.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+
+
+\end{document}
+
+
+

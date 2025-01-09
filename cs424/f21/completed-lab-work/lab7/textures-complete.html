@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Textures</title>
+<style>
+    body {
+        background-color: #EEEEEE;
+        -webkit-user-select: none; /* turn off text selection  / Webkit */
+        -moz-user-select: none;    /* Firefox */
+        -ms-user-select: none;     /* IE */
+        user-select: none;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+        cursor: default;
+    }
+    .canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+    #tools {
+        float:left;
+        margin-left: 15px;
+        background-color:white;
+        border: 2px solid black;
+        padding: 8px
+    }
+    #tools p {
+        margin-top: 20px;
+    }
+    #tools select {
+        margin-left: 30px;
+        margin-top: 5px;
+    }
+</style>
+
+<script src="glsim-fixed.js"></script>  <!-- load the OpenGL 1.1 simulation code -->
+<script src="basic-object-models-IFS.js"></script>  <!-- for making basic objects -->
+<script src="teapot-model-IFS.js"></script> <!-- The standard teapot -->
+
+<script>
+
+    "use strict"; // (make undeclared variables and some other things be treated as errors)
+    
+    let camera; // Lets the user rotate the scene; used to set up the view.
+    
+    let sphere, cubeModel, cylinder, cone, torus, teapot;  // model data for six objects;
+                                                           // created in initGL()
+    
+    const textureURLs = [  // URLS for textures in the texture menu
+            "textures/brick001.jpg",
+            "textures/Earth-1024x512.jpg",
+            "textures/NightEarth-512x256.jpg",
+            "textures/marble.jpg",
+            "textures/stainedGlass.png",
+            "textures/mona-lisa.jpg"
+        ];
+    
+    const textureObjectIDs = [  // Texture Object IDs for the six texture images; -1 when not yet created.
+            -1, -1, -1, -1, -1, -1
+        ];
+    
+    
+    /**
+     * Apply the texture selected in the texture menu, or no texture if "none" is selected.
+     * This function is called when the user changes the selection in the texture menu.
+     */
+    function doTextureMenu() {
+        let tex = document.getElementById("texture").value;
+            // tex is "none" or "paint" or a number giving an index into the textureURLs array.
+        console.log("Use texture ", tex);
+        if (tex == "none") {
+           glDisable(GL_TEXTURE_2D);
+           display();
+           return;
+        }
+        if (tex == "paint") {
+           glBindTexture(GL_TEXTURE_2D, 0);
+           glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, OSC);
+           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+           glEnable(GL_TEXTURE_2D);
+           display();
+           return;
+        }
+        if (textureObjectIDs[tex] == -1) {
+            let textureImage = new Image();
+            textureImage.onload = function() {
+                let array = [];
+                glGenTextures(1,array);
+                textureObjectIDs[tex] = array[0];
+                glBindTexture(GL_TEXTURE_2D, array[0]);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 
+                     textureImage.width, textureImage.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glEnable(GL_TEXTURE_2D);
+                display();
+            }
+            textureImage.onerror = function() {
+                alert("Error while loading image texture from url \"" + textureURLs[tex] + "\"");
+            }
+            try {
+                textureImage.src = textureURLs[tex];
+            }
+            catch (e) {
+                alert("Error while setting source URL for image.");
+            }
+         }
+         else {
+             glEnable(GL_TEXTURE_2D);
+             glBindTexture(GL_TEXTURE_2D, textureObjectIDs[tex]);
+             display();
+         }
+    }
+    
+    
+    /**
+     * This functin is called when the scene needs to be redrawn.
+     */
+    function display() {
+    
+        // Apply Texture Transformation.
+        
+        let hscale = Number( document.getElementById("hscale").value );
+        let vscale = Number( document.getElementById("vscale").value );
+        
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glScalef(hscale,vscale,1);
+        
+    
+        // Render the scene, which contains just one object.
+    
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        camera.apply();
+        let objectNumber = Number(document.getElementById("object").value);
+        switch(objectNumber) {
+        case 0:
+            glRotatef(-90,1,0,0);
+            glScalef(1.5,1.5,1.5);
+            drawModel(sphere);
+            break;
+        case 1:
+            glScalef(1.2,1.2,1.2);
+             drawModel(cubeModel);
+             break;
+        case 2:
+            glRotatef(-90,1,0,0);
+            glScalef(1.3,1.3,1.3);
+            drawModel(cylinder);
+            break;
+        case 3:
+            glRotatef(-90,1,0,0);
+            glScalef(1.3,1.3,1.3);
+            drawModel(cone);
+            break;
+        case 4:
+            glScalef(1.6,1.6,1.6);
+            drawModel(torus);
+            break;
+        case 5:
+            glScalef(0.06, 0.06, 0.06);
+            drawModel(teapot);
+            break;
+        case 6:
+            glScalef(1.2,1.2,1.2);
+            drawPrism();
+            break;
+        }
+        function drawModel(model) {
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,model.vertexPositions);
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glNormalPointer(GL_FLOAT, 0, model.vertexNormals);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2,GL_FLOAT,0,model.vertexTextureCoords);
+            glDrawElements(GL_TRIANGLES, model.indices.length, GL_UNSIGNED_BYTE, model.indices);
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_NORMAL_ARRAY);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);    
+        }    
+    }
+
+
+    /**
+     * This funnction is called by display() when the selected object is Triangular Prism.
+     */
+    function drawPrism() {
+		const t = Math.sqrt(3)/4;
+		
+		glBegin(GL_TRIANGLES);  // top triangular face
+		glNormal3d(0,1,1);
+		glTexCoord2d(1/3,0);
+		glVertex3d(-t,0.5,-0.25);
+		glTexCoord2d(0,1);
+		glVertex3d(t,0.5,-0.25);
+		glTexCoord2d(2/3,1);
+		glVertex3d(0,0.5,0.5);
+		glEnd();
+		
+		glBegin(GL_TRIANGLES);  // bottom triangular face
+		glNormal3d(0,-1,0);
+		glTexCoord2d(1/3,3/4);
+		glVertex3d(t,-0.5,-0.25);
+		glTexCoord2d(1,3/4);
+		glVertex3d(-t,-0.5,-0.25);
+		glTexCoord2d(2/3,1/4);
+		glVertex3d(0,-0.5,0.5);
+		glEnd();
+		
+		glBegin(GL_TRIANGLE_FAN); // back face (side facing towards negative z-axis)
+		glNormal3d(0,0,-1);
+		glTexCoord2d(1,0);
+		glVertex3d(-t,-0.5,-0.25);
+		glTexCoord2d(1,1);
+		glVertex3d(-t,0.5,-0.25);
+		glTexCoord2d(2/3,1);
+		glVertex3d(t,0.5,-0.25);
+		glTexCoord2d(2/3,0);
+		glVertex3d(t,-0.5,-0.25);
+		glEnd();
+		
+		glBegin(GL_TRIANGLE_FAN); // front left face
+		glNormal3d(-0.75,0,t);
+		glTexCoord2d(0,1);
+		glVertex3d(-t,0.5,-0.25);
+		glTexCoord2d(0,0);
+		glVertex3d(-t,-0.5,-0.25);
+		glTexCoord2d(1/3,0);
+		glVertex3d(0,-0.5,0.5);
+		glTexCoord2d(1/3,1);
+		glVertex3d(0,0.5,0.5);
+		glEnd();
+		
+		glBegin(GL_TRIANGLE_FAN); // front right face
+		glNormal3d(0.75,0,t);
+		glTexCoord2d(1/3,1);
+		glVertex3d(0,0.5,0.5);
+		glTexCoord2d(1/3,0);
+		glVertex3d(0,-0.5,0.5);
+		glTexCoord2d(2/3,0);
+		glVertex3d(t,-0.5,-0.25);
+		glTexCoord2d(2/3,1);
+		glVertex3d(t,0.5,-0.25);
+		glEnd();
+    }
+    
+
+   //------------------------- The remainder of this file does not have to be modified! --------
+    
+    /**
+     * Copies the pixel data from the OpenGL canvas to the canvas
+     * used in the simple paint program.  This is called when the
+     * user clicks "Grab Image From OpenGL"
+     */
+    function grabImageFromOpenGL() {
+        let gl = GLSim.currentContext.gl;
+        let data = new Uint8Array( 512*512*4 ); // To hold the color data in from image.
+        gl.readPixels(0,0,512,512,gl.RGBA,gl.UNSIGNED_BYTE,data);
+        let imageData = OSG.createImageData(512,512);
+        let dest = 511*512*4;
+        let i = 0;
+        for (let r = 0; r < 512; r++) {
+            for (let k = 0; k < 512*4; k++) {
+                imageData.data[dest + k] = data[i++];
+            }
+            dest -= 512*4;
+        }
+        OSG.putImageData(imageData,0,0);
+        graphics.drawImage(OSC,0,0);
+    }
+    
+    /**
+     * Initialize opengl when the page first loads.
+     */
+    function initGL() {
+        try {
+            glsimUse("maincanvas",{preserveDrawingBuffer:true}); // option needed to use readPixels
+        }
+        catch (e) {
+            document.getElementById("message").innerHTML="<p><b>Sorry, an error occurred:<br>" +
+                    e + "</b></p>";
+            throw e;
+            return;
+        }
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_NORMALIZE);
+        glEnable(GL_DEPTH_TEST);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, [ 1, 1, 1, 1 ]); // white, for texturing
+        glClearColor(0.9,0.9,1,1);
+        camera = new Camera();
+        camera.setScale(1);
+        camera.lookAt(10,7,20);
+        camera.installTrackball(display);
+        sphere = uvSphere();
+        cubeModel = cube();
+        cylinder = uvCylinder();
+        cone = uvCone();
+        torus = uvTorus();
+        teapot = teapotModel;  // (This one is just a variable, defined in teapot-model-IFS.js)
+        document.getElementById("texture").value="none";
+        document.getElementById("object").value="5";
+        document.getElementById("hscale").value="1";
+        document.getElementById("vscale").value="1";
+        document.getElementById("texture").onchange = function() {
+             let tex = document.getElementById("texture").value;
+             if (tex == "paint")
+                 document.getElementById("reloadPaint").style.display = "inline";
+             else 
+                 document.getElementById("reloadPaint").style.display = "none";
+             doTextureMenu();
+        };
+        document.getElementById("object").onchange = display;
+        document.getElementById("hscale").onchange = display;
+        document.getElementById("vscale").onchange = display;
+        document.getElementById("reset").onclick = function() {
+            camera.lookAt(10,7,20);
+            display();
+        };
+        document.getElementById("grab").onclick = grabImageFromOpenGL;
+        document.getElementById("reloadPaint").onclick = doTextureMenu;
+        display();
+    }
+    
+    //--------------------- Implementation the paint program -------------------------
+
+    let canvas;    // The canvas element on which the user will draw.
+    let graphics;  // A 2D graphics context for drawing on the canvas.
+    
+    let OSC;  // A canvas element that is not a visible part of the document.
+              // It is created programmatically and serves as an off-screen canvas.
+              // The off-screen canvas holds the "official" copy of the picture
+              // that the user has drawn.
+    let OSG;  // A 2D graphics context for drawing on the off-screen canvas.
+    
+    let tool = "Sketch";  // The current drawing tool.
+    
+    let color = "black";  // The color that is currently being used for drawing
+    let lineWidth = 5;    // The line width that is currently being used for strokes 
+    
+    let dragShape = null;   // When non-null, the user is dragging with
+                            // the Oval, Rectangle, or Line tool.  The
+                            // current shape is drawn in the repaint() function
+                            // over the BufferedImage.  The shape is only added
+                            // to the off-screen image when the drag action ends.
+    let dragStartX, dragStartY;     // Start point of drag for use with dragShape.
+    let dragCurrentX, dragCurrentY; // Current mouse position for use with dragShape.
+
+    let smudgeColorArray = null, smudgeImageData; // Data used by "Smudge" tool.
+    
+    /**
+     *  The main function for drawing the contents of the on-screen canvas.  it simply
+     *  copies the content of the off-screen canvas onto the screen.  If the user is dragging
+     *  to draw a line, oval, or rectangle, then that shape is drawn on top of the picture.
+     *  (The shape is drawn to the off-screen canvas when the drag action ends.)
+     */
+    function repaint() {
+        graphics.drawImage(OSC,0,0);  // Copy the off-screen image onto the screen.
+        if (dragShape) {
+               // The user is performing a drag to draw a shape. Call putShape to
+               // draw the shape over the content of the off-screen canvas.
+            putShape(graphics,dragShape,dragStartX,dragStartY,dragCurrentX,dragCurrentY);
+        }
+    }
+    
+    /**
+     *  Draws a Line, Oval, or Rectangle to the graphics context g. The shape is determined
+     *  by the points (x1,y1) and (x2,y2).  The second parameter is a string nameing the shape.
+     */
+    function putShape(g, shape, x1, y1, x2, y2) { 
+        let x = Math.min(x1,x2); // upper left corner, used for ovals and rectangles.
+        let y = Math.min(y1,y2);
+        let w = Math.abs(x1-x2); // size of rectangle
+        let h = Math.abs(y1-y2);
+        switch (shape) {
+        case "Line":  // stroke a line from (x1,y1) to (x2,y2);
+            g.beginPath();
+            g.moveTo(x1,y1);
+            g.lineTo(x2,y2);
+            g.strokeStyle = color;
+            g.lineWidth = lineWidth;
+            g.stroke();
+            break;
+        case "Rectangle": // fill a rectangle with corners at (x1,y1) and (x2,y2)
+            g.fillStyle = color;
+            g.fillRect(x,y,w,h);
+            break;
+        case "Oval": // fill the oval contained in the rect with corners at (x1,y1) and (x2,y2)
+            g.save();
+            g.translate((x1+x2)/2, (y1+y2)/2);
+            g.scale(Math.abs(x1-x2)/2, Math.abs(y1-y2)/2);
+            g.beginPath();
+            g.arc(0,0,1,0,2*Math.PI,false);
+            g.restore();
+            g.fillStyle = color;
+            g.fill();
+            break;
+        }
+    }
+
+
+    /**
+     *  Read the contents of a 9-by-9 square of pixels centered at (x,y), from the off-screen canvas.
+     *  The data is obtained in an "ImageData" object.  It is copied into a Float32Array that can
+     *  be used for floating-point computations.  If that array does not already exist, it is created.
+     *  A new ImageData object is also created that will be used for putting new color data into the
+     *  image, in the swapSmudgeData function.
+     */
+    function grabSmudgeData(x, y) {
+        let colors = OSG.getImageData(x-5,y-5,9,9);
+        if (smudgeColorArray == null) {
+            smudgeImageData = OSG.createImageData(9,9);
+            smudgeColorArray = new Float32Array(colors.data.length);
+        }
+        for (let i = 0; i < colors.data.length; i++) {
+            smudgeColorArray[i] = colors.data[i];
+        }
+    }
+    
+    
+    /**
+     *  The data in the smudgeColorArray, which was set in the grabSmudgeData function,
+     *  is blended with the colors in a square of pixels centered at (x,y).  Effectively,
+     *  some of the color from the array is moved to the image, and some of the color from
+     *  the image is moved to the array.  The effect is that the smudgeColorArray carries
+     *  color from the point where the mouse was first pressed and drops some of that color
+     *  at each point that is visited by the mouse as it moves (while picking up some
+     *  new color from those points.)
+     */
+    function swapSmudgeData(x, y) {
+        let colors = OSG.getImageData(x-5,y-5,9,9);  // get color data form image
+        for (let i = 0; i < smudgeColorArray.length; i += 4) {
+                // The color arrays contain four numbers for each pixel, giving red, blue,
+                // green, and alpha color components.  An alpha value of 0 means that the
+                // pixel was outside the image; such pixels are ignored.  Otherwise,
+                // the red, green, and blue components in the two color arrays,
+                // smudgeColorArray and colors.data, are replaced by weighted averages
+                // of the existing values.  The alpha component is simply set to 255 (fully
+                // opaque), which is actually what it should already be.
+            if (smudgeColorArray[i+3] && colors.data[i+3]) {
+                for (let j = i; j < i+3; j++) {
+                    let newSmudge = smudgeColorArray[j]*0.8 + colors.data[j]*0.2;
+                    let newImage  = smudgeColorArray[j]*0.2 + colors.data[j]*0.8;
+                    smudgeImageData.data[j] = newImage;
+                    smudgeColorArray[j] = newSmudge;
+                }
+                smudgeImageData.data[i+3] = 255;
+            }
+            else {
+                for (let j = i; j <= i+3; j++) {
+                    smudgeImageData.data[j] = 0; // "transparent black"; will have no effect on the image
+                }
+            }
+        }
+        OSG.putImageData(smudgeImageData,x-5,y-5);
+    }
+    
+    
+    /**
+     *  Applies the "Erase" or "Smudge" tool at the point (x,y), as the mouse is being dragged.
+     */
+    function applyTool(tool, x, y) {
+        if (tool == "Erase") { // Clear a 10-by-10 square, centered at (x,y).
+            OSG.fillStyle = document.getElementById("clearcolor").value;
+            OSG.fillRect(x-5,y-5,10,10);  // Erase the sqaure in the BufferedImage.
+        }
+        else { // For the "Smudge" tool, mix some of the "paint" on the tool with the image,
+               // in a 7-by-7 square centered at x,y.
+            swapSmudgeData(x, y);
+        }
+    }    
+    
+    
+    /**
+     *  Applies the "Erase" or "Smudge" tool to each point along a line from (x1,y1)
+     *  to (x2,y2).  This is used when the user drags the mouse, with (x1,y1) being the
+     *  previous mouse location and (x2,y2) the current location.  This is necessary
+     *  since the mouse can move by several pixels at each step, and it's necessary to
+     *  apply the tools at every point along the path for the tool to work properly.
+     */
+    function applyToolAlongLine(tool, x1, y1, x2, y2) {
+        let x, y, slope;
+        if (Math.abs(x1-x2) >= Math.abs(y1-y2)) {
+               // Horizontal distance is greater than vertical distance.  Apply the
+               // tool once for each x-value between x1 and x2, computing the
+               // y-value for each x-value from the equation of a line. 
+            slope = (y2-y1)/(x2-x1);
+            if (x1 <= x2) { // Increment up from x1 to x2.
+                for (x = x1; x <= x2; x++) {
+                    y = Math.round(y1 + slope*(x-x1));
+                    applyTool(tool,x,y);
+                }
+            }
+            else { // Decrement down from x1 to x2
+                for (x = x1; x >= x2; x--) {
+                    y = Math.round(y1 + slope*(x-x1));
+                    applyTool(tool,x,y);
+                }
+            }
+        }
+        else {
+               // Vertical distance is greater than horizontal distance.  Apply the
+               // tool once for each y-value between y1 and y2, computing the
+               // x-value for each y-value from the equation of a line. 
+            slope = (x2-x1)/(y2-y1);
+            if (y1 <= y2) {  // Increment up from y1 to y2.
+                for (y = y1; y <= y2; y++) {
+                    x = Math.round(x1 + slope*(y-y1));
+                    applyTool(tool,x,y);
+                }
+            }
+            else {  // Decrement down from y1 to y2.
+                for (y = y1; y >= y2; y--) {
+                    x = Math.round(x1 + slope*(y-y1));
+                    applyTool(tool,x,y);
+                }
+            }
+        }
+        repaint();
+    }
+    
+    
+    /**
+     * This is called in init() to set up the respons to mouse actions on the canvas.
+     */
+    function setUpMouseHander() {
+        let dragging = false;
+        let startX, startY;
+        let prevX, prevY;
+        function doMouseDown(evt) {  // responds when the user presses a mouse button on the canvas.
+            if (dragging || evt.button != 0) {
+                return;
+            }
+            let r = canvas.getBoundingClientRect();
+            let x = Math.round(evt.clientX - r.left);  // Firefox, at least, can give non-integer values
+            let y = Math.round(evt.clientY - r.top);
+            prevX = startX = x;
+            prevY = startY = y;
+            dragging = true;
+            if (dragging) {  // install handler functions for mouse move and up, just during drag action
+                document.addEventListener("mousemove",doMouseMove);
+                document.addEventListener("mouseup",doMouseUp);
+            }
+            if (tool == "Line" || tool == "Oval" || tool == "Rectangle") {
+                dragShape = tool;  // Tells repaint() about the drag action.
+                dragStartX = dragCurrentX = startX;
+                dragStartY = dragCurrentY = startY;
+            }
+            else if (tool == "Erase") {
+                applyTool("Erase",startX,startY);
+                repaint();
+            }
+            else if (tool == "Smudge") {
+                grabSmudgeData(startX,startY);
+            }
+            evt.preventDefault();
+        }
+        function doMouseMove(evt) {  // Called when mouse moves during a drag operation.
+            if (dragging) { // (actually, the test should not be necessary)
+                let r = canvas.getBoundingClientRect();
+                let x = Math.round(evt.clientX - r.left);
+                let y = Math.round(evt.clientY - r.top);
+                if (tool == "Line" || tool == "Oval" || tool == "Rectangle") {
+                    dragCurrentX = x;
+                    dragCurrentY = y;
+                    repaint(); // This will draw the shape in its new position on the on-screen canvas.
+                }
+                else if (tool == "Sketch") {
+                    putShape(OSG,"Line",prevX,prevY,x,y);  // Directly draw the line on the off-screen canvas.
+                    repaint();  // Redraws the on-screen canvas, to make the change visible on screen.
+                }
+                else if (tool == "Erase" || tool =="Smudge") {
+                    applyToolAlongLine(tool,prevX,prevY,x,y);
+                }
+                prevX = x;
+                prevY = y;
+            }
+        }
+        function doMouseUp(evt) {
+            if (dragging) { // (actually, the test should not be necessary)
+                document.removeEventListener("mousemove",doMouseMove);
+                document.removeEventListener("mouseup",doMouseUp);
+                dragging = false;
+                if (dragShape) { // Draw the shape into the off-screen canvas.
+                    putShape(OSG,dragShape,dragStartX,dragStartY,dragCurrentX,dragCurrentY);
+                    dragShape = null;
+                    repaint(); // (Just to make sure off-screen and on-screen pictures agree.)
+                }
+            }
+        }
+        canvas.addEventListener("mousedown",doMouseDown);
+    }
+    
+    
+    /**
+     * Initialization for the simple paint app for the bottom of the page
+     */
+    function initPaint() {
+        try {
+            canvas = document.getElementById("canvas2d");
+            graphics = canvas.getContext("2d");
+            OSC = document.createElement("canvas");
+            OSC.width = canvas.width;
+            OSC.height = canvas.height;
+            OSG = OSC.getContext("2d");
+            OSG.fillStyle = "white";
+            OSG.fillRect(0,0,OSC.width,OSC.height);
+            graphics.lineCap = OSG.lineCap = "round";
+            graphics.lineJoin = OSG.lineJoin = "round";
+        } catch(e) {  // In case of error, replace the canvas with an error message.
+            document.getElementById("message").innerHTML =
+               "Canvas graphics is not supported?<br>" +
+               "An error occurred while initializing graphics.";
+            return;
+        }
+        repaint();  // Just copies the blank white off-screen canvas to the screen.
+        setUpMouseHander();
+        document.getElementById("tool").value = "Sketch";
+        document.getElementById("tool").onchange = function() {
+            tool = document.getElementById("tool").value;
+        };
+        document.getElementById("color").value = "Black";
+        document.getElementById("color").onchange = function() {
+            color = document.getElementById("color").value;
+        };
+        document.getElementById("linewidth").value = "5";
+        document.getElementById("linewidth").onchange = function() {
+            lineWidth = parseInt(document.getElementById("linewidth").value);
+        };
+        document.getElementById("clear").onclick = function() {
+            OSG.fillStyle = document.getElementById("clearcolor").value;
+            OSG.fillRect(0,0,OSC.width,OSC.height);
+            repaint();
+        };
+        document.getElementById("clearcolor").value = "white";
+    }
+    
+    //---------------------------- End Paint Implementation ---------------------------
+    
+    /**
+     * The init() funciton is called after the page has been
+     * loaded.  It initializes the canvas and graphics variables,
+     * and sets up some event handlers with input elements on
+     * the web page.
+     */
+    function init() {
+        initPaint();
+        initGL();
+    }
+    
+    window.onload = init; // arranges for function init to be called when page is loaded
+    
+</script>
+</head>
+<body>
+
+<h2>Textures</h2>
+<p id=message></p>
+
+<p><b>Texture:</b>
+    <select id="texture">
+        <option value="none">None</option>
+        <option value="paint">From Paint Program</option>
+        <option value="0">Brick</option>
+        <option value="1">Topographic Earth</option>
+        <option value="2">Earth At Night</option>
+        <option value="3">Marble</option>
+        <option value="4">Stained Glass</option>
+        <option value="5">Mona Lisa</option>
+    </select>
+    <button id="reloadPaint" style="display:none">Reload Paint Image</button>
+    <b style="margin-left:40px">Object</b>:
+    <select id="object">
+       <option value="0">Sphere</option>
+       <option value="1">Cube</option>
+       <option value="2">Cylinder</option>
+       <option value="3">Cone</option>
+       <option value="4">Torus</option>
+       <option value="5">Teapot</option>
+       <option value="6">Triangular Prism</option>
+    </select></p>
+<p><b style="margin-left:40px">HorizontalScale</b>:
+    <select id="hscale">
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+           <option value="4">4</option>
+           <option value="5">5</option>
+           <option value="6">6</option>
+    </select>
+    <b style="margin-left:40px">VerticalScale</b>:
+    <select id="vscale">
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+           <option value="4">4</option>
+           <option value="5">5</option>
+           <option value="6">6</option>
+    </select>
+    <button style="margin-left:40px" id="reset">Reset Rotation</button>
+</p>
+
+<div class="canvasholder">
+<canvas id="maincanvas" width="512" height="512">
+Canvas not supported.
+</canvas>
+</div>
+
+
+
+
+
+
+<h3 style="clear:both; padding-top:20pt">A Simple Paint Program
+    <button style="margin-left:40pt" id="grab">Grab Image From OpenGL</button>
+</h3>
+
+
+<div class="canvasholder">
+<canvas id="canvas2d" width="512" height="512">
+Canvas not supported.
+</canvas>
+</div>
+
+<div id="tools">
+
+<p><label><b>Drawing Tool:</b><br>
+    <select id="tool">
+    <option>Sketch</option>
+    <option>Line</option>
+    <option>Rectangle</option>
+    <option>Oval</option>
+    <option>Erase</option>
+    <option>Smudge</option>
+    </select></label></p>
+
+<p><label><b>Drawing Color:</b><br>
+    <select id="color">
+    <option>Black</option>
+    <option>Red</option>
+    <option>Green</option>
+    <option>Blue</option>
+    <option>Yellow</option>
+    <option>Cyan</option>
+    <option>Magenta</option>
+    <option>Gray</option>
+    <option>White</option>
+    </select></label></p>
+    
+<p><label><b>Line Width:</b><br>
+    <select id="linewidth">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+    <option>7</option>
+    <option>10</option>
+    <option>15</option>
+    <option>20</option>
+    <option>25</option>
+    </select></label></p>
+    
+<p style="text-align:center"><button style="font-weight:bold; font-size:120%; padding:5pt 15pt" id="clear">Clear</button></p>
+
+<p><label><b>Clear Color:</b><br>
+    <select id="clearcolor">
+    <option value="white">White</option>
+    <option value="red">Red</option>
+    <option value="green">Green</option>
+    <option value="blue">Blue</option>
+    <option value="darkcyan">BlueGreen</option>
+    <option value="purple">Purple</option>
+    <option value="yellow">Yellow</option>
+    <option value="pink">Pink</option>
+    <option value="orange">Orange</option>
+    <option value="gray">Gray</option>
+   </select></label>
+    
+</div>
+
+<p style="clear:both; padding: 10pt 0">&nbsp;</p>
+
+</body>
+</html>

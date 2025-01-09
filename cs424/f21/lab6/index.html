@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 2021, Lab 6 Midterm Project</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+<style>
+img {
+   border:2px solid black;
+}
+</style>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 6: Starting the Midterm Project</h2>
+
+<div class="intro">
+
+
+<p>This week's Thursday lab period will give you a chance to start planning and
+working on the midterm programming project.    The project is a larger and 
+longer-term project than the sort of short exercises that we usually do
+in lab.</p>
+
+<p><b>No work will be collected or graded for Lab 6.  The completed
+midterm project will be due on Thursday, October&nbsp;28 and will count for 10% of
+your final grade for the course.  Lab&nbsp;9 On October 21 will also be
+used for working on the midterm project.</b></p>
+
+
+</div>
+
+
+<div class="section">
+<h3>The Midterm Project</h3>
+
+<p><b>The midterm project is the one part of the course where you are required to
+work in a group.</b> You will work in a group of two or three people. We will work
+out the membership of the groups before the lab.</p> 
+
+<p>The project has two parts.  The first part is
+is to design and implement a scene graph API for OpenGL 1.1.  Your group will work
+together on this part, and everyone in the group will get the same grade for it.
+This group grade will be the larger part of the grade (maybe 7 points out of 10).
+The second part of the project is to write example programs that use the API.
+Each person in the group is responsible for writing one program and will get a separate
+grade for that program.  What the programs do is up to you, but, together, they 
+should demonstrate all of the capabilities of the API.  Ideally, a program should do
+something that is interesting on its own (like a hierarchical animation).</p>
+
+<p>Presumably, you will be working in JavaScript and will implement the API as a
+collection of JavaScript classes in one or more .js files.  The programs that
+use the API will be .html files, which will use &lt;script&gt; elements to load the
+.js files.  They will also load my <a href="glsim.js">glsim.js</a>,
+and you are welcome to use my 
+<a style="white-space:pre" href="basic-object-models-IFS.js">basic-object-models-IFS.js</a> and 
+<a style="white-space:pre" href="polyhedra.js">polyhedra.js</a> if they are needed by your API.
+Note that you can als0 use my camera API, which is part of <i>glsim.js</i>.</p>
+
+<p>Your scene graph library
+will let programmers create 3D scenes by constructing a data structure that represents the content
+of the scene.  Your API will define the classes that are used to create the data structure.
+The API might also include functions for rendering the scene from the point of view of
+a camera and for setting up lighting.</p>
+
+<p>You can spend the Lab 6 period working on the overall design of the API, deciding how you
+will coordinate with your group, and maybe getting started on the programming.
+Note that you can take some ideas from my simple 2D scene graph API,
+<a href="scene_graph_2d.js">scene_graph_2d.js</a>, that
+you used in <a href="../lab3/index.html">Lab&nbsp;3</a>.  However, you will not be
+able to simply convert it to 3D.</p>
+
+<p>You will be working in JavaScript and will be writing JavaScript classes.  Keep in mind
+some of the major differences with Java classes:  There is only one constructor for the class,
+and it is named <i>constructor</i>.  Instance variables are created by assigning values to them,
+usually in the constructor.  Any reference to instance variables or instance method must use
+the special variable <i>this</i>.  There are no access modifiers like <i>public</i> or <i>private</i>.
+The declaration of a method begins simply with the name of the method and a list of paramters.
+For examples, see <a href="scene_graph_2d.js">scene_graph_2d.js</a>.</p>
+
+<p><b>One requirement for your API</b> is that is must support having a camera as a node in the
+scene graph.  (See <a href="https://math.hws.edu/graphicsbook/c4/s4.html#gl1light.4.2">Subsection&nbsp;4.4.2</a>.)
+To make that work, a scene graph will have to be a tree, and you will need parent pointers in the
+nodes.  Note that setting the value of a parent pointer should be part of adding an object as
+a child of another object.  Because the scene graph is a tree, you won't simply be able to link
+multiple copies of an object into the graph, so I would also suggest having a <i>copy</i>() or 
+<i>clone</i>() method, to make it easy to add multiple copies of an object to a scene graph.
+When copying a node that has child nodes, you need to make copies of the child nodes as well;
+this is done simply by recursively calling the copy method in each child node.
+</p>
+
+<p>Note that I do <b>not</b> require you to implement moving lights
+(<a href="https://math.hws.edu/graphicsbook/c4/s4.html#gl1light.4.3">Subsection&nbsp;4.4.3</a>)
+because the limited number of lights available in <i>glsim</i> makes it difficult to do so.</p>
+
+<p><b>Another requirement</b>, of course, is that you fully document your APi with comments in
+the source code.  More generally, you should follow all the rules of good programming style.</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Design Issues</h3>
+
+<p>You will need to make some design decisions as you build your API.  Here are some of the things
+that you should think about:</p>
+
+<ul>
+<li><b>Basic Objects.</b> What basic objects will the API support and how?  You will probably want to
+have things like cubes, spheres, and cylinders.  Will you have a different
+JavaScript object for each basic object?  Or maybe one <i>BasicObject</i>  class, with an instance variable
+to say which particular basic object it represents?  Or maybe just a class to represent IFS-like models
+like those provided by <a style="white-space:pre" href="basic-object-models-IFS.js">basic-object-models-IFS.js</a>?
+Will there be polyhedral objects?  Objects made
+of lines or points instead of triangles?  For objects like spheres and cylinders, will you will
+rely on transformations to set the size and shape, or will you provide constructors with
+parameters to set some properties of the objects?</li>
+<li><b>Other objects.</b> How easy will it be for a programmer to construct other objects, if they
+want something that is not available as a basic shape?</li> 
+<li><b>Representing Transformations.</b> Will you use separate nodes to represent modeling transforms, as
+was done in my 2D&nbsp;API?
+Or will you allow every kind of node to have transform properties, as is done in <i>three.js</i>?
+(In <i>three.js</i>, the base class, <i>Object3D</i>, has both transform properties and a list of
+child nodes, so every node has those. Subclasses add geometry and material.)  Will you have one or more
+classes to represent transforms, or will the data for transforms be stored as simple properties of scene graph nodes?
+Will you allow rotations about arbitrary axes, or just the x-, y-, and z-axes?</li>
+<li><b>Materials.</b> You should probably rely on <i>GL_COLOR_MATERIAL</i> and let 
+<i>glColor*</i> set the ambient and diffuse colors.  But you will have to decide whether to also
+allow specular color, which would have to be set using <i>glMaterialfv</i>().
+</li>
+<li><b>Textures.</b> Will you support image textures, and how?</li>
+<li><b>Global properties.</b>  Some properties of the drawing won't be in the scene graph (unless
+maybe you make a special kind of root node or a separate <i>Scene</i> class to hold them, or maybe make them properties of a
+camera).  This includes, for example, lights, background color, and ambient light.
+Will you provide any support for these aspects of a scene, or will
+you just provide a scene graph and leave the rest up to the programs that use the API?</li>
+</ul>
+
+<p>Note that you should not try to do everything!  You are not expected to include all possible features
+in your API.  Developing a full-featured graphics API is a major project, and this is just a
+small midterm project that counts for only 10% of the course grade.  You will want to get something
+working and then add features as you have time.</p>
+
+</div>
+
+
+</div>
+</body>
+</html>

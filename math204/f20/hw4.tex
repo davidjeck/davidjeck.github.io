@@ -1,0 +1,127 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\bgroup\color{darkred}}{\egroup}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#4}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by the end of the day on Thursday, Sept. 24.}}
+\centerline{\textit{Don't forget to show your work and justify your answers!}}
+
+\medskip
+
+%This is a defintion to define a shorter way of writing column vectors,
+% \vc{a\\b\\c} instead of \begin{pmatrix}a\\b\\b\end{pmatrix}
+\def\vc#1{\begin{pmatrix}#1\end{pmatrix}}
+
+\begin{problem}
+The following questions about spans can be answered by solving linear systems of equations.
+\begin{enumerate}
+\item[(a)] Is the vector $\vc{1\\2\\3}$ in the span of the set 
+           $T=\left\{\vc{-1\\0\\1},\vc{1\\1\\1}\right\}$ in $\R^3\,$?
+\item[(b)] Is the vector $\vc{1\\1\\1}$ in the span of the set 
+           $T=\left\{\vc{2\\-1\\1},\vc{0\\1\\4},\vc{-2\\2\\3}\right\}$ in $\R^3\,$?
+\end{enumerate}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+\begin{problem}
+Let $S$ be the subset $T=\left\{\vc{1\\0\\0},\vc{1\\1\\0},\vc{1\\1\\1}\right\}$ of $\R^3$.  
+Show that $[S]$, the span of $S$, is all of $\R^3$.  (This is asking you to show that every
+$\vec v\in\R^3$ can be written as a linear combination of the vectors in $S$.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+\begin{problem}
+Let $\mathscr P$ be the (infinite-dimensional) vector space of all polynomials. 
+Let $T$ be the subset of $\mathscr P$ given by $\{p_0(x),p_1(x),p_2(x),\dots\}$,
+where $p_0(x)=1$, $p_1(x)=1+x$, $p_2(x)=1+x+x^2$, $p_3(x)=1+x+x^2+x^3$, and,
+more generally, $p_n(x)=1+x+x^2+\cdots+x^n$.  Show that $[T]$, the span
+of $T$, is all of $\mathscr P$.  (You just need to check that any polynomial 
+$q(x)=a_0+a_1x+a_2x^2+\cdots+a_kx^k$ can be written as a linear combination of
+some finite number of elements of $T$.  Hint: Problems 2 and 3 are almost the
+same question.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+\begin{problem}
+Show that the following vectors in $\R^3$ are linearly dependent. (Recall that vectors
+$\vec v_1,\vec v_2,\vec v_3$ are linearly dependent if $a\vec v_1+b\vec v_2+c\vec v_3=0$
+for some $a,b,c\in\R$ where $a$, $b$, and $c$ are not all zero.)
+$$\vc{2\\-1\\1},\ \vc{0\\1\\4},\ \vc{-2\\2\\3}$$
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+\begin{problem}
+Let ${\mathscr P}_3$ be the vector space of all polynomials of degree less than 
+or equal to 3.  Show that the following vectors in ${\mathscr P}_3$ are linearly 
+independent:\ \ $1-2x$, $3x-2x^2+x^3$, $4+x^2$.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here
+\end{answer}
+
+
+
+\end{document}
+
+
+

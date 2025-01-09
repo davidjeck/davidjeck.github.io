@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Vector Spaces</title>
+</head>
+<body>
+<div id="content">
+
+<h2>08 Vector Spaces</h2>
+<hr>
+
+<p>We have been thinking of a "vector" as being a column, or sometimes a row, of numbers.
+These are "vectors in $\R^n$."
+In Chapter 2, we move to a more abstract view, where a vector is simply an element of
+something called a "vector space."  The discussion will become
+more abstract and more theoretical, and there will be more proofs.  However, in the
+end, most of the practical work is still done using matrices and columns of numbers, and
+you should still tend to visualize vectors as arrows in $\R^2$ or $\R^3$ when you
+what to get a more intuitive understanding of what is going on.</p>
+
+<div class=def id=vec><p><span class=dtp>Definition:</span>
+A <span class=nw>vector space</span> $(V,+,\cdot)$ over $\R$ is defined to be a set, $V$, together
+with two binary operations $+$ and $\cdot$, which are called vector addition and scalar
+multiplication.  <span class=nw>Binary operation</span>  means that the operator
+takes two inputs and produces some output.  Vector addition takes two elements of $V$ as input.
+Scalar multiplication takes a scalar, that is a
+real number, and an element of $V$ as input.  Vector addition
+and scalar multiplication must satisfy ten properties:</p>
+
+<ol>
+<li>$\vec v+\vec u\in V$ for all $\vec v,\vec u\in V$ (<span class=nw>closure</span> under vector addition)</li>
+<li>$\vec v+\vec u=\vec u+\vec v$ for all $\vec v,\vec u\in V$ (vector addition is <span class="nw">commutative</span>)</li>
+<li>$\vec v+(\vec u+\vec w)=(\vec u+\vec v)+\vec w$ for all $\vec v,\vec u,\vec w\in V$  (vector addition is <span class="nw">associative</span>)</li>
+<li>there is a $\vec 0\in V$ such that $\vec v + \vec 0 = \vec v$ for all $\vec v\in V$ (<span class=nw>additive identity</span>)</li>
+<li>for any $\vec v\in V$, there is $-\vec v\in V$ such that $\vec v + (-\vec v)=\vec 0$ (<span class=nw>additive inverse</span>)</li>
+<li>$r\cdot\vec v \in V$ for all $r\in\R$ and $\vec v\in V$ (<span class=nw>closure</span> under scalar multiplication)</li>
+<li>$(r+s)\cdot \vec v = (r\cdot \vec v) + (s\cdot\vec v)$ for all $r,s\in\R$ and $\vec v\in V$ (first <span class=nw>distributive</span> property)</li>
+<li>$r\cdot(\vec v +\vec u) = (r\cdot\vec v)+(r\cdot\vec u)$ for all $r\in\R$ and $\vec v,\vec u\in V$ (second <span class=nw>distributive</span> property)</li>
+<li>$(rs)\cdot\vec v = r\cdot (s\cdot\vec v)$ for all $r,s\in\R$ and $\vec v\in V$ (second <span class=nw>associative</span> property)</li>
+<li>$1\cdot\vec v = \vec v$ for all $\vec v\in V$ (<span class=nw>multiplicative identity</span>)</li>
+</ol>
+</div>
+
+<p class=np>These properties are all things that you already know are true, or that are
+obvious, for the usual column vectors in $\R^n$.  You certainly don't have to remember the
+number for each property, but you should know that they are true for any vector space, 
+and you should be ready to pull them out when you need them in a proof or calculation.</p>
+
+<p>The vector space $\R^n$ of column vectors is still our most basic and important example.
+We will see that in some sense, any so-called "finite dimensional" vector space is 
+really the same as $\R^n.$  The technical term is that it is <span class=nw>isomorphic</span>
+to $\R^n$ as a vector space.  There are also "infinite dimensional" vector spaces, but we
+will mostly avoid them except for some examples.</p>
+
+<p>Chapter One, Section 1.I works through many examples of vector spaces, and you should
+pay attention to them.  The most important, since we will often use them in future examples,
+are $\mathcal P_n$, for $n\in \N$, and the vector space that I will call $\mathcal F$:<p>
+
+<p>$\mathcal P_n$ is the set of polynomials with real coefficients and degree less than
+or equal to $n$.  Vector addition in this vector space is the usual addition of
+polynomials and scalar multiplication is the usual multiplication of a polynomial
+by a constant.  That is,</p>
+
+<ul>
+<li>$\mathcal P_n=\{a_o+a_1x+a_2x^2+\cdots+a_nx^n\,|\,a_o,a_1,\dots,a_n\in\R\}$</li>
+<li>$(a_o+a_1x+a_2x^2+\cdots+a_nx^n) + (b_o+b_1x+b_2x^2+\cdots+b_nx^n)$ =<br> 
+         <span style="margin-left:120pt">$(a_o+b_o)+(a_1+b_1)x+(a_2+b_2)x^2+\cdots+(a_n+b_n)x^n$</span></li>
+<li>$r\cdot(a_o+a_1x+a_2x^2+\cdots+a_nx^n) = (ra_o)+(ra_1)x+(ra_2)x^2+\cdots+(ra_n)x^n$</li>
+</ul>
+
+<p class=np>We also consider the space $\mathcal P$ of all polynomials, of any degree.
+The vector space $\mathcal P$ is an example of an infinite-dimensional vector space.</p>
+
+<p>$\mathscr F$ is the set of real-valued functions of a real variable, with
+the usual addition of functions and the usual multiplication of a scalar times a function.
+That is,</p>
+
+<ul>
+<li>$\mathscr F = \{ f\,|\, f:\R\to\R\}$</li>
+<li>$f+g$ is defined by $(f+g)(x)=f(x)+g(x)$ for all $x\in\R$</li>
+<li>$r\cdot f$ is defined by $(r\cdot f)(x) = r(f(x))$ for all $x\in\R$</li>
+</ul>
+
+<p class=np>$\mathscr F$ is an example of a <span class=nw>function space</span>.  There are
+many other function spaces.  For example, $\mathscr C$, the vector space of continuous
+functions, or $\mathscr D$, the vector space of differentiable functions.  Function spaces
+such as these are among the most important vector spaces in some branches of mathematics.  We could
+also look at real-valued functions defined on other sets.  The book uses the
+set of functions from $\N$ to $\R$ as an example.  The set of functions on the closed
+interval $[a,b]$ would be another example.  In all of these cases, vector addition
+and scalar multiplication are defined in the same way.</p>
+
+<hr class=break>
+
+<p>The ten properties that are listed in the definition of vector space are not the only
+properties that are true for all vector spaces.  But they represent a set of 
+<span class=nw>axioms</span> for vector spaces.  The axioms are <i>assumed</i> to
+be true of all vector spaces.  They can be used to <i>prove</i> other facts about
+vector spaces.</p>
+
+<p>For example, it is not assumed that $0\cdot \vec v=\vec 0$ for all vectors $\vec v$,
+but it can be proved using only the axioms and facts about real numbers:
+$$\begin{align*}
+   0\cdot\vec v &=(0+0)\cdot \vec v&\mbox{(property of $0\in\R$)}\\
+   0\cdot\vec v &=(0\cdot \vec v)+(0\cdot \vec v)&\mbox{(distributive law)}
+  \end{align*}$$
+By the additive inverse property, $0\cdot\vec v$ has an additive inverse $-(0\cdot\vec v)$.
+Add it to both sides of the above equation:
+$$\begin{align*}
+    0\cdot\vec v + (-(0\cdot\vec v))&=((0\cdot \vec v)+(0\cdot \vec v)) +(-(0\cdot\vec v))\\
+    0\cdot\vec v + (-(0\cdot\vec v))&=(0\cdot \vec v)+((0\cdot \vec v) +(-(0\cdot\vec v)))&\mbox{(associative law)}\\
+    \vec 0 &=(0\cdot \vec v)+\vec 0 &\mbox{(additive inverse)}\\
+    \vec 0 &=0\cdot \vec v &\mbox{(additive identity)}
+\end{align*}$$</p>
+
+<hr class=break>
+
+<p>The definition of vectors space refers to a vector space "over $\R$".  This means that
+scalars are real numbers.  In fact, vector spaces can be defined over other
+kinds of scalars.  The restriction is that the set of scalars, together with
+addition and multiplication of scalars, must be a <span class=nw>field</span>.
+For example, the rational numbers, $\mathbb Q$, form a field, where two rational numbers are
+added or multiplied in the same way they are added and multiplied as real
+numbers.  This means that we could define vector spaces "over $\mathbb Q$".
+The complex numbers, $\C$, also form a field.  In fact, the last
+chapter in the textbook uses vector spaces over $\C.$  However, until we
+get to that chapter, all of our vector spaces will be vector spaces
+over $\R.$</p>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

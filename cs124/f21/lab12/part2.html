@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CS124, Fall 2021, Lab 13</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Labs 13: Hangman Continued</h2>
+
+<div class="intro">
+
+<p>For the final two labs of the semester, you will continue working on the
+Hangman game that was begun in <a href="index.html">Lab&nbsp;12</a>
+(or on your alternative project, if that's what you decided to do).
+This week, you will implement the actual game logic.  In
+<a href="part3.html">Part&nbsp;3</a> of the lab, you should just
+be adding polish.</p>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Word List</h3>
+
+<p>You should already have the GUI for your program pretty much ready to go.  The next part of the
+project is to implement the game logic.  That is, you should make it possible for the user
+to play the game.</p>
+
+<p>First of all, you will need a list of possible words for the game.  Your program
+should read the list of words from a text file that is part of the program.  The file
+<a href="wordlist.txt" style="white-space:pre">/classes/cs124_Eck/wordlist.txt</a> is
+the same list of 404 words that was used in <a href="../lab6/index.html">Lab&nbsp;6</a>;
+however, the first line of the file, which contained the number of words, has been
+removed.
+Note that all words in the list are 12 characters long or less,
+so your program does not have to accommodate words longer than 12 characters.
+You also have the option of using your own list of words.</p>
+
+<p>The list of words should be part of the program.  A file that is actually part of a
+program is called a <i>resource file</i>.  To include the word list as a resource file,
+the file <i>wordlist.txt</i> must be added to the <i>src</i> folder of your project.
+However, you will still need a way to read the data from the file.  There is
+a not-very-pretty API for reading general resource files.  Here is a method
+that you can use in your program to read the file:</p>
+
+<pre class="code">
+/**
+ * Reads a list of words from a file.
+ * @param filename the name of the resource file
+ * @return an ArrayList containing the list of words read.
+ */
+private ArrayList&lt;String> readWordList(String filename) {
+    try {
+        ArrayList&lt;String> words;
+        Scanner in;
+        in = new Scanner(getClass().getClassLoader()
+                            .getResource(filename).openStream());
+        words = new ArrayList&lt;String>();
+        while (in.hasNext()) {
+            words.add(in.next());
+        }
+        in.close();
+        return words;
+    }
+    catch (Exception e) {
+        throw new IllegalArgumentException("Can't read " + filename);
+    }
+}
+</pre>
+
+<p class=np>Using this method, youc an call <i>readWordList</i>("wordlist.txt") to read the file and get the list
+of words for the program in an ArrayList.  Both <i>ArrayList</i> and <i>Scanner</i> will
+have to be imported into your program.  When starting a game, select a random
+word from the list.  Note that the words from my list are lower-case.  You might
+want to convert to upper-case.</p>
+
+<p>It can be convenient to have the characters from the word in an array instead of in a string.
+Once you have gotten a word from the list, I suggest that you make an array of type <i>char</i>[]
+of the same length as the word and copy all the characters from the word
+into the array.  (Actually, a <i>String</i> already has an instance method for
+making such an array; use it if you can find it.)  It would also be convenient to have an array
+of the same length to hold the letters guessed so far, with some character, such
+as an underscore, to hold the places of letters that have not yet been guessed.
+</p>
+
+</div>
+
+<div class="section">
+
+<h3> Game Logic</h3>
+
+<p>As you make progress on your GUI, you can start adding in the implementation of the 
+game logic. That is, you should make it possible for the user
+to play the game.   Almost all of the game action, except for some setup in the
+<i>start</i>() method, takes place in the event handler methods for the buttons (or menu items).</p>
+
+<p>You will need to store some global state data for the game.
+This includes, for example, the list of words, the buttons, the word that the user is trying to
+guess, the number of incorrect guesses that
+the user has made, and maybe a boolean variable to record whether or not the game is over.
+Remember that global data are stored in instance variables.  The values of the state variables change
+in response to events, and they are used (by a <i>draw</i>() method or otherwise) to decide what
+to draw.  You should carefully analyze what has to happen in your event handlers and what
+needs to be displayed, based on the state of the game, at any given time both during a game 
+and when a game is over.</p>
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>

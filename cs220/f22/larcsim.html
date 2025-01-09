@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<head>
+<title>Larc Simulator</title>
+<style>
+   li {
+      margin-top:8px;
+   }
+</style>
+</head>
+<body style="max-width:900px; min-width:700px; margin: 0 auto">
+
+<div style="margin: 0 8px">
+
+<h2>A Simulator for the Larc Model Computer</h2>
+
+
+<p>The Larc model computer and its machine language are discussed in
+<a href="larc_ML.html">another&nbsp;document</a>.  This document discusses
+a program that can be used to simulate and debug Larc programs.
+The program is written in Java and is available as an executable
+jar file, <a href="larcsim.jar">larcsim.jar</a>.  I will
+refer to the program as <i>larcsim</i>.</p>
+
+
+<hr>
+
+<h3>Larc Assembly Language Programs</h3>
+
+<p><i>Larcsim</i> can load a Larc program from a file.
+We will represent a Larc ML program as a text file, using a simple assembly language.
+The program can include <a href="larc_ML.html#asm">assembly&nbsp;language&nbsp;instructions</a>, but can also
+include a few additional features.  When an assembly language text file is read, it is 
+translated into 16-bit binary numbers that will be stored in the Larc computer's RAM.
+Locations in memory that are not set from the file are automatically set to zero.
+The syntax is as follows.</p>
+
+<p>An assembly language program can contain integers expressed in binary, hexadecimal, or
+decimal form.  As in Java, binary numbers start with 0b or 0B, and hexadecimal numbers
+start with 0x or&nbsp;0X.  A binary number contains from 1 to 16 ones and zeros.  A hexadecimal
+number contains from 1 to 4 hexadecimal digits.  A decimal number must be in the
+range -32768 to 65535, that is, -2<sup>15</sup> to 2<sup>16</sup>-1.  Negative numbers are
+represented in twos-complement form.  (Negative numbers -32768 to -1 and positive numbers
+32768 to 65535 are just alternative notations for the same set of 16-bit binary numbers;
+there is no way to distinguish them once they are translated into machine language.)
+Examples include 0b1101101010000111, 0b11001, 0xFFFF, 0xA7, -1, 0, and 63882.</p>
+
+<p>Furthermore, in an assembly language program, a single quote followed by a character 
+can be used to represent the 16-bit UNICODE code number of that character.  For example,
+since the code for the character 'a' is 97, the notation 'a in a program represents the number 97.
+Note that 'a, 97, 0b01100001, and 0x61 are alternative notations for the same 16-bit number.</p>
+
+<p>As far as <i>larcsim</i> is concernted, an assembly language instruction such as
+<i style="white-space:pre">lui $2 -89</i> is just another notation for a 16-bit binary number.
+In fact, <i style="white-space:pre">lui $2 -89</i>, 0x92A7, 0b1001001010000111, -27993, and
+37543 are different notations for the same 16-bit number.</p>
+
+<p>A string is a sequence of characters.  It can be represented in Larc as a sequence of
+16-bit numbers stored in consecutive memory locations.  We will assume that a string is terminated
+by a zero character (that is, by the number 0 stored in memory at the end of the string).  As
+a convenience in assembly language programs, if the first non-blank character on
+a line is a double quote, then the rest of
+the line is interpreted as a string.  That is, the characters on the rest of the line are
+converted to their UNICODE code numbers and stored in consecutive locations in memory, with
+a zero added at the end.  In the string, the character sequence <tt>\n</tt> is converted to a single
+end-of-line character (code number&nbsp;10), and <tt>\\</tt> is converted into a single backslash.
+No other escape sequences are recognized.</p>
+
+<p>A program can contain comments, which start with a # and extend to end-of-line. (But a # in
+a string does NOT start a comment; it is part of the string.)  Blank lines and lines that 
+only contain comments are ignored.</p>
+
+<p>Only one assembly language instruction, integer, character, or string can appear on a line.
+When a file is read, values from the file are stored in consecutive memory locations in RAM,
+starting from location zero.  However, the destination address can be changed by a line in the
+file that contains the character&nbsp;@ followed by a decimal integer in the range 0 to 65535.
+This resets the destination address to the integer value.  For example, a line that reads
+@150 means that the next value from the file will be stored in location number 150,
+and the following values in locations 151, 152, 153, and so on.  This can be useful for
+storing data values or subroutines at specific, known locations in memory.</p>
+
+<hr>
+
+<h3>System Traps in the Larc Simulator</h3>
+
+<p>The Larc computer model specifies the structure of the CPU and RAM.  but it does not specify
+any input/output devices such as a keyboard or monitor.  How computers use and control such devices
+is a more advance topic for another time.  But from the point of view of a program, the devices are
+controlled directly by the operating system and indirectly (by other programs) by calling subroutines
+that are part of the operating system.  For historical reasons, those system subroutines are often 
+referred to as "system traps" or "system services." Larc's <i>syscall</i> machine language instruction is used to
+call system traps.</p>
+
+<p>The Larc Simulator does not actually simulate an operating system.  However, it provides five
+fake system traps that can be called using <i>syscall</i>.  The traps are numbered 0, 1, 2, 3, and&nbsp;4.
+To call one, the trap number must first be loaded into register number&nbsp;1.  Some traps require other
+parameters to be loaded into other registers.  A&nbsp;<i>syscall</i> instruction takes the trap number
+from register&nbsp;1, executes the trap, and does not return until the trap has been executed.  If the
+trap returns any data, that data will be stored in specified registers when the trap returns.
+Here is what the traps do:</p>
+
+<ul>
+
+<li><b>Trap number 0: Halt</b> &mdash; halts the computer.  This trap does not take any parameters.
+That is, to end a program, you should do <i style="white-space:pre">li $1 0</i>, followed by <i>syscall</i>.</li>
+
+<li><b>Trap number 1: Print string</b> &mdash; Print a string that has been stored in memory.
+Two parameters are required (in addition to the&nbsp;1 in register number&nbsp;1).  Register&nbsp;2 must contain the memory address of the first character
+in the string.  Register&nbsp;3 must contain the maximum length of the string. Values from memory will
+be output, interpreting them as UNICODE characters, until either a zero value is encountered or
+the maximum length is reached.  The zero at the end of the string is not output, and an end-of-line
+is NOT automatically added at the end.</li>
+
+<li><b>Trap number 2: Print int</b> &mdash; Prints the value from register 2, treating it as a
+signed integer.  Register&nbsp;2 is used to pass the value into the trap.  An end-of-line is
+NOT automatically printed after the integer.</li>
+
+<li><b>Trap number 3: Read string</b> &mdash; Reads a string typed by the user, and stores it
+in memory.  Two parameters are required.  Register&nbsp;2 must contain the address of the location
+in memory where the string will start.  Register&nbsp;3 must contain the maximum length of the
+string.  The trap will not return until the user has typed a line and pressed return.
+Characters from the input are converted into their UNICODE code numbers and stored in successive
+memory locations, starting at the address specified in Register&nbsp;2.  The end-of-line character
+at the end of the input is NOT stored in memory. A&nbsp;0 is always added at the end of the string.  
+If the number of characters typed by the users exceeds the maximum length minus one, then the excess
+characters are discarded.  If the actual length of the input string is less than the specified
+maximum, then register&nbsp;3 will be set to the actual length.</li>
+
+<li><b>Trap number 4: Read int</b> &mdash; Reads an integer input by the user.  This trap takes no
+parameters.  The integer will be in register&nbsp;1 when the trap returns (replacing the trap number).
+The user must type a decimal integer in the range -32768 to 65535 and press return.  No extra input 
+is allowed on the line.  To keep things simple for the programmer, the trap forces the user to enter
+a legal value.</li>
+
+</ul>
+
+<p>If the value in register 1 is not a legal trap number when <i>syscall</i> is executed, then
+the computer will be halted with a Bad Trap Number error.</p>
+
+<p>As an example, here is a complete Larc assembly language program, with comments, that 
+prints out Hello World and then halts:</p>
+
+<pre>
+             # An Hello World program for the Larc Simulator
+             
+             li $1 1         # trap number for Print String
+             li $2 16        # "Hello World" is stored at location 16
+             li $3 20        # maxlength for the string; larger than actual length is OK
+             syscall         # call the Print String trap
+             
+             li $1 0         # trap number for Halt
+             syscall         # halt
+             
+             @16             # store the following, starting at location 16
+             "Hello World
+</pre>
+             
+<hr>
+
+<h3>Using <i>Larcsim</i></h3>
+
+<p><i>Larcsim</i> is a GUI program.  It is written using Java&nbsp;17, and you need an installation
+of Java&nbsp;17, or a newer version, to run it. The program uses a single window, which is divided 
+into four sections: control panel, registers, memory, and input/output.</p>
+
+<p align=center><img src="larcsim.jpg" width="521" height="536" alt="a screenshot of the larcsim window"></p>
+
+<p>The input/output area is used for the four system traps that do I/O.  When an input trap needs input,
+the I/O area is outlined in cyan instead of gray, and the user must type the input before doing anything
+else.</p>
+
+<p>Each line of the Memory shows the address and value of one location in memory.
+You can scroll memory using the scrollbar at the right or by rotating the mouse wheel on
+the content of memory; however wheel scrolling is disabled when the simulator is running a program.
+You can view the values stored in memory in six different formats.  You can select the format using a popup 
+menu.  In the above illustration, memory is filled with zeros, and zero as an Assembly Command represents
+the instruction <i style="white-space:pre">add $0 $0 $0</i>.</p>
+
+<p>The Signed Decimal style displays 16-bit
+binary numbers as decimal numbers in the range -32768 to 32767.  For the Unsigned Decimal style, the
+range of numbers is 0 to 65536.  For numbers in the range 0 to 32767, the two formats give the
+same result.</p>
+
+<p>In the character display, some invisible characters are displayed in a format such as 
+<tt>'&lt;13&gt;</tt> for character number 13.  In particular, zero displays as <tt>'&lt;0&gt;</tt>.
+Printable ASCII characters will certainly display correctly.  For other characters, results may vary.</p>
+
+<p>Similarly, you can view the sixteen registers in different styles, but only the four numeric
+formats are available.  Note that you can edit the values in the registers, except for register
+zero whose value is always zero.  You can type a number into a register using any of the four
+legal formats; you don't have to use the currently selected format.  When you type a new value, 
+your input will be checked when you press return or when the register input loses focus.</p>
+
+<hr align=center width="33%">
+
+<p>Finally, the control panel in the upper left section of the window contains buttons and inputs
+for controlling the Larc computer.  Click "Step" to fetch-and-execute one instruction from the program.
+Click "Run" to let the computer run normally, automatically fetching and executing instructions until the computer
+is stopped for some reason.  When the computer is running, the "Run" button changes to a "Stop"
+button, which you can click to stop automatic execution.  The "Reset&nbsp;CPU" button
+will set the PC and all registers to zero. When the computer is running, many of the
+buttons and inputs are disabled.</p>
+
+<p>When the "Run Fast" check box is selected, the computer will run more quickly (about 300 instructions
+per second) instead of the usual speed (about 5 instructions per second).  The "Stop at Breakpoints"
+button will be discussed below.</p>
+
+<p>When the computer executes an instruction (except when running in fast mode), it uses background
+color in registers and memory to help visualize the effect of the instruction.  A register whose value
+is used in the instruction has its background color set to blue.  A register whose value is set
+has its background color set to yellow.  The memory display is scrolled to show the most recently
+accessed memory location in the center of the display, and the background color of that location is set.
+Except for the memory load and store instructions, the most recently accessed location is the one 
+that contains the instruction that has just been executed.  For a memory instructions, the most
+recently accessed location is the one whose value was read or written.</p>
+
+<p>The Program Counter input represents the PC in the Larc CPU.  Its value  is the address 
+in memory of the instruction which
+will be executed next.  Note that you can edit the value, as long as the computer is not running.
+The value will be checked when you click "Run" or "Step".</p>
+
+<p>The "Poke" button and the inputs next to it let you input values into RAM.  (You can't edit the
+Memory display directly.)  The first input box is the value, which can be in any of the six
+memory formats.  The second input is the address of the location where the value will be stored.
+Pressing return in either input box has the same effect as clicking the "Poke" button.  Note that
+when you do that, the address input is incremented and the value input is selected, so that you
+can just start typing the next value.  This makes it easy to enter a set of values into sequential
+memory locations, which it possible to enter short programs by hand.</p>
+
+<p>Clicking the "Load Memory From File" button will let you browse for an assembly language file
+to be loaded into the computer.  Assuming that there are no syntax errors in the program, all
+memory locations will be set to zero and the values from the file will be stored in memory.
+Also, the Program Counter input will be set to zero, which is the most likely starting point
+for running the program.  The "Save Memory" button lets you output the contents of memory into
+a file.  The output is in hexadecimal form.  This will not show you assembly language commands
+or strings, but the output file can be loaded back into Larcsim to exactly duplicate the 
+memory that was saved.</p>
+
+<p>If you run <i>larcsim</i> from the command line, you can specify an assembly program file
+to be loaded at startup.  For example, if larcsim.jar and myprog.txt are in the current directory,
+then you can run <i>larcsim</i> with the command</p>
+
+<pre>
+                 java  -jar  larcsim.jar  myprog.txt
+</pre>
+
+<p>and <i>larcsim</i> will attempt to load an assembly language program from the file myprog.txt.</p>
+
+<hr>
+
+<h3>Debugging with <i>Larcsim</i>: Breakpoints</h3>
+
+<p>A debugger is a program that controls the execution of another program and can show you
+information about the current state of that program, such as the values of its variables and
+the next instruction in the program.  A debugger should let you step through the execution
+of the program that it is debugging, one step at a time.  And it should let you set
+breakpoints in that program.  When the program is running and gets to a breakpoint, it should
+pause so that you can inspect the current state.</p>
+
+<p><i>Larcsim</i> is a simulator and debugger for Larc machine language programs.  It lets you
+step through a program one machine language instruction at a time.  And it lets you set 
+breakpoints in the program.</p>
+
+<p>To set a breakpoint at some instruction in a program, click on the memory location that
+contains that instruction.  You will get a popup menu with the option to set a breakpoint.
+(If a breakpoint has already been set for that location, you will have the option to clear it.)
+When there is a breakpoint on a location, that location is outlined in dark blue in the
+memory display.  Note that it is not possible to set a breakpoint while a program is running
+or when a program is waiting for user input.</p>
+
+<p>When a program is running and hits a breakpoint, it stops running just before executing
+the instruction at the breakpoint (unless the "Stop at Breakpoints" button is unchecked).
+You can then inspect values in registers and in memory,  
+and you can modify those values if you want.  You can even change the value in
+the Program Counter. You can use the "Step" button to step
+through the program, or the "Run" button to resume automatic execution.</p>
+
+</div>
+</body>
+</html>

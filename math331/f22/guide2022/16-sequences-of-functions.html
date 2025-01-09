@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Sequences of Functions</title>
+</head>
+<body>
+<div id="content">
+
+<h2>16 Sequences of Functions</h2>
+<hr>
+
+<p>We have looked at <a href="15-sequences-and-series.html">sequences and series</a> of
+real numbers.  Our next topic, from Section 4.5 in the textbook, is sequences of
+functions.</p>
+
+<p>Let $I$ be some subset of $\R$.  Suppose that for each $n\in\N$, $f_n(x)$ is
+a function from $I$ to $\R$.  Then $\{f_n\}_{n=1}^\infty$ is a 
+<span class=nw>sequence of functions</span> on $I$.  Given such a sequence of functions,
+for each $x\in I$, we get a sequence of real numbers
+$\{f_n(x)\}_{n=1}^\infty$, and we can ask about the convergence of that sequence.
+If $\ds\lim_{n\to\infty}f_n(x)$ exists for each $x\in I$, then we can define
+a function $f$ on $I$ by letting $f(x) = \ds\lim_{n\to\infty}f_n(x)$.
+We then say that the sequence of functions, $\{f_n\}_{n=1}^\infty$, is
+is <span class=nw>pointwise convergent</span> on $I$ and that it <span class=nw>converges
+pointwise</span> to $f$.</p>
+
+<p>For example, let $I=[0,\infty)$ and let $f_n(x) = \frac{1}{1+nx}$.
+Looking at $x=0$, $f_n(0) = 1$ for all $n$, so $\ds\lim_{n\to\infty}f_n(0) = 0$.
+For any $x>0$, $\ds\lim_{n\to\infty} (1+nx) = +\infty$ and $\ds\lim_{n\to\infty}f_n(x) = 0$.
+We see that the sequence of functions $\{f_n\}_{n=1}^\infty$ converges
+pointwise on $[0,\infty)$ to the function 
+$f(x) =\begin{cases} 0 &\mbox{ if $x=0$}\\ 1 &\mbox{ if $x>0$}\end{cases}$
+</p>
+
+<p>Note that we have a sequence of continuous functions that converges to a discontinuous
+function.  In fact, for many purposes, pointwise convergence is not a "strong" enough 
+form of convergence.  A stronger form is given by "uniform convergence."  Uniform
+convergence relates to pointwise convergence similarly to the way uniform continuity
+relates to continuity.  That is, the difference between pointwise convergence and
+uniform convergence is the order in which quantifiers are applied.  Note that
+$\{f_n\}_{n=1}^\infty$ converges pointwise on $I$ to $f$ if for every $\eps>0$
+and every $x\in I$, there is a $N\in\N$ (depending on both $\eps$ and $x$)
+such that for all $n\ge N$, $|f_n(x)-f(x)|<\eps$. For uniform convergence, given an
+$\eps>0$ there must exist an $N$, depending on $\eps$, only that works for all $x\in I$.</p>
+
+<div class=def><p><span class=dtp>Definition</span> Let $\{f_n\}_{n=1}^\infty$ be a sequence
+of functions defined on the subset $I$ of $\R$, and let $f$ be a function defined on $I$.
+We say that $\{f_n\}_{n=1}^\infty$ <span class=nw>converges uniformly</span> to $f$ on $I$
+if for all $\eps>0$, there is an $N\in\N$ such that for all $x\in I$ and all $n\ge N$,
+$|f_n(x)-f(x)|<\eps$.  We say that $\{f_n\}_{n=1}^\infty$ is <span class=nw>uniformly
+convergent.</p></div>
+
+<p>Uniform convergence has many nice properties that pointwise convergence lacks.
+For example, the uniform limit of continuous functions is continuous.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+Suppose that $\{f_n\}_{n=1}^\infty$ is a sequence of continuous functions on an
+interval $I$, and that $\{f_n\}_{n=1}^\infty$ converges uniformly to $f$ on $I$.
+Then $f$ is continuous on $I$.</p></div>
+
+<p>Similarly, the integral of a pointwise limit of functions $f_n$ on $[a,b]$
+is not necessarily the limit of the integrals $\int_a^bf_n$, even if that
+limit exists.  But</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+Suppose that $\{f_n\}_{n=1}^\infty$ is a sequence of differentiable functions on the
+interval $[a,b]$  and that $\{f_n\}_{n=1}^\infty$ converges uniformly to $f$ on $[a,b]$.
+Then $f$ is integrable on $[a,b]$ and $$\int_a^b f = \lim_{n\to\infty}\int_a^b f_n $$
+</p></div>
+
+<p>And for derivatives, it is not necessarily true that the derivative of
+a pointwise limit is the limit of the derivatives.  However, that will be
+the case if the derivative functions converge uniformly.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+Suppose that $\{f_n\}_{n=1}^\infty$ is a sequence of continuous functions on the
+interval $[a,b]$  and that $\{f_n\}_{n=1}^\infty$ converges pointwise to $f$ on $[a,b]$.
+Suppose also that the sequence of derivative functions, $\{f_n^\prime\}_{n=1}^\infty$,
+converges uniformly on $[a,b]$.  Then $f$ is differentiable and 
+$\{f_n^\prime\}_{n=1}^\infty$ converges to $f'$ on $[a,b]$.  That is, for all $x\in[a,b]$,
+$$f'(x) = \lim_{n\to\infty} f_n^\prime(x)$$
+<p></div>
+
+<p>Kevin Mitchell, one of the authors of our textbook, has a web page with animations
+of some of the sequences of functions from the examples and exercises in Section&nbsp;4.5.
+The link is here:</p>
+
+<p class=np style="text-align:center"><a href="http://math.hws.edu/~mitchell/FoundationsOfAnalysis/"><i>Foundations of Analysis</i>: Sequences of Functions</a></p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

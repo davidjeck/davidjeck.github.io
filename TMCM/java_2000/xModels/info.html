@@ -1,0 +1,540 @@
+<HTML>
+<HEAD>
+
+<TITLE>xModels Info</TITLE>
+
+
+</HEAD>
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H1 align=center><font color="#E70000">xModels Info</font></h1>
+
+
+<p>Computer-generated graphics images are usually constructed in
+two stages: <font color="#E70000">modeling</font> followed
+by <font color="#E70000">rendering</font>.  In the modeling stage,
+a geometric representation of the objects in the scene is constructed.
+The rendering stage produces the actual images, based on information
+in the model.</p>
+
+<p>The <A HREF="index.html">xModels Applet</A> lets you describe
+scenes in a simple <font color="#E70000">scene description language</font>.
+Scenes are rendered as <font color="#E70000">wireframe models</font>,
+a very minimal kind of rendering which shows just the edges of all the
+objects in the scene -- even edges that are behind other objects.
+The main point of the applet is not to produce fancy images; the point
+is to learn some of the basic ideas of geometric modeling.</p>
+
+<p>This file contains fairly complete information about the xModels Applet
+and about the scene description language that it uses.  Also
+available on a separate page are some <A HREF="tutorial.html">tutorial&nbsp;examples</A>.</p>
+
+<p>I invented xModels to use as an example in
+<cite><A HREF="http://math.hws.edu/TMCM.html">The Most Complex Machine</A></cite>,
+a book that surveys the field of computer science. The xModels applet is based on
+two similar programs that I wrote for
+Macintosh computers (one for two-dimensional and one for three-dimensional
+graphics).  These programs are among several that I wrote for
+use with <cite>The Most Complex Machine</cite>.  All the Macintosh programs
+are available for <A HREF="http://math.hws.edu/TMCM/DownloadingInfo.html">downloading</A>.
+I am in the process of porting all the Macintosh programs to Java.</p>
+
+<HR>
+<H3><font color="#E70000">The xModels Applet</font></h3>
+
+<p>The <A HREF="index.html">xModels applet</A> is designed to be easy to use,
+so the major thing you 
+need to learn about is the <A HREF="#language">scene description language</A>, which
+is discussed below.</p>
+
+<p>The applet has two modes.  In its program mode, it displays a text area
+where you can type and edit scene descriptions.  There is a row of
+control buttons along the bottom that can be used to render the scene,
+to load a program from a file, to save the current program in a file,
+and to clear out all the text from the text area.  The applet is in this
+mode when it first starts up.  You can only switch to graphics mode
+by rendering a legal program.</p>
+
+<p>If you click the &quot;Render&quot; button, the computer will
+examine the program contained in the text area to see whether it
+is a legal scene description.  If the computer finds an error,
+it will report it in a box at the top of the text area.  (You can
+make this box go away by clicking on it, if you like.)  If there
+are no errors, the applet will switch to graphics mode and the
+scene will be displayed.</p>
+
+
+<p>The second mode is a graphics mode in which the applet displays the
+rendered scene.  In this mode, there is a column of controls along the
+right edge of the applet.  This column contains:</p>
+
+<UL>
+<LI><font color ="#E70000">Frame number label</font> -- shows the currently
+displayed frame number during an animation.  (If you find this distracting, 
+click on it.)
+<LI><font color ="#E70000">New Program button</font> -- takes you back
+to program mode, with a new blank text area.
+<LI><font color ="#E70000">Show Program button</font> -- takes you back
+to program mode, to the program that produced the current scene.
+<LI><font color ="#E70000">Go button </font> -- used to restart an
+animation that has been paused.
+<LI><font color ="#E70000">Pause button</font> -- stops an animation,
+and makes the Go, Next Frame, and Previous Frame buttons available.
+<LI><font color ="#E70000">Next Frame button</font> -- goes to the
+next frame of a paused animation.  When the last frame is reached,
+it goes back to frame zero.
+<LI><font color ="#E70000">Previous Frame button</font> -- goes to
+the previous frame an animation.  When frame zero is reached, it
+goes to the final frame.
+<LI><font color ="#E70000">Speed pop-up menu</font> -- selects
+the desired speed for animation, ranging from one frame per second
+to 30 frames per second.  However, note that the actual rate can
+be less than the selected rate, depending on the complexity of
+the scene and on your computer's speed.
+<LI><font color ="#E70000">Looping pop-up menu</font> -- Specifies what
+happens in an animation when the last frame is reached.  If this menu
+is set to &quot;Loop,&quot; the animation is repeated starting back
+at frame zero.  If it is set to &quot;Back-And-Forth,&quot; the
+animation is played backwards, then forwards again, and so on.
+If it is set to &quot;Once Through,&quot; the animation is paused
+when it reaches the final frame.
+</UL>
+
+<p>At the very top of the applet, there is another pop-up menu.
+This menu is available in both programming mode and graphics mode,
+and you can use it to switch between modes and among all the programs
+that the applet knows about.  The first item in this pop-up menu
+is &quot;Graphics&quot;.  When the applet is in programming mode,
+selecting &quot;Graphics&quot; from the pop-up menu is exactly 
+the same as clicking on the &quot;RENDER&quot; button.  That is,
+the applet will check the current program for errors and, if no
+errors are found, will switch to graphics mode and display the
+rendered scene.</p>
+
+<p>The second item in the pop-up menu is &quot;[New]&quot;.  Choosing
+this item will let you write a new program, starting with an
+empty text area.  (This is the same as clicking the New button while
+in graphics mode.)  The new program will have the name
+&quot;Untitled&nbsp;1&quot; or &quot;Untitled&nbsp;2&quot; or....</p>
+
+<p>The remaining items in the menu are names of programs.  Selecting
+one of these names will take you directly to that program.  If you
+do this while the program is in graphics mode, it will switch back
+to programming mode.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="language">The Scene Description Language</A></font></h3>
+
+<p>Scenes in xModels are described in terms of three coordinates, x, y, and z.
+The computer's screen is the xy-plane, with the origin (0,0) at the center
+of the graphics display area.  The positive y-axis extends upwards from this point,
+and the positive x-axis points to the right.  The z-axis points directly out
+from the screen towards the viewer, so that points in front of the screen have
+positive z-values, and points behind the screen have negative z-values.  This is
+a standard coordinate system for three-dimensional computer graphics.</p>
+
+<p>The graphics display area includes the square region with -10&nbsp;&lt;&nbsp;x&nbsp;&lt;10
+and -10&nbsp;&lt;&nbsp;y&nbsp;&lt;10.  Since the display area might not be square,
+it can actually extend beyond this range in one direction.  There is no
+way to increase or decrease the basic square region that is displayed, so scenes
+must be sized to fit into this region.  (It is easy to scale objects up or down
+in size to fit.)</p>
+
+<p>The three-dimensional world is projected onto the xy-plane from a point
+on the positive z-axis.  The z-coordinate of this point is called the
+<font color="#E70000">viewDistance</font>, and its value can be specified as part of
+a scene description.  (This name is somewhat deceptive.  Since the display
+area always shows the same square region, objects on the xy-plane don't
+look smaller as the viewDistance increases.  They just look more squashed in
+the z-direction.)  The viewDistance can be set to &quot;infinity&quot; to
+give what is called a <font color="#E70000">parallel projection</font>.</p>
+
+<p>Fundamentally, a scene description for xModels is a list of objects
+that appear in the screen, plus a few special commands.  Special
+commands are used to specify colors, view distance, and animation parameters.
+There are a few basic named objects, such as <font color="#007000">circle</font>
+and <font color="#007000">cone</font>.  There is also a command for defining
+new named objects.  Geometric transformations such as <font color="#007000">rotate</font>
+and <font color="#007000">scale</font> can be applied to objects to specify their
+size, position, and orientation.  You can make complex, hierarchical objects
+that contain other objects, which can have their own transformations.
+Animation is done by letting parameters, such as the scaling factor in a 
+<font color="#007000">scale</font> transformation, vary through a range of
+values as the animation proceeds from frame to frame.  The rest of this
+file gives the details of the scene description language.</p>
+
+<p>I should note that a scene description can contain comments.
+A comment begins with a semicolon (;) and continues until the end of
+the line.  For multiline comments, a semicolon is required on each line.
+A comment doesn't have to start at the beginning of a line.</p>
+
+<p>Except in the case of comments, xModels doesn't pay attention
+to ends-of-line.  They are treated just like spaces.  You can lay out
+your program any way you like on the page.</p>
+
+<p>The xModels language is not case-sensitive:  Upper and lower case letters
+are considered to be equivalent.  Names can consist of letters, digits, and
+the underscore character&nbsp;(_).  A name must begin with a letter or with
+an underscore.  Names can be of any length.  A word with a predefined meaning,
+such as <font color="#007000">square</font> or <font color="#007000">animate</font>,
+cannot be reused as the name of a defined object.</p>
+
+<p>Numbers can include decimal points and exponential notation.
+For example:  -17, 3.14, .5, 1.2e5.  With just a few exceptions,
+anyplace where a number can appear in a program, a <font color="#E70000">number
+range</font> can also appear.  Number ranges are used with animation, as 
+described later in this file.  Examples of number ranges are 1:10, -1:3:10,
+and 12::0.  (The only places where number ranges cannot be substituted for
+numbers are in the <font color="#007000">animate</font> command and
+for the first parameter of the <font color="#007000">lathe</font>
+or <font color="#007000">extrude</font> command.</p>
+
+<p>As a final preliminary point, I will note that commas can be included
+in a program to help make it more readable by humans.  However, the computer
+ignores commas.  More specifically, it treats them exactly the same as
+spaces.</p>
+
+<p><b><font color="#E70000">Special Commands</font></b></p>
+
+<p>The special commands in xModels are <font color="#007000">animate</font>,
+<font color="#007000">viewDistance</font>, <font color="#007000">background</font>, 
+<font color="#007000">define</font>, and various commands for specifying the
+color to be used for drawing.</p>
+
+<p>If the <font color="#007000">animate</font> command occurs at all in a program,
+<b>it must be the first word</b> in the program (not counting any comments the might
+precede it).  This command, which is used to specify the number of frames
+in an animation, is defined below.</p>
+
+<p>The <font color="#007000">viewDistance</font> command specifies the point
+along the z-axis that is used as the center of projection.  An (x,y,z) point
+is projected onto the xy-plane by drawing a line from the center of projection
+through the point (x,y,z) and finding the (x,y) point where it intersects
+the xy-plane.  Objects behind the projection point are not displayed.  The
+<font color="#007000">viewDistance</font> command must be followed by
+a parameter that specifies the z-coordinate of the projection point.
+The parameter can be any positive number.  If the scene is an animation,
+the parameter can be a number range.  The parameter can also be the word
+<font color="#007000">infinity</font> which specifies projection from
+infinity.  A program can contain at most one viewDistance command.
+If none is specified, a default value of 20 is used.   The 
+<font color="#007000">viewDistance</font> command does not have to
+come at the beginning of the program.  However, it applies to the entire scene
+in any case.</p>
+
+<p>The <font color="#007000">background</font> command is used to specified
+the background color for the scene.  This command must be followed by
+a color specification.  The color can be specified by one of the specific
+color words listed below.  It can also be given using the <font color="#007000">rgb</font>
+or <font color="#007000">hsb</font> color command.  Since <font color="#007000">rgb</font>
+and <font color="#007000">hsb</font> can use number ranges as parameters,
+the background color can change from one frame of an animation to the next.
+The default background color is white.
+The <font color="#007000">background</font> command does not have to appear at the
+beginning of the program.</p>
+
+<p>The <font color="#007000">define</font> is used to give a name to
+an object.  Once a named object has been defined, it can be used in the same
+way as any of the built-in objects, including in the definitions of other
+named objects.  The <font color="#007000">define</font> must be followed
+by the name of the object, and then by the specification of the object
+itself.  The object is generally a complex object, enclosed between
+[ and&nbsp;], but that is not a requirement.  Defining an object does
+<b>not</b> make the object appear in the scene.  To do that, you have
+to include the object name as part of the scene description.  The following
+example defines a &quot;wheel&quot; to consist of a circle and three
+lines:</p>
+
+<pre>              define wheel [
+                   circle
+                   line
+                   line rotate 60
+                   line rotate -60
+                ]
+</pre>
+
+<p>A color can be specified by one of the following color names:
+<font color="#007000">red</font>, <font color="#007000">green</font>,
+<font color="#007000">blue</font>, <font color="#007000">cyan</font>,
+<font color="#007000">magenta</font>, <font color="#007000">yellow</font>,
+<font color="#007000">black</font>, <font color="#007000">white</font>,
+<font color="#007000">gray</font>, <font color="#007000">lightGray</font>,
+or <font color="#007000">darkGray</font>.  Color can also be specified
+by the <font color="#007000">rgb</font> command or the <font color="#007000">hsb</font>
+command.  The <font color="#007000">rgb</font> command lets you specify a color
+by giving its red, blue, and green components.  It requires three parameters
+to specify the three values.  The values must be between 0 and 1, inclusive.
+For example:</p>
+
+<pre>         rgb  1, 0.5, 0.5    ;  specifies a pinkish color
+         rgb  0:1 0 0        ;  specifies a range of colors from black to red
+</pre>
+
+<p>The <font color="#007000">hsb</font> command is similar, except it specifies
+a color by giving its hue, brightness, and saturation components.  Again, these
+values must be between 0 and&nbsp;1.  (You can look this up in a graphics
+textbook if you don't know what it means.)</p>
+
+<p>When a color command is given, it sets the drawing color to be used
+for all subsequent objects, up until the next color change.  Color changes
+inside complex objects, that is between [ and ], have no effect past the
+closing&nbsp;].  The default drawing color is black.</p>
+
+
+<p><b><font color="#E70000">Objects</font></b></p>
+
+<p>There are six predefined objects in xModels:
+<font color="#007000">line</font>, <font color="#007000">square</font>,
+<font color="#007000">circle</font>, <font color="#007000">cube</font>,
+<font color="#007000">cone</font>, and <font color="#007000">cylinder</font>.
+These objects are sized so that each object just fits inside
+a 1-by-1-by-1 cube, centered at the origin.  The <font color="#007000">line</font>
+object stretches along the x-axis from (-0.5,0) to (0.5,0).  The
+<font color="#007000">square</font> object has vertices at
+(-0.5,-0.5), (0.5,-0.5), (0.5,0.5), and (-0.5,0.5).  The <font color="#007000">circle</font> has center
+(0,0) and radius 0.5.  The <font color="#007000">cone</font> is oriented to point
+upwards along the y-axis.  The <font color="#007000">cylinder</font> also has
+a vertical orientation.  To include one of these objects, just list its
+name in the scene description.  Usually, the name will be followed by
+a transformation that affects the size, position, and orientation of the
+object.</p>
+
+<p>There are also four commands for creating an object out of a list of
+points.  These commands are <font color="#007000">polygon</font>,
+<font color="#007000">polygon_3d</font>, <font color="#007000">lathe</font>,
+and <font color="#007000">extrude</font>.  The <font color="#007000">polygon</font>
+command takes a list of parameters that specify a sequence of (x,y) points.
+The polygon consists of these points joined by lines.  Note that there
+must be an even number of parameters, since there are two parameters per
+point.  For example, the following command creates a triangle:</p>
+
+<pre>             polygon  0,0 4,0 2,2</pre>
+
+<p>It's legal to have a polygon command with just two points.  In that case,
+it specifies a line.  The polygon-3d is similar, except that it takes
+a list of (x,y,z) points.</p>
+
+<p>The <font color="#007000">lathe</font> command takes a list of (x,y) points, joins those points with
+line segments, and then rotates the resulting curve about the y-axis to
+obtain a three-dimensional object.  The original curve is actually copied
+several times, at different angles of rotation.  These copies are then joined
+with further line segments.  The number of copies must be specified as
+the first parameter to the <font color="#007000">lathe</font> command.  The remaining
+parameters specify the (x,y) points.  For example, the following command
+makes four rotated copies of the line segment from (0,5) to (3,0) and
+then connects them with lines to produce a pyramid:</p>
+
+<pre>             lathe 4  0,5  3,0</pre>
+
+<p>It is legal to have a lathe command with just one point.  The result will be
+a regular n-sided polygon lying in the xz-plane.</p>
+
+<p>The <font color="#007000">extrude</font> command is similar to
+<font color="#007000">lathe</font> in that it makes several copies of a curve
+that lies in the xy-plane, and it then joins those copies with lines.  However, 
+<font color="#007000">extrude</font> makes the copies by translating the
+original curve along the z-axis.  Each copy is separated from the next
+by one unit along the z-axis.  The z-values are centered about 0.
+for example, for <font color="#007000">extrude&nbsp;2</font>,
+the two z-values are -0.5 and 0.5.</p>
+
+<p>Besides all these basic objects, you can make <font color="#E70000">complex
+objects</font>.  A complex object is a list of items enclosed between
+a left bracket, [, and a right bracket,&nbsp;].  It can include objects
+and color specifications.  Each object in a complex object can be
+followed by its own set of transformations, as described below.  The
+objects can include basic objects, named objects created with
+the <font color="#007000">define</font> command, and nested complex
+objects.  Because of this ability to nest complex objects inside other
+complex objects, xModels is said to use <font color="#E70000">hierarchical
+models</font>.</p>
+
+
+<p><b><font color="#E70000">Transformations</font></b></p>
+
+<p>Any object can be followed by a list of one or more transformations
+that affect the size, position, and orientation of that object.  This 
+includes complex objects.  Any transformation applied to a complex object
+is applied to that object as a whole.  If an object inside a complex
+object has its own transformations, they are applied first, followed
+by the overall transformation of the object as a whole.</p>
+
+<p>A transformation consists of a word specifying the type of transformation,
+followed by one or more parameters.  For example, the command 
+<font color="#007000">rotate&nbsp;30</font> specifies that the object
+is to be rotated through an
+angle of 30 degrees about the z-axis.  Some transformations take a variable
+number of parameters.  For example, <font color="#007000">scale&nbsp;3</font>
+will magnify the object by a factor of 3 in all directions, while
+<font color="#007000">scale&nbsp;2,6,0.5</font> will scale it by
+factors of 2 in the x-direction, 6 in the y-direction, and 0.5 in the
+z-direction.</p>
+
+<p>When an object is followed by several transformations, they are applied
+in the order given.  For example in,</p>
+
+<pre>           square  xtranslate 5  rotate 30</pre>
+
+<p>the square is first translated 5 units in the positive x-direction, and
+is then rotated by 30 degrees about the origin.  Putting the transformations
+in the opposite order:</p>
+
+<pre>           square  rotate 30  xtranslate 5</pre>
+
+<p>gives a different result, since the square is first rotated and then
+translated.</p>
+
+<p>Here is a list of the transformations used in xModels, where A, B, C,
+D, E, F, and G are numbers (or, in the case of an animation, number ranges):</p>
+
+<UL>
+<LI><font color="#007000">scale A B C</font> -- Scales by factors of A in the x direction,
+B in the y direction, and C in the z direction.  Scaling by a fractional amount makes
+an object smaller.  Scaling by a negative amount reflects the object through the
+corresponding coordinate plane.  The scaling is centered at the
+origin; all other points move away from or towards the origin.  
+<LI><font color="#007000">scale A B</font> -- same as &quot;scale A B B&quot;.
+<LI><font color="#007000">scale A</font> -- same as &quot;scale A A A&quot;.
+<LI><font color="#007000">xscale A</font> -- same as &quot;scale A 1 1&quot;; scales in x-direction only.
+<LI><font color="#007000">yscale A</font> -- same as &quot;scale 1 A 1&quot;; scales in y-direction only.
+<LI><font color="#007000">zscale A</font> -- same as &quot;scale 1 1 A&quot;; scales in z-direction only.
+<LI><font color="#007000">translate A B C</font> -- Moves each point (x,y,z) to
+(x+A,y+B,z+C). The effect is to move the object A units in the x-direction, B units
+in the y-direction, and C units in the z-direction.
+<LI><font color="#007000">translate A B</font> -- same as &quot;translate A B 0&quot;.
+<LI><font color="#007000">translate A</font> -- same as &quot;translate A 0 0&quot;.
+<LI><font color="#007000">xtranslate A</font> -- same as &quot;translate A 0 0&quot;; moves an object A units in the x-direction.
+<LI><font color="#007000">ytranslate A</font> -- same as &quot;translate 0 A 0&quot;; moves an object A units in the y-direction.
+<LI><font color="#007000">ztranslate A</font> -- same as &quot;translate 0 0 A&quot;; moves an object A units in the z-direction.
+<LI><font color="#007000">xrotate A</font> -- Rotates everything though an angle of A degrees about the
+x-axis.  The x-axis is fixed, and everything else pivots around it.  The direction to
+use for positive angles is determined by the &quot;right-hand rule&quot;: Point the thumb
+of your right hand in the direction of the positive axis, and the fingers of your
+right hand will curl in the direction of a positive angle.
+<LI><font color="#007000">yrotate A</font> -- Rotates everything though an angle of A degrees about the
+y-axis.
+<LI><font color="#007000">zrotate A</font> -- Rotates everything though an angle of A degrees about the
+z-axis.
+<LI><font color="#007000">rotate A</font> -- same as &quot;zrotate A&quot;.  In the xy-plane,
+this looks like a rotation about the origin, with positive angles representing counterclockwise
+rotation and negative angles, clockwise rotation.
+<LI><font color="#007000">rotate A about B C</font> -- Rotate through an angle
+of A degrees about the line that starts at the point (B,C,0) and extends in the
+same direction as the positive z-axis.  In the xy-plane, this is just rotation 
+about the point (B,C).
+<LI><font color="#007000">rotate A about line B C D</font> -- Rotate by an
+angle of A degrees about the line that goes from the origin, (0,0,0), to the
+point (B,C,D).  (The two words &quot;about line&quot; can also be written
+as a single word &quot;aboutline&quot;.)  If (B,C,D) = (0,0,0), nothing happens.
+<LI><font color="#007000">rotate A about line B C D E F G</font> -- Rotate by an
+angle of A degrees about the line that goes from the point (B,C,D) to the
+point (E,F,G). 
+<LI><font color="#007000">xSkew A</font> -- This is the transformation
+which moves (x,y,z) to (x+Ay,y,z).  Lines that were perpendicular to the
+xz-plane are tilted (or &quot;skewed&quot;) to the left or right.
+<LI><font color="#007000">ySkew A</font> -- This is the transformation
+which moves (x,y,z) to (x,y+Ax,z).
+<LI><font color="#007000">xyShear A B</font> -- This is the transformation
+which moves (x,y,z) to (x+Az,y+Bz,z).  Lines perpendicular to the
+xy-plane are skewed.  (I have not included a complete set of skew/shear
+transformations, because I don't expect them to be used much.)
+</UL>
+
+<p>Note that although xModels is a 3-dimensional graphics program, you can 
+restrict yourself to two dimensions if you want.  The names and semantics
+of the transformations were chosen so that all the two-dimensional transformations
+are available with reasonable names.  This explains the otherwise odd
+<font color="#007000">rotate A about&nbsp;B&nbsp;C</font>, for
+example.</p>
+
+<p>It is important to understand what a list of transformation does to an 
+object.  All the transformations are applied to the object before it is displayed.
+So, <font color="#007000">square scale&nbsp;2&nbsp;5</font> is just a way
+of specifying a 2-by-5 rectangle, and <font color="#007000">circle translate&nbsp;5</font>
+is just a way of specifying a circle centered at the point (5,0).  You don't
+actually see the object moving or changing shape.  For that,
+you have to use an animation and specify a range of values for
+the transformation.   In that case, each frame of the animation gets its own
+transformation to specify the shape or position of the object in that frame.
+The object can change from one frame to the next, because a different
+transformation is used in each frame.</p>
+
+<p><b><font color="#E70000">Animation</font></b></p>
+
+<p>An animation is just a sequence of frames.  Each frame contains a 
+separate image.  If the images don't change too much from one frame to the
+next, the viewer will perceive continuous motion as the frames are
+played back in rapid succession.</p>
+
+<p>In xModels, a scene description that starts with the command
+<font color="#007000">animate&nbsp;N</font>, where N is a positive
+number, is an animation with N+1 frames.  The frames are numbered from
+0 to N.  (You should think of N as the number of intervals between
+frames.)  Then, to get any kind of motion or change in the animation, 
+you need to make some quantity change from frame to frame.  This is
+done by using number range in place of a number.  A number range consists
+of a starting value, followed by a colon, followed by a final value.
+In each frame of the animation, the number range represents a different
+value.  For example, in an 11-frame animation, the number range
+0:5 represents 0 in frame 0, 0.5 in frame 1, 1 in frame 2,...
+and 5 in frame 11.  Thus, the scene description:</p>
+
+<pre>              animate 10
+              circle scale 0:5
+</pre>
+
+<p>shows a circle that grows from a size of 0 in the first frame to 
+a size of 5 in the last frame.  And</p>
+
+<pre>             animate 30
+             square scale 5 rotate 0:90
+</pre>
+
+<p>shows a 5-by-5 square pivoting through a 90-degree turn about the origin.
+Note that the value 5 in this example is the same in each frame.  You don't
+need to use a number range for each value in an animation -- only for the
+values that you actually want to change during the animation.</p>
+
+<p>By adding additional parameters to the animate command, you can make
+&quot;segmented animations.&quot;.  For example, the command
+<font color="#007000">animate&nbsp;30&nbsp;50</font> specifies an
+animation with two segments.  The first segment has 31 frames, and the
+second segment has 51.  The final frame of the first segment is also the
+first frame of the second segment, so there are 81 frames in all.  (Remember
+that the numbers 30 and 50 actually specify the intervals between frames.)
+An animation can contain any number of segments. The first frame of the
+animation, the last frame, and any frame that is on the boundary
+between two segments are called <font color="#E70000">key
+frames</font>.</p>
+
+<p>A number range used in a segmented animation must specify a value for
+each of the key frames.  Thus, it must have exactly as many colons as
+there are segments in the animation.  For example, the number range 10:5:7 
+could be used in a two-segment animation.  During the first segment, 
+the value ranges from 10 to 5, and during the second segment, it ranges
+from 5 to 7.  The number range 0:0:10  has the constant value 0 throughout
+the first segment, and then its value ranges from 0 to 10 during the
+second segment.  Sometimes, you want a quantity that changes at a
+constant rate during the whole animation, rather than at different
+rates in different segments.  The notation for doing this is to use
+two or more colons in a row, with no numbers  between.  For
+example, 0::10  represents a quantity that varies evenly from 0 to 10
+across both segments of a two-segment animation.</p>
+
+
+
+
+<HR>
+<font size="-1">
+<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>),
+June 1997
+</font>
+
+</blockquote>
+
+</BODY>
+</HTML>

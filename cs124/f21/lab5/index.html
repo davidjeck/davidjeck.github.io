@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS124, Fall 2021, Lab 5</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+<style>
+   div p .rm {
+      font-style: normal;
+   }
+   .codedef {
+      font-weight: bold;
+      font-face: monospace;
+   }
+   pre > b { 
+      color: red; 
+   }
+</style>
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Lab 5: Hangman</h2>
+
+<div class="intro">
+
+<p>For this lab, you will implement the game of Hangman, which is described below.
+You will write the program file, <b>Hangman.java</b>, from scratch.  The program does
+not use JavaFX.  However, it does need input from the user.  To use 
+<a href="../lab2/lab2-files/textio/TextIO.java">TextIO</a> in your
+program, remember that you need to copy the textio directory into same directory
+as the program.  You could just copy-and-paste it from your lab2 folder.
+Also, remember to put "import textio.TextIO;" at the start of the program.</p>
+
+<p>Please read the Program Requirements and Hints, at the end of this lab, before starting work on
+the program!  And please spend some time designing the program before you start
+to code.</p>
+
+<p>In the version of the game for this lab, the computer will always use the same word,
+which is pretty pointless.  In the next lab, we will see how to add a list of words
+for the computer to use.</p>
+
+<p style="text-decoration: line-through">Your work for this lab is due at the start of next week's lab, as usual.  You can
+just turn in a copy of the file Hangman.java.  As long as your file is actually named
+Hangman.java, there is no need to put the file in
+a directory named lab5 (but you can do that if you want).</p>
+
+<p><b style="color:#990000">Change of plan on September 24:</b> You will not turn in the version of Hangman from this lab.
+You will improve the program in Lab 6, and only the improved version will be turned in for grading.</p>
+
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Hangman</h3>
+
+<p>Hangman is a two-person game in which one player picks a secret word, and the other
+player tries to guess the letters that occur in the word.  In the computer version,
+the computer picks the word, and the user tries to guess it.</p>
+
+<p>Each time the user enters a letter, they are told whether or not it occurs in the
+word.  If it does not occur, that counts as a bad guess.  If the user reaches the
+maximum allowed number of bad guesses, they lose the game.  They win the game by
+guessing all of the letters in the word before reaching the limit on bad guesses.</p>
+
+<p>Here is what the first few moves in a game of Hangman might look like, when it is 
+played in a Terminal, with the letters entered by the user shown in red:</p>
+
+<pre class=code>
+Let's play Hangman!
+
+The word has 13 letters.
+
+What is your first letter? <b>t</b>
+   Yes, the word contains a T.
+
+The word so far:   _ _ _ T _ _ _ _ _ T _ _ _ 
+
+Your previous guesses: T
+What is your next letter? <b>e</b>
+   Sorry, the word does not contains a E.
+   You have now made 1 bad guesses.
+   You have 6 guesses left.
+
+The word so far:   _ _ _ T _ _ _ _ _ T _ _ _ 
+
+Your previous guesses: ET
+What is your next letter? <b>i</b>
+   Yes, the word contains a I.
+
+The word so far:   _ _ _ T _ _ _ I _ T I _ _ 
+
+Your previous guesses: EIT
+What is your next letter? <b>s</b>
+   Sorry, the word does not contains a S.
+   You have now made 2 bad guesses.
+   You have 5 guesses left.
+
+The word so far:   _ _ _ T _ _ _ I _ T I _ _ 
+
+Your previous guesses: EIST
+What is your next letter? <b>n</b>
+   Yes, the word contains a N.
+
+The word so far:   _ _ N T _ _ _ I _ T I _ N 
+
+Your previous guesses: EINST
+What is your next letter? <b>r</b>
+   Yes, the word contains a R.
+
+The word so far:   _ _ N T R _ _ I _ T I _ N 
+      .
+      .
+      .
+</pre>
+
+</div>
+
+<div class="section">
+
+<h3>Program Requirements and Hints</h3>
+
+<p>You must implement the game fully.  The game ends when the word is complete
+or when the user reaches the limit on bad guesses (7 in my program).</p>
+
+<p>You must output the "word so far" in the format shown after each guess.
+Use an underscore character followed by a space to represent letters in
+the word that have not yet been guessed.  Use the letter followed by a
+space if the letter has been guessed.  Other than that, you don't need
+to follow the exact format shown above, but you do need to make the
+output neat and keep the reader fully informed about what is going on.</p>
+
+<p>This is a preliminary version of the program that always uses the
+same word to be guessed by the user.  You should store that word
+in a variable.  However, your program must still work if a different
+word is stored in the variable.  For example, always refer to the
+length of the word as <i>word.length</i>(), and not as a numerical
+value such as 13.</p>
+
+<p class=np><b>Hints:</b>
+<ul>
+<li>You do <b>not</b> need to store a string like
+<code style="white-space:pre">_ _ N T _ _ _ I _ T I _ N</code>
+in a variable!  You can go through the word and
+output the characters one-by-one.</li>
+<li>You will need to keep a string that contains all of the 
+letters that have been guessed by the user.  Every time the
+user enters a letter, add it to that string.</li>
+<li>You can use <i>TextIO.getlnChar</i>() to read a single character
+into a variable of type <i>char</i>.</li>
+<li>It will be easiest if all the letters that you are working
+with are in upper case.  You should convert the word to upper
+case.  But you shouldn't force the user to enter upper case letters.
+If you have a variable of type <i>char</i>, and you
+want to convert it to upper case, you can do that with
+<i>letter = Character.toUpperCase(letter)</i>.</li>
+<li>It is suggested to use a <i>while(true)</i> loop,
+and use a <i>break</i> statement to exit the loop when the user
+wins or when the user loses.</li>
+<li>It is easy to tell when the user loses.  Checking
+that the user has won is harder.  You have to figure out 
+a way to check whether all of the letters in the word
+have been guessed, that is, whether they are all in the
+list of guessed letters.</li>
+</ul>
+
+<p>Some things that are not required but might be nice:  If the
+user guesses a letter that they have already guessed, you could
+just ask them to enter a different letter (and not count it as
+a bad guess even if the letter is not in the word).
+And you could print out the list of letters-guessed-so-far in
+alphabetical order; there was an example in class that showed
+pretty much how to do that without actually keeping the list
+in alphabetical order.</p>
+
+</div>
+
+</div>
+</body>
+</html>

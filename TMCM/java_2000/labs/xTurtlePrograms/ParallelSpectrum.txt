@@ -1,0 +1,17 @@
+
+{ This program draws a pattern that shows colored, bent
+  lines radiating from the center.  The colors of the lines
+  cover the spectrum of possible colors. }
+
+fork(90)  { creates 90 turtles }
+
+face( 4 * ForkNumber )   { Each turtle faces 
+                           in a different direction}
+
+hsb(ForkNumber / 90, 1, 1) { Each turtle has its own color }
+
+forward(3)   { each turtle draws a "bent line" }
+turn(45)
+forward(3)
+turn(-45)
+forward(3)

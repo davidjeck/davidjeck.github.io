@@ -1,0 +1,787 @@
+<HTML>
+
+<HEAD> <TITLE>xTurtle Lab 1</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xTurtle Lab 1:
+       Introduction to Programming</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+1">T</font>HIS LAB is an introduction to a high-level programming language
+called <font color="#E70000">xTurtle</font>. This language was
+created to be used with
+<cite><A HREF="http://math.hws.edu/TMCM.html">The Most Complex
+Machine</A></cite>, but it is in the mainstream of high-level
+languages, along with Pascal, Ada and&nbsp;C.  It incorporates some
+ideas common to all these languages, such as variables, assignment
+statements, loops, if statements and subroutines.  (You should find
+that you are already familiar with the basic ideas because of your
+work in previous labs.) The xTurtle language also contains
+special-purpose commands for doing <font color="#E70000">turtle
+graphics</font>. These commands can be used to draw pictures on the
+computer screen.  In this lab, you will learn about the basic
+xTurtle commands, about loops and if statements, and
+about variables.  Future labs will cover programming in more
+detail, including the use of subroutines.</p>
+
+<p>This lab covers some of the same material as Chapter 6 of
+<cite>The Most Complex Machine</cite>. The lab is meant as a
+self-contained introduction to this material, but it would still be
+useful to read Chapter 6 before doing the lab.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#basic">Basic xTurtle Commands</A>
+   <LI><A HREF="#color">Color</A>
+   <LI><A HREF="#programs">Writing xTurtle Programs</A>
+   <LI><A HREF="#io">Interacting with the User</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>Start by clicking this button to launch xTurtle in its own window:</p>
+
+
+<p align=center>
+<applet codebase="../classes/" archive="xTurtleClasses.zip"
+        code="tmcm.xTurtleLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xTurtlePrograms/">
+   <param name="URL"  value="Necklace.txt">
+   <param name="URL1" value="RandomWalk.txt">
+   <param name="URL2" value="InputOutputExample.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+</p>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="basic">Basic xTurtle Commands</A></font></H3>
+
+<p>When the xTurtle applet first starts up, it displays a 
+white drawing area on the left, with a strip of controls
+on the right.  There is a &quot;turtle&quot; in
+the center of the drawing area, represented as a small
+black triangle.  The turtle has a <font color="#E70000">position</font>
+and a <font color="#E70000">heading</font>.
+Its heading is the direction it is facing, given
+as a number of degrees between -180 and 180.  The turtle has a
+heading of zero when it is facing to the right, a heading of 90 when it
+is facing upwards towards the top of the screen, and a heading of
+-90 when it is facing downwards.  Its position is given
+by two numbers: an <font color="#E70000">xcoord</font>,
+or horizontal coordinate, and a <font color="#E70000">ycoord</font>, or
+vertical coordinate.</p>
+
+<p>The drawing area of the applet includes
+a twenty-by-twenty square in which the turtle can move and draw.
+This square has horizontal coordinates from -10 on the left to 10 on
+the right, and it has vertical coordinates from -10 at the bottom
+to 10 at the top.  Because the drawing area is unlikely to be
+exactly square, the coordinates for the entire drawing area
+probably extend beyond the range -10 to 10 in either the
+horizontal or vertical direction.</p>
+
+<p>The turtle starts out in the center
+of the screen -- at the point (0,0) -- facing to the right.
+It can obey commands such as &quot;<font color="#007000">forward(5)</font>,&quot;
+which tells it to move forward five units, and &quot;<font color="#007000">turn(120)</font>,&quot;
+which tells it to rotate in place through an angle of 120 degrees.
+(It turns counterclockwise if the number of degrees in positive and
+clockwise if the number of degrees is negative.)  The number in
+parentheses is called a <font color="#E70000">parameter</font>
+for the command; you can substitute any number you want.
+The parameter in a &quot;forward&quot; command tells the turtle
+<strong>how far</strong> to move forward, while the parameter
+in the &quot;turn&quot; command tells it <strong>how many
+degrees</strong> to turn.</p>
+
+<p>The turtle can draw a line as it moves.  You can think of it as
+dragging a pen that draws as the turtle moves.  The command
+&quot;<font color="#007000">PenUp</font>&quot; tells the turtle to &quot;raise the pen.&quot;
+While the pen is raised, the turtle will move without drawing
+anything. The command &quot;<font color="#007000">PenDown</font>&quot; tells the turtle to
+lower the pen again.</p>
+
+<p>Just below the drawing area of the applet are a text-input
+box and a button labeled &quot;Do It&quot;.  You can type
+commands for the turtle in the text-input box.  When you
+press return or click on the &quot;Do It&quot; button,
+the turtle will carry out the command or commands that you
+typed.   You can type in several commands at once, or
+you can type in one command at a time, pressing return after each 
+command.  Note also that after a command is executed, the contents 
+of the text-input box are hilited, so that as soon as you start 
+typing, the previous command will be erased and replaced with what
+you type.  And finally, note that you can change the speed at which
+the turtle follows a sequence of commands by changing the
+setting of the Speed pop-up menu, which is one of the controls
+located to the right of the drawing area.  (The speed is initially
+set to &quot;Fast&quot;.)</p>
+
+<p>As an exercise, you should try to make the turtle draw two separate,
+parallel lines, like this:</p>
+
+<p align=center><IMG SRC="images/xTurtle0.gif" WIDTH="270" HEIGHT="61"></p>
+
+<p>If you make a mistake, you can use the command
+&quot;<font color="#007000">clear</font>&quot; to clear
+the screen and the command &quot;<font color="#007000">home</font>&quot;
+to return the turtle to its original position and orientation
+(at the center of the screen, facing right).</p>
+
+
+
+<p>The turtle can execute a number of other commands, in addition to
+<font color="#007000">forward</font>,
+<font color="#007000">turn</font>, 
+<font color="#007000">PenUp</font>,
+<font color="#007000">PenDown</font>, 
+<font color="#007000">clear</font>,
+and <font color="#007000">home</font>.
+Here are a few more basic commands.
+In this list, x and y are parameters.  You can replace a
+parameter with a number when you use the command.</p>
+
+<UL>
+
+<LI><font color="#007000">back(x)</font> tells
+the turtle to back up x units, that is, to move x units in the
+direction <strong>opposite</strong> to its current heading.
+For example, <font color="#007000">back(3)</font> tells the
+turtle to back up three units.  Negative
+numbers are allowed as parameters for both
+<font color="#007000">forward</font> and <font color="#007000">back</font>.
+<font color="#007000">Back(x)</font> is provided only
+as a convenient shorthand for <font color="#007000">forward(-x)</font>.
+
+<LI><font color="#007000">face(x)</font> 
+makes the turtle turn to a heading of x
+degrees from heading zero.  For example, <font color="#007000">face(90)</font> points
+the turtle straight up, <font color="#007000">face(-90)</font> points it straight down, 
+and <font color="#007000">face(180)</font>
+points it to the left.  Note the distinction between
+<font color="#007000">turn</font> and <font color="#007000">face</font>: 
+<font color="#007000">turn</font> specifies a change in
+direction from the current heading, while
+<font color="#007000">face</font> specifies a
+new heading without any reference to whatever the old direction might
+have been.
+
+<LI><font color="#007000">moveTo(x,y)</font> 
+tells the turtle to move from wherever it
+happens to be, to the point with coordinates x and y.
+
+<LI><font color="#007000">move(x,y)</font> 
+is related to <font color="#007000">moveTo(x,y)</font> in the same
+way that <font color="#007000">turn(x)</font> is related to <font color="#007000">face(x)</font>. 
+That is, while <font color="#007000">moveTo(x,y)</font> says
+&quot;move from the current location, whatever it is,
+to the point with coordinates (x,y),&quot;
+<font color="#007000">move(x,y)</font> says
+&quot;move x units horizontally and y units vertically
+<strong>from the current location</strong>.&quot;
+Note that these commands do not depend upon or change the heading
+of the turtle.
+
+<LI><font color="#007000">circle(x)</font> 
+draws a circle of radius x.  You should think of
+the turtle moving in a circle starting from its current position and
+returning to that position at the end.  Note that the turtle position
+is <strong>on</strong> the circle. 
+If x is positive, the turtle curves to its left as it
+draws the circle, and the center of the circle is x units to the
+left of the original turtle position.  If x is negative, the turtle
+curves to the right, and the center of the circle is to the right of
+the original position.
+
+<LI><font color="#007000">arc(x,y)</font> 
+draws part of a circle of radius x.  A full circle
+would be 360 degrees; <font color="#007000">arc(x,y)</font>
+draws an arc of y degrees.
+As with <font color="#007000">circle(x)</font>,
+the turtle curves to the left if x is
+positive and to the right if x is negative.  If y is negative
+then the turtle will &quot;back up&quot; along an arc.
+Note that the turtle changes position and heading as it draws.
+
+<LI><font color="#007000">HideTurtle</font> and
+<font color="#007000">ShowTurtle</font> make the turtle (the small
+black triangle) invisible and visible.  The turtle can still draw while
+it is invisible.  (There is a check-box labeled &quot;No Turtles&quot;
+in the control strip to the right of the drawing area.
+When this box is checked,
+the turtle will always be invisible, <strong>regardless
+</strong> of whether the program uses any <font color="#007000">HideTurtle</font>
+or <font color="#007000">ShowTurtle</font> commands.)
+
+</UL>
+
+
+<p>Draw some pictures using these basic commands.
+Here are a few things you can try, for example:</p>
+<UL>
+<LI><font color="#007000">circle(7) circle(5) circle(3) circle(1)</font>
+<LI><font color="#007000">arc(5,90) arc(-5,-90) arc(5,90) arc(-5,-90)</font>
+<LI><font color="#007000">forward(5) turn(120) forward(5) turn(120) forward(5)</font>
+<LI><font color="#007000">forward(7) turn(90) forward(5) back(10)</font>
+</UL>
+
+<HR>
+<H3><font color="#E70000"><A NAME="color">Color</A></font></H3>
+
+<p>Unless you tell it to do otherwise, the turtle will draw
+everything in red.  However, you can tell it to change its
+drawing color to any other color.  The turtle understands
+the following basic color commands:
+<font color="#007000">red</font>,
+<font color="#007000">blue</font>,
+<font color="#007000">green</font>,
+<font color="#007000">cyan</font>,
+<font color="#007000">magenta</font>,
+<font color="#007000">yellow</font>,
+<font color="#007000">black</font>,
+<font color="#007000">white</font>, and
+<font color="#007000">gray</font>.  After it executes one
+of these commands, it will draw in the specified color
+until it comes to another color-change command.  For example,
+the following sequence of commands will draw a triangle
+with each side in a different color:</p>
+
+<pre>            green forward(5) turn(120)
+            blue  forward(5) turn(120)
+            cyan  forward(5) turn(120)
+</pre>
+
+<p>Besides these basic color commands, there are two commands
+that can be used to specify any drawing color that the
+computer is capable of displaying.  The commands are
+<font color="#007000">rgb(x,y,z)</font> and
+<font color="#007000">hsb(x,y,z)</font>, where x, y, and z are
+parameters that can have any value in the range 0.0 to 1.0.
+To understand these commands, you need to know something about
+color.  (But you can safely skip the details, if you want.)</p>
+
+<p>Any color can be specified as some combination of
+the <font color="#E70000">primary colors</font>,
+red, green, and blue.  In the command <font color="#007000">rgb(x,y,z)</font>,
+the parameters x, y, and z specify the amount of red,
+green, and blue in the color.  For example, a value of zero for x
+indicates that the color is to contain no red at all, and a value
+of one for x means that the color contains the maximum possible
+amount of red.  So, <font color="#007000">rgb(0,0,0)</font>
+represents black, <font color="#007000">rgb(1,0,0)</font>
+represents bright red, and <font color="#007000">rgb(0.5,0,0)</font>
+is a darker red.  Some other examples: 
+<font color="#007000">rgb(0.8,0.8,0.8)</font> is a very light gray,
+<font color="#007000">rgb(1,0.6,0.6)</font> is pink, and
+<font color="#007000">rgb(0,0.4,0.4)</font> is a dark blue-green.</p>
+
+<p>The command <font color="#007000">hsb(x,y,z)</font> uses
+an alternative method of specifying a color.  In this command,
+x, y, and z represent <font color="#E70000">hue</font>,
+<font color="#E70000">saturation</font>, and
+<font color="#E70000">brightness</font>.  The hue is the
+basic color: As x ranges from zero to one, the hue ranges
+through the spectrum from red through orange, yellow, green
+blue, violet, and back to red.  The meaning of the
+brightness parameter is pretty clear, with a value of one
+representing the brightest color of a given shade.  The
+saturation can be thought of as follows:  A saturation value
+of one gives the purest possible version of a color.
+Decreasing the saturation from one towards zero is like
+mixing paint of that color with gray paint of equal brightness.
+The basic color remains the same, but it becomes &quot;diluted.&quot;</p>
+
+<p>You'll find some examples of using the rgb and hsb
+commands later in the lab.</p>
+
+<HR>
+<H3><font color="#E70000"><A NAME="programs"></A>Writing xTurtle Programs</font></H3>
+
+<p>The power of a computer comes from its ability to
+execute programs.  The xTurtle applet allows you to write
+and run programs.  Programs can include all the basic commands
+described above.  They can also include loops, decisions,
+subroutines, and other features.</p>
+
+<p>The applet can be configured to load one or more programs
+when it starts up.  The applet that you launched with the
+button <A HREF="#launch">above</A> should have loaded several
+sample programs that you will use in this lab.  You can also
+write new programs from scratch.  You can select among the
+programs that the applet knows about using the pop-up menu
+at the very top of the applet.  You can begin a new program
+by clicking on the &quot;New Program&quot; button, or by
+choosing &quot;[New]&quot; from the pop-up menu.  (There
+are also buttons for loading programs from files and for
+saving programs to files; however, the configuration of your
+Web browser might prevent these buttons from functioning.)</p>
+
+<p>One of the sample programs for this lab is called
+&quot;Necklace&quot;.  Select this program from the
+pop-up menu at the top of the xTurtle applet.
+This program contains an example of a <strong>loop</strong>.
+The program itself reads:</p>
+
+<pre>       PenUp
+       moveTo(0,-5)
+       PenDown
+       LOOP
+           arc(5,20)
+           circle(-0.5)
+           EXIT IF heading = 0
+       END LOOP
+</pre>
+
+<p>In addition to these commands, the program contains a lot of
+<font color="#E70000">comments</font>.
+A comment is anything enclosed between braces,
+{&nbsp;and&nbsp;}.  Comments are meant for human readers of
+the program and are completely ignored by the computer.
+You should read the comments on the sample program 
+to help you understand what it does and how it works.</p>
+
+<p>In an xTurtle program, a loop consists of the word
+<font color="#007000">loop</font>,
+then a sequence of instructions, then the words
+<font color="#007000">end loop</font>.  One of 
+the instructions must be an <font color="#007000">exit</font>
+statement, which gives a
+condition for ending the loop.  In the sample program,
+the statement &quot;<font color="#007000">exit if
+heading = 0</font>&quot; includes the condition
+&quot;<font color="#007000">heading = 0</font>.  Since the
+heading is the direction that the turtle is facing, this
+condition is true when the turtle is facing
+in the direction zero (that is, directly towards the right).</p>
+
+<p>When a loop is executed, the computer will execute the
+statements in the loop repeatedly.
+Each time the <font color="#007000">exit</font> statement
+is executed, the computer tests the
+condition specified by that statement. If the condition is
+satisfied, the computer jumps out of the loop.  (Ordinarily, after
+exiting from a loop, the computer jumps to the statement that follows
+the <font color="#007000">end loop</font>.  In this example, there is no further statement
+after the loop, so the program ends when the loop ends.)</p>
+
+<p>To run a program in the xTurtle program, select it from the
+pop-up menu if necessary, so it is visible on the screen.
+Then click on the &quot;Run Program&quot; button.  If there
+are no errors in the program, the computer will switch back
+to the drawing area and execute the program.  You can control
+the rate of execution with the speed pop-up menu.  You can
+pause the execution with the &quot;Pause&quot; button, and
+you can terminate it permanently with the &quot;Stop&quot;
+button.  After the program has been executed, you can run
+it again by clicking the &quot;Run Program&quot; button.
+Note that every time you run a program, the turtle starts
+out in its initial configuration:  at the center of the
+drawing area, facing right, with the pen down, and with
+the drawing color set to red.</p>
+
+<p>Run the Necklace program, and try to understand
+how it works.  As another example, click on the &quot;New
+Program&quot; button and then type in and run the following
+program.  (Instead of typing it, you might want to
+be clever and use cut-and-paste.)</p>
+
+<pre>         DECLARE hue
+         hue := 0
+         LOOP
+            hsb(hue,1,1)
+            forward(5)
+            back(5)
+            turn(360/100)
+            hue := hue + 0.01
+            exit if hue = 1
+         END LOOP
+</pre>
+
+<p>This program uses a <font color="#E70000">variable</font>
+named &quot;hue&quot;.  (You can use any names you want
+for variables, as long as you avoid words that already have
+a special meaning, such as &quot;loop&quot; and &quot;if&quot;.)
+A variable is just a memory location which has been
+give a name and which can be
+used to store a value.  In xTurtle, you give a name
+to a memory location
+with a <font color="#007000">declare</font> statement.
+Once you have declared a variable, you can store
+a value in it with an <font color="#E70000">assignment
+statement</font>, which has the form</p>
+
+<pre>           &lt;variable-name&gt;  :=  &lt;value&gt;
+</pre>
+
+<p>The operator := is called the <font color="#E70000">assignment
+operator</font>.  It tells the computer to calculate the
+value on the right and to store it into the variable on
+the left.  The value on the right can be given as a number,
+as another variable, or as a mathematical formula.  For example:</p>
+
+<pre>           hue := hue + 0.01
+           x := 17
+           newAmount := oldAmount
+           cost := length * width * costPerSquareFoot
+</pre>
+
+<p>Next, we turn to an example that introduces the
+<font color="#E70000">if statement</font>.  This is the
+sample program &quot;RandomWalk&quot;, which should
+already be loaded into the xTurtle applet.  Select the
+&quot;RandomWalk&quot; program from the pop-up menu
+and run the program several times.
+This program makes the turtle do a &quot;random walk&quot;
+in which it  repeatedly moves in a randomly chosen direction.
+Read the program and the comments on it, and try to understand
+how it works.</p>
+
+<p>In particular, look at the if statement in the Random
+Walk program.  An if statement is used to decide among alternative
+courses of action.  An if statement begins with the word
+<font color="#007000">if</font> and ends with
+the words <font color="#007000">end if</font>.  (The 
+&quot;end if&quot; here is not a separate command; it is merely
+a required syntactic marker to mark the end of the if statement.
+It is very different from an &quot;exit if&quot; statement,
+and you should try not to confuse them.)
+The exact rules for using if statements
+are rather complicated, and are covered in
+<cite>The Most Complex Machine</cite> and in the
+detailed on-line <A HREF="../xTurtle/info.html">information</A> about
+xTurtle.  However,
+you should be able to get the basic idea by looking at the example
+in the sample program.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="io">Interacting with the User</A></font></H3>
+
+
+<p>Any real programming language needs to provide
+some way for a program to communicate with the person who is using
+the program.  The xTurtle programming language provides only minimal
+support for input and output, but what it provides is enough for a
+program to have a simple dialog with the user.</p>
+
+<p>There are two commands for <font color="#E70000">output</font>
+(sending information from the computer
+to the user), and one command for <font color="#E70000">input</font>
+(getting information from the
+user into the computer).  All of these commands use
+<font color="#E70000">strings</font>. A string
+is sequences of characters enclosed in quotes, such as:
+<tt>&quot;Hello&quot;</tt>.  The command</p>
+ 
+<pre>               DrawText(&quot;Hello&quot;)
+</pre>
+
+<p>will print the string <tt>Hello</tt> in the drawing area at
+the current turtle position.  (Note that the quotes are 
+<strong>not</strong> of the string that is displayed.  The
+quotes are just there in the program to tell the computer that
+this is a string.)</p>
+
+<p>The command</p>
+
+<pre>               TellUser(&quot;Hello&quot;)
+</pre>
+
+<p>will display {\tt Hello} in a little green-colored box
+in the center of the display area.  There
+will also be a button labeled &quot;OK&quot;.
+The user reads the string and then clicks on the OK
+button to get rid of the box.
+The <font color="#007000">TellUser</font> command
+has no permanent effect on the picture in the drawing area.</p>
+
+<p>Finally, there is the more complicated input command,
+<font color="#007000">AskUser</font>. This command allows
+the user to enter a number; the number entered by the user
+will be stored in a variable.  The variable must, of course,
+be declared before it can be used in this command.
+For example, assuming that a variable named
+&quot;<font color="#007000">betAmount</font>&quot; has been declared, the command</p>
+
+<pre>               AskUser(&quot;How much do you want to bet?&quot;, betAmount)
+</pre>
+
+<p>will display a box containing the string
+&quot;How much do you want to 
+bet?&quot; along with a
+text-input box where the user can enter a response.
+The number entered by the user will be stored in the
+variable <font color="#007000">betAmount</font>, and the
+program can then use that number by referring to the
+variable.</p>
+
+<p>All of the input/output commands have a
+nice feature that allows you to include the value
+of a variable in a string.  If a string includes the special
+character #, then that # must be followed by
+the name of a variable.  When the
+string is displayed, the # and the name will
+be replaced by the value of the variable.
+For example, if <font color="#007000">betAmount</font> and
+<font color="#007000">winnings</font> are variables
+with the values 25 and 75, then
+
+<pre>              TellUser(&quot;You bet #betAmount dollars; you win $#winnings.&quot;)
+</pre>
+
+<p>would display the string: <tt>You bet 25 dollars; you
+win $75.</tt></p>
+
+
+<p>All of this is illustrated in the sample program
+&quot;InputOutputExample&quot;.
+You should select this program from the pop-up menu, read it,
+run it, and try to understand it.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font>
+Find a sequence of xTurtle commands to draw each of
+the following:  a square with a circle inside it;
+a pair of parallel lines connected by half-circles
+at each end; a plus sign.  The pictures should
+look something like this:
+</p>
+<p align=center><IMG HEIGHT="54" WIDTH="284" 
+                    SRC="images/xTurtle1.gif"></p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+Find a sequence of xTurtle commands that will draw
+your initials.  Draw each initial in a different color.
+</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>
+For this exercise, experiment with the &quot;Necklace&quot;
+sample program.  The original program draws a large circle
+of radius 5, made up of a sequence of 20-degree arcs.
+Between each pair of arcs, another small circle is added
+as decoration.  You can try changing the size of the
+arcs in the large circle.  For example, change the &quot;20&quot;
+to &quot;3&quot; and you'll get a decoration every 3 degrees
+instead of every 20 degrees.   You could also change
+the radius in the arc command.  You can try using a different
+decoration.  For example, try changing 
+<font color="#007000">circle(-0.5)</font> to
+<font color="#007000">forward(5) back(5)</font>.
+You could be more creative.  Try using a triangle or
+a square as decoration.  (Whatever commands you use to
+draw the decoration, you should be sure that they return
+the turtle to the same position and heading as when
+it starts.)  Try to find the prettiest variation on the 
+&quot;necklace&quot; theme that you can find.</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+The following program was used as an example earlier in
+the lab.  It draws 100 lines radiating out from a central
+point.  Each line is drawn with a different &quot;hue,&quot;,
+and the colors of the lines range throughout the entire
+spectrum.</p>
+
+
+<pre>         DECLARE hue
+         hue := 0
+         LOOP
+            hsb(hue,1,1)
+            forward(5)
+            back(5)
+            turn(360/100)
+            hue := hue + 0.01
+            exit if hue = 1
+         END LOOP
+</pre>
+
+<p>How would you modify this program so that, instead of
+changing the hue from one line to the next, you change
+the saturation instead?  What does the resulting picture
+look like?  (Try it and find out!)
+</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+The word <font color="#007000">random</font> can be used
+in a program to represent a random value in the range
+from 0.0 to 1.0.  (<font color="#007000">Random</font>
+is actually a function with no parameters, but it acts
+like a variable that has a different value each time it
+is used.)  What happens if you substitute the 
+command <font color="#007000">rgb(random,random,random)</font>
+for the command <font color="#007000">hsb(hue,1,1)</font>
+in the program from Exercise 4?  Why?  Explain carefully
+what the modified program does.
+</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+Modify the &quot;RandomWalk&quot; sample program so
+that each line is a different, randomly chosen color.
+</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+In the &quot;RandomWalk&quot; sample program, the computer
+chooses one of the <strong>four</strong> directions 0, 90, -90 and 180 at random.
+Modify the program so that it chooses one of the <strong>three</strong>
+directions 0, 120 and -120 instead.  It should have an equal chance of choosing
+any of these directions.  Make sure that you test your program!
+</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Write a program that can draw a square in any of
+three different colors.  It should let the user of the
+program decide which color to use.  Ask the user to
+&quot;Enter 0 for red, 1 for blue, and 2 for green.&quot;
+If the user enters an invalid response, you should display
+an error message instead of a square.
+</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+With what you have learned in this lab, you
+can write a simple guessing game program (which will use none of the
+graphical capabilities of xTurtle).  Write a program in which the
+computer chooses a random integer between 1 and 100, and the user
+tries to guess the number.  Each time the user makes a guess, the 
+computer should (honestly) tell the user &quot;Sorry, your guess is too high,&quot;
+&quot;Sorry, your guess is too low&quot; or &quot;You got it.&quot;
+Although this program does something completely different from the
+random walk sample program, nevertheless it is similar in general
+outline.  In particular, you will use an if statement inside
+a loop.  Use a loop
+to allow for repeated guesses.  The loop will end when the user guesses
+correctly.  Your program can begin the following three
+lines, before the loop:</p>
+
+<pre>        DECLARE answer
+        DECLARE guess
+        answer := randomInt(100)
+</pre>
+
+<p>Your program should include comments.  Like the sample programs,
+it should use indentation to show the structure of the program.
+(The &quot;Indent&quot; button can be used to
+automatically indent a program; this feature is also useful for
+finding certain types of errors in a program, such as a missing
+<font color="#007000">end if</font>.)</p>
+
+<p><font color=blue><b>Exercise 10:</b></font>
+This exercise assumes that you have completed Exercise 9
+successfully.  Improve the program from that exercise so
+that after each game, it will give the user the option of
+playing again.  You will need to add <strong>another</strong>
+loop to the program, containing the loop that already exists.
+You will also need to know a new command.  The 
+<font color="#007000">YesOrNo</font> command can
+be used to ask the user a yes-or-no question.  Specifically,
+the command</p>
+
+<pre>           YesOrNo(&quot;Do you want to play another game?&quot;, response)
+</pre>
+
+<p>will ask the user the given question. It will store a zero
+in the variable <font color="#007000">response</font> if the user answers
+no and will store a one in that variable if the user answers yes.
+The outer loop should continue until the value of the
+response is zero.
+</p>
+
+<p><font color=blue><b>Exercise 11:</b></font>
+You have probably already discovered that the computer
+can display <font color="#E70000">error messages</font>
+if you try to run a program that contains an error.
+Errors that the computer can find before actually running
+the program are called <font color="#E70000">syntax
+errors</font>.  The following program contains several
+syntax errors.  Find each error and explain what is
+wrong in each case.  (You can type in the program and
+let the computer find the errors.)</p>
+
+<pre>          DECLARE length
+          length = 8
+          LOOP
+             forward length
+             turn(90)
+             length := length - 1
+             EXIT IF length equals 0
+          END LOOP
+</pre>
+
+<p>Some errors can only be found when a program is running.
+For example, what error occurs when the following program is
+run?  (Type it in and find out!)</p>
+
+<pre>        DECLARE sum, count
+        sum := 0
+        count := 0
+        LOOP
+           sum := sum + 1/count
+           count := count + 1
+           EXIT IF count = 10
+        END LOOP
+        DrawText(&quot;The sum is #sum.&quot;)
+</pre>
+
+<p>There is a third -- and much worse -- type of error,
+which occurs when the program gives an incorrect result
+but the computer gives you no warning of the fact that
+the answer is wrong.  Give an example of such an error.
+Explain why the computer cannot detect such
+&quot;wrong-answer errors.&quot;
+</p>
+
+
+<p><font color=blue><b>Exercise 12:</b></font>
+This exercise assumes that you are familiar with
+the &quot;xComputer&quot; model computer, which is
+used in some other labs.  Write a short essay comparing the
+assembly language of xComputer with the high-level 
+programming language, xTurtle.
+For example, you could:  compare the way loops are constructed in
+each language; compare labels in assembly language to variables
+in xTurtle; and compare the way computations are done in assembly
+language with the way they are done by assignment statements in
+xTurtle.
+</p>
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

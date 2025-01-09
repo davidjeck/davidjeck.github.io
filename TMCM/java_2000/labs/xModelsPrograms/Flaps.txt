@@ -1,0 +1,33 @@
+
+animate 120
+
+define flap [    ; a rectangle in the xy-plane, lying
+                 ;       to the right of the origin
+   square scale 5 3
+          xtranslate 5
+ ]
+ 
+define paddles [   ; eight flaps with different y-rotations
+   hsb 0 1 1
+   flap
+   hsb 0.125 1 1
+   flap yrotate 45
+   hsb 0.25 1 1 
+   flap yrotate 90
+   hsb 0.375 1 1 
+   flap yrotate 135
+   hsb 0.5 1 1  
+   flap yrotate 180
+   hsb 0.625 1 1 
+   flap yrotate 225
+   hsb 0.75 1 1 
+   flap yrotate 270
+   hsb 0.875 1 1
+   flap yrotate 305
+]   
+ 
+ 
+background black
+ 
+paddles
+   yrotate 0:360   ; paddles rotate around the y-axis.

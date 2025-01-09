@@ -1,0 +1,354 @@
+<html>
+<head>
+<title>CS 124 Test #2 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Spring 2021:<br>
+Sample Answers to the Second test</h2>
+
+<p class=info><i>These are sample answers only.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+Briefly explain the meaning of each of the following modifiers in Java:
+</p>
+<p style="margin-left:40px">
+   <b>a)</b>&nbsp;public<br>
+   <b>b)</b>&nbsp;final<br>
+   <b>c)</b>&nbsp;static
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<p><b>a)</b>&nbsp;
+When a variable or method is declared <i>public</i>, it can be accessed from
+anywhere in the program, that is, from any class.
+</p>
+<p><b>b)</b>&nbsp;
+When a variable is declared <i>final</i>, its value cannot be changed after
+it has been initialized.
+</p>
+<p><b>c)</b>&nbsp;
+When a variable or method is declared <i>static</i>, it is part of the class 
+itself.  There is only one copy, and it exists as long as the class exists.
+(This is as opposed to non-static variables and methods, which become part of
+objects created from that class, and each of those objects has its own copy.)
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+Explain what is meant by an <i>instance</i> of a class.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+An instance of a class is an object that was created by a constructor from that class 
+and containing copies of all the instance variables and instance methods that are
+defined in the source code of the class.  [Soon, we will see that an instance of a 
+subclass of a class is also considered to be an instance of the class.]
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+A variable can be a <i>local variable</i> or a <i>global variable</i>.
+What do these two terms mean? Explain the difference.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+Local variables are declared inside subroutines.  They are local to the block in which
+they are declared.  That is, they can only be used in that block, and after that block
+ends, they no longer exist and do not keep their value.  (Local variables are inside
+the "black box" and are used for scratch work that is invisible from outside the box.)</p>
+<p>Global variables are declared outside any subroutine (but inside a class, of course).
+They keep their values between calls to subroutines, so that a value that is assigned to
+a global variable in one subroutine can be used in another subroutine.  Thus, they
+represent part of the permanent, ongoing state of a class or object.</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+The first line of a subroutine is 
+</p>
+
+<pre>
+          public static void process(String s, int x, int y)
+</pre>
+
+<p>Explain why each of the following attempts to call the subroutine is a syntax error:
+</p>
+<p style="margin-left:40px">
+   <b>a)</b>&nbsp;<tt>process("Hello",142);</tt><br>
+   <b>b)</b>&nbsp;<tt>process("Hello", 3.14, 2.17);</tt><br>
+   <b>c)</b>&nbsp;<tt>process('H', 1, 3);</tt><br>
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<p><b>a)</b>&nbsp;
+The subroutine has three formal parameters, so a call to the subroutine must
+provide three actual parameters, not two.
+</p>
+<p><b>b)</b>&nbsp;
+The formal parameters <i>x</i> and <i>y</i> are of type <i>int</i>, so the corresponding
+actual parameters have to be values that can be assigned to an <i>int</i> variable.
+A <i>double</i> value like 3.14 or 2.17 can't be assigned to an <i>int</i>
+</p>
+<p><b>c)</b>&nbsp;
+The actual parameter <tt>'H'</tt> is of type <i>char</i>, which cannot be assigned to
+the formal parameter <i>s</i>, which is of type <i>String</i>, not <i>char</i>
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 5.</b>
+Write a <i>static</i> subroutine named <i>almostEqual</i> with two parameters of
+type <i>double</i> and return type <i>boolean</i>.  This function should return <i>true</i> 
+if the difference between the two paramters is between -0.0001 and +0.0001; if not, it should 
+return <i>false</i>.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+     public static boolean almostEqual(double x, double y) {
+         if ( -0.0001 &lt; x - y &amp;&amp; x - y &lt; 0.0001 ) {
+             return true;
+         }
+         else {
+             return false;
+         }
+     }
+</pre>
+<p>( The test could also be written:&nbsp; <code>if (Math.abs(x - y) &lt; 0.0001</code> )</p>
+<p>(Also, note that "between" is ambiguous as to whether equality is allowed, so testing
+&lt;= instead of &lt; would be OK.)
+</div>
+
+
+<div class="question">
+<p><b>Question 6.</b>
+he subroutine <i>multiPrint</i>(<i>s,n</i>) that has a parameter of type <i>String</i>
+and a parameter of type <i>int</i>.  It does not return a value.  Calling <i>multiPrint</i>(<i>s,n</i>)
+will print the string <i>s</i>, and it will do that <i>n</i> times.  Write a definition for the subroutine.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>     public static void multiPrint( String s, int n ) {
+         for (int i = 0; i &lt; n; i++) {
+             System.out.println( s );
+         } 
+     }
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 7.</b>
+All parts of this question use class <i>Player</i>:
+</p>
+<pre>
+    public class Player {
+        private String name;
+        private int score;
+        public Player(String s) {
+            name = s;
+            score = 0;
+        }
+        public String getName() {
+            return name;
+        }
+        public int getScore() {
+            return score;
+        }
+        public void addPoints(int n) {
+            score = score + n
+        }
+    }
+</pre>
+<p><b>a)</b>&nbsp;
+<i>Player.name</i> does not exist.  Why?
+</p>
+<p><b>b)</b>&nbsp;
+Draw, or explain carefully, the result of executing the following code segment:
+</p>
+<pre>
+    Player p;
+    p = new Player("Fred");
+    p.addPoints(3);
+</pre>
+<p><b>c)</b>&nbsp;
+What happens when the computer tries to execute the following statements,
+and why?
+</p>
+<pre>
+    Player plr = null;
+    System.out.println(plr.getName()); 
+</pre>
+<p><b>d)</b>&nbsp;
+The <i>addPoints</i>() method allows you to add a negative number of points to the
+score.  How can you modify the class to make that impossible, and why does the change
+ensure that the score of a player can <b>never</b> decrease?
+</p>
+<p><b>e)</b>&nbsp;
+Suppose that <i>players</i> is an array of type <i>Player</i><tt>[]</tt>,
+and that the array <b>has already been filled</b> with objects.  Write a
+code segment that will print the name and score of every player in the array,
+and then at the end will print the highest score.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<p><b>a)</b>&nbsp;
+<i>Player.name</i> would have to be a <i>static</i> variable in class <i>Player</i>.
+</p>
+<p><img align=right style="background-color:white; padding:8px; border:thin solid black; margin-left:10px; margin-bottom:10px"
+     src="test2-fig.png" width="223" height="89">
+<b>b)</b>&nbsp;
+Creates a variable named <i>p</i>, creates an instance of the class <i>Player</i>,
+and sets the value of <i>p</i> to be a pointer that new object.  The constructor
+assigns "Fred" as the value of the instance variable <i>name</i> in the object,
+and the call to <i>p.addPoints</i>(3), adds 3 to the value of the instance
+variable <i>score</i>, which was initialized to zero.  (The picture at the
+right is an alternative compete answer.  However, it is not totally correct.
+A <i>String</i> is an object, so <i>name</i> actually contains only a pointer
+to the string, not the string itself.)
+</p>
+<p><b>c)</b>&nbsp;
+A <i>NullPointerException</i> is thrown and crashes the program (unless it is caught elsewhere).
+(This is because the value of <i>plr</i> is null, so it does not point to an object, and there
+is no such thing as <i>plr.getName</i>.)
+</p>
+<p><b>d)</b>&nbsp;
+I can add a test to check if <i>n</i> &lt; 0 in the <i>addPoints</i> method; if so, I could
+throw an <i>IllegalArguementException</i>.  This would ensure that <i>addPoints</i>() cannot
+be used to decrease the value of <i>score</i>.  Furthermore, <i>score</i> is <i>private</i>,
+so it cannot be changed directly from outside the class, which means <i>score</i> can never decrease.
+</p>
+<p><b>e)</b>&nbsp;
+Here is a code segment for part e):
+</p>
+<pre>
+  int highestScore = 0;
+  for (int i = 0; i &lt; players.length; i++) {
+      Player p = players[i];
+      System.out.println( p.getName() + ": " + p.getScore() );
+      if ( p.getScore() > highestScore ) {
+          highestScore = p.getScore();
+      }
+  }
+  System.out.println( "The highest score is " + highestScore );
+</div>
+
+
+<div class="question">
+<p><b>Question 8.</b>
+Write a <i>static</i> subroutine that takes an array of integers as its only
+parameter and returns the sum of all the positive numbers in the array.  That is, 
+a number in the array should be added into the sum only if it is greater than zero.
+</p>
+</div>
+<div class="answer">
+</p>
+<pre>
+      public static int arraySum( int[] array ) {
+          int sum = 0;
+          for (int i = 0; i &lt; array.length; i++) {
+              if (array[i] > 0) {
+                  sum = sum + array[i];
+              }
+          }
+          return sum;
+      }
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 9.</b>
+A subroutine is a <i>black box</i>, but it can interact with the rest of the program
+through <i>parameters</i> and a <i>return value</i>.  Explain these three
+terms, and discuss what this has to do with the idea of the "interface" and the "implementation"
+of a black box.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+A black box is something that can be used without understanding how it works internally.
+(Furthermore, it can be designed without knowing all about the complete systems in which
+it will be used.)  The implementation of a black box is its hidden interior, which makes it
+work.  The interface of a black box is how it interacts with the outside.  To use the black 
+box, you need to know the interface, but not the implementation.</p>
+
+<p>A subroutine is a kind of black box because in order to use the subroutine,
+you don't need to understand, or even see, the code in the definition of the subroutine.
+That code is the implementation of the subroutine.  Its interface is how it communicates
+with the rest of the program.  It does that with parameters and return values.
+The formal parameters of a subroutine are specified in its parameter list.  They represent
+input that will be sent into the subroutine from elsewhere in the program, where the
+subroutine is called.  The input values come from the actual parameters in the subroutine
+call statement, which are assigned to the formal parameters before the code in the
+subroutine is executed.  The return value of a subroutine, if it has one, represents
+output from the subroutine, which is sent back to the caller of the subroutine.
+A subroutine that has a return value is specified to have a return type, rather than to be "void".
+Inside the subroutine, the return value is specified with a <i>return</i> statement,
+which ends the subroutine and sends back the value.</p>
+
+<p>[Technically, the interface of a subroutine also includes any global variables that
+are used inside the subroutine.  Global variables can carry information both into and
+out of a subroutine.  And to use a subroutine effectively, you need to know more than
+its interface.  You also need a specification of the exact task that it accomplishes &mdash;
+but not <b>how</b> it accomplishes that task.  The interface is basically the syntax,
+while the task is the semantics.]</p>
+
+</div>
+
+
+
+</div>
+</body>
+</html>
+

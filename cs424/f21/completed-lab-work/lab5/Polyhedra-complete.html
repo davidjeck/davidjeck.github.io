@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+<!--
+-->
+
+<head>
+<meta charset="UTF-8">
+<title>CPSC 424, Spring 2021, Lab 5</title>
+
+<script src="glsim.js"></script>  <!-- load the OpenGL 1.1 simulation code -->
+<script src="polyhedra.js"></script>  <!-- IFS models of various standard polyhedra -->
+
+<script>
+
+    "use strict";
+    
+    const polyhedron = [ // Polyhedron IFS models defined in polyhedra.js
+        cubeIFS,
+        dodecahedronIFS,
+        icosahedronIFS,
+        octahedronIFS,
+        rhombicDodecahedronIFS,
+        socerBallIFS,
+        stellatedDodecahedronIFS,
+        stellatedIcosahedronIFS,
+        stellatedOctahedronIFS,
+        tetrahedronIFS,
+        truncatedIcosahedronIFS,
+        truncatedRhombicDodecahedronIFS
+    ];
+
+    let camera;   // For setting up the view and implementing rotation by mouse.
+
+    // -------------------------- TODO: Complete this section ----------------------------------
+    
+    let pointCloud;  // A Float32Array containing the data for a cloud of points.
+    
+    /**
+     *
+     */
+    function drawPointCloud() {
+        const pointCt = 10000;
+        if (!pointCloud) {
+            pointCloud = new Float32Array( 3*pointCt );
+            let ct = 0;
+            while (ct < pointCt) {
+               let x = 2*Math.random() - 1;
+               let y = 2*Math.random() - 1;
+               let z = 2*Math.random() - 1;
+               if ( x**2 + y**2 + z**2 < 1 ) {
+                  pointCloud[3*ct] = x;
+                  pointCloud[3*ct+1] = y;
+                  pointCloud[3*ct+2] = z;
+                  ct++;
+               }
+            }
+         }
+         glScalef(8,8,8);
+         glDisable(GL_LIGHTING);
+         glColor3f(1,1,0);
+         glPointSize(2);
+         glVertexPointer(3,GL_FLOAT,0,pointCloud);
+         glEnableClientState(GL_VERTEX_ARRAY);
+         glDrawArrays( GL_POINTS, 0, pointCt );
+         glDisableClientState(GL_VERTEX_ARRAY);
+         glEnable(GL_LIGHTING);
+    }
+    
+    /**
+     * Draws the selected polyhedron in the selected style.  The style parameter 
+     * is one of "faces", "wire", or "both".  If style is "faces" or "both", the faces 
+     * are drawing using glDrawArrays with the GL_TRIANGLES primitive.  If style is
+     * "wire" or "both", then the wireframe is drawing using glDrawArrays with the
+     * GL_LINES primitive.  The faces are drawn using polygonOffset to make the
+     * wireframe look OK when both are drawn.
+     *     The poly parameter is one of the polyhedron models from polyhedra.js.  The
+     * model is a JavaScript object with the following properties:
+     *     poly.vertices -- an array of vertices where each vertex is given
+     *                           as an array of three numbers.
+     *     poly.faces -- an array of faces, where each face is an array of integers.
+     *                   The integers in the array are indices into the array of
+     *                   vertices, and they give the vertices of the face in 
+     *                   counterclockwise order as seen from the outside.
+     *     poly.faceNormals -- an array of normal vectors, one for each face.
+     *                   Each normal is given as an array of three numbers.
+     * These properties are not in the correct form for use with glDrawArrays.
+     * The correct data arrays are created and added to the object as additional
+     * properties, (if that has not already been done).
+     */
+    function drawPolyhedron( poly, style ) {
+        if ( ! poly.scale )
+            makeScale(poly);
+        glScalef(poly.scale, poly.scale, poly.scale);
+        if ( style == "faces" || style == "both") {
+            if ( ! poly.faceCoords )
+                makeFaceData(poly);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glEnableClientState(GL_COLOR_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,poly.faceCoords);
+            glNormalPointer(GL_FLOAT,0,poly.normalCoords);
+            glColorPointer(3,GL_FLOAT,0,poly.faceColors);
+            glColor3f(1,1,0);
+            glPolygonOffset(1,1);
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            glDrawArrays(GL_TRIANGLES,0,poly.faceCoords.length/3);
+            glDisable(GL_POLYGON_OFFSET_FILL);
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_NORMAL_ARRAY);
+            glDisableClientState(GL_COLOR_ARRAY);
+        }
+        if ( style == "wire" || style == "both") {
+            if ( ! poly.lineCoords )
+                makeLineCoords(poly);
+            glDisable(GL_LIGHTING);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(3,GL_FLOAT,0,poly.lineCoords);
+            glLineWidth(2);
+            if ( style == "both")
+                glColor3f(0,0,0);
+            else
+                glColor3f(1,1,1);
+            glDrawArrays(GL_LINES,0,poly.lineCoords.length/3);
+            glEnable(GL_LIGHTING);
+            glDisableClientState(GL_VERTEX_ARRAY);
+        }
+    }
+    
+    function makeScale(poly) {
+        let maxLength = 0;
+        for (let i = 0; i < poly.vertices.length; i++) {
+            let v = poly.vertices[i];
+            let length = Math.sqrt(v[0]**2 + v[1]**2 + v[2]**2);
+            if (length > maxLength)
+               maxLength = length;
+        }
+        poly.scale = 1/maxLength * 8;
+    }
+    
+    function makeLineCoords(poly) {
+        let coords = [];
+        let faces = poly.faces;
+        let vertices = poly.vertices;
+        for (let i = 0; i < faces.length; i++) {
+            let face = faces[i];
+            for (let j = 0; j < face.length; j++) {
+                let v1 = face[j];
+                let v2 = (j == face.length - 1)? face[0] : face[j+1];
+                coords.push(vertices[v1][0], vertices[v1][1], vertices[v1][2]);
+                coords.push(vertices[v2][0], vertices[v2][1], vertices[v2][2]);
+            }
+        }
+        poly.lineCoords = new Float32Array(coords);
+    }
+    
+    function makeFaceData(poly) {
+        let faceCoords = [];
+        let normalCoords = [];
+        let colors = [];
+        let faces = poly.faces;
+        let normals = poly.faceNormals;
+        let vertices = poly.vertices;
+        for (let i = 0; i < faces.length; i++) {
+            let face = faces[i];
+            let normal = normals[i];
+            let color = [
+                0.5 + 0.5*Math.random(),
+                0.5 + 0.5*Math.random(),
+                0.5 + 0.5*Math.random()
+            ];
+            for (let j = 1; j+1 < face.length; j++) {
+                // triangle with vertices numbers faces[j], faces[j+1], faces[j+2 or 0]
+                let v1 = face[0];
+                let v2 = face[j];
+                let v3 = face[j+1];
+                faceCoords.push(vertices[v1][0], vertices[v1][1], vertices[v1][2]);
+                faceCoords.push(vertices[v2][0], vertices[v2][1], vertices[v2][2]);
+                faceCoords.push(vertices[v3][0], vertices[v3][1], vertices[v3][2]);
+                normalCoords.push(normal[0], normal[1], normal[2]);
+                normalCoords.push(normal[0], normal[1], normal[2]);
+                normalCoords.push(normal[0], normal[1], normal[2]);
+                colors.push(color[0], color[1], color[2]);
+                colors.push(color[0], color[1], color[2]);
+                colors.push(color[0], color[1], color[2]);
+            }
+        }
+        poly.faceCoords = new Float32Array(faceCoords);
+        poly.normalCoords = new Float32Array(normalCoords);
+        poly.faceColors = new Float32Array(colors);
+    }
+
+    
+    //---------------- display() just sets up the view, the calls drawPolyhedron()  ----
+    
+    function display() {
+        glClearColor(0,0,0,1); // background color is black
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+        camera.apply(); // Let the camera set up the view and projection.
+        
+        let object = Number( document.getElementById("polyChoice").value );
+        if (object == 12)
+        
+            drawPointCloud();
+        else {
+            let poly = polyhedron[ object ];
+            let style = document.getElementById("styleChoice").value;
+            drawPolyhedron( poly, style );
+         }
+    }    
+    
+    // ------------------------- initialization functions -----------------------------------
+    
+    /**
+     *  initGL() is called just once, by main(), to do initialization of OpenGL state
+     *  and other global state.
+     */
+    function initGL() {
+        glClearColor(0.0, 0.0, 0.0, 1.0); // background color
+        glEnable(GL_DEPTH_TEST);      // Required for 3D drawing, not usually for 2D.
+        glEnable(GL_LIGHTING);        // Enable lighting.
+        glEnable(GL_LIGHT0);          // Turn on a light.  By default, shines from direction of viewer.
+        glEnable(GL_NORMALIZE);       // OpenGL will make all normal vectors into unit normals
+        glEnable(GL_COLOR_MATERIAL);  // Material ambient and diffuse colors can be set by glColor*    
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 1);  // Make OpenGL draw back sides of triangles.
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]); // Add some ambient light.
+    }
+    
+    function init() {  // Called  when the page has loaded.
+        try {
+            glsimUse("glcanvas"); // OpenGL will draw to the canvas with id="glcanvas".
+        }
+        catch (e) {
+            document.getElementById("canvas-holder").innerHTML =
+                "Sorry, an error occured:<br>" + e;
+            return;
+        }
+        initGL();
+        camera = new Camera();
+        camera.setScale(10);
+        camera.lookAt(0,0,20);
+        camera.installTrackball(display);
+        display();  // Call display() when the page is first loaded.
+     }
+
+    window.onload = init;
+</script>
+
+</head>
+
+<body>
+
+<h3>CPSC 424 Lab 5</h3>
+
+<noscript>
+<p><b>Sorry, this page requires JavaScript!</b></p>
+</noscript>
+
+
+<p>Drag on the drawing with your mouse or finger to rotate.<br>
+Home or return key restores original viewpoint.</p>
+
+<p><b>Select the Object to be Drawn:</b>
+   <select id="polyChoice" onchange="display()">
+      <option value="12">Point Cloud</option>
+      <option value="0">Cube</option>
+      <option value="1">Dodecahedron</option>
+      <option value="2">Icosahedron</option>
+      <option value="3">Octahedron</option>
+      <option value="4">Rhombic Dodecahedron</option>
+      <option value="5">Soccer Ball</option>
+      <option value="6">Stellated Dodecahedron</option>
+      <option value="7">Stellated Icosahedron</option>
+      <option value="8">Stellated Octahedron</option>
+      <option value="9">Tetrahedron</option>
+      <option value="10">Truncated Icosahedron</option>
+      <option value="11">Truncated Rhombic Dodecahedron</option>
+   </select>
+</p>
+<p><b>Select the View Style for Polyhedra:</b>
+   <select id="styleChoice" onchange="display()">
+      <option value="faces">Show the faces only</option>
+      <option value="wire">Show wireframe only</option>
+      <option value="both" selected>Draw Both</option>
+   </select>
+<div id="canvas-holder">
+   <!-- You can set the size of the drawing area in the next line -->
+   <canvas id="glcanvas" width="600" height="600"></canvas>
+</div>
+
+</body>
+</html>

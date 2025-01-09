@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Properties of the Integral and the Fundamental Theorems</title>
+</head>
+<body>
+<div id="content">
+
+<h2>13 Properties of the Integral and the Fundamental Theorems</h2>
+<hr>
+
+<p>Having defined the <a href="12-riemann-integral.html">Riemann integral</a>, we are in
+a position to prove the major theorems about it, starting with some integrability conditions.
+The first theorem provides an easier way to show that a function is integrable.
+The idea is that $\ds \sup_P\{U(P,f)\} = \inf_P\{L(P,f\}$ if and only if some specific $U(Q,f)$ can
+be made arbitrarily close to $L(Q,f)$.
+</p>
+
+<div class=thm><p><span class="dtp">Theorem:</span>  Let $f$ be a bounded function on
+$[a,b]$.  Then $f$ is integrable on $[a,b]$ if and only if for every $\eps>0$, there
+is a partition $P$ of $[a,b]$ such that $U(P,f)-L(P,f)<\eps$.
+</p></div>
+
+<p class=np>Based on this theorem, it is fairly easy to prove that certain kinds of
+functions are integrable:</p>
+
+
+<div class=thm><p><span class="dtp">Theorem:</span>
+Let $f$ be a function defined on $[a,b]$.  Then if is itegrable if it satisfies any of the
+following properties:  $f$ is continuous, $f$ is non-decreasing, or $f$ is non-increasing.
+[Note that a function that satisfies any of these properties is automatically bounded.]
+</p></div>
+
+<p class=np>Note that the set of integrable functions will include some pretty crazy
+functions.  For example, there are continuous functions that are not differentiable at
+any point.  And there are increasing functions that have a jump discontinuity at
+every rational number.  However, not every function is integrable.  For example,
+Dirichlet's function, which is 1 at every irrational number and 0 at every rational
+number, is not integrable on any interval.</p>
+
+<p>We are also in a position to prove the basic theorems about integration,
+leading up to the Fundamental Theorems of Calculus, which give the relationship
+between integration and differentiation.</p>
+
+
+<div class=thm><p><span class="dtp">Theorem (Additivity of the Integral):</span>
+Suppose that $f$ is defined on $[a,b]$ and $c\in(a,b)$.  Then $f$ is integrable
+on $[a,b]$ if and only if it is integrable on both $[a,c]$ and $[c,b]$.  And if
+$f$ is integrable on $[a,b]$, then $$\int_a^b f = \int_a^c f + \int_c^b f$$
+</p></div>
+
+<p class=np>To remove the restriction that $a&lt;c&lt;b$ in this formula, we define
+$\int_a^bf=0$ for $a=b$, and we define 
+$\int_a^b f = -\int_b^a f$ for $a&gt;b$.  With these definitions, it is easy to
+see that the additivity formula holds for any $a,b,c$ as long as $f$ is
+integrable on an interval that contains all three numbers.</p>
+
+<div class=def><p><span class="dtp">Definition:</span>
+If $f$ is a function that is defined at $a$, then we define $\ds\int_a^a f=0$.  If $f$ is 
+integrable on the interval $[b,a]$, then we define $\ds\int_a^b f=-\int_b^a f$.
+</p></div>
+
+
+<p class=np>The "linearity" of the integral says that the set of all integrable functions on $[a,b]$
+to $\R$ is a vector space under addition of functions and multiplication of a function by a constant,
+and that the integral is a linear function from that vector space to $\R$.
+</p>
+
+<div class=thm><p><span class="dtp">Theorem (Linearity of the Integral):</span>
+Suppose that $f$ and $g$ are integrable functions on $[a,b]$ and that $r,s\in\R$.
+Then the function $rf+sg$ is integrable on $[a,b]$ and
+$$\int_a^b(rf+sg) = r\int_a^b f\ \ +\ \ s\int_a^b g$$
+</p></div>
+
+
+<div class=thm><p><span class="dtp">Theorem (Mean Value Theorem for Integrals):</span>
+If $f$ is continuous on $[a,b]$, then there is a $c\in[a,b]$ such that $$\int_a^b = f(c)\cdot(b-a)$$
+</p></div>
+
+
+<p>The last of the major theorems about integrable functions are the Fundamental
+Theorems of Calculus.  The first Fundamental Theorem makes it possible to 
+find the integral of any function that has an antiderivative.  The second shows
+that any continuous function does, in fact, have an antiderivative.
+
+<div class=thm><p><span class="dtp">Theorem (First Fundamental Theorem of Calculus):</span>
+Suppose that $f$ is integrable on $[a,b]$ and that there is function $g$ that satisfies
+$g'(x)=f(x)$ for all $x\in[a,b]$.  (So, $g$ is an antiderivative for $f$ on $[a,b]$.)
+Then $$\int_a^b f = g(b)-g(a)$$
+</p></div>
+
+
+
+<div class=thm><p><span class="dtp">Theorem (Second Fundamental Theorem of Calculus):</span>
+Suppose that $f$ is continuous on $[a,b]$.  For $x\in [a,b]$, Define $$F(x) = \int_a^x f$$
+Then $F'(x) = f(x)$ for all $x\in[a,b]$.
+</p></div>
+
+I will prove a somewhat stronger form of the Second Fundamental Theorem, which only
+requires continuity at a point.
+
+<div class=thm><p><span class="dtp">Theorem:</span>
+Suppose that $f$ is integrable on $[a,b]$.  For $x\in [a,b]$, Define $$F(x) = \int_a^x f$$
+Then $F$ is continuous on $[a,b]$.  Futhermore, 
+if $f$ is continuous at $c$ for some $c\in[a,b]$, then $F$ is differentiable at $c$, and
+$F'(c)=f(c)$.
+</p></div>
+
+<div class="prf"><p><span class="dtp">Proof:</span>
+Since $f$ is integrable on $[a,b]$, it is bounded on $[a,b]$.  Say, $|f(x)| \le M$ for $x\in[a,b]$.
+Let $c\in[a,b]$.  It follows that $|F(x)-F(c)|=\big|\int_x^c f\big|\le M|x-c|$, which easily implies
+that $F$ is continuous at $c$.</p>
+
+<p>Now, suppose that $f$ is continuous at $c$.  To show $F'(c)=f(c)$, we can show
+$\lim_{x\to c}\frac{F(x)-F(c)}{x-c} = f(c).$  Let $\eps>0$.  We need to find $\delta>0$
+such that for $x\in(c-\delta,c+\delta)$, $\big|\frac{F(x)-F(c)}{x-c}-f(c)\big|<\eps.$</p>
+
+<p>Since $f$ is continuous at $c$, there is a $\delta>0$ such that for $x\in(c-\delta,c+\delta)$,
+$|f(x)-f(c)|<\eps/2.$  Noting that $f(c)=\frac{1}{x-c}\int_x^c f(c)\,dt$, we can calculate
+that for $x\in(c-\delta,c+\delta),$</p>
+\begin{align*}
+   \left|\frac{F(x)-F(c)}{x-c}-f(c)\right|
+      &=\left|\frac{1}{x-c}\int_x^c f(t)\,dt - \frac{1}{x-c}\int_x^c f(c)\,dt\right|\\
+      &=\frac{1}{|x-c|}\cdot\left| \int_x^c (f(t)-f(c))\,dt \right|\\
+      &\le\frac{1}{|x-c|}\cdot\int_x^c\big|f(t)-f(c)\big|\,dt\\
+      &\le\frac{1}{|x-c|}\cdot\int_x^c \eps/2\,dt\\
+      &=\frac{1}{|x-c|}\cdot |x-c|\eps/2\\
+      &=\eps/2\\
+      &<\eps
+\end{align*}
+</p></div>
+
+
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

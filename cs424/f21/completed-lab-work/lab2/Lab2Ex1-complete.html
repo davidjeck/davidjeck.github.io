@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CPSC 424, Lab 2, Exercise 1</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border. */
+    body {
+        background-color: #DDDDDD;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+<script>
+
+    "use strict";  // gives improved error-checking in scripts.
+
+    let canvas;    // The canvas element on which we will draw.
+    let g;         // A 2D graphics context for drawing on the canvas.
+    
+    /**
+     *  The draw() function is called by init() after the page loads,
+     *  to draw the content of the canvas.  At the start, clear the canvas
+     *  and save a copy of the state; restore the state at the end.  (These
+     *  actions are not necessary in this program, since the function will
+     *  only be called once.)
+     */
+    function draw() {
+    
+        g.clearRect(0,0,600,600);
+        g.save();
+        
+        // TODO: insert code to draw the image for Exercise 1!
+        
+        g.lineWidth = 2;
+        g.beginPath();
+        g.moveTo(300,0);
+        g.lineTo(300,600);
+        g.moveTo(0,300);
+        g.lineTo(600,300);
+        g.stroke();
+        
+        g.translate(300,300);
+        
+        g.beginPath();
+        g.moveTo( 150,280 );
+        g.bezierCurveTo( 150+250,280-180, 150+120,60-100, 150,60 );
+        g.bezierCurveTo( 150-120,60-100, 150-250,280-180, 150,280 );
+        g.closePath();
+        g.fillStyle = "red";
+        g.fill();
+        g.lineWidth = 4;
+        g.stroke();
+        
+        g.restore();
+        
+        g.lineWidth = 10;
+        g.strokeStyle = "orange";
+        for (let y = 20; y < 300; y += 20) {
+            g.strokeLine(15,y,285,y);
+        }
+        
+        g.beginPath();
+        g.moveTo(350,80);
+        g.bezierCurveTo(450,0,450,160,550,80);
+        g.lineTo(550,250);
+        g.lineTo(350,250);
+        g.closePath();
+        g.fillStyle = "blue";
+        g.fill();        
+        
+        g.fillStyle = "red";
+        g.strokeStyle = "black";
+        g.lineWidth = 2;
+        g.fillOval( 150,550, 125,25 );
+        g.strokeOval( 150,550, 125,25 );
+        g.fillStyle = "yellow";
+        g.fillOval( 150,500, 105,25 );
+        g.strokeOval( 150,500, 105,25 );
+        g.fillStyle = "#00FF00";
+        g.fillOval( 150,450, 85,25 );
+        g.strokeOval( 150,450, 85,25 );
+        g.fillStyle = "cyan";
+        g.fillOval( 150,400, 65,25 );
+        g.strokeOval( 150,400, 65,25 );
+        g.fillStyle = "magenta";
+        g.fillOval( 150,350, 45,25 );
+        g.strokeOval( 150,350, 45,25 );
+        
+
+    } // end of draw()
+    
+    
+    /**
+     * This function can be called to add a collection of extra drawing function to
+     * a graphics context, to make it easier to draw basic shapes with that context.
+     * The parameter, graphics, must be a canvas 2d graphics context.
+     *
+     * The following new functions are added to the graphics context:
+     *
+     *    graphics.strokeLine(x1,y1,x2,y2) -- stroke the line from (x1,y1) to (x2,y2).
+     *    graphics.fillCircle(x,y,r) -- fill the circle with center (x,y) and radius r.
+     *    graphics.strokeCircle(x,y,r) -- stroke the circle.
+     *    graphics.fillOval(x,y,r1,r2) -- fill oval with center (x,y) and radii r1 and r2.
+     *    graphics.stokeOval(x,y,r1,r2) -- stroke the oval
+     *    graphics.fillPoly(x1,y1,x2,y2,...) -- fill polygon with vertices (x1,y1), (x2,y2), ...
+     *    graphics.strokePoly(x1,y1,x2,y2,...) -- stroke the polygon.
+     *    graphics.getRGB(x,y) -- returns the color components of pixel at (x,y) as an array of
+     *         four integers in the range 0 to 255, in the order red, green, blue, alpha.
+     *
+     * (Note that "this" in a function that is called as a member of an object refers to that
+     * object.  Here, this will refer to the graphics context.)
+     */
+    function addGraphicsContextExtras(graphics) {
+        graphics.strokeLine = function(x1,y1,x2,y2) {
+           this.beginPath();
+           this.moveTo(x1,y1);
+           this.lineTo(x2,y2);
+           this.stroke();
+        }
+        graphics.fillCircle = function(x,y,r) {
+           this.beginPath();
+           this.arc(x,y,r,0,2*Math.PI,false);
+           this.fill();
+        }
+        graphics.strokeCircle = function(x,y,radius) {
+           this.beginPath();
+           this.arc(x,y,radius,0,2*Math.PI,false);
+           this.stroke();
+        }
+        graphics.fillPoly = function(...coords) { 
+            if (coords.length < 6)
+               return;
+            this.beginPath();
+            this.moveTo(coords[0],coords[1]);
+            for (let i = 2; i+1 < coords.length; i = i + 2) { 
+               this.lineTo(coords[i],coords[i+1]);
+            }
+            this.closePath();
+            this.fill();
+        }
+        graphics.strokePoly = function(...coords) { 
+            if (coords.length < 4)
+               return;
+            this.beginPath();
+            this.moveTo(coords[0],coords[1]);
+            for (let i = 2; i+1 < coords.length; i = i + 2) { 
+               this.lineTo(coords[i],coords[i+1]);
+            }
+            this.closePath();
+            this.stroke();
+        }
+        graphics.fillOval = function(x,y,horizontalRadius,verticalRadius) {
+           this.save();
+           this.translate(x,y);
+           this.scale(horizontalRadius,verticalRadius);
+           this.beginPath();
+           this.arc(0,0,1,0,2*Math.PI,false);
+           this.restore();
+           this.fill();
+        }
+        graphics.strokeOval = function(x,y,horizontalRadius,verticalRadius) {
+           this.save();
+           this.translate(x,y);
+           this.scale(horizontalRadius,verticalRadius);
+           this.beginPath();
+           this.arc(0,0,1,0,2*Math.PI,false);
+           this.restore();
+           this.stroke();
+        }
+        graphics.getRGB = function(x,y) {
+            let color = this.getImageData(x,y,1,1);
+            return color.data;
+        }
+    }    // end of addGraphicsContextExtras()
+    
+    /**
+     * The init() funciton is called after the page has been
+     * loaded.  It initializes the canvas and graphics variables.
+     * It calles addGraphicsContextExtras(graphics) to add the extra
+     * drawing functions to the graphics context, and it calls draw()
+     * to draw on the canvas.
+     */
+    function init() {
+        try {
+            canvas = document.getElementById("canvas");
+            g = canvas.getContext("2d");
+        } catch(e) {
+            document.getElementById("canvasholder").innerHTML =
+               "Canvas graphics is not supported.<br>" +
+               "An error occurred while initializing graphics.";
+        }
+        addGraphicsContextExtras(g);
+        draw();  // Call draw() to draw on the canvas.
+    }
+    
+    window.onload = init;
+    
+</script>
+</head>
+<body> <!-- the onload attribute here is what calls the init() function -->
+
+<h2>CS 424, Lab 2, Exercise 1</h2>
+
+<noscript>
+    <!-- This message will be shown in the page if JavaScript is not available. -->
+<p>JavaScript is required to use this page.</p>
+</noscript>
+
+<div id="canvasholder">
+<canvas id="canvas" width="600" height="600">
+    <!-- This message is shown on the page if the browser doesn't support the canvas element. -->
+Canvas not supported.
+</canvas>
+</div>
+
+</body>
+</html>

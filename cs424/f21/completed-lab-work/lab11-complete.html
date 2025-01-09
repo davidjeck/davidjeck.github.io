@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+<title>WebGL Intro</title>
+<style>
+    html, body {
+        margin: 0;  /* Make sure that there is no margin around the canvas */
+        overflow: hidden;  /* Make sure we don't get scroll bars. */
+    }
+    canvas {
+        display: block; /* The default display, inline, would add a small margin below the canvas */
+    }
+</style>
+
+<!--
+    A 2D WebGL app in which "points" move around in the browser window, bouncing
+    off the edges.  The animation can be paused and restarted by pressing the
+    space key.
+        If the user clicks or clicks-and-drags with left mouse button, all of the
+    points head towards the mouse position, except if the user shift-clicks, the
+    positions and velocities of the points are re-initialized.
+        Hitting keys 1 through 5 select a point style.  Hitting the C keys toggles
+     between red and color.  Hitting the L key cycles among showing just points,
+     just a line loop, just lines, line loop plus points, and lines plus points.
+-->
+
+<script>
+
+const vertexShaderSource = `
+    attribute vec2 a_coords; // vertex position in standard canvas pixel coords
+    attribute vec3 a_color;  // RGB color of vertex
+    uniform float u_width;   // width of canvas
+    uniform float u_height;  // height of canvas
+    uniform float u_pointSize;
+    varying vec3 color;
+    void main() {
+        float x,y;  // vertex position in clip coordinates
+        x = a_coords.x/u_width * 2.0 - 1.0;
+        y = 1.0 - a_coords.y/u_height * 2.0;
+        gl_Position = vec4(x, y, 0.0, 1.0);
+        gl_PointSize = u_pointSize;
+        color = a_color;
+    }`;
+
+const fragmentShaderSource = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+       precision highp float;
+    #else
+       precision mediump float;
+    #endif
+    varying vec3 color;
+    uniform int u_pointstyle;
+    uniform bool u_drawlines;
+    void main() {
+        if (u_drawlines) {
+            gl_FragColor = vec4(color,1.0);
+        }
+        else {
+            float dist = distance( vec2(0.5), gl_PointCoord );
+            float alpha = 1.0;
+            if (u_pointstyle == 1) {
+                if (dist > 0.53)
+                   discard;
+                alpha = 1.0 - smoothstep(0.47, 0.53, dist);
+            }
+            else if (u_pointstyle == 2) {
+                if (dist > 0.5) {
+                    discard;
+                }
+                alpha = 1.0 - 2.0*dist;
+            }
+            else if (u_pointstyle == 4) {
+                if ( abs( gl_PointCoord.x - 0.5) + abs( gl_PointCoord.y - 0.5 ) > 0.5)
+                    discard;
+            }
+            else if (u_pointstyle == 5) {
+                if (dist > 0.5)
+                    discard;
+                alpha = pow(cos(4.0 * 3.14159 * dist), 2.0);
+            }
+            else if (u_pointstyle == 3) {
+                if (dist < 0.2) {
+                    discard;
+                }
+                else if (dist > 0.5) {
+                    discard;
+                }
+            }
+            gl_FragColor = vec4(color,alpha);
+        }
+    }`;
+
+"use strict";
+
+let canvas; // The canvas that is used for WebGL drawing; occupies the entire window. 
+let gl;     // The webgl context.
+
+let u_width_loc;        // Location of "width" uniform, which holds the width of the canvas.
+let u_height_loc;       // Location of "height" uniform, which holds the height of the canvas.
+let u_pointSize_loc;    // Location of "pointSize" uniform, which gives the size for point primitives.
+let u_pointstyle_loc;
+let u_drawlines_loc;
+let a_coords_loc;       // Location of the a_coords attribute variable in the shader program;
+                        //    This attribute gives the (x,y) coordinates of the points.
+let a_color_loc;
+
+let a_coords_buffer;    // Buffer to hold the values for a_coords for point coordinates.
+let a_color_buffer;
+
+const POINT_COUNT = 30;
+const POINT_SIZE = 64;
+
+const positions = new Float32Array( 2*POINT_COUNT );  // Position data for points.
+const velocities = new Float32Array( 2*POINT_COUNT ); // Velocity data for points.
+      // Note: The xy coords for point number i are in positions[2*i],position[2*i+1].
+      // The xy velocity compontents for point number i are in velocities[2*i],velociteis[2*i+1].
+      // Position coordinates are in pixels, and velocity components are in pixels per frame.
+      
+let isRunning = true;  // The animation runs when this is true; its value is toggled by the space bar
+let colorsOn = true;   // Toggled using C key.
+
+let primitiveType = 1;  // 1 for gl.POINTS, 2 for gl.LINE_LOOP, 3 for gl.LINES, 
+                        //     4 for loop+points, 5 for lines+points; set using L key.
+
+/**
+ *  Called by init() when the window first opened and by frame() to render each frame.
+ */
+function render() {
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    // The position data changes for each frame, so we have to send the new values
+    // for the position attirbute into the corresponding buffer in the GPU.
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, a_coords_buffer);            // Select the buffer we want to use.
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STREAM_DRAW);  // Send the data.
+    gl.vertexAttribPointer(a_coords_loc, 2, gl.FLOAT, false, 0, 0);
+    
+    // Now, draw the primitives, depending on the value of primitiveType.
+    
+    switch (primitiveType) {
+       case 1:
+          gl.uniform1i(u_drawlines_loc, 0);
+          gl.drawArrays(gl.POINTS, 0, POINT_COUNT);
+          break;
+       case 2:
+          gl.uniform1i(u_drawlines_loc, 1);
+          gl.drawArrays(gl.LINE_LOOP, 0, POINT_COUNT);
+          break;
+       case 3:
+          gl.uniform1i(u_drawlines_loc, 1);
+          gl.drawArrays(gl.LINES, 0, POINT_COUNT);
+          break;
+       case 4:
+          gl.uniform1i(u_drawlines_loc, 0);
+          gl.drawArrays(gl.POINTS, 0, POINT_COUNT);
+          gl.uniform1i(u_drawlines_loc, 1);
+          gl.drawArrays(gl.LINE_LOOP, 0, POINT_COUNT);
+          break;
+       case 5:
+          gl.uniform1i(u_drawlines_loc, 0);
+          gl.drawArrays(gl.POINTS, 0, POINT_COUNT);
+          gl.uniform1i(u_drawlines_loc, 1);
+          gl.drawArrays(gl.LINES, 0, POINT_COUNT);
+          break;
+    }
+    
+    if (gl.getError() !== gl.NO_ERROR) {
+        console.log("During render, a GL error has been detected.");
+    }
+} // end render()
+
+
+/**
+ * Called once in init() to create the data for the scene. Creates point positions and
+ * velocities.  All points start at the center of the canvas, with random velocity.
+ * The speed is between 2 and 6 pixels per frame.
+ */
+function createData() {
+    for (let i = 0; i < POINT_COUNT; i++) {
+        positions[2*i] = canvas.width/2;
+        positions[2*i+1] = canvas.height/2;
+        let speed = 2 + 4*Math.random();
+        let angle = 2*Math.PI*Math.random();
+        velocities[2*i] = speed*Math.sin(angle);
+        velocities[2*i+1] = speed*Math.cos(angle);
+    }
+} // end createData()
+
+
+/**
+ * Called by frame() before each frame is rendered.  Adds velcities
+ * to point positions.  If the point moves past the edge of the canvas,
+ * it bounces.
+ */
+function updateData() {
+    for (let i = 0; i < POINT_COUNT; i++) {
+       positions[2*i] += velocities[2*i];
+       if ( positions[2*i] < POINT_SIZE/2 && velocities[2*i] < 0) {
+           positions[2*i] += 2*(POINT_SIZE/2 - positions[2*i]);
+           velocities[2*i] = Math.abs(velocities[2*i]);
+       }
+       else if (positions[2*i] > canvas.width - POINT_SIZE/2 && velocities[2*i] > 0){
+           positions[2*i] -= 2*(positions[2*i] - canvas.width + POINT_SIZE/2);
+           velocities[2*i] = - Math.abs(velocities[2*i]);
+       }
+       positions[2*i+1] += velocities[2*i+1];
+       if ( positions[2*i+1] < POINT_SIZE/2  && velocities[2*i+1] < 0) {
+           positions[2*i+1] += 2*(POINT_SIZE/2 - positions[2*i+1]);
+           velocities[2*i+1] = Math.abs(velocities[2*i+1]);
+       }
+       else if (positions[2*i+1] > canvas.height - POINT_SIZE/2  && velocities[2*i+1] > 0){
+           positions[2*i+1] -= 2*(positions[2*i+1] - canvas.height + POINT_SIZE/2);
+           velocities[2*i+1] = - Math.abs(velocities[2*i+1]);
+       }
+    }
+} // end updateData()
+
+
+/* Called when the user hits a key */
+function doKey(evt) {
+    let key = evt.keyCode;
+    console.log("key pressed with keycode = " + key);
+    
+    if (key === 32) {  // space bar
+        isRunning = ! isRunning;
+        if ( isRunning ) { // restart the animation
+           requestAnimationFrame(frame);
+        }
+    }
+    else if (key === 67) {  // "C" key
+        colorsOn = !colorsOn;
+        if (colorsOn) {
+            gl.enableVertexAttribArray(a_color_loc);   // use the color attribute buffer
+        }
+        else {
+            gl.disableVertexAttribArray(a_color_loc);   // use the color attribute buffer
+            gl.vertexAttrib3f(a_color_loc, 1, 0, 0);  // set attrbute color to red
+        }
+        if ( ! isRunning ) { 
+           render();
+        }
+    }
+    else if (key > 48 && key < 54) {  // Number key, 1 through 5
+        gl.uniform1i(u_pointstyle_loc,  key === 48? 5 : key - 48);
+        if ( ! isRunning ) {
+           render()
+        }
+    }
+    else if (key === 76) {  // "L" key
+        primitiveType++;
+        if (primitiveType > 5)
+            primitiveType = 1;
+        if ( ! isRunning ) { 
+           render()
+        }
+    }
+} // end doKey();
+
+
+/* Initialize the WebGL context.  Called from init() */
+function initGL() {
+    let prog = createProgram(gl,vertexShaderSource,fragmentShaderSource);
+    gl.useProgram(prog);
+    gl.clearColor(0,0,0,1);
+    u_width_loc = gl.getUniformLocation(prog,"u_width");
+    u_height_loc = gl.getUniformLocation(prog,"u_height");
+    u_pointSize_loc = gl.getUniformLocation(prog,"u_pointSize");
+    u_pointstyle_loc = gl.getUniformLocation(prog,"u_pointstyle");
+    u_drawlines_loc = gl.getUniformLocation(prog,"u_drawlines");
+    gl.uniform1f(u_width_loc, canvas.width);
+    gl.uniform1f(u_height_loc, canvas.height);
+    gl.uniform1f(u_pointSize_loc, POINT_SIZE);
+    gl.uniform1i(u_pointstyle_loc, 6);
+    a_coords_loc = gl.getAttribLocation(prog,"a_coords");
+    a_coords_buffer = gl.createBuffer();
+    gl.enableVertexAttribArray(a_coords_loc);
+    a_color_loc = gl.getAttribLocation(prog,"a_color");
+    a_color_buffer = gl.createBuffer();
+    let colors = new Float32Array(3*POINT_COUNT);
+    for (let i = 0; i < colors.length; i++)
+       colors[i] = Math.random();
+    gl.bindBuffer(gl.ARRAY_BUFFER, a_color_buffer);            // Select the buffer we want to use.
+    gl.bufferData(gl.ARRAY_BUFFER, colors, gl.STATIC_DRAW);  // Send the data.
+    gl.vertexAttribPointer(a_color_loc, 3, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(a_color_loc);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);    
+    gl.lineWidth(10);
+    if (gl.getError() !== gl.NO_ERROR) {
+        console.log("During initialization, a GL error has been detected.");
+    }
+} // end initGL()
+
+
+/**
+ * Creates a program for use in the WebGL context gl, and returns the
+ * identifier for that program.  If an error occurs while compiling or
+ * linking the program, an exception of type String is thrown.  The error
+ * string contains the compilation or linking error.  If no error occurs,
+ * the program identifier is the return value of the function.
+ *    The second and third parameters are the source code for the vertex and 
+ * fragment shaders.
+ */
+function createProgram(gl, vertexShaderSource, fragmentShaderSource) {
+    let vsh = gl.createShader( gl.VERTEX_SHADER );
+    gl.shaderSource(vsh,vertexShaderSource);
+    gl.compileShader(vsh);
+    if ( ! gl.getShaderParameter(vsh, gl.COMPILE_STATUS) ) {
+        throw "Error in vertex shader:  " + gl.getShaderInfoLog(vsh);
+     }
+    let fsh = gl.createShader( gl.FRAGMENT_SHADER );
+    gl.shaderSource(fsh, fragmentShaderSource);
+    gl.compileShader(fsh);
+    if ( ! gl.getShaderParameter(fsh, gl.COMPILE_STATUS) ) {
+       throw "Error in fragment shader:  " + gl.getShaderInfoLog(fsh);
+    }
+    let prog = gl.createProgram();
+    gl.attachShader(prog,vsh);
+    gl.attachShader(prog, fsh);
+    gl.bindAttribLocation(prog,0,"a_coords");
+    gl.linkProgram(prog);
+    if ( ! gl.getProgramParameter( prog, gl.LINK_STATUS) ) {
+       throw "Link error in program:  " + gl.getProgramInfoLog(prog);
+    }
+    return prog;
+}
+
+/**
+ *  A function to drive the animation, which runs continuously while the global
+ *  variable isRunning is true.  The value of this variable is toggled by pressing
+ *  the space bar.  If the animation is still running, this fucntion calls 
+ *  updateData(), then calls render(), then calls requestAnimationFrame to 
+ *  schedule the next call to the same function.
+ */
+function frame() {
+    if (isRunning) {
+       updateData();
+       render();
+       requestAnimationFrame(frame);  // Arrange for function to be called again
+    }
+}
+
+/**
+ * When the window is resized, we need to resize the canvas, reset the
+ * OpenGL viewport to match the size, and reset the values of the uniform
+ * variables in the shader that represent the canvas size.
+ */
+ function doResize() {
+     canvas.width = window.innerWidth;
+     canvas.height = window.innerHeight;
+     gl.viewport(0, 0, canvas.width, canvas.height);
+     gl.uniform1f(u_width_loc, canvas.width);
+     gl.uniform1f(u_height_loc, canvas.height);
+     if (!isRunning) {
+         render();
+     }
+ }
+
+/**
+ * Responds to left mouse click on canvas; points all head toward mouse location
+ * when mouse is clicked and as it is dragged.  However if shift key is down,
+ * all the data is reinitialized instead.
+ */
+function doMouse(evt) {
+    function headTowards(x,y) {
+        for (let i = 0; i < POINT_COUNT; i++) {
+            let dx = x - positions[2*i];
+            let dy = y - positions[2*i+1];
+            let dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist > 0.1) { // only if mouse and point are not too close.
+                let speed = Math.sqrt( velocities[2*i]*velocities[2*i] + velocities[2*i+1]*velocities[2*i+1] );
+                velocities[2*i] = dx/dist * speed;
+                velocities[2*i+1] = dy/dist * speed;
+            }
+        }
+    }
+    function move(evt) {
+        headTowards(evt.clientX,evt.clientY);
+    }
+    function up() {
+        canvas.removeEventListener("mousemove", move, false);
+        document.removeEventListener("mouseup", up, false);
+    }
+    if (evt.which !== 1) {
+        return;  // only respond to left mouse down
+    }
+    if (evt.shiftKey) {
+        createData();
+        return;
+    }
+    headTowards(evt.clientX,evt.clientY);
+    canvas.addEventListener("mousemove", move);
+    document.addEventListener("mouseup", up);
+}
+
+/**
+ * initialization function that will be called when the page has loaded.
+ */
+function init() {
+    try {
+        canvas = document.createElement("canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let options = { 
+             // alpha: false,
+              depth: false,
+              stencil: false 
+           };
+        gl = canvas.getContext("webgl", options);
+        if ( ! gl ) {
+            throw "Browser does not support WebGL";
+        }
+    }
+    catch (e) {
+        let message = document.createElement("p");
+        message.innerHTML = "Sorry, could not get a WebGL graphics context.  Error: " + e;
+        document.body.appendChild(message);
+        return;
+    }
+    try {
+        createData();  // create data for points (in case it's needed in initGL())
+        initGL();  // initialize the WebGL graphics context.
+    }
+    catch (e) {
+        let message = document.createElement("p");
+        message.innerHTML = "Sorry, could not initialize graphics context.  Error: " + e;
+        document.body.appendChild(message);
+        return;
+    }
+    document.body.appendChild(canvas);
+    window.addEventListener("resize", doResize);
+    canvas.addEventListener("mousedown",doMouse);
+    document.addEventListener("keydown",doKey);
+    requestAnimationFrame(frame);
+}
+
+</script>
+</head>
+<body onload="init()">
+<noscript>Sorry, this page requires JavaScript.</noscript>
+</body>
+</html>
+

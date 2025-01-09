@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html>
+<meta charset="UTF-8">
+<head>
+<title>Math 331, Fall 2022, Final Project Info</title>
+<style>
+@media screen {
+    body {
+        background-color: #003355;
+    }
+    #content {
+        background-color: #EEF0FF;
+        max-width: 800px;
+        padding: 10px 30px;
+        margin: 0pt auto;
+        border: 2px solid black;
+    }
+    h1, h2, h3 {
+        color: #003355;
+    }
+    th {
+        color: white;
+        background-color: #003355;
+    }
+    td {
+        background-color: white;
+    }
+}
+a {
+    white-space:pre;
+}
+h3, #heading {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+}
+p {
+   text-indent: 30px;
+}
+h3 + p:first-letter {
+   font-size: 150%;
+}
+h3 + p {
+   text-indent: 0;
+}
+p.np {
+   text-indent:0;
+}
+</style>
+</head>
+
+
+<body>
+
+<div id="content">
+
+<hr>
+<h2>Math 331, Foundations of Analysis, Fall 2022<br>
+Final Project</h2>
+<hr>
+
+<p>This course requires a final project, which takes the place of a final exam.  The project couts for
+13% of the course grade, the same as the in-class and take-home tests.</p>
+
+<p>For your project, you will write a short paper and do a presentation about a topic chosen in
+consultation with me.  All the topics must be different, so if you are interested in
+some particular topic, you should make a claim on it early.  <b>You should select a topic
+by November 11.</b></p>
+
+<p>It is possible that a group of two or more people will work together on a large topic or on
+several related topics.  However, each person in the group should submit a paper and do all
+or part of a presentation.</p>
+
+<p>Most of the presentations will take place during the scheduled final exam period for
+this course: Wednesday, December 7, 7:00 to 10:00 PM.  However, since it would be difficult
+to fit all eleven presentations into that time period, some should be given during the
+last week of classes.</p>
+
+<p>Your paper should be about three or four pages long, and it should give an overview of
+the basic mathematical ideas related to your topic.  It will probably include definitions
+and statements of theorems, along with a more informal or intuitive discussion.  It will
+not necessarily include proofs, but you can include them if it seems appropriate.
+Papers are due at the final exam period.</p>
+
+<p>You can give either a chalkboard presentation or one using something like PowerPoint.
+It should be approximately fifteen to twenty minutes long.</p> 
+
+
+<h3>Topic Ideas</h3>
+
+<p>Here are some possible topics for you to consider.  You are not restricted to choosing
+a topic from this list.  If you have other ideas, discuss them with me!</p>
+
+
+<p class=np><b style="font-size:110%">Metric Spaces.</b> We have covered only a few of the
+basic concepts from the theory of metric spaces, such as open and closed sets, continuity,
+and sequences.  There are several additional topics that I would like the class to encounter.
+I will probably cover these topics myself if no one in the class does them. Each of these
+topics has a section in my online Introduction to Metric Spaces that you can consult.
+</p>
+<ul>
+<li><a href="https://math.hws.edu/eck/metric-spaces/compactness.html">Compactness</a> &mdash; 
+A compact set in a metric space has the Heine-Borel property, that
+every open cover has a finite subcover.  Compact sets have a number of important properties
+and applications, including a generalization of the Extreme Value Theorem to metric spaces.</li>
+<li><a href="https://math.hws.edu/eck/metric-spaces/connectedness.html">Connectedness</a> &mdash; 
+The definition of a "connected" set in a metric space is not very
+intuitive, but it has interesting and important consequences, including a generalization of
+the Intermediate Value Theorem to metric spaces.</li>
+<li><a href="https://math.hws.edu/eck/metric-spaces/completeness.html">Completeness</a> &mdash; 
+Completeness in metric spaces is a generalization of the completeness
+of the real numbers, but it is defined in terms of Cauchy sequences rather than the least upper
+bound axiom.  Every metric space has a "completion," a complete metric space in which it is
+embedded as a dense subset.</li>
+</ul>
+
+<p class=np><b style="font-size:110%">Beyond Foundations.</b>
+There are many extensions and applications of basic analysis.  Metric spaces are just one example.
+These topics are too broad for you to cover in any depth, but you might be able to give an
+overview of some of the definitions, results, or applications.
+</p>
+<ul>
+<li>Fourier Series &mdash; This course will consider power series, which are like infinite polynomials.
+A Fourier series is an infinite sum of sine and cosine functions.  Almost any reasonable periodic
+function can be written as a Fourier series.</li>
+<li>Complex Analysis &mdash; Analysis using the complex numbers instead of the real numbers has a number
+of surprising properties, such as the fact that any differentiable function is infinitely differentiable.
+Chapter&nbsp;7 in our textbook is an introduction to complex analysis.</li>
+<li>Topology &mdash; We have already encountered topological spaces.  It might be interesting to
+look at some examples that are not metric spaces, or to see how metric space properties extend
+to topological spaces.</li>
+<li>Fractals &mdash; It's hard to say exactly what a fractal is, but the term is often used to
+refer to "self-similar" sets or to sets that have a "fractional dimension."  The Cantor set,
+for example is a self-similar fractal with fractal dimension ln(2)/ln(3).</li>
+</ul>
+
+<p class=np><b style="font-size:110%">Examples.</b> Here are a few specific examples related to things
+we have covered.  I might do some of them if no one else does.
+</p>
+<ul>
+<li>A Non-Archimedian Ordered Field &mdash; Rational functions can be used to construct
+a field that contains the real numbers as a subfield but is non-Archimedian and therefore
+contains elements that are greater than every integer.  This example was covered in a
+<a href="https://math.hws.edu/eck/math331/guide2020/04-axioms-for-R.html">reading&nbsp;guide&nbsp;section</a>
+from a previous version of this course.</li>
+<li><a href="https://en.wikipedia.org/wiki/Cantor_function">The Cantor Function</a> &mdash; a function that
+is continuous and strictly increasing but has derivative zero almost everywhere. It is based on the
+Cantor set.  (For the meaning of "almost everywhere," see below.)</li>
+<li>Rearrangement of a Series &mdash; A conditionally convergent series can be rearranged so that
+the rearranged series converges to any given real number.</li>
+<li>An Infinitely Flat Function &mdash; the function f(x) which is zero for x less than or equal to zero and 
+is equal to e<sup>-1/x<sup>2</sup></sup> for x greater than zero.  This function is infinitely differentiable
+and all of its derivatives at zero are zero.  It can be used to construct other interesting examples.</l>
+</ul>
+
+<p class=np><b style="font-size:110%">Measure Theory.</b> "Measure" is a generalization of concepts of size,
+such as length, area, and volume, and it is important in advanced mathematics.  
+</p>
+<ul>
+<li>Sets of Measure Zero &mdash; Sets whose measure is zero are particularly important, and they
+can be defined without knowing anything about Lebesgue measure or measure theory in general. A set
+can have measure zero and still be large in some sense.  For example any countably infinite set
+has measure zero.  And the Cantor set is an example of an uncountable set that has measure zero.</li>
+<li>Lebesgue Measure &mdash; Lebesgue measure is the usual measure on the real numbers.  The Lebesgue 
+measure of an interval is its length. But there are sets that are not Lebesgue measurable.  (The
+existence of such sets depends on the Axiom of Choice.)  It is also possible to talk about
+<a href="https://en.wikipedia.org/wiki/Measure_(mathematics)">measure</a> in general.</li>
+<li>The Lebesgue Integral &mdash; The Lebesgue integral is a generalization of the Riemann integral
+that uses Lebesgue measure.  Instead of partitioning an interval into subintervals, it partitions
+it into Lebesgue measureable sets.  For various reasons, it is the preferred integral in much of
+advanced analysis.</li>
+<li><a href="https://en.wikipedia.org/wiki/Banach%E2%80%93Tarski_paradox">The Banach-Tarski Paradox</a> &mdash; 
+A sphere can be disassembled into five pieces which can then be reassembled into two complete spheres of the
+same size.  But the pieces are unmeasureable sets.
+</li>
+<li>Riemann Integrability &mdash; There is a complete characterization of Riemann integrable functions: A
+bounded function on [a,b] is Riemann integrable if and only if it is continuous except on a set of 
+measure zero.  There are examples of Riemann integrable functions that are discontinuous on an
+uncountable set of measure zero, such as the Cantor set.</li>
+</ul>
+
+
+</div>
+</body>
+</html>
+

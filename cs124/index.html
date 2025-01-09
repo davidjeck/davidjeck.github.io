@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>CPSC 124: Introduction to Programming, Fall 2021</title>
+<style type="text/css">
+  a { white-space: pre }
+  h2, h3 {
+      color: #990033;
+  }
+  body {
+      background-color: #000066;
+  }
+  li {
+      margin-top: 4px;
+  }
+  #content {
+      max-width: 800px; 
+      background-color: #EEEEFF; 
+      padding: 0.3cm; 
+      border: solid 2pt blue; 
+      margin: 0.3cm auto;
+  }
+</style>
+</head>
+
+<BODY style="background-color: #006">
+
+
+
+<div id="content"> 
+
+<table align=center bgcolor="white" cellpadding=8px border=2>
+  <tr><td align=center><b>This course ended<br>December 10, 2021</td></tr>
+</table>
+
+<br>
+
+
+<h2>CPSC 124: Introduction to Programming</h2>
+
+<pre>
+   <A HREF="https://math.hws.edu">Department of Mathematics and Computer Science</A>
+   <A HREF="http://www.hws.edu">Hobart and William Smith Colleges</A>
+
+   Spring 2021.
+
+   Instructor:  <A HREF="https://math.hws.edu/eck/index.html">David J. Eck</A>&nbsp; (<a href="mailto:eck@hws.edu">eck@hws.edu</a>)
+
+   Syllabus:  <a href="https://math.hws.edu/eck/courses/cpsc124_f21.html">http://math.hws.edu/eck/courses/cpsc124_f21.html</a>
+
+   Monday, Wednesday, Friday, 9:50&ndash;10:50 AM
+       Coxe 7.
+
+   Lab: Tuesday, 10:10&ndash;11:40 AM
+       Rosenberg 009.
+       
+</pre>
+
+<hr>
+
+<table align=center cellpadding=6 cellspacing=0 border=2 bgcolor="#FFFFDD">
+<tr align=center>
+    <td bgcolor="#BBBBFF" colspan=3><big>Lab Instruction Sheets</big></td>
+</tr>
+<tr align=center>
+    <td width="33%"><a href="f21/lab1/index.html">Lab 1, August 24<br><b>Introduction to Java</b></a></td>
+    <td width="34%"><a href="f21/lab2/index.html">Lab 2, August 31<br><b>Using Subroutines</b></a></td>
+    <td width="34%"><a href="f21/lab3/index.html">Lab 3, September 7<br><b>while and if</b></a></td>
+</tr>
+<tr align=center>
+    <td><a href="f21/lab4/index.html">Lab 4, September 14<br><b>Loopy Art</b></a></td>
+    <td><a href="f21/lab5/index.html">Lab 5, September 21<br><b>Hangman</b></a></td>
+    <td><a href="f21/lab6/index.html">Lab 6, September 28<br><b>Arrays (and Eclipse)</b></a></td>
+</tr>
+<tr align=center>
+    <td><a href="f21/lab7/index.html">Lab 7, October 5<br><b>Writing Subroutines</b></a></td>
+    <td><a href="f21/lab8/index.html">Lab 8, October 19<br><b>Using Objects</b></a></td>
+    <td><a href="f21/lab9/index.html">Lab 9, October 26<br><b>Writing Classes</b></a></td>
+</tr>
+<tr align=center>
+    <td><a href="f21/lab10/index.html">Lab 10, November 2<br><b>GUI Tutorial</b></a></td>
+    <td><a href="f21/lab11/index.html">Lab 11, November 9<br><b>Poker Solitaire</b></a></td>
+    <td><a href="f21/lab12/index.html">Lab 12, November 16<br><b>Hangman Begun</b></a></td>
+</tr>
+<tr align=center>
+    <td><a href="f21/lab12/part2.html">Lab 13, November 23<br><b>Hangman Continued</b></a></td>
+    <td><a href="f21/lab12/part3.html">Lab 14, November 30<br><b>Hangman Finished</b></a></td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+
+<br>
+
+<table align=center cellpadding=6 cellspacing=0 border=2 bgcolor="#FFFFDD">
+<tr align=center>
+    <td bgcolor="#BBBBFF" colspan=3><big>Quiz and Test Answers</big></td>
+</tr>
+<tr align=center>
+    <td width="33%"><a href="f21/quizzes/quiz1.html">Quiz #1, August 30</a></td>
+    <td width="34%"><a href="f21/quizzes/quiz2.html">Quiz #2, September 6</a></td>
+    <td width="33%"><a href="f21/quizzes/quiz3.html">Quiz #3, September 13</a></td>
+</tr>
+<tr align=center>
+    <td><a href="f21/quizzes/test1.html"><b>Test #1, September 24</b></a></td>
+    <td><a href="f21/quizzes/quiz4.html">Quiz #4, October 4</a></td>
+    <td><a href="f21/quizzes/quiz5.html">Quiz #5, October 18</a></td>
+</tr>
+</tr>
+<tr align=center>
+    <td><a href="f21/quizzes/quiz6.html">Quiz #6, October 25</a></td>
+    <td><a href="f21/quizzes/test2.html"><b>Test #2, November 1</b></a></td>
+    <td><a href="f21/quizzes/quiz7.html">Quiz #7, November 15</a></td>
+</table>
+
+<hr>
+
+<h3>Some Sample Programs and Lab Solutions</h3>
+
+<p>Note that some of the lab solutions are dependent on files that were provided in the labs.
+Those files are available through the lab web pages that are linked in the table above.</p>
+
+<ul>
+<li><a href="f21/samples/AdditionQuiz.java">AdditionQuiz.java</a>, from class on September 8</li>
+<li>two solutions to the <a href="f21/lab3/index.html">Lab 3</a> Baseball exercise: 
+        <a href="f21/samples/Baseball.java">Baseball.java</a> and 
+        <a href="f21/samples/BaseballBasic.java">BaseballBasic.java</a></li>
+<li>a solution to the <a href="f21/lab4/index.html">Lab 4</a> LoopyArt exercise: 
+        <a href="f21/samples/LoopyArtComplete.java">LoopyArtComplete.java</a></li>
+<li><a href="f21/samples/Primes10000.java">Primes10000.java</a>, from class on September 27</li>
+<li><a href="f21/samples/PrimesWithSubroutines.java">PrimesWithSubroutines.java</a>, a revision of Primes10000, from class on October 4</li>
+<li><a href="f21/samples/CrapsProbability.java">CrapsProbability.java</a>, which simulates playing many Craps games, from class on October 6</li>
+<li>a solution to the <a href="f21/lab6/index.html">Lab 6</a> hangman game:
+       <a href="f21/samples/HangmanComplete.java">HangmanComplete.java</a></li>
+<li>a solution to the <a href="f21/lab7/index.html">Lab 7</a> turtle graphic exercises:
+       <a href="f21/samples/TurtleGraphicsComplete.java">TurtleGraphicsComplete.java</a></li>
+<li>a solution to the <a href="f21/lab8/index.html">Lab 8</a> arithmetic quiz exercise:
+       <a href="f21/samples/ArithmeticQuizComplete.java">ArithmeticQuizComplete.java</a></li>
+<li>three different solutions to the <a href="f21/lab8/index.html">Lab 8</a> Brownian motion exercise:
+       <a href="f21/samples/BrownianMotionComplete1.java">BrownianMotionComplete1.java</a>,
+       <a href="f21/samples/BrownianMotionComplete2.java">BrownianMotionComplete2.java</a>, and
+       <a href="f21/samples/BrownianMotionComplete3.java">BrownianMotionComplete3.java</a></li>
+<li>a solution to the <a href="f21/lab9/index.html">Lab 9</a> Midi exercises:
+       <a href="f21/samples/MidiPlayerComplete.java">MidiPlayerComplete.java</a>,
+       <a href="f21/samples/Note.java">Note.java</a>, and
+       <a href="f21/samples/Tune.java">Tune.java</a>.</li>
+<li>the completed GUI tutorial from <a href="f21/lab10/index.html">Lab 10</a>: <a href="f21/samples/Sketcher.java">Sketcher.java</a></li>
+<li>a solution to the <a href="f21/lab11/index.html">Lab 11</a> Poker Solitaire exercise:
+       <a href="f21/samples/PokerSolitaireWithScore.java">PokerSolitaireWithScore.java</a> and
+       <a href="f21/samples/GraphicalCard.java">Graphical.java</a>.  (For fun, if you want to see where the scoring for this
+       game came from, here is a <a href="f21/video-poker/index.html" style="white-space:pre">Poker Slot Machine</a>
+       app, written in JavaScript, not Java, to run on the web.)</li>
+<li>a solution for Labs 12 through 14: <a href="f21/samples/hangman/HangmanComplete.java">HangmanComplete.java</a>
+(requires <a href="f21/samples/hangman/WordList.java">WordList.java"</a> and
+<a href="f21/samples/hangman/wordlist.txt">wordlist.txt</a>)</li>
+<li>Programs looked at in class on December 1 (not written in Java):
+       <a href="https://math.hws.edu/eck/js/sorting/xSortLab.html">Sorting&nbsp;demo</a>,
+       <a href="f21/web-life.html">Conway's&nbsp;Game&nbsp;of&nbsp;Life&nbsp;Demo</a>, and
+       <a href="f21/webgl-life.html">High-speed&nbsp;Life</a>.</li>
+       
+</ul>
+
+<hr>
+
+<h3>Some Useful Links</h3>
+
+<ul>
+<li><a href="https://math.hws.edu/javanotes/">Introduction to Programming Using Java</a>, the textbook for the course.</li>
+<li><a href="https://math.hws.edu/eck/cs124/downloads/javanotes8-linked.pdf">PDF version of the textbook</a>, good for reading on-screen.</li>
+<li>A <a href="f21/style_guide.html">Style Guide for Java Programming</a>.</li>
+<li><a href="https://math.hws.edu/about_linux">Some information about Linux</a>.</li>
+<li>If you want to use Java on your own computer:
+    <ul>
+    <li><a href="f21/using-your-computer.html">Some basic instructions.</a></li>
+    <li><a href="https://adoptopenjdk.net">Download Site for OpenJDK</a>, 
+    where you can download installers for OpenJDK, for Mac&nbsp;OS or for Windows.  Installing an OpenJDK will
+    allow you to compile and run Java programs on the command line on your own computer.  OpenJDK&nbsp;16 is recommended
+    for this course.  OpenJDK&nbsp;11 will also work.</li>
+    <li><a href="https://gluonhq.com/products/javafx/">Download site for JavaFX</a>, which we will use later in the course for GUI programming.
+    To use JavaFX on your own computer, you will need an "SDK" appropriate for your system, probably "JavaFX Windows x64 SDK" for Windows
+    or "JavaFX Mac OS X SDK" for Mac.  Unless you are using an older version of Java, you should get the Latest Release (Version number 16).</li>
+    <li><a href="https://www.eclipse.org/downloads/packages/">Download Site for Eclipse</a>, an integrated development environment
+    for Java programming.  We will use Eclipse later in the course.  The correct package for this course is "Eclipse IDE for Java Developers."
+    (The "Installer" is NOT recommended.)  You need the appropriate version for your operating system.</li>
+    </ul>
+</li>
+</ul>
+
+<hr>
+
+
+<h3>Final Exam: December 10</h3>
+
+<p>The final exam for this course takes place on Friday, December 10, at 8:30 AM in our regular classroom.</p>
+
+<p>A <a href="f21/finalinfo.pdf">study guide for the exam</a> was handed out in class on December 1.</p>
+
+<p align=center>
+<a href="f21/final-study-guide-answers/index.html"><b>SAMPLE ANSWERS FOR STUDY GUIDE QUESTIONS</b></a>
+</p>
+
+<hr>
+
+
+<h3>Fifteenth Week: November 29; December 1 and 3</h3>
+
+<p>We will spend the last week of the semester with <a href="https://math.hws.edu/javanotes/c7/index.html">Chapter&nbsp;7</a>.
+We have already covered parts of this chapter, but there are some examples and language features that are new.
+We will spend the most time on <a href="https://math.hws.edu/javanotes/c7/s4.html">Section&nbsp;7.4</a>.
+which covers searching and sorting and introduces the idea of analyzing and comparing the run times of algorithms.</p>
+
+<p>Friday will be mostly devoted to review for the final exam.</p>
+
+<p>Remember that your <a href="f21/lab12/index.html">final project</a> is due this Friday, December 3.
+I expect to print out your programs Saturday morning.</p>  
+
+<hr>
+
+
+<h3>Fourteenth Week: November 22.</h3>
+
+<p>On Monday, I will discuss keyboard events, along with a little more discussion of events in general.
+After that, we will be moving on to Chapter&nbsp;7, which is about arrays and ArrayList. We have already
+covered parts of that chapter.  We will spend the rest of the semester covering the rest of it.</p>
+
+<p>There is no class for the rest of the week because of Thanksgiving break.  <b>Happy Thanksgiving!</b></p>
+
+
+
+
+
+<hr>
+
+<h3>Thirteenth Week: November 15, 17, and 19</h3>
+
+<p>We will finish the material from <a href="https://math.hws.edu/javanotes/c5/index.html">Chapter&nbsp;5</a>
+and will devote the rest of the week to look at selected topics from
+<a href="https://math.hws.edu/javanotes/c6/index.html">Chapter&nbsp;6</a>.
+Chapter&nbsp;6 covers GUI programming with JavaFX.  We have already done quite a
+bit of that, in an unofficial sort of way, but now we will be looking at things more
+abstractly and in more detail.  We will not have time to cover everything, so you
+should pay attention to what is actually covered in class.  (And read the whole
+chapter when you get a chance.)</p>
+
+
+<hr>
+
+<h3>Twelfth Week: November 8, 10, and 12</h3>
+
+<p>We will spend a little more time on <a href="https://math.hws.edu/javanotes/c5/s5.html">Section&nbsp;5.5</a>.
+For the rest of the week, we will look at topics from the remainder of
+<a href="https://math.hws.edu/javanotes/c5/index.html">Chapter&nbsp;5</a>.
+The important topics are the special variables <i>this</i> and <i>super</i>
+(<a href="https://math.hws.edu/javanotes/c5/s6.html">Section&nbsp;5.6</a>),
+basic <i>interfaces</i> (<a href="https://math.hws.edu/javanotes/c5/s7.html#OOP.7.1">Subsection&nbsp;5.7.1</a>),
+and basic <i>nested classes</i> (<a href="https://math.hws.edu/javanotes/c5/s8.html#OOP.8.1">Subsection&nbsp;5.8.1</a> and
+<a href="https://math.hws.edu/javanotes/c5/s8.html#OOP.8.2">Subsection&nbsp;5.8.2</a>).
+I will also be able to say more about <i>lambda expressions</i>, which we have started using
+in GUI programs but which I have not really explained.</p>
+
+
+
+
+<hr>
+
+<h3>Eleventh Week: November 1, 3, and 5</h3>
+
+<p>There is a test on Monday, November 1.  A <a href="f21/test2info.html">study guide</a> was
+handed out in class on Wednesday, October 27.</p>
+
+<p>After the test on Monday, we will spend the rest of the week on 
+<a href="https://math.hws.edu/javanotes/c5/s5.html">Section&nbsp;5.5</a>, which covers
+subclasses and inheritance.  This is an important aspect of object-oriented programming, and it
+will take some time to cover it.</p>
+
+
+
+<hr>
+
+<h3>Tenth Week: October 25, 27, and 29</h3>
+
+
+<p>There is a quiz this week on Monday, October 25.  The second test will be next Monday, November 1.</p>
+
+<p>The reading for the week is <a href="https://math.hws.edu/javanotes/c5/s3.html">Section&nbsp;5.3</a> and
+<a href="https://math.hws.edu/javanotes/c5/s4.html">Section&nbsp;5.4</a>.  The main topic is
+object-oriented programming.  We will look at the Card, Deck, and Hand examples from Section&nbsp;5.4.
+We might get into
+Section&nbsp;5.5 on Friday, but that section will not be on the test.</p>
+
+
+<hr>
+
+<h3>Ninth Week: October 18, 20, and 22</h3>
+
+<p>We have started Chapter 5, but have not quite finished 
+<a href="https://math.hws.edu/javanotes/c5/s1.html">Section&nbsp;5.1</a>.
+We will finish that on Monday and move on to
+<a href="https://math.hws.edu/javanotes/c5/s2.html">Section&nbsp;5.2</a>,
+which covers constructors.  By Friday, we should get into
+<a href="https://math.hws.edu/javanotes/c5/s3.html">Section&nbsp;5.3</a> and
+<a href="https://math.hws.edu/javanotes/c5/s4.html">Section&nbsp;5.4</a>,
+which are about using classes and objects, but we will continue with those
+sections for at least the first part of next week.</p>
+
+<p>There is a quiz on Monday, October 18, covering Chapter 4.
+There will be another quiz the following Monday and then a test the week after that.</p>
+
+
+<hr>
+
+<h3>Eighth Week: October 13 and 15</h3>
+
+<p>We still have to finish up a bit of Chapter 4.  The last three sections of that chapter have
+information on a lot of topics, and you are not responsible for all of them.
+You are responsible for the material in the following subsections:  4.6.1, 4.6,2, 4.6.3, 
+4.6.5, 4.7.1, 4.7.2, 4.8.1, 4.8.3, and 4.8.4.  We have already covered a lot of that material.</p>
+
+<p>We will then move on to Chapter 5, which introduces object-oriented programming. You should read
+<a href="https://math.hws.edu/javanotes/c5/s1.html">Section&nbsp;5.1</a>, which covers central ideas
+about objects and their relationship to classes.  We might start Section&nbsp;5.2 on Friday.</p>
+
+<p>There is no lab this week.  The work from last week's
+<a href="f21/lab7/index.html">lab</a> is due next week.</p>
+
+<p>You can expect another quiz next Monday.</p>
+
+<hr>
+
+<h3>Seventh Week: October 4, 6, and 8</h3>
+
+<p>There is a quiz at the start of class on Monday of this week.</p>
+
+<p>We are working on <a href="http://math.hws.edu/javanotes/c4/index.html">Chapter&nbsp;4</a>, which
+covers writing subroutines and using them to construct more complex programs.  The new reading for
+the week is <a href="http://math.hws.edu/javanotes/c4/s3.html">Section&nbsp;4.3</a>, and
+<a href="http://math.hws.edu/javanotes/c4/s4.html">Section&nbsp;4.4</a>.  Sections 4.2 through 4.4
+cover all the basic aspects of writing subroutines, including parameters and return values.
+Global and local variables are also covered.  We will also be discussing how to use subroutines to build complex
+programs, which covers some of the material from Section&nbsp;4.6.</p>
+
+<p>Next week is Fall Break.  There is no class on Monday and no lab on Tuesday.
+And there will not be a quiz next week.</p>
+
+<hr>
+
+<h3>Sixth Week: September 27 and 29; October 1</h3>
+
+<p>The reading for the week is
+<a href="http://math.hws.edu/javanotes/c3/s8.html">Section&nbsp;3.8</a>,
+<a href="http://math.hws.edu/javanotes/c4/s1.html">Section&nbsp;4.1</a>, and
+<a href="http://math.hws.edu/javanotes/c4/s2.html">Section&nbsp;4.2</a>.
+Section&nbsp;3.8 introduces arrays.  The <a href="f21/lab6/index.html">lab</a> on Tuesday will be about arrays
+but, just as important, will introduce the Eclipse IDE (Integrated Development Environment).
+We will them move on to Chapter&nbsp;4, which is about writing your own subroutines.</p>
+
+<p>There is no lab work due this week.  The work from Labs 5 and&nbsp;6 will
+all be due on October 7.  And there is no quiz on Monday. However, you
+can expect another quiz next Monday, October&nbsp;7.</p>
+
+
+
+<hr>
+
+<h3>Fifth Week: September 20, 22, and 24</h3>
+
+<p>There is a <b>test</b> this week, on Friday.  <a href="f21/test1info.pdf" style="white-space:pre">Click here for a study guide</a>.
+A copy of the study guide will be handed out in class on Monday.</p>
+
+<p>The reading for the week is <a href="http://math.hws.edu/javanotes/c3/s6.html">Section&nbsp;3.6</a>
+and <a href="http://math.hws.edu/javanotes/c3/s7.html">Section&nbsp;3.7</a>.  In fact, we already
+covered the <code>switch</code> statement from Section&nbsp;3.6 on Friday.  Section&nbsp;3.7 covers
+exceptions and the <code>try..catch</code> statement.  Note that none of this material is covered on the test.</p>
+
+<p>We will spend some time on Wednesday reviewing for the test and looking at some sample problems
+from past tests.  It is possible that we will start Section&nbsp;3.8, if there is time.</p>
+
+<hr>
+
+<h3>Fourth Week: September 13, 15, and 17</h3>
+
+<p>We will continue looking at control structures this week.  Most important are the <i>for</i>
+loop and the form of the <i>if</i> statement that uses <i>else&nbsp;if</i>.
+The <i>break</i> statement, which can be used to exit a loop early, is also important.
+We will discuss the <i>do..while</i> statement and the <i>switch</i> statement, but they 
+are less important.  I will expect you to be able to read and understand code that uses
+<i>do..while</i> and <i>switch</i>, but I will not require you to use them in code
+that you write yourself.</p>
+
+<p>The reading for the week is Sections 2 through 5 in 
+<a href="http://math.hws.edu/javanotes/c3/index.html">Chapter&nbsp;3</a>.
+From Section&nbsp;3.2, the main take-away is the idea of <i>algorithm</i>.
+(You might want to look at <a href="http://math.hws.edu/javanotes/c3/s9.html">Section&nbsp;3.9</a>,
+which talks about JavaFX.  The material in that section has been covered in labs, and we won't
+be spending more time on it in class.)</p>
+
+<p>There is a quiz on Monday this week, and a test coming up at the end of next
+week, on Friday, September 24.</p>
+
+
+
+<hr>
+
+<h3>Third Week: September 6, 8, and 10</h3>
+
+<p>The reading for the week is <a href="http://math.hws.edu/javanotes/c3/s1.html">Section&nbsp;3.1</a>
+and <a href="https://math.hws.edu/javanotes/c2/s5.html">Section&nbsp;2.5</a>.
+We will start the week on Monday with Section 3.1, which introduces two of Java's
+control structures:  the <i>while</i> loop and the <i>if</i> statement.  We will
+look at a number of examples, and you will start using these control structures in
+the <a href="f21/lab3/index.html">lab</a> on Tuesday.  We will continue with examples
+on Wednesday, but we will start concentrating on how to go about developing a program to carry
+out a given task.</p>
+
+<p>Section 2.5 is full of detail about expressions in Java.  It covers many different
+"operators" such as %, &gt;=, &amp;&amp;, ++, and&nbsp;+=.  We will cover some of the
+most important ones in class, but you should read that section for yourself and use
+it as a reference when needed.  (Section 2.6 contains information about using Java.
+We will not cover it, and it is not required reading.  It could be useful to you
+if you are trying to use Java on your own computer.)</p>
+
+<p>Once again, there is quiz at the start of class on Monday.</p>
+
+<hr>
+
+
+
+<h3>Second Week: August 30; September 1 and 3</h3>
+
+
+<p>The reading for the week is <a href="http://math.hws.edu/javanotes/c2/s3.html">Section&nbsp;2.3</a>
+and <a href="http://math.hws.edu/javanotes/c2/s4.html">Section&nbsp;2.4</a>.  You can skip
+Subsections&nbsp;2.3.4, Subsection&nbsp;2.3.5, and Subsection&nbsp;2.4.4.  We will not cover
+the material in any of those sections.  You can also skip Subsection&nbsp;2.4.6 for now, but we
+will cover it eventually.</p>
+
+<p>The main topic is
+using pre-defined subroutines.  We will look at some of the subroutines defined in class <i>Math</i>,
+in class <i>System</i>, and in objects of type <i>String</i>.  These are all standard, built-in parts of
+Java.  We will also see how to use input subroutines from <i>TextIO</i>, a class that is not a standard
+part of Java.  Many of the subroutines that we will look at are "functions."  That is, they return,
+or compute, a value.  The lab on Tuesday will also introduce subroutines from the <i>GraphicsContext</i>
+class, which are used to draw shapes on the screen.</p>
+
+<p>There is a quiz on Monday, at the beginning of class, covering Sections 1.1, 1.3, and 2.1.</p>
+
+
+<hr>
+
+
+
+<h3>First Week: August 23, 25, and 27</h3>
+
+
+<p>Welcome to the course!</p>
+
+<p>You should begin reading the textbook, which is available
+on-line at <a href="http://math.hws.edu/javanotes/">http://math.hws.edu/javanotes</a>.  Because the first lab
+is on Tuesday, we will move very quickly into the most basic aspects of Java programming, which are covered in 
+<a href="http://math.hws.edu/javanotes/c2/s1.html">Section&nbsp;2.1</a> and
+<a href="http://math.hws.edu/javanotes/c2/s2.html">Section&nbsp;2.2</a>.  
+Some of the same information that you need will be provided in the lab, and the work for
+the lab is not due until next week, but it would be useful to start reading Chapter&nbsp;2.
+</p>
+
+<p>Aside from starting in on Java programming, during the first week of the semester,
+we will go over some of the introductory material from <a href="http://math.hws.edu/javanotes/c1/index.html">Chapter&nbsp;1</a> 
+of the textbook.  We will cover only a part of Chapter&nbsp;1 in class, but it is a good idea to read the
+entire chapter to get a preview of most of the topics that will be covered during the rest of the semester.
+However, you should not expect to fully understand everything in Chapter&nbsp;1 at this time.
+The most important sections are
+<a href="http://math.hws.edu/javanotes/c1/s1.html">Section&nbsp;1.1</a> and
+<a href="http://math.hws.edu/javanotes/c1/s3.html">Section&nbsp;1.3</a>.  Those two section give
+a brief overview of how computers and Java actually work.  Sections 1.4, 1.5, and 1.6
+give short overviews of many of the topics that we will cover in the rest of the semester. It is recommended
+that you read them to orient yourself in the course, but they are not required reading.</p>
+
+<p>The required reading for the first week also includes the 
+<a href="http://math.hws.edu/eck/courses/cpsc124_f21.html">course&nbsp;syllabus</a>!</p>
+
+
+<hr>
+</div>
+</body>
+</html>

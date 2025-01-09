@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS124, Fall 2021, Lab 11</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Lab 11: Poker Solitaire</h2>
+
+<div class="intro">
+
+<p>For this lab, you will work on a GUI program to implement a simple
+solitaire card game.  You will work with arrays of objects, including
+a two-dimensional array, and you will make a subclass of an existing
+class.</p>
+
+<p>You should create an Eclipse project named lab11 or something similar.
+You need to add copies of the file and folder from 
+<a href="lab11-files/" style="white-space:pre">/classes/cs124_Eck/lab11-files</a>.
+There are a lot of files in the folder named "cards", so don't try to download them
+individually.  Open the folder <span style="white-space:pre">/classes/cs124_Eck/lab11-files</span>
+in a file browser window, and copy-and-paste the contents of that
+directory into the src folder.  (Alternatively, you can download this
+<a href="lab11-files.zip">zip&nbsp;archive</a> of the folder and unzip it
+to get at the files.)  Make sure that the "cards" directory is in the src folder,
+not just in the project; if not, you can drag it into src.  The .java files 
+should be in the default package in the src folder.</p>
+
+
+<p><b>This lab is due next Tuesday.</b></p>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>The Game</h3>
+
+<p>The game that you will implement is a kind of poker solitaire.  It is played
+on a five-by-five grid, where each spot in the grid can hold a playing card.
+The user sees one card at a time and decides where to place that card in
+the grid.  The user cannot move a card after it has been placed in the grid.
+The game ends when 25 cards have been placed and the grid is full.
+The goal of the game is to try to get good poker hands in each row, in each
+column, and in each of the two diagonals.  (You don't need to know poker to
+implement the game.)  Scoring can be added to the game by assigning a certain
+number of points to each type of poker hand.  However, <b>scoring is optional,
+for extra credit,</b> in this lab.  (See the Extra Credit section at the end
+of this web page for more information about scoring.)  Here is a picture of
+the board in the middle of a game, with the optional scoring:</p>
+
+
+<p class=np style="text-align:center"><img src="poker-solitaire.png" 
+     style="border: thin solid black" width="667" height="500"></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>About the Image Class and Card Images</h3>
+
+<p>The playing card images that you will use in the game are in .jpg files in
+the <i>cards</i> folder that you should have already added to your project.
+Those files are being used as "resource files" in the program.  A resource
+file is a file that is part of the program but is not a .java file.</p>
+
+<p>In JavaFX, an image is represented by an object of type <i>javafx.scene.image.Image</i>.
+The <i>Image</i> class has a constructor that takes a <i>String</i> as a parameter.
+The string can be a path to a resource file.  For a resource file that is directly in
+the <i>src</i> folder of a project, the path would simply be the name of the file.
+For a resource file in a subfolder of <i>src</i>, the path would include the folder name.
+For example, to construct an <i>Image</i> object from the file named "C2.jpg" in
+the folder named "cards", you can use:</p>
+
+<pre class=code>
+Image img = new Image("cards/C2.jpg");
+</pre>
+
+<p>If you have an <i>Image</i> object, you can draw the image on a <i>Canvas</i> using
+a <i>GraphicsContext</i>, <i>g</i>, with the <i>g.drawImage</i>() method:</p>
+
+<pre class=code>
+g.drawImage( img, x, y );
+</pre>
+
+<p class=np>The parameters <i>x</i> and <i>y</i> are of type <i>double</i>.
+The upper left corner of the image is placed at the point with coordinates (<i>x,y</i>)
+in the canvas.</p>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>The GraphicalCard Class</h3>
+
+<p>The file <a href="lab11-files/PokerCard.java"><i>PokerCard.java</i></a> defines
+the <i>PokerCard</i> class to represent a standard playing card.  This is a little
+different from the <i>Card</i> class that we looked at in class, since it uses 14 for the value
+of an ace, rather than&nbsp;1.  That change was made to make it easier to implement some of
+the rules of poker.</p>
+
+<p>You should define a new class <i>GraphicalCard</i> as a subclass of <i>PokerCard</i>
+to represent a playing card along with its associated image.
+(It would certainly be possible to write the solitaire program without defining this class, but
+I am requiring you to do so as an exercise.)  The constructor for
+a <i>GraphicalCard</i> should still take the value and suit of the card as parameters.
+The constructor will need to use <i>super</i> to call the constructor from the
+superclass.  (See <a href="https://math.hws.edu/javanotes/c5/s6.html#OOP.6.3">Section&nbsp;5.6.3</a>;
+we went over this in class yesterday.)  But is should also create the <i>Image</i> object for
+the card.</p>
+
+<p>Getting the correct name for the image file is a problem, but you certainly don't need 
+52 separate cases!  The card image files have
+names like "cards/H5.jpg" for the 5 of Hearts, "cards/SK.jpg" for the King of Spaces,
+"cards/D10.jpg" for the 10 of Diamonds.  You might notice that the first character in
+"H5", "SK", and "D10" is also the first character of the string returned by the
+<i>getSuitAsString</i>() instance method in the <i>PokerCard</i> class.  And for 
+the second character in the case of a Jack, Queen, King, or Ace, you might look 
+at <i>getValueAsString</i>().</p>
+
+<p>The <i>GraphicalCard</i> class also needs an instance method for drawing the image.
+As the parameters for that instance method, you need a <i>GraphicsContext</i> and
+two <i>doubles</i> for the upper left corner of the image.</p>
+
+<p>Test your class before proceeding.  Add some temporary code to the <i>draw</i>()
+method in <i>PokerSolitaire.java</i> to create a <i>GraphicalCard</i> and draw it.</p>
+
+<p>(Note:  The <i>PokerCard</i> class also implements Jokers, but your <i>GraphicalCard</i>
+class does not have to support Jokers.  You can ignore them.  However, if you want to
+support them, there is <i>joker.jpg</i> file in the <i>cards</i> folder that you can
+use for the image.)</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Poker Solitaire</h3>
+
+<p>The rest of the work for the lab will be in the file <i>PokerSolitaire.java</i>.
+That program already draws a 5-by-5 grid of empty spaces and a space for drawing the
+next available card.  You will finish the implementation.</p>
+
+<p>Some requirements:  Make sure that the user can't place a card in a grid position
+that is already occupied.  After the grid is full, the game ends, and the user should 
+be able to start a new game (such as by clicking anywhere &mdash; or maybe just by clicking in
+the "next card" rectangle which would make it harder to start the new game by accident).
+And you should think about what to draw in the "Next Card" spot when the game is over.
+You might draw a message saying the game is over.  Another idea is to draw a face-down
+card there; the image for the back of a card is in the file "cards/back.jpg".</p>
+
+<p>You will need a deck of 52 <i>GraphicalCards</i>.  My version of the program
+simply uses an instance variable of type <i>GraphicalCard</i>[], along with an <i>int</i>
+variable to keep track of which card in the array is the next card to be played
+in the game.  I had to create all the cards for the array, and shuffle the deck at
+the start of each game.  We looked at a <i>Deck</i> class that does all that.
+You can use code that is very similar to the code from 
+<a href="Deck.java">Deck.java</a>, 
+but watch out for the fact that an Ace in the <i>GraphicalCard</i> class has value 14, not&nbsp;1</i>.
+(Alternatively,  you could make a <i>GraphicalDeck</i> class that is almost a copy of <i>Deck.java</i>,
+using <i>GraphicalCards</i> instead of <i>Cards</i>.  Unfortunately, you can't simply use
+the unmodified <i>Deck</i> class.)</p>
+
+<p>You need to add a mouse-pressed event handler to the program to react when the user
+clicks the canvas.  See the section on "Mouse Events" from the <a href="../lab10/index.html">previous&nbsp;lab</a>
+if you need a reminder about how to do that.  Much of the work of the game is done in
+the mouse event handler.</p>
+
+<p>When the user clicks the canvas, and a game is in progress, you need to determine
+where the user is trying to place the next card.  You get the (x,y)-coordinates of the
+point where the user clicked from the mouse event.  You need to check which of the empty
+rectangles, if any, contains the point (x,y).  One way to do that uses nested for loops
+similar to the ones that are used in the <i>draw</i>() method to draw the empty rectangles.
+(It is also possible to simply calculate the row and column number from x and&nbsp;y,
+if you are mathematically inclined.)  You should ignore any mouse click that is not
+in one of the empty rectangles.  In particular, if the user clicks a rectangle that
+already contains a card, you should ignore it.</p>
+
+<p>There are two approaches to drawing the board.  One is to completely redraw the
+board any time anything needs to be changed.  In this approach, the <i>draw</i> method
+must redraw the board completely, based on the current state of all the instance variables.
+Whenever a change is made to an instance variable that affects the contents of the board,
+<i>draw</i>() must be called to redraw the board.  This might seem inefficient, but
+it is often the best approach since it is easy to make sure that the appearance of the 
+board exactly reflects the state of the program.</p>
+
+<p>The second approach is to try to redraw just part of the board when something changes.
+For example, when the user places a card, just draw that card.  But then, you also have
+to remember to draw the new next card.  And if you are doing scoring, the score might need
+to be updated.  You can make it work in this program (especially if you are not doing
+scoring), but in general it can be hard to get right.</p>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h3>Extra Credit: Scoring</h3>
+
+<p>Scoring is not a requirement of this lab, but you can get five points of extra
+credit for implementing it.  The coding is a little tedious, but a lot of the work
+will be done by an object of type <i>PokerRank</i>, defined by the file
+<a href="lab11-files/PokerRank.java">PokerRank.java</a>.
+A&nbsp;PokerRank object, <i>ranker</i>, can compute a rank for a hand of from
+zero to five <i>PokerCards</i>.  The rank is an integer from 0 to 9 and is returned
+by <i>ranker.getHandType</i>().  A name for the rank, such as "Two&nbsp;Pairs" or
+"Flush", is returned by <i>ranker.getHandTypeAsString</i>().  The number of points
+that you should award for each rank is shown in the table below.  Consider storing
+the point values in an array.</p>
+
+<p>You really only need one <i>ranker</i> object of type <i>PokerRank</i>.  To use it to get the rank
+of a hand of cards, first call <i>ranker.clear</i>() to remove any cards that have
+previously been added.  Then call <i>ranker.add</i>(<i>card</i>) for each
+card in the hand.  Note that <i>card</i> cannot be null.  Then you can use 
+<i>ranker.getHandType</i>() and <i>ranker.getHandTypeAsString</i>().</p>
+
+<p>You need to apply the <i>ranker</i> to each row, to each column, and to the
+two diagonals.  The cards in the grid are stored in a two-dimensional array.
+You just need to go through the relevant part of the array and add the appropriate cards to <i>ranker</i>,
+being careful not to add <i>null</i> values.  You want to display the type of
+each hand and the number of points for that hand.  You also want to display
+the total points for all 12 hands, which is the user's overall score in the game.
+</p>
+
+
+<table align=center border=1 cellspacing=0 cellpadding=7 bgcolor=white>
+<tr bgcolor="#E8E8Ff" align=center>
+   <th><b>Rank (getHandType())</b></th>
+   <th><b>Name (getHandTypeAsString())</b></th>
+   <th><b>Points</b></th>
+</tr>
+<tr align=center><td>0</td><td>Nothing</td><td>0</td></tr>
+<tr align=center><td>1</td><td>Pair</td><td>1</td></tr>
+<tr align=center><td>2</td><td>Two Pairs</td><td>2</td></tr>
+<tr align=center><td>3</td><td>Triple</td><td>3</td></tr>
+<tr align=center><td>4</td><td>Straight</td><td>4</td></tr>
+<tr align=center><td>5</td><td>Flush</td><td>6</td></tr>
+<tr align=center><td>6</td><td>Full House</td><td>9</td></tr>
+<tr align=center><td>7</td><td>Four of a Kind</td><td>25</td></tr>
+<tr align=center><td>8</td><td>Straight Flush</td><td>50</td></tr>
+<tr align=center><td>9</td><td>Royal Flush</td><td>250</td></tr>
+</table>
+
+</div>
+
+
+
+
+
+
+</div>
+</body>
+</html>

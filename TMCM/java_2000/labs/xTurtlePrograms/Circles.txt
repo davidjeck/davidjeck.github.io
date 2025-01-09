@@ -1,0 +1,31 @@
+{
+  A program that illustrates multiple levels of 
+  forking.  One turtle splits into 10, then each
+  of those 10 turtles splits into 10.  This gives
+  a total of 100 turtles.  Each turtle draws a
+  circle. 
+}
+
+
+PenUp
+MoveTo(-5,-5)
+
+fork(10)             { Split into 10 turtles. }
+declare row          { Each turtle creates its 
+                          OWN variable named "row" }
+row := ForkNumber    { Save the value of ForkNumber in row. }
+
+fork(10)             { Each turtle splits into 10 new turtles. }
+declare column       { Each of the 100 turtles has 
+                          its own "column" variable, }
+column := ForkNumber { Save new ForkNumber in column. }
+
+
+forward(column)      { Turtles spread out horizontally. }
+face(90)
+forward(row)         { Turtles spread out vertically. }
+
+PenDown
+
+circle(1)            { Each of the 100 turtled draws a }
+                     { circle of radius 1. }

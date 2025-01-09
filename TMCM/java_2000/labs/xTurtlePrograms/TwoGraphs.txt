@@ -1,0 +1,59 @@
+{
+   This program draws the graphs of two functions,
+   y = x^2/8  and  y = x^3/64,  on the same set of
+   axes.
+
+   Your assignment is to modify the program so that
+   the two graphs will be drawn simultaneously by two 
+   separate turtles.
+}
+
+SUB Axes    { Subroutine for drawing the axes }
+  PenUp
+  MoveTo(-8,0)
+  PenDown
+  MoveTo(8,0)
+  PenUp
+  MoveTo(0,-8)
+  PenDown
+  MoveTo(0,8)
+END SUB
+
+SUB Graph1   { Subroutine for drawing the graph of y = x^2/8 }
+  DECLARE x,y
+  PenUp
+  x := -8
+  y := x^2 / 8
+  MoveTo(x,y)
+  PenDown
+  LOOP
+    x := x + 0.5
+    EXIT IF x > 8
+    y := x^2 / 8
+    MoveTo(x,y)
+  END LOOP
+END SUB
+
+SUB Graph2   { Subroutine for drawing the graph of y = x^3/64 }
+  DECLARE x,y
+  PenUp
+  x := -8
+  y := x^3 / 64
+  MoveTo(x,y)
+  PenDown
+  LOOP
+    x := x + 0.5
+    EXIT IF x > 8
+    y := x^3 / 64
+    MoveTo(x,y)
+  END LOOP
+END SUB
+
+blue
+Axes       { Draw the Axes in blue. }
+red
+Graph1     { Draw the first graph in red. }
+green
+Graph2     { Then draw the second graph in green. }
+
+HideTurtle { since the picture looks better without it. }

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Irrational Numbers</title>
+</head>
+<body>
+<div id="content">
+
+<h2>01 Irrational Numbers</h2>
+<hr>
+
+<p>Section 1.1 gives a proof of the Fundamental Theorem of Arithmetic and uses
+it to show that various real numbers are irrational. The proof of the
+Fundamental Theorem is not important for this course, and the theorem itself
+is only used to prove the existence of irrational numbers.  The exercises in
+Section 1.1 explore some other facts about irrational numbers.
+(Note that the historical background information in this section, and elsewhere
+in the textbook, are not required for this course.  But they can be interesting,
+so you are encouraged to read them.)</p>
+
+<p>Mathematicians work with various "number systems."  The set of <span class="nw">natural numbers</span>,
+$\N$, is the most basic.  This set contains the positive integers:
+$\N=\{1,2,3,\dots\}$.  With the negative integers and zero, we get the set
+of <span class="nw">integers</span>: $\Z=\{\dots,-2,-1,0,1,2,\dots\}$.
+Two natural numbers can be added but not always subtracted.
+In some sense, $\Z$, is invented to make subtraction possible; when you 
+subtract a natural number from a smaller natural number, the result is not a natural number but is
+a negative integer.  We say that the natural numbers are <span class="nw">closed</span>
+under addition but not closed under subtraction.</p>
+
+<p>Simlarly, the set of integers is not closed under division.
+The <span class="nw">rational numbers</span> are invented to make
+division possible (except of course for division by zero).
+The set $\Q$ of rational numbers contains all quotients, $\frac{n}{m}$,
+of integers where the denominator, $m$, is not zero.  Of course, the same rational
+number can be represented by many different fractions; for example
+$\frac{15}{3}=\frac{5}{1}=\frac{-30}{-6}=\frac{105}{21}=\cdots$.  If you want to
+be fancy, a rational number can be defined as an equivalence class of fractions
+where $\frac{a}{b}$ is equivalent to $\frac{c}{d}$ if and only if $ad=bc$.
+Every non-zero rational number can be represented uniquely as a fraction $\frac{p}{q}$
+where $q$ is a positive integer and $p$ and $q$ have no common factors.</p>
+
+<p>The set of <span class="nw">real numbers</span>, $\R$, is different.  
+If the motivation for inventing $\Z$ and $\Q$ is arithmetic, the motivation
+for inventing $\R$ is more geometric.  The set of real numbers is identified with
+a geometric object, a "line."  There is a one-to-one correspondence between
+real numbers and points on a line.  To get a correspondence, you have to decide
+which two points correspond to the numbers 0 and 1, but once you do that,
+the correspondence is determined.  This gives the familiar picture of the
+real number line:</p>
+
+<p style="text-align:center"><img src="figures/01-fig1.png" width=389 height=67></p>
+
+<p class="np">It is not immediately obvious that you need anything more than
+the rational numbers to account for all of the points on the line.  However, the
+geometry of the line leads us to numbers that are not rational.  That is, if we define
+the real numbers to be the points on a line, then there are real numbers that are not
+rational.  Real numbers that are not rational are called <span class="nw">irrational</span>.</p>
+
+<p>The original geometric proof of this fact used a square whose sides have length&nbsp;1.
+According to the Pythagorean theorem, the diagonal of that square has length
+$\sqrt{1^2+1^2}$, or $\sqrt 2$.  But $\sqrt 2$ cannot be a rational number.
+The well-known proof that $\sqrt 2$ is irrational is given in the textbook.  In fact, we can use the Fundamental
+Theorem of Arithmetic to get a large supply of irrational numbers:</p>
+
+<div class="thm"><p><span class="dtp">Theorem</span>: Let $n$ be a positive integer
+greater than 1, and suppose that $n$ has prime factorization
+$n=p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}$ (where $\seq[p]k$ are distinct primes, and
+$\seq[e]k$ are integers greater than zero).  Then $\sqrt n$ is rational if and only
+if every $e_i$ is an even number.</p></div>
+<div class="prf"><p><span class="dtp">Proof</span>: Suppose that every $e_i$ is
+an even number.  Then $n=p_1^{2i_1}p_2^{2i_2}\cdots p_k^{2i_k}$ where $\seq[i]k$ are
+integers.  Then $\sqrt n = p_1^{i_1}p_2^{i_2}\cdots p_k^{i_k}$, which is a
+rational number.  (Note that it is in fact an integer.  The square root of an integer
+can only be an integer or an irrational number.)</p>
+<p>Conversely, suppose that at least one of the $e_i$ is odd.  
+Suppose, for the sake of contradiction,
+that $\sqrt n$ is rational.  Write $\sqrt n=\frac{a}{b}$. where $a$ and $b$ are
+integers.  Then $n=\frac{a^2}{b^2}$, and $nb^2=a^2$.
+By the Fundamental Theorem of Arithmetic,
+we can write $a=p_i^sc$ and $b=p_i^td$, where $s$ and $t$ are non-negative integers
+and $c$ and $d$ are integers that are not divisible by $p_i$.  (We have simply
+factored all possible factors of $p_i$ out of $a$ and $b$.)  But then
+$p_i$ occurs $2s$ times as a factor of $a$, and it occurs $2t$ times as a factor
+of $b$.  Since $p_i$ occurs an odd number of times as a factor of $n$,
+and it occurs an even number of times as a factor in $a^2$ and in $b^2$,
+it follows that $p_i$ occurs an odd number of times as a factor of $nb^2$
+and an even number of times as a factor in $a^2$.  But, by the Fundamental Theorem
+of Arithmetic, this means that $nb^2$ cannot equal $a^2$, since they have different
+prime factorizations.  This contradicts the fact that $n=\frac{b^2}{a^2}$, 
+and the contradiction shows that $n$ cannot be rational.&nbsp;$\qed$
+</p></div>
+
+<p>But taking square roots of integers does not produce all irrational numbers.
+For example, $\pi$ and $e$ are irrational, but $\pi^2$ and $e^2$ are not integers.
+The number $\pi$ can be defined
+geometrically as the circumference of a circle that has diameter equal to&nbsp;1.
+The number $e$ is the base of the natural logarithm, and its definition requires
+calculus.</p>
+ 
+<p>For lots more irrational numbers, we can turn to non-repeating decimals.
+(See Exercises 17 through 21 in Section 1.1.)
+Real numbers are often represented in decimal form, $a.d_1d_2d_3\dots$,
+where $a$ is an integer and $d_1,d_2,d_3,\dots$ are digits, that is, integers in the range
+0 to&nbsp;9. (This really represents the number as the sum of an infinite
+series, $a+\sum_{n=1}^{\infty}\frac{d_n}{10^n}$.)  A number in decimal form is
+rational if and only if it is repeating.  In a repeating decimal, after some 
+point, there is a finite block of one or more digits that is just
+repeated over and over forever.  For example,
+$\frac 13=0.3333333\dots=0.\overline{3}$ or $\frac{223}{165}=1.351515151\dots=1.3\overline{51}$
+or $\frac12=0.500000\dots = 0.5\overline{0}$.  The line over 3 or 51 or 0 indicates that
+that digit or block of digits repeats forever.</p>
+
+<p>But this means that any non-repeating decimal represents an irrational
+number.  For example:</p>
+
+<pre>
+            0.101001000100001000001000000100000001000000001000000000...
+</pre>
+
+<p class="np">In this decimal, the number of zeros between the ones increases by one
+from each group of zeros to the next, making it impossible for the decimal to
+terminate in a finite, repeating block.  The ones could be replaced with other digits
+to give other irrational numbers.  For example, we could replace some of the
+ones with twos:</p>
+
+<pre>
+            0.10<span style="color:red">2</span>00<span style="color:red">2</span>00010000<span style="color:red">2</span>00000100000010000000<span style="color:red">2</span>000000001000000000...
+</pre>
+
+<p class="np">We can choose any subset of the ones to replace with twos.
+Since there is a countable number of ones, there is an uncountable number of
+subsets of the ones, so we can get an uncountable number of different irrational
+numbers from this one example.  (This assumes that
+you know about countable versus uncountable infinities, and the fact that the
+set of subsets of an infinite set is uncountable.  If so, you
+probably know that the set of rational numbers is countable (that is, it can
+be put into one-to-one correspondence with the set of natural numbers),
+while the set of real numbers is uncountable. But it's nice to have a
+concrete example of uncountably many irrational numbers.)
+
+<p>The fact that a decimal represents a rational number if and only if the decimal is repeating
+is not difficult to prove.  If you are interested, here is a 22-minute video presentation of
+some examples.  (This video is not a required part of the course.)</p>
+
+<p style="text-align:center"><a href="https://hws.box.com/v/repeated-decimals">Video: Repeating Decimals</a></p>
+
+<p>The question remains, is there some way that we can produce <b>all</b> of the
+irrational numbers?  That is the topic of the 
+<a href="02-dedekind-cuts.html">next&nbsp;reading</a>.</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

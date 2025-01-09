@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>CS 124 Quiz #2 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Spring 2021:
+Sample Answers to Quiz #??</h2>
+
+<p class=info><i>These are sample answers only.<br>
+Other answers might receive full credit.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+Give the names of <b>two</b> of Java's <i>primitive types</i>.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b> int and char.
+</p>
+<p>(There are only 8 primitive types, and those 8 types are the only correct
+answers:  byte, short, int, long, float, double, char, boolean.  Note that
+all primitive type names start with lower case letters.  Note that String
+is a type, but it is not a primitive type.)</p>
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+What is meant by a <i>literal</i> in a program, and
+what is the difference between a literal and its value.  (An example might help.)
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+A literal is a sequence of characters in a program that represent some constant
+value.  For example, 'A'&nbsp;is a literal of type char that represents the
+character&nbsp;A.  When the program is compiled, what's actually in the program 
+is the integer 65 expressed as
+a 16-bit binary number: 0000000010000001.  The quote marks in 'A' are part
+of the literal&mdash;you need to type them into your program to express the
+value&mdash;but they are not part of the value that is represented by
+the literal.</p>
+
+<p>And 17 is a literal of type byte
+that is stored in the computer as the 8-bit binary number 00010001
+"Hello" is a literal of type String that represents the
+string value consisting of the letters H, e, l, l, and&nbsp;o, actually
+stored in the computer as a sequence of binary number.  Again, the
+quotation marks are not part of the value.</p>
+
+ 
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+Give the value of each of the following expressions.
+Assume that <i>str</i> is a variable of type <i>String</i> and that its
+value is <code>"programming"</code>.
+</p>
+<pre>
+          str.length() is ______________________
+
+          str.charAt(4) is ______________________
+
+          str.substring(3,7) is ______________________
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+          str.length() is   <b>11</b>
+
+          str.charAt(4) is   <b>'r'</b>
+
+          str.substring(3,7) is   <b>"gram"</b>
+</pre>
+<p>(This question is about the specific string "programming", which is the value of
+the variable <i>str</i>.  There are eleven characters in "programming", numbered from 0 to 10,
+so the answer to the first part is 11.  Character number 4 is 'r', so that is the answer
+to the second part.  (I include the quote marks, since the value is of type char.)
+The value of <i>str.substring</i>(3,7) is a substring of "programming" consisting of
+character number 3 through character 6.  Note that character number 7 is not included.
+More generally, <i>str.substring</i>(<i>start,end</i>) is the substring starting with the
+character at index number <i>start</i> and ending with the character at index number
+(<i>end</i>&minus;1).  Note that if <i>start</i> is 0, then <i>end</i> is the number of characters
+in the substring.  The number of characters in the substring is always
+(<i>start</i>&minus;<i>end</i>).)</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+Add some Java code to the following program outline, so that it will do the
+following:  Ask the user to enter a number, read the user's input, and
+print the square root of the number.</p>
+
+<pre>
+          import textio.TextIO;
+          public class FindRoot;
+              public static void main(String[] args) {
+          
+              }
+          }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+          import textio.TextIO;
+          public class FindRoot;
+              public static void main(String[] args) {
+                  double input; // The user's input number.
+                  double root;  // The square root of the input number.
+                  System.out.println("Enter a number:");
+                  input = TextIO.getlnDouble();
+                  root = Math.sqrt(input);
+                  System.out.println("The square root is " + root);
+              }
+          }
+</pre>
+
+</div>
+
+
+
+</div>
+</body>
+</html>
+

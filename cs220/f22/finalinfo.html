@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>CPSC 220, Fall 2022, Final Exam Info</title>
+</head>
+<body style="margin: 0.5cm 1cm; max-width: 750px">
+
+<hr noshade>
+<h2>CPSC 220, Fall 2022<br>
+    About the Final Exam</h2>
+<hr noshade>
+
+<p>The final exam for this course will be given during the exam period
+scheduled by the Registrar:  Tuesday, December 6 at 7:00 PM.  It will be
+in our regular classroom.</p>
+
+<p>The exam covers the entire course, with some exceptions noted below and 
+with some emphasis on material that we have
+covered since the second test.   It will be five pages long, and should not
+take more than one-and-a-half hours.  However, you can use up to the entire
+three-hour exam period if you need it.</p>
+
+<p>The exam counts for 18% of your final grade for the course.  You can
+expect the usual sorts of questions:  definitions, short-answer questions, longer
+essays, working with binary numbers, working with logic circuits,
+reading and writing assembly language code, and translating Java/C code into assembly language.
+The last page of the exam will be one long essay that covers some idea or
+ideas that are central to the course.</p>
+
+
+<p>There will be no questions about Larc assembly language or the Larc-in-Logisim project.
+There will be questions using <span style="white-space:pre">x86-64</span> assembly,
+but they will be limited to working with strings and <span style="white-space:pre">64-bit</span>
+numbers.  You will not be required to use functions from the C standard library except,
+possibly, <i>printf</i>, and for <i>printf</i> you would only need the basic formats,
+%s and %ld.  There will be nothing about the memory hierarchy.  You will not
+need to memorize how to make a one-bit adder, a multiplexer, or a flip-flop (but you could, 
+for example, be asked to build a register from flip-flops, or could be given
+<span style="white-space:pre">input/output</span> table for a one-bit adder and 
+asked to draw a circuit that implements it.)
+</p>
+
+<p>In the last few weeks of the semester, we covered some advanced topics in general terms:
+parallel processing, interrupts, virtual memory, and CPU pipelining.   I would expect
+questions on these topics to be mostly definitions and fairly general essay questions,
+but there could be some problems such as recognizing race conditions or using a page table 
+to do address translation.</p>
+
+<hr noshade>
+<p><b>Here are some terms and ideas that were covered since the second test:</b></p>
+<pre style="margin-left: 1cm">
+
+single-precision (32 bit) and double-precision (64-bit) floating point values
+floating point instructions (for 64-bit values) in x86-64 assembly 
+floating point registers (xmm0&ndash;xmm15)
+passing float-point arguments to functions
+
+parallel processing
+distributed processing (several computers on a network)
+multiprocessing (multicore processors and process switching on one processor)
+processes and threads
+each user process has its own memory space
+threads in a process share memory
+communication by shared memory and by message passing
+the problem of shared resources
+race conditions
+solving race conditions with mutual exclusion
+
+interrupts
+hardware interrupts
+IRQ (interrupt request) -- a signal sent over a bus from a device to the CPU
+interrupt numbers and interrupt handlers (also called interrupt service routines)
+how a CPU responds to a hardware interrupt
+the timer interrupt and how it is used to implement process switching
+software interrupts (exceptions)
+
+virtual memory
+virtual address space
+physical memory
+translating virtual memory addresses to physical memory addresses
+paging
+memory address consists of a page number and an offset within a page
+page table: a data structure mapping virtual page numbers to physical page numbers
+how virtual memory provides memory protection
+coping with limited physical memory:  swapping pages out to disk
+page faults
+
+pipelined instruction execution in CPUs
+pipelining increases throughput by allowing a faster clock (and why)
+pipelining can be implemented by adding memory circuits between function units
+     in the CPU data path, to save state between stages in the pipeline
+pipeline hazards and pipeline stalls
+data hazards:  data needed in one instruction before 
+               it has been saved by a previous instruction
+solving data hazards by code reordering and by forwarding
+control hazards:  after a branch, there is more than one possibility
+                  for the next instruction
+addressing control hazards with speculative execution and branch prediction
+
+</pre>
+
+
+<hr noshade>
+<p><b>Here are some important things from earlier in the course:</b></p>
+<pre style="margin-left: 1cm">
+basic computer components:  CPU, RAM, ALU, registers, PC, the clock
+RISC (reduced instruction set computer) and CISC (complex instruction set computer)
+user mode and kernel mode, and how this relates to syscall
+machine language and assembly language
+how assembly language differs from high-level language
+bits, bytes, and binary numbers
+binary arithmetic
+signed and unsigned integers; representing negative integers using the twos complement
+bitwise logical operations (AND, OR, NOT) and shifts
+logic circuits, logic gates, and logical expressions
+building a logic circuit that computes a logical expression
+finding the logical expression computed by a circuit
+combinational logic circuits and sequential logic circuits
+arithmetic circuits
+memory circuits:  latches and flip-flops
+multiplexers
+representing strings in assembly language
+the x86-64 architecture and its assembly language
+assembling and linking assembly language programs
+sections of an x86-64 program:  .text, .data, .bss
+the difference between pointers (addresses) and values (in memory)
+labels in assembly language
+translating control structures into assembly language
+accessing array elements with notations like:  qword [A + r12*8]
+the stack and how it is used to implement functions
+parameter passing and return values for functions written in x86-64 assembly 
+calling conventions and why they are important
+</pre>
+
+<hr noshade>
+<p><b>x86-assembly language instructions that you should know:</b></p>
+<pre style="margin-left:1cm">
+   add &lt;dest>, &lt;src>        and &lt;dest>, &lt;src>       jmp &lt;label>
+   sub &lt;dest>, &lt;src>        or &lt;dest>, &lt;src>        je &lt;label>
+   inc &lt;dest>               not &lt;dest>, &lt;src>       jne &lt;label>
+   dec &lt;dest>                                       jg &lt;label>
+   imul &lt;dest>, &lt;src>       call &lt;label>            jge &lt;label>
+   div &lt;src>                ret                     jl &lt;label>
+   mov &lt;dest>, &lt;src>        push &lt;src>              jle &lt;label>   
+                            pop &lt;dest>              cmp &lt;op1> &lt;op2>
+
+   movsd &lt;dest>, &lt;src>      addsd &lt;dest>, &lt;src>     mulsd &lt;dest>, &lt;src>
+   cvtsi2sd &lt;dest>, &lt;src>   subsd &lt;dest>, &lt;src>     divsd &lt;dest>, &lt;src>
+   cvtsd2si &lt;dest>, &lt;src>
+
+</pre>
+
+
+</body>
+</html>

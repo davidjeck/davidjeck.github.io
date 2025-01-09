@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>CS 424, Test 2 Info</title>
+<style>
+   @media screen {
+      body { margin: 0.5cm 1cm; max-width: 800px }
+   }
+</style>
+</head>
+<body>
+
+<h2>CPSC 424, Fall 2021:
+Information About the Second Test</h2>
+
+<p>The second and last test will be given in class on Monday, November 15.
+It will cover Chapter&nbsp;4 (OpenGL 1.1 light and material), Chapter&nbsp;5 (three.js), 
+and the first four sections of Chapter&nbsp;6 (WebGL, not including 3D graphics).
+Any questions about textures will be about textures in WebGL, not OpenGL.
+As for Blender, the only thing that you might be asked about is keyframe animation.</p>
+
+<p>The format of the test will be the usual:  some essay questions and
+definitions; reading some code and explaining its purpose; writing
+some code.  There will not be a lot of code writing.  
+You do not need to memorize every function and method that
+we have encountered, but you should should be able to write code using 
+those that are listed below, except those that are listed as
+requiring only a "reading knowledge" (which means that you might
+be given some code and asked to explain what it does).  </p>
+
+
+<hr>
+
+<p><b>Here are some terms and ideas that you should be familiar with:</b></p>
+
+<pre style="margin-left:1.2cm">
+Light and material in OpenGL 1.0
+material properties: 
+     ambient color, 
+     diffuse color, 
+     specular color, 
+     shinininess (also called specular exponent)
+color represents the fraction of incident light that is reflected by a surface
+light properties:
+     position,
+     diffuse intensity,
+     specular intensity
+directional light from direction (x,y,z), position = (x,y,z,0)
+point light at (x,y,z), position = (x,y,z,1)
+vectors
+operations on vectors:  dot product, length, normalize
+unit vector (length = 1)
+the dot product of two unit vectors gives the cosine of the angle between the vectors
+normal vectors to a surface
+setting normal vectors:  glNormal3f(x,y,z)
+    [ might also need:  gl.Begin(primitive), gl.End(), gl.Vertex3f(x,y,z) ]
+normal vectors for flat shading versus normal vectors for smooth shading
+the lighting equation: how visible color of a point on a surface is computed
+     how ambient material color and ambient light contribute to the color
+     how light angle and normal vector affect diffuse reflection
+     how light angle, normal, and direction to viewer affect specular reflection               
+     the effect of the "shininess" material property
+
+a READING knowledge of the OpenGL API for light and material:
+    glEnable(gl_LIGHTING), glEnable(GL_LIGHT0), glEnable(GL_LIGHT1), ...
+    glEnable(GL_COLOR_MATERIAL)
+    glMaterialfv( side, property, value )
+         side is GL_FRONT_AND_BACK, GL_FRONT, GL_BACK
+         property is GL_AMBIENT, GL_DIFFUSE, GL_AMBIENT_AND_DIFFUSE, GL_SPECULAR
+         value is an array of 4 numbers (or a pointer)
+    glMateriali( side, property, value )
+         property is GL_SHININESS, value is 0 to 128
+    glLightfv( light, property, value )
+         light is GL_LIGHT0, GL_LIGHT1, ...
+         property is gl_POSITION, gl_DIFFUSE, gl_SPECULAR, gl_AMBIENT
+         value is an array of 4 numbers (or a pointer)
+
+Three.js:  A 3D scene graph API for WebGL
+basic requirements for rendering an image:  scene, camera, renderer
+the basic rendering command:   renderer.render( scene, camera )
+the class THREE.Object3D represents scene graph nodes, with properties
+      obj.add(object) -- adds an object as a child of obj
+      obj.clone() -- make a copy, including copying transformations
+      obj.position (for translation)-- obj.position.x,obj.position.y,obj.position.z
+      obj.scale (for scaling)-- obj.scale.x, obj.scale.y, obj.scale.z
+      obj.rotation (for rotations)-- obj.rotation.x, obj.rotation.y, obj.rotation.z
+applying transformations using obj.position, obj.rotation, obj.scale
+building hierarchical structures with Three.js
+geometry and material (required for a visible object)
+creating a mesh object with  new Three.Mesh( geometry, material )
+how THREE.BufferGeometry() relates to WebGL VBOs
+Lambert material vs. Phong material
+basic constructors from the three.js API:
+    new THREE.Mesh( geometry, material )
+    new THREE.SphereGeometry( radius, slices, stacks )  -- center at (0,0,0)
+    new THREE.CylinderGeometry( topRadius, bottomRadius, height, slices )
+           -- center at (0,0,0), axis along the y-axis
+    new MeshLambertMaterial({ color: c })
+    new MeshPhongMaterial({ color: c, specular: s })
+    
+a READING knowledge of other things from the three.js API:
+    new THREE.Scene()  -- the root node of the scene graph
+    new THREE.WebGLRenderer()  -- used for rendering a scene
+    new THREE.BufferGeometry() -- for creating geometry directly
+    new THREE.BufferAttribute( float32Array, numsPerVertex )
+    bufferGeometry.setAttribute("postion", bufferAttribute)
+    bufferGeometry.setAttribute("normal", bufferAttribute)
+    new THREE.PerspectiveCamera(fovy,aspect,near,far)
+
+WebGL 1.0
+OpenGL 1.1 uses a fixed-function pipeline
+WebGL uses a programmable pipeline
+why does modern OpenGL use a programmable pipeline?
+shader programs
+vertex shader
+fragment shader
+the flow of data in the WebGL programmable pipeline
+uniform variable
+attribute variable
+varying variable
+uniform and attribute variable values come from JavaScript
+a varying variable must be declared in both the vertex shader and the fragment shader
+values for varying variables in fragment shader are interpolated from vertices
+JavaScript API for uniform variables:
+    gl.getUniformLocation(prog, uniformName)
+    gl.uniform1i(uniformLocation, n)
+    gl.uniform1f(uniformLocation, x)
+    gl.uniform2f(uniformLocation, x, y)
+    gl.uniform3f(uniformLocation, x, y, z)
+Typed arrays:  Float32Array, Uint16Array, Uint8Array
+a READING knowledge of the JavaScript API for attribute variables:
+    gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    gl.bufferData(buffer, typedArray, gl.STATIC_DRAW)  // or gl.STREAM_DRAW
+    gl.getAttribLocation(prog, attributeName)
+    gl.enableVertexAttribArray(attributeLocation)
+    gl.vertexAttribPointer(attributeLocation, numsPerVertex, type, false, 0, 0)
+    gl.drawArrays( primitive, startVertex, vertexCount )
+primitives include gl.POINTS, gl.LINES, gl.TRIANGLES
+the difference between gl.STREAM_DRAW and gl.STATIC_DRAW
+buffers are Vertex Buffer Objects (VBO)
+why VBOs are used for attribute values
+the importance of limiting data exchange between CPU and GPU
+GLSL 1.00 shader programming language
+basic GLSL:
+   the entry point to a shader:   void main() { ... }
+   basic types:   bool, int, float, vec2, vec3, vec4
+   constructors such as  vec4( color, 1.0 ) or vec3(1,1,1)
+   referring to vector components as v.x, v.y, v.z, v.w or as v.r, v.g, v.b, b.a
+   declaring and using uniform, attribute, and varying variables
+   vertex shader assigns a value to gl_Position (of type vec4)
+      (gl_POSITION gives the coordinates in "clip", or "normalized device," coords)
+   fragment shader assigns a value to gl_FragColor (of type vec4)
+   gl_PointSize and gl_PointCoords for primitives of type gl.POINTS
+   control strictures:  if statement and basic for loop
+   the sampler2D type
+   texture lookup with the function  texture2D( sampler, texCoords );
+   
+textures
+texture objects
+texture units
+how texture units relate to sampler2D variables in the shader
+setting the value of a sampler variable using gl.uniform1i()
+image textures
+the asynchronous loading problem for images in JavaScript
+texture coordinates, and how they are used on a primitive
+texture coordinates in shader programs (using an attribute and a varying variable)
+texture repeat modes: how are texcoords outside the range 0 to 1 are treated
+minification and magnification filtering of image textures
+mipmaps
+how and why mipmaps are used for improved minification filtering
+
+a READING knowledge of the basic WebGL texture API:
+   gl.createTexture()
+   gl.activeTexture(gl.TEXTURE0), gl.activeTexture(gl.TEXTURE1), ...
+   gl.bindTexture(gl.TEXTURE_2D, textureObject)
+   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+   gl.generateMipmap(gl.TEXTURE_2D)
+   
+</pre>
+</body>
+</html>

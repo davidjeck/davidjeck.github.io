@@ -1,0 +1,32 @@
+animate 30
+
+define wheel [    ; define a wheel with six "spokes"
+   blue   ; this color applies only within the wheel definition
+   line
+   line rotate 60
+   line rotate 120
+   circle
+]
+
+define wagon [
+   square           ; body of wagon
+      scale 5,2
+   wheel            ; front wheel
+      scale 2  
+      rotate  0:-210
+      translate 2.5,-1 
+   wheel            ; rear wheel
+      scale 2
+      rotate 15:-195
+      translate -2.5,-1
+   square           ; handle
+      xtranslate 0.5 
+      scale 4,0.2
+      rotate -30
+      translate 2.3 0.8
+]
+
+
+wagon xtranslate -5:5
+
+

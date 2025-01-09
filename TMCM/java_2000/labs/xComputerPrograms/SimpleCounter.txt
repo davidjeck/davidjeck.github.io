@@ -1,0 +1,23 @@
+; This is a simple counter program that counts 
+; 1, 2, 3, and so on.  The counter is stored in 
+; location 12.
+
+; This program illustrates the use of labels.
+; Note that instructions are indented and
+; labels are declared in the margin.  This is
+; not a requirement, but it is a common way
+; to format assembly language programs.
+
+
+        LOD-C 1       ; Set Count equal to 1
+        STO Count
+
+Loop:   LOD Count     ; Add 1 to Count
+        INC
+        STO Count
+        JMP Loop      ; Jump back to start of loop
+
+        @12
+Count:  data          ; Location to be used for counting
+
+

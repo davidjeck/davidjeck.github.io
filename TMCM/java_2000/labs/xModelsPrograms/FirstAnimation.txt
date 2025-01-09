@@ -1,0 +1,9 @@
+animate 30
+
+circle scale 1:5
+
+red
+polygon  -4, -3  4, -3  -5:5, 4
+
+blue
+square  scale 7:15, 1  rotate 0:60

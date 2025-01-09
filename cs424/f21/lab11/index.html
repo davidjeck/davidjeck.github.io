@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 2021, Lab 11</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 11: WebGL 1.0 2D and GLSL</h2>
+
+<div class="intro">
+
+<p>This is our first lab using WebGL and GLSL.  For now, we will stick to 2D and WebGL&nbsp;1.0.
+ The starting point for the
+lab is <a href="lab11.html">lab11.html</a>, which is the only file that
+you will need today.  You can find a copy in
+<i style="white-space: pre">/classes/cs424</i>.</p>
+
+<p><b>Your work for this lab is due next Thursday.  Please turn in the file lab11.html.</b></p>
+
+</div>
+
+<div class="section">
+<h3>The project</h3>
+
+<p>The program in <i>lab11.html</i> currently shows a number of moving red squares that
+bounce off the edges of the canvas.  The canvas fills the entire content area of the
+web browser.  The squares also respond to the mouse: If you left-click or left-click-and-drag
+on the canvas, all of the square will head towards the position of the mouse.
+If you shift-left-click, the data for the points is reinitialized, so they start back at
+the center.  You can pause and restart the animation by hitting the space bar.</p>
+
+<p>The squares are in fact all part of one WebGL primitive of type <i>gl.POINTS</i>.
+Each square corresponds to one of the vertices of the primitive.  Of course, the 
+rendering is actually done by a vertex shader and a fragment shader.  The source
+code for the shaders is in two constant multiline strings at the top of the program.</p>
+
+<p>You will be modifying the shader code and the JavaScript code to implement several
+different styles for the point primitive.  For example, it will be possible to draw
+the squares in different colors, to draw disks instead of squares, and so on.
+As a final step, you will make it possible to draw lines connecting the points.
+The user will control the program by hitting keys on the keyboard.  It's up to you 
+to decide which keys to use, but please document the interface in an appropriate
+comment on the <i>doKey</i>() function or at the top of the program.</p>
+
+<p>The Javascript side of the program has three functions that you will need to work on:  The function <i>initGL</i>() is
+called once when the program first starts and the functions <i>updateForFrame</i>() and <i>render</i>()
+are called once for each frame of the animation.  The same set of commands would be legal in all of
+these, but <i>initGL</i>() is the best place to set up things that won't change during the
+run of the program, such as the locations of the uniform and attribute variables in the shader program;
+<i>updateForFrame</i>() is intended to be used for updating JavaScript variables that change from
+frame to frame; and <i>render</i>() is meant to do the actual WebGL drawing of the frame.</p>
+
+
+</div>
+
+<div class="section">
+<h3>Color Attribute</h3>
+
+
+<p>In the original version of the program, all of the squares are red.  The first exercise is to allow the
+possibility of assigning a different color to each square.  
+Since the squares are really vertices in a single primitive of type <i>gl.POINTS</i>,
+you can use an <i>attribute variable</i> for the color.  An attribute can have a different value
+for each vertex.</p>
+
+<p>Your first task is to add a color attribute variable of type <i>vec3</i> to the vertex shader, and use the
+values of the attribute to color the squares.  You will also have to work on the JavaScript side.
+You will need a <i>Float32Array</i> to hold the color values on the JavaScript side, and you will
+need a WebGL buffer for the attribute.  The program already has one attribute, which is used for
+the coordinates of the vertices.  You will be doing something similar for the color attribute
+&mdash; except that you should do it all in <i>initGL</i>() since the color values won't change after they
+are created.  You can use random values in the range 0.0 to 1.0 for the color components.</p>
+
+<p>After you get multi-colored squares working, you should make the colors optional.
+(You might also allow other uniform colors for the points, in addition to red.)
+You can turn the use of the attribute value array on and off using the following commands,
+where <i>a_color_loc</i> is the id for the color attribute in the shader program:</p>
+
+<pre class=code>
+gl.enableVertexAttribArray(a_color_loc);   // use the color attribute buffer
+
+gl.disableVertexAttribArray(a_color_loc);  // don't use the buffer
+</pre>
+
+<p class=np>When the attribute array is enabled, each vertex gets its own color, from the attribute buffer.
+When the attribute array is disabled, all vertices get the same color, and that value
+is set using the <i>gl.vertexAttrib*</i> family of functions.  For example, to use a uniform
+red color, you can disable the vertex attribute array and set the color by calling</p>
+
+<pre class="code">
+gl.vertexAttrib3f(a_color_loc, 1, 0, 0);  // set attrbute color to red
+</pre>
+
+<p>Let the user hit some specific keys to control the colors.
+The program has a <i>doKey</i>() function that is already set up to respond to keyboard input.
+You will be adding several types of keyboard interaction to the program.  To respond to a key,
+you need to know the numeric keycode for that key.
+The <i>doKey</i>() function outputs the keycode to the console every time the user hits a key, and
+you can use that feature to discover any other keycodes that you need.</p>
+
+</div>
+
+
+
+<div class="section">
+<h3>Point Style</h3>
+
+<p>Square points are boring.  You should add the option of using different display styles for
+the points.  Let the user select the style using the keyboard; for example, by hitting
+number keys, or by hitting some key to cycle through the possibilities.</p>
+
+<p>The styles will have to be implemented in the fragment shader, and you will
+need a new <i>uniform variable</i> to tell the fragment shader which style to use.
+Add a uniform variable of type <i>int</i> to the fragment shader to control the point style,
+and add code to the fragment shader to implement the various styles.  You will also
+need to add a variable on the JavaScript side for the location of the uniform variable,
+and you will need to call <i>glUniform1i</i> when you want to change the style.</p>
+
+<p>The basic square
+should be one possible style.  Some of the styles should
+be disks instead of squares.  We saw in class how to draw a point as a disk by discarding some pixels:</p>
+
+<pre class=code>
+float dist = distance( vec2(0.5), gl_PointCoord );
+if (dist > 0.5) {
+    discard;
+}
+</pre>
+
+<p class="np">You should also make use of alpha transparency in some of your styles. To
+enable use of the alpha component, you need to add the following lines to the
+<i>initGL</i>() function:</p>
+
+<pre class=code>
+gl.enable(gl.BLEND);
+gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+</pre>
+
+<p class=np>With these settings, the alpha value of a color will be used for transparency
+in the usual way.  <b>In particular, one of your styles should show a point as a disk that fades
+from fully opaque at the center of the disk to fully transparent at the edge.</b></p>
+
+<p>Other ideas include drawing a diamond shape or a ring (by discarding
+pixels except in a small range of values of <i>dist</i>).  Be creative! </p>
+
+</div>
+
+
+<div class="section">
+<h3>Line Primitive</h3>
+
+<p>To add some visual interest, make it possible to draw line segments connecting each
+point to the next.  In fact, you can draw all the lines as a single primitive of type
+<i>gl.LINE_LOOP</i>, <i>gl.LINE_STRIP</i>, or <i>gl.LINES</i>, 
+using the same vertex coordinates and colors that are used for the <i>gl.POINTS</i>
+primitive.  The only difficulty is that the fragment shader will need to know
+whether it is drawing a point primitive or a line primitive, since <i>gl_PointCoord</i>
+is not defined for a  line primitive, and all the code that you just wrote for point styles
+won't make sense for lines.  (Another option would
+be to use another shader program for drawing the lines.)</p>
+
+<p>You should make it possible to draw lines only, points only, or both lines and points.
+You might allow two styles for lines:  <i>gl.LINES</i> and either <i>gl.LINE_LOOP</i> or
+<i>gl.LINE_STRIP</i>.</p>
+
+<p>Note that line width can be set by calling <i>gl.lineWidth</i>(<i>w</i>), where the
+width, <i>w</i>, is given in pixels.  Wide lines look better, but it is possible that
+the actual maximum line width is as small as one pixel.</p>
+
+
+</div>
+
+
+
+</div>
+</body>
+</html>

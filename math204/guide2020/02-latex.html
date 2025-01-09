@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script>
+MathJax = {
+  tex: {
+    macros: {
+       R: "{\\mathbb R}",
+       N: "{\\mathbb N}",
+       Z: "{\\mathbb Z}",
+       Q: "{\\mathbb Q}",
+       C: "{\\mathbb C}",
+       qed: "{\\blacksquare}",
+       eps: "\\varepsilon",
+       empt: "\\varnothing",
+       rowop: ["\\qquad\\xrightarrow{\\begin{matrix}#1\\end{matrix}}\\qquad", 1],
+    }
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Using LaTeX for Math</title>
+</head>
+<body>
+<div id="content">
+
+<h2>02 Using LaTeX for Homework</h2>
+<hr>
+
+<p>I hope that you will use the <span class=nw>LaTeX typesetting system</span> to write your
+homework solutions for this course.  (See the
+<a href="http://math.hws.edu/eck/math204/f20/submitting-homework.html">guide</a>
+to submitting homework.) It might look daunting at first, if you haven't used
+LaTeX before, but you won't have to learn LaTeX in depth.  You just have to
+fill in answers to exercises, so you won't need to deal with the complexities
+of writing complete documents.  You will mainly need to know how to express
+mathematics in LaTeX.  Unfortunately, matrices and systems of linear equations
+are among the more difficult things to write.  Fortunately, you will have
+examples that you can imitate.  What follows here is some basic information
+to get you oriented.</p>
+
+
+<p>Using LaTeX is something like programming:  You write "source code"
+in plain text, which is "compiled" to produce the actual document.
+Perhaps the first thing to know is that to start a new paragraph,
+you need to leave a blank line.  Other than that, carriage returns
+are ignored.  Also, multiple consecutive spaces are treated as a single
+space.</p>
+
+<p>To Include mathematics in a document, you type the LaTeX source
+code for the math between dollar signs.  For example, <code>$ax^2+bx+c=0$</code>
+will be typeset as \(ax^2+bx+c=0\).  If you enclose the code between double dollar
+signs, the math will be displayed on on line by itself.  (This is called
+"displayed math.") For example, <code>$</code><code>$ax^2+bx+c=0$</code><code>$</code>
+will be typeset as \[ax^2+bx+c=0\]  Some things look different as displayed
+math.  For example, compare \(\lim_{n\to\infty}\sum_{k=1}^n\frac{1}{2^n}=1\)
+to \[\lim_{n\to\infty}\sum_{k=1}^n\frac{1}{2^n}=1\]
+If case you are wondering, the LaTeX code for that is
+<code>\lim_{n\to\infty}\sum_{k=1}^n\frac{1}{2^n}=1</code>.  Remember that
+it has to be enclosed between either single or double dollar signs.
+Stuff that is between dollar signs is said to be in <span class=nw>math mode</span>,
+as opposed to the regular "text mode."</p>
+
+<p>In the source code, certain characters have special meaning: 
+<code>$ \ { } ^ _ &amp; ~ # %</code>.  We have seen that <code>$</code> is used
+to surround math code.</p>
+
+<p>The backslash character, <code>\</code>, is used for
+LaTeX commands, and braces, <code>{</code> and <code>}</code>,
+are used to enclose the parameters to which a command applies.  
+For example, in <code>\sqrt{b^2-4ac}</code>, the command is <code>\sqrt</code>,
+the parameter is <code>b^2-4ac</code>, and the typeset result is
+\(\sqrt{b^2-4ac}\).  The <code>\frac</code> command is used to make a fraction,
+and it has two parameters, so <code>\frac{n!}{k!(n-k)!}</code> is typeset as
+\(\frac{n!}{k!(n-k)!}\).  Some commands don't have parameters. For example,
+<code>\infty</code> represents the infinity symbol, \(\infty\),
+and <code>\to</code> produces a right arrow, \(\to\).  Note that you might need 
+to leave a space after a command like <code>\to</code> to mark the
+end of the command word. For example, use <code style="white-space:pre">f\colon X\to Y</code>
+to get \(f\colon X\to Y\).  Typing <code>\colonX</code> instead of
+<code>\colon&nbsp;X</code> will just get you an error.</p>
+
+<p>The special characters caret, <code>^</code>, and underscore,&nbsp;<code>_</code>,
+are used for exponents and subscripts in math mode.  Note that if an exponent
+or subscript is more than one character or command, it must be enclosed in braces,
+so you need <code>f^{-1}(x_i)</code> to get \(f^{-1}(x_i)\).  
+Some similar things, such as the upper and lower limits on a sum
+(<code>\sum_{n=1}^\infty</code> for \(\sum_{n-1}^\infty\)) and the 
+thing that goes below "lim" (<code>\lim_{x\to a}</code> for \(\lim_{x\to a}\)).
+By the way, in display math, that would look like \(\displaystyle\lim_{x\to a}\).
+If you want to force some math into display style, use the command
+<code>\displaystyle</code> in regular math mode: <code>$\displaystyle\lim_{x\to a}$</code>.</p>
+
+<p>We will see that the amphersand, <code>&amp;</code>, is used similarly to a tab
+character in tables and matrices.  The other three special characters probably won't
+come up in your writing for this course. (A&nbsp;<code>~</code> represents a non-breaking space,
+<code>#</code>&nbsp;is used when defining new commands, and <code>%</code>&nbsp;marks
+the start of a comment that ends at the end of the same line.  Comments are ignored
+by LaTeX.)  Most of the special characters can be output to the typeset document
+by preceding the character by a backslash in the source code.  For example,
+type&nbsp;<code>\{</code> for&nbsp;\(\{\).  However, this does not work for
+the backslash character; <code>\\</code> is used to force a line break in the output.
+It also does not work for <code>\^</code>&nbsp;or&nbsp;<code>\~</code>
+(which are used for making accented characters).  I also note that
+<code>|</code>, <code>&lt;</code>, and&nbsp;<code>&gt;</code>
+work in math mode but give funny results if used outside of math mode.</p>
+
+<hr class=break>
+
+<p>Some LeTeX code uses <span class=nw>environments</span>.
+Environments are coded using <code>\begin</code> and </code>\end</code>, which take
+the name of the environment as parameter.  For example, you will write your
+solution to exercises in this course using my "<code>answer</code>" environment.
+That means that you will write your solution between <code>\begin{answer}</code>
+and <code>\end{answer}</code>.  Similarly, I will write the problem text
+between <code>\begin{problem}</code> and <code>\end{\problem}</code>.
+(These two environments are not built into LaTeX.  It is possible to define
+new environments and new commands in a document.  The LaTeX source files that
+I give you will already define any extra commands and environments that you
+need.)</p>
+
+<p>If you are going to use LaTeX in this course, you need to learn about
+matrix environments.  To produce a matrix enclosed in parentheses, use
+the <code>pmatrix</code> environment.  The rows of the matrix are separated
+by <code>\\</code>.  In each row, the elements of that row are separated by&nbsp;<code>&amp;</code>.
+All of that goes between <code>\begin{pmatrix}</code> and <code>\end{pmatrix}</code>,
+and it must all be in math mode or displayed math mode.  LaTeX ignores end-of-lines
+in math mode, but it's a good idea to lay out the matrix in the source code
+similarly to how it looks when typeset (except I don't always
+do that for simple column vectors, which have just one element per row).  For example,</p>
+
+<pre>
+        $$\begin{pmatrix}
+            3  & -10 & 2 \\
+            -1 &   7 & 4 \\
+            5  &   0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            x\\ y\\ z
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+           3x-10y+2z \\
+           -x+7y+4z \\
+           5x+z
+        \end{pmatrix}$$
+</pre>
+
+<p class=np>will produce this in the typeset document:
+        \[\begin{pmatrix}
+            3  & -10 & 2 \\
+            -1 &   7 & 4 \\
+            5  &   0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            x\\ y\\ z
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+           3x-10y+2z \\
+           -x+7y+4z \\
+           5x+z
+        \end{pmatrix}\]
+</p>
+
+<p>Later, we will use the <code>vmatrix</code> environment to make matrices
+that are enclosed between vertical bars instead of between parentheses.
+There is a plain <code>matrix</code> environment for typesetting the elements of the
+matrix with nothing enclosing them.  I use the matrix environment to
+typeset systems of linear equations, where each equation is one row in
+the matrix.  Each term in an equation is one element of the row.  The equal
+sign and the right-hand side of the equation are also elements.  A column
+can be left empty&mdash;two <code>&amp;</code>'s in a row&mdash;if a
+term is missing from the equation.  For example:</p>
+
+<pre>
+        $$\begin{matrix}
+           3x_1 & -2x_2 &  +x_3 &  -x_4 & = & 7\\
+           -x_1 &       & -5x_3 & +2x_4 & = & 2\\
+                &   x_2 & +2x_3 &       & = & 0\\
+           2x_1 & +3x_2 &       & -5x_4 & = & -1
+        \end{matrix}$$
+</pre>
+
+<p class=np>gives
+    \[ \begin{matrix}
+       3x_1 & -2x_2 &  +x_3 &  -x_4 & = & 7\\
+       -x_1 &       & -5x_3 & +2x_4 & = & 2\\
+            &   x_2 & +2x_3 &       & = & 0\\
+       2x_1 & +3x_2 &       & -5x_4 & = & -1
+    \end{matrix} \]</p>
+
+<p>Unfortunately, there is no simple environment for making augmented
+matrices.  I use a pattern based on the <code>array</code> environment,
+which makes it possible to put lines between columns of the array and
+to say whether you want the columns to be centered, left justified, or
+right justified.  This is specified in an extra parameter that
+comes after <code>\begin{array}</code>.  For example,
+<code>\begin{array}{cccc|c}</code> is used for an array with five centered
+columns and a line between the fourth and fifth columns; you can use
+r and l instead of c to get right-justified or left-justified columns.
+Since the <code>array</code> environment does not
+include parentheses, I have to add them myself:  <code>\left(</code>
+and <code>\right)</code> add appropriately sized parentheses around
+whatever is put between them.  Here's the augmented matrix that represents
+the above linear system:</p>
+
+<pre>
+          $$\left( \begin{array}{cccc|c}
+             3 & -2 &  1 & -1 &  7\\
+            -1 &  0 & -5 &  2 &  2\\
+             0 &  1 &  2 &  0 &  0\\ 
+            -2 &  3 &  0 & -5 & -1
+          \end{array} \right)$$
+</pre>
+
+<p class=np>giving \[\left( \begin{array}{cccc|c}
+             3 & -2 &  1 & -1 &  7\\
+            -1 &  0 & -5 &  2 &  2\\
+             0 &  1 &  2 &  0 &  0\\ 
+            -2 &  3 &  0 & -5 & -1
+          \end{array} \right)
+\]</p>
+
+<p>The only other environment that is really essential is <code>align*</code>.
+This environment is unusual in that it is used for mathematics, but it has
+to be used in regular text mode, not inside math mode.  Its purpose
+is to vertically align a sequence of rows.  Rows are separated by
+<code>\\</code>, and the position in each row that is to be aligned is
+marked with&nbsp;a&nbsp;<code>&amp;</code>.  Often, a row is
+an equation or inequality (or just the operator and the right half of
+an equation/inequality), with the operators vertically aligned.
+Here is an example:</p>
+
+<pre>
+       \begin{align*}
+          \frac{d}{dx}(x\sin(x^2))  &= x\frac{d}{dx}(\sin(x^2)) + \sin(x^2)\frac{d}{dx}(x) \\
+                                    &= x\cos(x^2)\frac{d}{dx}(x^2) + \sin(x^2)\\
+                                    &= x\cos(x^2)2x + \sin(x^2)\\
+                                    &= 2x^2\cos(x^2) + \sin(x^2)
+       \end{align*}
+</pre>
+
+<p class=np>which is typeset as</p>
+
+<p>\(\begin{align*}
+          \frac{d}{dx}(x\sin(x^2))  &= x\frac{d}{dx}(\sin(x^2)) + \sin(x^2)\frac{d}{dx}(x) \\
+                                    &= x\cos(x^2)\frac{d}{dx}(x^2) + \sin(x^2)\\
+                                    &= x\cos(x^2)2x + \sin(x^2)\\
+                                    &= 2x^2\cos(x^2) + \sin(x^2)
+       \end{align*}\)</p>
+
+<p>For showing a series of row reductions applied to a matrix or linear system,
+you might use <code>array</code> or <code>matrix</code> environments inside an
+<code>align*</code> environment.  This can get complicated, but an example is
+given in the first homework assignment.  I have defined the command <code>\rowop</code>
+for making the arrows that go between the steps of a row reduction.
+The parameter to <code>\rowop</code> is either a single row operation or
+several operations separated by&nbsp;<code>\\</code>. For example,
+<code style="white-space:pre">\rowop{\rho_2\leftrightarrow\rho_3}</code> and 
+<code style="white-space:pre">\rowop{2\rho_1+\rho_2\\-3\rho_1+\rho_3}</code> for
+\(\rowop{\rho_2\leftrightarrow\rho_3}\) and 
+\(\rowop{2\rho_1+\rho_2\\-3\rho_1+\rho_3}\)</p>
+
+<hr class=break>
+
+<p>You can find lists of other LaTeX command elsewhere, and you will find examples
+in the documents that I give you.  Here are a few more that you might use in
+this course.  Most of these are used only in math mode, and a few of them
+require some preliminary configuration in the LaTeX file.</p>
+
+<table align=center border=1 cellpadding=6 cellspacing=0 bgcolor=white>
+<tr><td><b>LaTeX code</b></td><td><b>Typeset Output</b></td></tr>
+<tr>
+   <td><code>\textbf{bold}, \textit{italic}, \texttt{monospace}</code></td>
+   <td><b>bold</b>, <i>italic</i>, <tt>monospace</tt></td>
+</tr>
+<tr>
+   <td><code>$\subset, \subseteq, \supset,\supseteq$</code></td>
+   <td>\( \subset, \subseteq, \supset,\supseteq\)</td>
+</tr>
+<tr>
+   <td><code>$\{, \}, \in, \notin$, \cup, \cap, \varnothing$</code></td>
+   <td>\(\{, \}, \in, \notin, \cup, \cap,\varnothing \)</td>
+</tr>
+<tr>
+   <td><code>$\le,\ge,\ne,\approx$ </code></td>
+   <td>\(\le,\ge,\ne,\approx \)</td>
+</tr>
+<tr>
+   <td><code>$\forall,\exists,\therefore$ </code></td>
+   <td>\(\forall,\exists,\therefore\)</td>
+</tr>
+<tr>
+   <td><code>$\cdot, \dots, \cdots, \vdots, \ddots$ </code></td>
+   <td>\(\cdot, \dots, \cdots, \vdots, \ddots \)</td>
+</tr>
+<tr>
+   <td><code>$\alpha, \beta, \gamma, \rho, \dots$ </code></td>
+   <td>\( \alpha, \beta, \gamma, \rho, \dots\)</td>
+</tr>
+<tr>
+   <td><code>$\mathbb{R}, \mathbb{Q}, \mathbb{N}$ </code></td>
+   <td>\(\mathbb{R}, \mathbb{Q}, \mathbb{N} \)</td>
+</tr>
+<tr>
+   <td><code>$\mathscr{A}, \mathscr{B}, \dots$</code></td>
+   <td>\(\mathscr{A}, \mathscr{B}, \dots \)</td>
+</tr>
+<tr>
+   <td><code>$\mathcal{A}, \mathcal{B}, \dots$</code></td>
+   <td>\( \mathcal{A}, \mathcal{B}, \dots \)</td>
+</tr>
+<tr>
+   <td><code>$f\colon A\to B$ </code></td>
+   <td>\(f\colon A\to B \)</td>
+</tr>
+<tr>
+   <td><code>$\bigcup_{n=1}^\infty, \bigcap_{\alpha\in A}$ </code></td>
+   <td>\(\bigcup_{n=1}^\infty, \bigcap_{\alpha\in A} \)</td>
+</tr>
+<tr>
+   <td><code>$\rightarrow,\Rightarrow,\longrightarrow$ </code></td>
+   <td>\(\rightarrow,\Rightarrow,\longrightarrow \)</td>
+</tr>
+<tr>
+   <td><code>$\leftrightarrow,\Leftrightarrow$ </code></td>
+   <td>\( \leftrightarrow,\Leftrightarrow\)</td>
+</tr>
+</table>
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

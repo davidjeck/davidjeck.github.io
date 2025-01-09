@@ -1,0 +1,12 @@
+xTuringMachine File Format 1.0
+#$01xyz* 25
+0 35 0;
+xz0x1#x100#zz11y#0z$zy001#0x$$$00z#$
+7;
+0 # # R 0;
+0 $ $ R -1;
+0 0 x R 0;
+0 1 y R 0;
+0 x x R 0;
+0 y y R 0;
+0 z z R 0;

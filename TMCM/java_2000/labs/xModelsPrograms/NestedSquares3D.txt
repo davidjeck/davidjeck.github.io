@@ -1,0 +1,56 @@
+; shows an animation of squares of different sizes spinning
+; inside one another.
+
+animate 100
+
+
+; First, define "square1" to be a small square with two
+; attached lines sticking out to the left and right.
+define square1 [ 
+   cyan
+   line xtranslate 1
+   line xtranslate -1
+   square ]
+
+; Second, define square2 to be a larger square with two
+; attached lines, PLUS a rotating version of square1 nested
+; inside
+define square2 [
+    green
+    square1 xrotate 0:900 zrotate 90
+    square scale 3
+    line xtranslate 2
+    line xtranslate -2 ]
+
+; Third, define square3 to be a larger square with two
+; attached lines, PLUS a rotating version of square2 nested
+; inside
+define square3 [
+    yellow
+    square2 xrotate 0:720 zrotate 90
+    square scale 5
+    line xtranslate 3
+    line xtranslate -3 ]
+
+; Fourth, define square4 to be a larger square with two
+; attached lines, PLUS a rotating version of square3 nested
+; inside
+define square4 [
+    red
+    square3 xrotate 0:540 zrotate 90
+    square scale 7
+    line xtranslate 4
+    line xtranslate -4 ]
+
+; Fifth, define square5 to be a larger square with two
+; attached lines, PLUS a rotating version of square4 nested
+; inside
+define square5 [
+    magenta
+    square4 xrotate 0:360 zrotate 90
+    square scale 9 ]
+
+background black   ; set background color to black
+
+; Display a square 5, and make it rotate as well
+square5 xrotate 0:180 zrotate 90

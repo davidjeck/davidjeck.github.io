@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 20121, Lab 2</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 2: 2D Graphics with HTML Canvas</h2>
+
+<div class="intro">
+<p>This lab consists of two exercises
+on drawing with the HTML canvas 2D graphics API, which is
+covered in <a href="http://math.hws.edu/graphicsbook/c2/s6.html">Section&nbsp;2.6</a>.
+It requires some knowledge of JavaScript, which was covered briefly in
+<a href="http://math.hws.edu/graphicsbook/a1/s3.html">Section&nbsp;A.3</a>.</p>
+
+<p>You will need copies of the following files, which you can find in
+<i class="nb">/classes/cs424/lab2-files</i> or download from the Web:
+<a href="lab2-files/Lab2Ex1.html">Lab2Ex1.html</a> and
+<a href="lab2-files/Lab2Ex2.html">Lab2Ex2.html</a>.  You can edit
+these files with any text editor, or with Komodo Edit.  </p>
+
+
+<p><b>Turning in your work:</b>
+Your programs must be submitted by the beginning of the lab period next Thursday.
+They must be in a folder named <i>lab2</i> or <i>lab2-files</i> inside your homework folder in
+<i>/classes/cs424/homework</i>.</p>
+
+<p><b>For this lab, you should add appropriate comments to the new code that
+you write.</b></p>
+
+</div>
+
+
+<div class="section">
+<h3>Exercise 1:  Shapes</h3>
+
+<p>The file <a href="lab2-files/Lab2Ex1.html">Lab2Ex1.html</a> is set up to
+do basic drawing in an HTML canvas.  For the first exercise of the lab, you should
+add new drawing code to the <i>draw</i>() function in that file
+to draw the following picture, including the horizontal and vertical dividing lines.
+(The black border around the canvas is part of the web page, not something that
+is drawn on the canvas.)</p>
+
+<p style="text-align: center" class="np">
+<img src="ex1.png" width="609" height="610">
+</p>
+
+<p>A significant part of the exercise is using Bezier curves to draw the two shapes 
+on the right.  Both shapes are created as paths, using <i>g.beginPath()</i> and
+related functions.  The blue shape on the top right has a single Bezier curve
+as its upper boundary.  The other three sides are straight lines.
+The heart can be drawn as a path made up of two Bezier curves. I suggest that you
+try making a heart in the
+<a href="http://math.hws.edu/graphicsbook/demos/c2/cubic-bezier.html">Bezier curve demo</a>
+from <a href="http://math.hws.edu/graphicsbook/c2/s2.html"/>Section&nbsp;2.2</a>
+to get some idea of where the control points need to be placed.  It will take some
+experimentation to get the shape right!</p>
+
+<p>The size of the canvas is 600-by-600.  You can use the standard pixel coordinates, or you can
+apply transformations to use more convenient coordinates for drawing the shapes.  
+If you use a scaling transformation, remember
+that line width is also transformed! In fact, I
+used plain pixel coordinates for some of the pictures and a simple translation transformation
+for the others, so that I could draw them originally at the origin. If you do use transforms,
+remember that you can use <i>g.save</i>() and <i>g.restore</i>() to save and
+restore the current transform.</p>
+
+<p>The 2D graphics context in the program is named <i>g</i>.  It has all the properties
+discussed in <a href="http://math.hws.edu/graphicsbook/c2/s6.html">Section&nbsp;2.6</a> of
+the textbook.  In addition, the following non-standard drawing commands have been added to&nbsp;<i>g</i>:</p>
+
+<ul>
+<li><code>g.strokeLine(x1,y1,x2,y2)</code> &mdash; draw the line segment from (x1,y1) to (x2,y2).</li>
+<li><code>g.strokeCircle(x,y,r)</code> &mdash; stroke the circle with center (x,y) and radius&nbsp;r.</li>
+<li><code>g.strokeOval(x,y,rx,ry)</code> &mdash; stroke the oval with center (x,y), horizontal radius rx, and vertical radius&nbsp;ry.</li>
+<li><code>g.strokePoly(x1,y1,x2,y2,x3,y3,...)</code> &mdash; stroke the polygon with vertices (x1,y1), (x2,y2), (x3,y3),&nbsp;...</li>
+<li><code>g.fillCircle(x,y,r)</code> &mdash; fill the circle with center (x,y) and radius&nbsp;</li>
+<li><code>g.fillOval(x,y,rx,ry)</code> &mdash; fill the oval with center (x,y), horizontal radius rx, and vertical radius&nbsp;ry.</li>
+<li><code>g.fillPoly(x1,y1,x2,y2,x3,y3,...)</code> &mdash; fill the polygon with vertices (x1,y1), (x2,y2), (x3,y3),&nbsp;...</li>
+</ul>
+
+<p class=np>Note carefully the parameters for ovals and circles, which might not be 
+what you are used to from Java graphics.</p>
+
+</div>
+
+<div class="section">
+<h3>Exercise 2: Events and HTML Elements</h3>
+
+<p>For the second exercise, you will work with <a href="lab2-files/Lab2Ex2.html">Lab2Ex2.html</a>,
+a program that implements mouse interaction.  (It is actually set up to work with either
+a mouse or a touchscreen.)  As it stands, the program draws a multicolored sequence of squares
+as the user drags the mouse on the canvas.  You will make it possible to use various (single)
+colors for drawing, and you will implement various "tools" to let the user draw different shapes.
+ In addition to using some HTML graphics commands,
+this exercise is supposed to give you a little experience with working with GUI in
+HTML/JavaScript.</p>
+
+<p class="np">Here is a screenshot of my completed version of the
+program, showing shapes drawn using a variety of color and tool selections.
+Above the drawing is a "Clear Drawing" button and two popup menus
+that let the user select the color and tool.  The button is part of the
+original program, but you will have to add the popup menus.</p>
+
+<p style="text-align: center" class="np">
+<img src="ex2.png" width="494" height="418"">
+</p>
+
+
+
+
+<p>A drag action consists of a mouse down event, a sequence of mouse move events, and
+a mouse up event.  The program defines a function <i>startDrag</i>() that it calls in
+response to a mouse down event, and it defines a <i>continueDrag</i>() function that it
+calls in response to each mouse move event that occurs while the user moves the mouse
+while holding down the mouse button.  To implement
+the colors and new tools, you can work entirely in the function <i>continueDrag</i>().
+(You might also add something to <i>startDrag</i>(), but you only really
+need to do that to make things a little more efficient.)
+Aside from implementing the colors and tools, there are a few more things that have 
+to be added to the web page to set up the GUI and make it work.  The instructions
+for doing that are somewhat tutorial in nature.</p>
+
+<hr width="33%">
+
+<p><b>First,</b> you should implement the "Clear Drawing" button that is already
+part of the web page.  When the user clicks the
+button, the canvas should be filled with white. You can write a <i>doClear</i>() function
+to do the clearing, but you also have to arrange for that function to be called when
+the user clicks the button.  You need to set up <i>doClear</i> as the event handler
+for click events on the button.  The button is already created, near the end of the web page
+source code, by the HTML element</p>
+
+<pre class=code>
+&lt;button id="clearBtn">&lt;b>Clear Drawing&lt;/b>&lt;/button>
+</pre>
+
+<p class=np>You can install the event handler with the JavaScript statement</p>
+
+<pre class=code>
+document.getElementById("clearBtn").onclick = doClear;
+</pre>
+
+<p class=np>But where should that statement go?  It can't be executed while the page is
+loading since the button won't exist at that time.  It has to go in a function that
+won't be called until the page has been completely loaded into the web browser.
+In this course, I will always do that with a function named <i>init</i>().  The <i>init</i>()
+function is called to do any initialization of the program, after the page has finished being
+loaded.  That can be arranged with the statement <i>window.onload&nbsp;=&nbsp;init</i>,
+which you can find in the web page source code.</p>
+
+<p>The upshot is, simply, that you should define a <i>doClear</i>() function somewhere
+on the page, and add the statement that installs it as event handler to the definition
+of the <i>init</i>() function.</p>
+
+<hr width="33%">
+
+<p><b>Second,</b> you should create and implement a "Color" popup menu.  You have to
+add HTML code to the page to create the menu, maybe do some initialization in
+<i>init</i>() function, and then use the current selection from the menu to decide 
+what color to draw with in the <i>continueDrag</i>() method.</p>
+
+<p>A pop-up menu in HTML is a &lt;select> element.  The entries in the menu are 
+given by &lt;option> elements inside the select element.  Here is some HTML
+code that will create the color menu that you need:</p>
+
+<pre class=code>
+&lt;select id="colorSelect">
+   &lt;option value="MULTI">Multicolor&lt;/option>
+   &lt;option value="black">Black&lt;/option>
+   &lt;option value="red">Red&lt;/option>
+   &lt;option value="green">Green&lt;/option>
+   &lt;option value="blue">Blue&lt;/option>
+&lt;/select>
+</pre>
+
+<p class=np>You can add this code to the same paragraph that contains the &lt;button>.
+You can certainly add more colors, if you want.</p>
+
+
+<p>Since you will use this menu a lot, I suggest defining a global variable, say <i>colorMenu</i>,
+to refer to it.  You can get the reference to the menu by setting</p>
+
+<pre class=code>
+colorMenu = document.getElementById("colorSelect");
+</pre>
+
+<p class=np>in the <i>init</i>() method.  Any time you want to know which option
+is currently selected in the menu, you can simply use <i>colorMenu.value</i>.
+This represents the <i>value</i> attribute in the &lt;option> element.
+The value is always of type "string".  Note that in this case, all of the value
+strings, except for "MULTI", can be used directly as the value of
+<i>g.fillStyle</i> or <i>g.strokeStyle</i>.  (You don't need to implement events
+for the popup menu.  Your program can simply check <i>colorMenu.value</i> whenever
+it needs to know the selected value.)</p>
+
+<hr width="33%">
+
+<p><b>Third,</b> add a second &lt;select&gt; element that will let the user select the
+drawing tool that they want to use, set up event handling for the menu, 
+and implement the menu by adding code to the
+<i>continueDrag</i>() function.  This is the largest part of the exercise.  You should
+add at least five new tools.  They must include:</p>
+
+<ul>
+<li>A tool similar to the original squares tool, except that it draws ovals instead of
+squares.</li>
+<li>A tool similar to the original squares tool, except that it draws a non-trivial shape
+such as a heart or a star.  (Non-trivial means that you need to create it as a path
+or polygon.  In particular, <b>not</b> just rectangles or ovals.)  It can useful
+to write a function to draw the shape, and it might be convenient to draw it at
+the origin and use a translation transformation, along with <i>g.save</i>() and
+<i>g.restore</i>(), to place it at the mouse location.</li>
+<li>A Line tool that simply draws a line segment from the previous mouse position to the current mouse position.
+Note that the variables <i>prevX</i> and <i>prevY</i> are already defined to represent the
+previous mouse position.  A thick line would be nice, and to make it look prettier, you will
+want to set <i>g.lineCap&nbsp;=&nbsp;"round"</i>.</li>
+<li>A tool that uses the starting position of the mouse, which is given by the variables
+<i>startX</i> and <i>startY</i>, as well as the current position.  For example, draw
+a circle with center at the starting point and passing through the current position.</li>
+<li>One additional tool of your choice.  I made a tool that draws lines from 
+(startX,startY) to (x,y).  Or you might consider an "erase" tool that
+simply draws in white.  Another possibility is drawing some text at the mouse position.</li>
+</ul>
+
+<p class=np>Here's what's in my Tool menu:</p>
+
+<p class=np style="text-align:center"><img src="ex2-menu.png" width="211" height="206"></p>
+
+</div>
+
+
+</div>
+</body>
+</html>

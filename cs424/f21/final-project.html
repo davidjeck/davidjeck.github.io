@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CS 424 Final Project Info</title>
+<style>
+   #content {
+      margin-left:auto;
+      margin-right:auto;
+      max-width: 700px;
+      min-width: 550px;
+   }
+   h2,h3 {
+      padding: 5px 10px;
+      border: thin solid black;
+      border-radius: 16px;
+   }
+   h3 {
+      margin-top: 35px
+   }
+   p {
+      text-indent: 30px;
+      text-align: justify;
+   }
+   h2 + p, h3 + p {
+      text-indent: 0;
+   }
+   h2 + p:first-letter, h3 + p:first-letter {
+      font-size : 160%
+   }
+   li {
+       margin-top: 6px;
+       text-align: justify;
+   }
+</style>
+</head>
+<body>
+
+<div id="content">
+
+<h2>CPSC 424, Spring 2021<br>Final Project Guidelines and Ideas</h2>
+
+<p>The final project for CPSC 424 is due at the regularly
+scheduled final exam period for the course: Tuesday,
+December 7, at 7:00 PM.  There is no final exam.  The final
+exam period will be used for student presentations of their
+final projects.</p>
+
+<p>Final projects must be selected in consultation with the
+professor and approved in advance.
+The project can be individual work, or it can be
+a group project for two or three people.  For group projects,
+every participant will receive the same grade.  <b>All the
+projects should be different</b>, so it will be good to choose a
+project early, before someone else grabs the topic that you want.
+</p>
+
+<p>Several types of project are possible, including:  a research paper &mdash; in 
+proper style for a paper, including notes and bibliography;
+a well-documented programming project; or a shorter paper plus some kind
+of practical work exploring the same topic as the paper.
+(But no, your project cannot be making a game using a game engine
+like Unity.)</p>
+
+<p>The project includes a presentation during the final exam period, which
+will be part of the grade.  You should prepare a ten-to-fifteen minute presentation
+for an individual project and ten minutes per person for a group project.</p>
+
+
+<h3>Schedule</h3>
+
+<ul>
+<li><b>October 18 &ndash; November 8.</b> Consider topics for the project.
+Meet at least once with the professor to discuss ideas.  Get preliminary
+approval for a selected topic. Remember that if someone else gets a topic
+approved, then that topic is no longer available for other people.</li>
+<li><b>Monday, November 22,</b> the Monday before Thanksgiving.
+Turn in a written progress report, including
+a more detailed outline or design for the project and a list of information
+sources that you are using.</li>
+<li><b>November 29 &ndash; December 6.</b> Meet with professor at least once
+to discuss plans to finish the project and plans for the presentation.</li>
+<li><b>Tuesday, December 7.</b> Projects are due.  Presentations during
+the schedule final exam period, 7:00 to 10:00 PM.</li>
+</ul>
+
+
+<h3>Ideas</h3>
+
+<p>Here, in no particular order, are some possible topics, to help get you started
+thinking.  You can design a project based on one of these ideas, or come
+up with something entirely different.  But remember that whatever your topic is, you have
+to get it approved.</p>
+
+<ul>
+
+<li>Design and write any interesting computer graphics program using WebGL, three.js or
+even OpenGL.  (You would need to get a specific idea approved!)</li>
+
+<li>PBR (physically based rendering) has become a hot topic.  It's used by the
+Principled BSDF Shader in Blender, and for MeshStandardMaterial and MeshPhysicalMaterial
+in three.js.  Find out more about it, how it
+works, and how it is used in (for example) three.js and in Blender.</li>
+
+<li>Look into physics engines, how they work, and what they are used for.
+This could be a research paper or a shorter paper with some demos using
+the Blender physics engine or using a physics engine in three.js.</li>
+
+<li>Investigate particle systems.  Maybe write a short paper about them, with some
+demonstrations in Blender (which, besides using them in animation, also uses them to make hair).
+Or write a particle system engine for WebGL, with some basic physics</li>
+
+<li>Virtual reality and/or augmented reality.  How does it work?  What is being done
+with it?  How is it programmed?  (I'm told HWS has some virtual reality headsets,
+maybe in CTL.  Is it possible to write some kind of simple program for them?</li>
+
+<li>Look into one or more of the other modern graphics APIs: Vulcan (open successor to OpenGL), 
+Metal (Apple), and Direct3D (Windows).</li>
+
+<li>GPGPU (General Purpose computing on Graphics Processing Units).  Systems such as
+Cuda and OpenCL let programmers use GPUs for computing that has nothing to do with
+graphics.  This can bring tremendous computing power to bear on certain types of
+problems including, for example, Bitcoin mining.  This could be a research paper&mdash;or maybe you could even write some
+simple OpenCL or Cuda programs.  Or investigate using "compute shaders" in some graphics
+API.</li>
+
+<li>Modern OpenGL.  Look into OpenGL 4.6.  What are some of the things it can do that
+we haven't learned about?  In particular, you might look at other kinds of shader 
+program (geometry, tessellation, compute).  It might be interesting to write a graphics
+program that uses a compute shader.</li>
+
+<li>A program to implement ray tracing, or maybe even path tracing, for scenes
+containing only simple objects (that is, objects for which its fairly easy to find
+the intersection with a line, and then to find a normal vector at the intersection point).</li>
+
+<li>Webgpu, a successor to WebGL supporting more advanced features including compute shaders, is currently under 
+development and can be enabled as an experimental feature in Edge, Chrome, Firefox, and Safari.
+Maybe write a short paper about it plus a demo program that uses it.</li>
+
+<li>A paper on spatial partitioning algorithms, maybe with a demo program.  
+Look at quad trees, oct trees, and/or BSP (Binary Space
+Partition) trees and how they are used.  For example, BSP trees can be used as part of the
+implementation of the painter's algorithm.  And spatial partition data structures are used 
+in computer games and general graphics processing for things like more efficient rendering 
+and collision detection.</li>
+
+<li>A serious paper on computer graphics in the movies or for computer games, looking at
+some of the advanced techniques that are used.</li>
+
+<li>Graphics Hardware.  Write a paper about the hardware architecture of modern GPUs.  
+For example: Learn how they
+implement parallel processing and how they organize memory.  Find out how a TPU 
+(texture processing unit) works.  Look into specialized computing cores for
+ray-tracing or machine learning</li>
+
+<li>Investigate character animation, how characters are rigged and animated.  Maybe with a 
+demo in Blender.</i>
+
+<li>Write Blender.  (Well, not quite Blender, but a simple program that lets the user do
+some interactive 3D modeling.)  Or, write Gimp, or Inkscape.</li>
+
+</ul>
+
+
+
+</div>
+
+</body>
+</html>
+

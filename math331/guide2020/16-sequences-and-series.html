@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Sequences and Series</title>
+</head>
+<body>
+<div id="content">
+
+<h2>16 Sequences and Series of Real Numbers</h2>
+<hr>
+
+<p>We have already looked at <a href="11-limits-and-continuity-in-metric-spaces.html">limits of
+sequences</a> in a metric space, as a generalization of the limit of a sequence in $\R$.
+Chapter&nbsp;4 in the textbook takes a more in-depth look at sequences in $\R$, and it 
+covers series (infinite sums) in detail.  Some of the material will be familiar from
+Calculus II, but there are many new ideas.</p>
+
+<p>We consider sequences of real numbers.  To review: Remember that a sequence $\{x_n\}_{n=1}^\infty$ 
+is really a function from $\N$ to $\R$.  We say that $\ds\lim_{n\to\infty}x_n=L$
+if for every $\eps>0$, there is an $N\in\N$ such that $|x_n-L|<\eps$ for all $n\ge N$.
+If a sequence has a limit, we say that the sequence <span class=nw>converges</span>; a seqence
+that does not converge is said to <span class=nw>diverge</span>.  A special case of divergence is
+divergence to $\pm\infty$.  We say $\ds\lim_{n\to\infty}x_n=+\infty$ if for every $M\in\R$,
+there is an $N\in\N$ such that $x_n>M$ for all $n\ge N$.  We say $\ds\lim_{n\to\infty}x_n=-\infty$ 
+if for every $M\in\R$, there is an $N\in\N$ such that $x_n&lt;M$ for all $n\ge N$.  It is important
+to remember that when $\ds\lim_{n\to\infty}x_n=+\infty$ or $\ds\lim_{n\to\infty}x_n=-\infty$,
+the sequence $\{x_n\}_{n=1}^\infty$ is divergent.</p>
+
+<p>The new material on sequences of real numbers is mainly concerned with two important
+classes of sequences:  monotone sequences and Cauchy sequences.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> A sequence $\{x_n\}_{n=1}^\infty$ is
+<span class=nw>increasing</span> if for all $n,m\in\N$, if $n>m$ then $x_n\ge x_m$.
+It is <span class=nw>decreasing</span> if for all $n,m\in\N$, if $n>m$ then $x_n\le x_m$.
+And is is <span class=nw>monotone</span> if it is either increasing or decreasing.
+(Note that "increasing" by this definition should probably be called non-decreasing,
+and "decreasing" should be non-increasing.)
+</p></div>
+
+<p>It should be clear that an increasing sequence that is bounded above is convergent.
+In fact, it converges to $lub\{x_n\,|\,n\in\N\}$.  Similarly, a decreasing
+sequence that is bounded below converges to its greatest lower bound.
+These facts are stated in this theorem:</p>
+
+<div class=thm><p><span class="dtp">Monotone Convergence Theorem:</span>
+An increasing sequence that is bounded above is convergent.  An increasing sequence
+that is not bounded above diverges to infinity. A decreasing
+sequence that is bounded below is convergent.  A decreasing sequence that
+is not bounded below diverges to minus infinity.</p></div>
+
+<p>A Cauchy sequence is one in which the terms of the sequence get arbitrarily
+close to each other as $n\to\infty$,   The major result is that any Cauchy
+sequence of real numbers is convergent.  Note that both this fact and the 
+Monotone Convergence Theorem depend on the completeness of $\R$ in an
+essential way.  For example, it is not true that a Cauchy sequence of
+rational numbers must converge to a rational number.  We also consider
+a particular type of sequence called a "contraction."
+</p>
+
+<div class=def><span class=dtp>Definition:</span> A sequence $\{x_n\}_{n=1}^\infty$ is
+said to be a <span class=nw>Cauchy sequence</span> if for any $\eps>0$, there is
+an $N\in\N$ such that for any $n\ge N$ and $m\ge N$, $|x_n-x_m|<\eps$.</div>
+
+<div class=thm><p><span class="dtp">Cauchy Convergence Theorem:</span>
+Any Cauchy sequence of real numbers is convergent.</p></div>
+
+<div class=thm><p><span class="dtp">Theorem (The Contraction Principle):</span>
+Let $\{x_n\}_{n=1}^\infty$ be a sequence of real numbers.  Suppose that there
+is a real number $r$ in the range $0&lt;r&lt;1$ such that for all $n$,
+$|a_{n+2}-a_{n+1}|\le|a_{n+1}-a_n|$.  Then the sequence is convergent.</p></div>
+
+<p>Note by the way that all of these convergence criteria will apply to a
+sequence $\{x_n\}_{n=1}^\infty$ that "eventually" meets the criteria, that is if 
+there is an $K\in\N$ such that the criterion holds for the subsequence
+$\{x_n\}_{n=K}^\infty$.  This is because $\{x_n\}_{n=1}^\infty$ and
+$\{x_n\}_{n=K}^\infty$ clearly have the same convergence behavior (since
+convergence is about what happens to $x_n$ in the long run, which doesn't
+depend on the first $K$ terms of the sequence). 
+For example, a bounded-above sequence will converge by the Monotone
+Convergence Sequence if it is consistently increasing after the 
+$K^{\rm th}$ term, no matter what it does for the first $K$ terms.</p>
+
+<hr class=break>
+
+<p>Closely related to infinite sequences are <span class=nw>infinite series</span>.
+An infinite series is written as an infinite sum such as $\ds\sum_{n=1}^\infty a_n$.
+To make sense of such a sum, we have to look at the infinite sequence of partial
+sums of the series.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> The <span class=nw>k-th partial
+sum</span> of the infinite series $\ds\sum_{n=1}^\infty a_n$ is the value of the
+finite sum $\ds\sum_{n=1}^ka_n$.  The infinite series is <span class=nw>convergent</span>
+if the sequence of partial sums, $\ds\Big\{\sum_{n=1}^ka_n\Big\}_{k=1}^\infty$, is convergent;
+otherwise the series is <span class=nw>divergent</span>.  For a convergent series,
+the <span class=nw>sum</span> of the series is defined to be the limit of the
+sequence of partial sums, and we write $\ds\sum_{n=1}^\infty a_n=\lim_{k\to\infty}\sum_{n=1}^ka_n$.
+Similarly, we write $\ds\sum_{n=1}^\infty a_n = \pm\infty$ when
+$\ds\lim_{k\to\infty}\sum_{n=1}^ka_n=\pm\infty$.</p></div>
+
+<p>Much of the theory of infinite sequences carries over to infinite series.  For example,
+suppose that $a_n\ge 0$ for all $n$.  In that case, the sequence of partial sums is
+increasing, so the Monotone Convergence Theorem applies to the sequence of partial
+sums.  This means that the series will either converge or will diverge to infinity,
+depending on whether or not the sequence of partial sums is bounded above.
+This fact is one of the reasons that we often consider series of non-negative
+terms.  A <span class=nw>non-negative series</span>
+is one whose terms are all greater than or equal to zero.</p>
+
+<p>Major results about series include a variety of tests for convergence and divergence.
+Note that many of these tests apply only to non-negative series.  However, the
+$n^{\rm th}$ term test applies to any series.  It says that a series cannot converge
+unless its terms get small.  It is usually used as a test for divergence.</p>
+
+<div class=thm><p><span class=dtp>Theorem (The $n^{\rm th}$ term test)</span>
+If the series $\sum_{n=1}^\infty a_n$ converges, then $\lim_{n\to\infty} a_n = 0$.
+Equivalently if $\ds\lim_{n\to\infty} a_n$ does not exist, or if the limit is some
+non-zero value, then the series $\sum_{n=1}^\infty$ diverges.</p></div>
+
+<div class=thm><p><span class=dtp>Theorem (Comparison test)</span>
+Suppose that $\sum_{n=1}^\infty a_n$ and $\sum_{n=1}^\infty b_n$ are
+non-negative series.</p>
+<p>If $a_n\le b_n$ for all $n$ and if $\sum_{n=1}^\infty b_n$
+converges, then $\sum_{n=1}^\infty a_n$ also converges.</p>
+<p>If $a_n\ge b_n$ for all $n$ and if $\sum_{n=1}^\infty b_n$
+diverges, then $\sum_{n=1}^\infty a_n$ also diverges.
+</p></div>
+
+<div class=thm><p><span class=dtp>Theorem (Ratio test)</span>
+Suppose that $\sum_{n=1}^\infty a_n$ is a non-negative series, and that
+$\ds\lim_{n\to\infty}\frac{a_{n+1}}{a_n}=L$ (where $L$ can be either
+a non-negative number or $+\infty$).  If $0\le L&lt;1$, then
+the series converges.  If $L&gt;1$, then the series diverges.
+(If $L=1$, then the test gives no information about convergence of the series.)
+</p></div>
+
+<div class=thm><p><span class=dtp>Theorem (Root test)</span>
+Suppose that $\sum_{n=1}^\infty a_n$ is a non-negative series, and that
+$\ds\lim_{n\to\infty}\root n \of {a_n}=L$ (where $L$ can be either
+a non-negative number or $+\infty$).  If $0\le L&lt;1$, then
+the series converges.  If $L&gt;1$, then the series diverges.
+(If $L=1$, then the test gives no information about convergence of the series.)
+</p></div>
+
+<p>Infinite series also have a linearity property, similar to the linearity 
+property of the definite integral:</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+If $\sum_{n=1}^\infty a_n$ and $\sum_{n=1}^\infty b_n$ are convergent series,
+then the series $\sum_{n=1}^\infty (a_n+b_n)$ also converges, and
+$$\sum_{n=1}^\infty (a_n+b_n) = \sum_{n=1}^\infty a_n + \sum_{n=1}^\infty b_n$$
+If $\sum_{n=1}^\infty a_n$ is a convergent series and $r\in\R$ then
+$\sum_{n=1}^\infty ra_n$ also converges, and
+$$\sum_{n=1}^\infty ra_n = r\cdot \sum_{n=1}^\infty a_n$$
+</p></div>
+
+<hr class=break>
+
+<p>For series that can have both positive and negative terms, we can distinguish between
+"absolute" convergence and "conditional" convergence.  It can be shown that a series that
+is absolutely convergent is also convergent.  And we get one more test for 
+convergence that applies to alternating series, in which the terms alternate
+between positive and negative.</p>
+
+<div class=def><p><span class="dtp">Definition:</span>
+Let $\sum_{n=1}^\infty a_n$ be a series.  The series is said to be
+<span class=nw>absolutely convergent</span> if the series $\sum_{n=1}^\infty |a_n|$
+is convergent.  A series that is convergent but not absolutely convergent
+is said to be <span class=nw>conditionally convergent</span>.
+That is, $\sum_{n=1}^\infty a_n$ is conditionally convergent if
+it converges but $\sum_{n=1}^\infty|a_n|$ diverges.</p></div>
+
+<div class=thm><p><span class=dtp>Theorem:</span> If the series $\sum_{n=1}^\infty a_n$
+converges absolutely, then it converges.</p></div>
+
+<div class=thm><p><span class=dtp>Theorem (Alternating Series Test)</span>
+Let $\{a_n\}_{n=1}^\infty$ be a decreasing sequence of non-negative terms,
+such that $\ds\lim_{n\to\infty}a_n=0$.  Then the series
+$\sum_{n=1}^\infty (-1)^na_n$ converges.
+</p></div>
+
+<p>The most typical example of a conditionally convergent series is
+$\sum_{n=1}^\infty\frac{(-1)^n}{n}$.  This series converges by the
+Alternating Series Test, but the series of absolute values is the
+well-known <span class=nw>harmonic series</span>, 
+$\sum_{n=1}^\infty\frac1n$, which diverges.</p>
+
+<p>It is worth noting that the Ratio and Root tests can be adapted for
+series that can include negative as well as non-negative terms, using absolute
+convergence:</p>
+
+<div class=thm><p><span class=dtp>Theorem (Ratio test)</span>
+Let $\sum_{n=1}^\infty a_n$ be any series, and suppose that
+$\ds\lim_{n\to\infty}\frac{|a_{n+1}|}{|a_n|}=L$ (where $L$ can be either
+a non-negative number or $+\infty$.)  If $0\le L&lt;1$, then
+the series converges absolutely.  If $L&gt;1$, then the series diverges.
+(If $L=1$, then the test gives no information about convergence of the series.)
+</p></div>
+
+<div class=thm><p><span class=dtp>Theorem (Root test)</span>
+Let $\sum_{n=1}^\infty a_n$ be any series, and suppose that
+$\ds\lim_{n\to\infty}\root n \of {|a_n|}=L$ (where $L$ can be either
+a non-negative number or $+\infty$.)  If $0\le L&lt;1$, then
+the series converges absolutely.  If $L&gt;1$, then the series diverges.
+(If $L=1$, then the test gives no information about convergence of the series.)
+</p></div>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

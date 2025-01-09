@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<title>CS220, Fall 2022, Lab 10</title>
+<style>
+   li {
+       margin-top:8px
+   }
+   p.exercise {
+       text-indent: 0pt;
+   }
+   p.exercise b {
+       font-size: 110%;
+       font-weight: bold;
+       font-color: #000080;
+   }
+</style>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 10: Control Structures in x86-64 Assembly</h2>
+
+<div class="intro">
+
+<p>In this lab, you will work on several exercises that ask you to implement
+control structures in x86-64 assembly language, using jump instructions.
+All operations will be done on unsigned qwords or on strings.  You will really
+be doing the work of a compiler&mdash;translating a higher level description
+of an algorithm into low-level assembly code.</p>
+
+<p><b>You have the option of working on this lab with a partner of your choice.</b>
+Two people working together should submit just <b>one</b> copy of their work, to
+the homework folder for either partner.  Both names <b>must</b> be in a comment
+at the top of the program.</p>
+
+<p><b>Work from this lab is due at the start of next week's lab as usual.  You 
+will turn in one assembly language program named lab10.asm. Copy your file
+to your folder in <span style="white-space:pre">/classes/cs220/homework</span></b></p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Procedures</h3>
+
+<p>Start with a copy of the file <a href="lab10.asm">lab10.asm</a>, which you can get
+from this page or from <span style="white-space:pre">/classes/cs220</span>.  That file 
+contains an outline for all the exercises that you will work on for this lab.  All of your
+work for the lab will be in <i>lab10.asm</i>.  You should submit a copy of the completed
+file to your homework folder.</p>
+
+<p>You will also need a copy of <i>basicprint.o</i>.  You should already have a copy 
+in your work from last week's lab.  Or you can get a copy of <a href="basicprint.asm">basicprint.asm</a>
+from this page or from <span style="white-space:pre">/classes/cs220</span>, and
+assemble it to get <i>basicprint.o</i>.  The assembled file <i>lab10.o</i> has to be linked with
+<i>basicprint.o</i> to produce an executable.  You should make no changes to basicprint.asm;
+your program must work with the original version.</p>
+
+<p>You will use the functions <i>printlong</i> and <i>printstring</i> from basicprint.asm to 
+output numbers and strings.  Keep in mind that these functions use many registers internally.
+When you call the function, you should expect the values in those
+registers to change.  It should always be safe to use r12, r13, r14, r15, and rbx.  You can
+do all of the exercises for the lab using just those five registers.</p>
+
+<hr align=center width="33%">
+
+<p>You are not required to use the <i>ddd</i> debugger for this lab, but you might want
+to do so to help find errors in your code.  You might want to examine the contents of
+memory while running your program under <i>ddd</i>.  You can do that with the <i>x</i>
+command in the panel at the bottom of the <i>ddd</i> windows.  The <i>x</i> command
+is discussed on page 64 of <a href="http://www.egr.unlv.edu/~ed/assembly64.pdf">Jorgensen</a>.</p>
+
+<p>You can use <i>x</i> to print out strings and numbers that are pointed to by variables 
+in the program.  The variable name must always be preceded by a&nbsp;&amp;; this is related
+to syntax used in the C programming language.  To print out the value of a variable A as
+a 64-bit decimal integer, use the command</p>
+
+<pre class=code>     x/dg  &amp;A
+</pre>
+
+<p class=np>If A points to an array of 64-bit integers, you can print out the first 12 values 
+in the array with</p>
+
+<pre class=code>     x/12dg  &amp;A
+</pre>
+
+<p class=np>If A is a string, display it using</p>
+
+<pre class=code>     x/s  &amp;A
+</pre>
+
+
+<hr align=center width="33%">
+
+<p><b>Some extra info.</b> The file <a href="build.sh">/classes/cs220/build.sh</a> is a build script that
+can create an executable from .asm and .o files.  For example,</p>
+
+<pre class=code>    /classes/cs220/build.sh  lab10.asm  basicprint.o
+</pre>
+
+<p class=np>will assemble lab10.asm and link lab10.o with basicprint.o to produce
+an executable named lab10.  Each input file can be either an .asm or a .o file.
+Exactly one of the input files should define _start as a global label.  The name
+of the executable is the name of the first input file with the .o or .asm extension
+removed.  You can optionally copy <i>build.sh</i> into your working directory and run it
+using ./build.sh.</p>
+
+<p>It can be annoying to type the long commands that you need to assemble and link
+assembly language programs.  In Linux, you can define "aliases", or abbreviations,
+for commands.  The alias definitions can be added to a file named .bashrc in your
+home directory.  Since the name of that file begins with a period, it is a hidden
+file, but you can edit it using the following command in your home directory:</p>
+
+<pre class=code>    xed  .bashrc
+</pre>
+
+<p class=np>For example, you might want to add the following alias definitions to .bashrc</p>
+
+<pre class=code>
+    alias y='yasm -felf64 -gdwarf2'
+    alias b='/classes/cs220/build.sh'
+</pre>
+
+<p class=np>Changes don't take effect until you open a new Terminal window, since .bashrc
+is only executed when you open a Terminal or log in remotely.  With these aliases, 
+you could type "y&nbsp;lab10.asm" instead of 
+<span style="white-space:pre">"yasm -felf64 -gdwarf2 lab10.asm"</span>
+and <span style="white-space:pre">"b lab10.asm basicprint.o"</span> instead of
+<span style="white-space:pre">"/classes/cs220/build.sh lab10.asm basicprint.o"</span></p>
+
+</div>
+
+
+
+
+<div class="section">
+
+<h3>Exercises</h3>
+
+<p>The file lab10.asm contains a label for each exercise, named <i>Exercise1:</i>, <i>Exercise2:</i>,
+<i>Exercise3:</i>, and so on.  You should add your solution for each exercise after the
+corresponding label.  You might want to use local lables in the code that you
+write.  A local label is a label whose name begins with a period. You can use
+local labels with the same name in different exercises without conflict.  Remember that
+local labels expire at the next regular label.</p>
+ 
+<p><b>Please add some labels and blank lines</b> to the output from your program to
+make it look nicer.  Sample output is shown below.
+The full specification for what each exercise should do is given here:</p>
+
+<hr align=center width="33%">
+
+<p class="exercise"><b>Exercise 1:</b> Simple loop.
+   Write a loop that will print the integers from 1 to 10, all on one line, separated by
+   spaces.  The output should look like this, with an end-of-line at the end:
+</p>
+<pre class=code>
+     1 2 3 4 5 6 7 8 9 10
+</pre>
+<p class=np>Note that lab10.asm already defines a string that contains a single space character
+and a string that contains an end-of-line character.</p>
+
+
+<hr align=center width="33%">
+
+<p class="exercise"><b>Exercise 2:</b> Count the E's.  There is already a variable named <i>advice</i>
+that points to a string.  You should write some code to find and output the number of times the letter E
+occurs in the string.  You should count both upper and lower case E's.  Pseudocode for the algorithm
+is given by</p>
+
+<pre class=code>
+     count = 0     ; for counting the e's
+     ptr = advice  ; pointer to next char from string
+     while (char at address ptr is not zero) {
+         if the char is 'e'
+            count++
+         else if the char is 'E'
+            count++
+         ptr++
+     }
+     output count
+</pre>
+
+<p class=np>When comparing a byte to 'e' or 'E', you actually need to compare the ASCII codes, which
+represent the characters in memory.  But yasm has a nice feature that lets you to use a character
+constant to represent a byte value.  For example, if register r12 holds the address of a character
+in memory and you want to compare that character to 'E', you can simply say</p>
+
+<pre class=code>     cmp byte [r12], 'E'
+</pre>
+
+
+<hr align=center width="33%">
+
+<p class="exercise"><b>Exercise 3:</b> Fizz-Buzz.  For this exercises, you should write code to
+solve the well-known fizz-buzz coding problem:
+output the numbers from 1 to 100, but if the number is divisible by 3 output <i>Fizz</i> instead, if the number is
+divisible by 5 output <i>Buzz</i> instead, and if the number is divisible by both, output <i>Fizz&nbsp;Buzz</i>.  That is,
+implement the following pseudocode:
+</p>
+<pre class=code>
+     count = 1
+     while count &lt;= 100 {
+        if (count % 15)
+            output "Fizz Buzz"
+        else if (count % 3)
+            output "Fizz"
+        else if (count % 5)
+            output "Buzz"
+        else
+            output count
+        output an end-of-line
+        count = count + 1
+     }
+</pre>
+
+<hr align=center width="33%">
+
+<p class="exercise"><b>Exercise 4:</b> Array Max.  LIST is already defined in lab10.asm as a
+label for an array of numbers.  Also, LISTlen is a variable giving the number of items in the array.
+Write code to find and output the largest value in the array.  Your code should work for any array,
+but you can assume that the number of items is at least one.
+
+<p>(Note:  The definition of LIST uses a yasm feature I haven't mentioned:  If a line in the 
+program ends with a backslash character ("\"), then the next line in the file is considered to be
+a continuation of that line.  That is, an end-of-line after a&nbsp;"\" is essentially ignored.)</p>
+</p>
+
+<hr align=center width="33%">
+
+<p class="exercise"><b>Exercise 5:</b> Selection Sort.  Sort the array that LIST points to, using
+the following Selection Sort algorithm, and then output the list.</p>
+<pre class=code>
+for ( top = LISTlen - 1; top &gt; 0; top-- ) {
+    maxLoc = 0
+    max = LIST[0]
+    for ( i = 0; i &lt;= top; i++ ) {
+       if ( LIST[i] &gt; max ) {
+           maxLoc = i
+           max = LIST[i]
+       }
+    }
+    temp = LIST[top]   // (These two lines implement LIST[maxLoc] = LIST[top].)
+    LIST[maxLoc] = temp
+    LIST[top] = max
+}
+for ( i = 0; i < LISTlen; i++ ) {
+    output LIST[i]
+}
+</pre>
+
+<p class=np>Remember that you can use <tt>[LIST+r15*8]</tt> to implement a reference to an array
+element that in Java would be <tt>LIST[r15]</tt>.</p>
+
+
+
+</div>
+
+<div class=section>
+
+<h3>Sample Output</h3>
+
+<p>Here is the output from my solution to this lab, with part of the FizzBuzz output and part of the sorted
+list omitted:</p>
+
+<pre class=code>
+1 2 3 4 5 6 7 8 9 10 
+
+The number of E's in the string is 6
+
+The Fizz-Buzz problem:
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+Fizz Buzz
+16
+17
+   .
+   .
+   .
+97
+98
+Fizz
+Buzz
+
+The maximum of the array is 830
+
+The array in sorted order:
+21
+34
+62
+73
+77
+82
+94
+100
+108
+137
+   .
+   .
+   .
+</pre>
+
+</div>
+
+</div>
+</body>
+</html>

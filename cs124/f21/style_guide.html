@@ -1,0 +1,190 @@
+<html>
+<head>
+<title>Java Programming Style Rules</title>
+<style type="text/css" media="screen">
+html {
+   margin:0cm;
+}
+body {
+   margin: 0cm auto;
+   padding: 0.5cm 0.5cm 0.5cm 1cm;
+   background-color: #FFF8E7;
+   max-width: 800px;
+}
+h2 {
+   color:#AA0000;
+}
+.category {
+   color:#AA0000;
+   font-weight:bold;
+   padding-right: 7px;
+   white-space:pre
+}
+</style>
+<style type="text/css" media="print">
+.category {
+   font-weight:bold;
+}
+</style>
+</head>
+<body>
+<h2>Some Style Rules for Java Programming</h2>
+
+<p><font size="+2">C</font>OMPUTER PROGRAMS should be written so that
+they can be read, understood, and modified by human readers.  Programming
+<i>style</i> is important, and most programs are
+evaluated for style as well as for correctness.  This page lists some basic
+programming style rules that you should keep in mind as you write your
+programs.  The rules for methods and for classes will only be applicable
+after those topics have been covered in class.</p>
+
+<table cellpadding=5 cellspacing=0 border=0 align=center width="100%">
+<tr>
+   <td align=right valign=top>
+      <span class="category">The Main Rule</span>
+   </td>
+   <td><b>0.</b>&nbsp;&nbsp;
+      A program should be readable.  All the other rules on this page
+      can be overridden by this primary rule.  Your programs should
+      display good taste, which you can generally acquire only by
+      paying attention to the practices of other, expert programmers.
+   </td>
+</tr>
+<tr>
+   <td align=right valign=top>
+      <span class="category">Comments</span>
+   </td>
+   <td><b>1.</b>&nbsp;&nbsp;Every class (except for anonymous inner classes)
+   should have a Javadoc comment that specifies the purpose of the class and describes 
+   its public interface in general terms.  The main comment for a class should include your name.
+   </td>
+</tr>
+   <tr><td></td><td><b>2.</b>&nbsp;&nbsp;Every method, unless it is declared <tt>private</tt>,
+   should have a Javadoc comment explaining what it does.  The comment should include
+   a statement of any conditions that must
+   hold when the method is called, such as restrictions on the acceptable values
+   of its parameters.  (These are called the "preconditions" of the
+   method.)  The purpose of each parameter should be clearly documented.
+   If there is a return value, its meaning should be documented.  If the method
+   can throw any exceptions, it's a good idea to document those as well.  You
+   are encouraged to use <tt>@param</tt>, <tt>@return</tt>, and <tt>@throws</tt> tags
+   for the relevant documentation.
+   </td></tr>
+   <tr><td></td><td><b>3.</b>&nbsp;&nbsp;Every variable that has a non-trivial
+   role in the program should have a comment that explains its purpose.
+   This includes both member variables and local variables.  For non-private
+   member variables, the comments should be in Javadoc format.
+   For-loop variables and other local utility variables do not, in general,
+   have to be commented.
+   </td></tr>
+   <tr><td></td><td><b>4.</b>&nbsp;&nbsp;Comments can be included in
+   the body of a method when they are needed to explain the logic
+   of the code.  In general, well-written code needs few comments.
+   </td></tr>
+   <tr><td></td><td><b>5.</b>&nbsp;&nbsp;Comments should <i>never</i> be
+   used to explain the Java language.  A comment such as "declare an int
+   variable named x" or "increment the variable ct" is worse than useless.
+   Assume that your reader knows Java!
+   (Note that such comments are sometimes used in programming textbooks
+   or on the blackboard, but never in real programs.)
+   </td></tr>
+<tr>
+   <td align=right valign=top>
+      <span class="category">Formatting</span>
+   </td>
+   <td><b>6.</b>&nbsp;&nbsp;Use indentation to display the structure
+   of your program.  The body of a class definition should be indented.
+   The body of a method definition should be indented.
+   When a statement is nested inside another statement, it should be indented
+   one additional level. (Note that Eclipse can fix the indentation of any segment of
+   code:  Just highlight the code segment and hit Control-I.)
+   </td>
+</tr>
+   <tr><td></td><td><b>7.</b>&nbsp;&nbsp;An ending "}" should be on a line
+   by itself.  The opening "{" can be at the end of a line, or it can be
+   placed on a line by itself so that it lines up with the matching "}".
+   I prefer the first of these two options, but whichever one you use,
+   <i>be consistent</i>.
+   </td></tr>
+   <tr><td></td><td><b>8.</b>&nbsp;&nbsp;Don't put more that one statement
+   on a line.
+   </td></tr>
+   <tr><td></td><td><b>9.</b>&nbsp;&nbsp;Avoid very long lines.  In general,
+   lines should not be longer than 80 characters.  Longer statements should
+   be broken up over several lines.
+   </td></tr>
+   <tr><td></td><td><b>10.</b>&nbsp;&nbsp;Avoid very deep nesting of statements.
+   If you find yourself using more than two or three levels of nesting,
+   think about defining some subroutines in order to break up your code into
+   more manageable chunks.
+   </td></tr>
+   <tr><td></td><td><b>11.</b>&nbsp;&nbsp;Blank spaces and blank lines can
+   make a program easier to read.  In general, you should put some blank lines between
+   method definitions.  Leave spaces around operators such as =,
+   ==, !=, and so on.
+   </td></tr>
+<tr>
+   <td align=right valign=top>
+      <span class="category">Naming</span>
+   </td>
+   <td><b>12.</b>&nbsp;&nbsp;Use meaningful names for your variables,
+   methods, and classes.
+   </td>
+</tr>
+   <tr><td></td><td><b>13.</b>&nbsp;&nbsp;Follow
+   the usual Java convention for capitalization:  Variable, method, and package names begin
+   with lower case letters.  Class names begin with upper case letters.
+   When a name contains more than one word, capitalize the extra words,
+   as in "interestRate".  
+   </td></tr>
+   <tr><td></td><td><b>14.</b>&nbsp;&nbsp;Use "final static" to declare
+   named constants to represent constant data.  Consider using
+   "enum" to create several related constants.  Constants generally
+   have names that are entirely in upper case, with words separated by
+   underscore characters.
+   </td></tr>
+<tr>
+   <td align=right valign=top>
+      <span class="category">Methods</span>
+   </td>
+   <td><b>15.</b>&nbsp;&nbsp;A method should have a clear, single,
+   identifiable task.
+   </td>
+</tr>
+   <tr><td></td><td><b>16.</b>&nbsp;&nbsp;An individual method definition should
+   not be too long.  In general, a function should not be longer than
+   one printed page (and that is stretching it).
+   </td></tr>
+   <tr><td></td><td><b>17.</b>&nbsp;&nbsp;Instance methods can access the instance
+   variables that represent the state of an object, but you should avoid using 
+   instance variables simply to pass information from one method to another -- for
+   that, you should use parameters and return values.
+   </td></tr>
+<tr>
+   <td align=right valign=top>
+      <span class="category">Classes</span>
+   </td>
+   <td><b>18.</b>&nbsp;&nbsp;A class should represent a clear, single,
+   identifiable concept.
+   </td>
+</tr>
+   <tr><td></td><td><b>19.</b>&nbsp;&nbsp;Use the modifiers <tt>public</tt>,
+   <tt>protected</tt>, and <tt>private</tt> to control access to the variables
+   and methods in a class.
+   </td></tr>
+   <tr><td></td><td><b>20.</b>&nbsp;&nbsp;Member variables should, in general,
+   be declared to be private.  Getter and setter methods can be provided to 
+   access and manipulate the private member variables.
+   </td></tr>
+   
+</table>
+
+
+<hr>
+<div align=right><small>
+<a href="http://math.hws.edu/eck/">David Eck</a>
+</small></div>
+
+</body>
+</html>
+

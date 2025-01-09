@@ -1,0 +1,47 @@
+{ This program defines a subroutine that
+  draws "polygonal spirals."  Try values
+  of the parameter close to 60, 72, 90,
+  120 and 180.  The parameter specifies
+  the angle that the turtle turns through
+  after drawing each line segment.
+}
+
+
+
+SUB spiral(angle)  { Begin the definition of a
+                        subroutine named "spiral"
+                        with one parameter named
+                        "angle" }
+
+   DECLARE length  { A "local variable" which
+                        is only used inside the
+                        subroutine. }
+   declare hue
+   hue:=0
+
+   length := 0.1 { Length of first line segment. }
+
+   clear  { Start on a clear screen with }
+   home   {   the turtle in standard position. }
+
+   LOOP
+
+      hsb(hue,1,1)
+      hue := hue + 0.01
+      if hue > 1 then hue := 0 end if
+      forward(length)  { Draw a line segment. }
+
+      EXIT IF abs(xcoord) > 10 OR abs(ycoord) > 10
+      { End if the turtle has moved out
+                       of the square with -10 <= x <= 10
+                       and -10 <= y <= 10. }
+
+      length := length + 0.15  { Increase length for
+                                       next line segment. }
+
+      turn(angle)  { Rotate turtle before drawing
+                           the next line segment. }
+
+   END LOOP
+
+END SUB  { Marks the end of the subroutine. }

@@ -1,0 +1,69 @@
+
+
+{ This program defines several subroutines.
+  It does not produce any picture when it
+  is run.  After it is run, use the
+  command "testTree" in the xTurtle applet's
+  text-input box. }
+
+
+
+SUB Tree(size, complexity)
+
+ { This recursive subroutine (from Figure 7.8
+   of "The Most Complex Machine") draws a 
+   binary tree.  The height of the tree
+   is given, approximately, by the parameter
+   "size"; the number of levels of branching
+   is given by the parameter "complexity."
+   After the tree is drawn, the turtle is left
+   at its original position and heading. }
+
+   IF complexity = 0 THEN
+      forward(size)
+      back(size)
+   ELSE 
+      forward(size/2)
+      turn(45)
+      Tree(size/2, complexity - 1)
+      turn(-90)
+      Tree(size/2, complexity - 1)
+      turn(45)
+      back(size/2)
+   END IF
+
+END SUB
+
+
+
+SUB TestTree
+ 
+ { This subroutine can be called to draw
+   sample trees.  The user is asked to
+   specify the complexity. }
+
+   DECLARE complexity
+
+   AskUser("What level of complexity do you want (0 to 12)?", complexity)
+
+   { Adjust the complexity to a reasonable value. }
+   complexity := trunc(complexity)
+   IF complexity < 0 THEN
+      complexity := 0
+      TellUser("Using complexity = 0.")
+   END IF
+   IF complexity > 12 THEN
+      complexity := 12
+      TellUser("Using complexity = 12.")
+   END IF
+
+   penUp        { Move to starting position. }
+   MoveTo(0,-9)
+   penDown
+   face(90)
+   clear
+
+   Tree(18,complexity)  { Draw the tree. }
+
+END SUB
+

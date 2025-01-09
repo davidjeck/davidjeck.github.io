@@ -1,0 +1,542 @@
+<HTML>
+
+<HEAD> <TITLE>Introductory Lab</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">Introductory Lab:
+         The Web, Java, and DataReps</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+1">T</font>HIS IS THE FIRST in a set of lab worksheets
+meant to be used with the introductory computer science textbook,
+<cite>The Most Complex Machine</cite>.  The lab worksheets are written
+for use on the <font color="#E70000">World-Wide Web</font>, and they
+make use of software written in the form of <font color="#E70000">applets</font>.
+Applets are computer programs written in a new programming language called
+<font color="#E70000">Java</font>.  All this is explained in the lab,
+which acts as an introduction to the Web and an orientation to the
+way applets will be used in the rest of the lab.</p>
+
+As part of the lab, you will use an applet called &quot;DataReps&quot; 
+to help you learn about how different types of data can be represented
+using binary numbers. This material is related to Section 1.1 of the
+text.</p>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#web">The World-Wide Web</A>
+   <LI><A HREF="#url">URL's and All That</A>
+   <LI><A HREF="#search">Searching the Web</A>
+   <LI><A HREF="#java">Java and Applets</A>
+   <LI><A HREF="#reps">Data Representations</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="web">The World-Wide Web</A></font></H3>
+
+<p>The <font color="#E70000">Internet</font> consists of millions of
+computers around the world, linked together by a network so that
+they -- and their users -- can communicate and interact.
+In the last few years, the Internet has become a common part of
+everyday life for many people.  The Internet provides a number of useful
+services, including e-mail, USENET news groups, and the World-Wide Web.
+This section of the lab is a brief introduction to the Web.</p>
+
+<p>The <font color="#E70000">World-Wide Web</font>, also known as the
+WWW or simply as the Web, consists of &quot;pages&quot; of information 
+stored on computers all around the world.  These pages are available to
+anyone with a connection to the Internet.  They viewed with
+a <font color="#E70000">Web browser</font> such as Netscape or
+Internet Explorer.  A page can contain text, pictures, sounds, three-D
+graphics, movies, applets, and even interactive features such as fill-in forms.
+Most important, a page can contain <font color="#E70000">links</font>
+to other pages.  When you click on a link, the Web browser will fetch the
+page that it refers to and display it to you.  So, it's pretty easy to use the
+Web:  just point your mouse at a link, and click!  Here, for example,
+are some <A NAME="links">links</A> to pages you might want to visit:</p>
+
+<UL>
+<LI><A HREF="http://www.abcnews.com">ABC News</A>, <A HREF="http://www.cnn.com">Cable Network News</A>, 
+    and the <A HREF="http://www.nytimes.com">New York Times</A>
+<LI>The <A HREF="http://www.whitehouse.gov">Whitehouse</A>, the <A HREF="http://www.senate.gov">Senate</A>, 
+    and the <A HREF="http://www.house.gov">House of Representatives</A>
+<LI><A HREF="http://www.thenation.com/">The Nation Magazine</A>, for some left-wing political opinion
+<LI><A HREF="http://www.enews.com/magazines/discover/">Discover</A>, 
+     <A HREF="http://www.nature.com">Nature</A>,
+     and <A HREF="http://www.sciam.com">Scientific American</A> science magazines
+<LI><A HREF="http://www.cnnsi.com/">Sports Illustrated</A> 
+        and <A HREF="http://ESPN.SportsZone.com/">ESPN</A>
+<LI><A HREF="http://sunsite.unc.edu/louvre/">The Web Museum</A>, featuring great art
+<LI><A HREF="http://bang.lanl.gov/solarsys">Views of the Solar System</A>
+<LI><A HREF="http://www.clas.ufl.edu/CLAS/american-universities.html">List of Colleges and Universities</A>
+<LI><A HREF="http://www.amazon.com">amazon.com</A>, a place to buy books
+<LI><A HREF="http://www.mapblast.com">Map Blast</A>, a free map-drawing utility
+<LI><A HREF="http://www.bluemountain.com">Blue Mountain Arts</A>, where you can send
+    free virtual greeting cards
+<LI><A HREF="http://www.unitedmedia.com/comics/dilbert/">Dilbert comics</A>
+</UL>
+
+<p>The Web is huge, and it has information on almost anything
+you can think of.  There are millions of computers on the Internet.
+Each of those computers can run a &quot;Web site&quot; and publish Web
+pages.  No one controls this; no one has to authorize it (at least not
+yet).  In fact, you can publish your own information on the Web.
+One of the later labs will deal with this.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="url">URL's and All That</A></font></H3>
+
+<p>Every page of information on the Web is identified by a
+<font color="#E70000">URL</font> (Uniform Resource Locator).
+Other resources, such as pictures and sounds, are also identified
+by URL's.  When you are viewing a page with a Web browser, the URL of
+that page is usually displayed in a box near the top of the browser's
+display window.  If you know the URL for a page, you can go directly
+to that page by entering the URL in that box (and pressing return).</p>
+
+<p>A typical URL is http://math.hws.edu/TMCM/java/index.html.  This is
+the URL for a page that describes all the labs and applets that I have
+written for use with <cite>The Most Complex Machine</cite>.  This URL has
+several meaningful parts:</p>
+
+<p align=center><IMG SRC="images/Intro1.gif" WIDTH="555" HEIGHT="156"></p>
+
+<p>The HyperText Transfer Protocol (HTTP) is the most common method
+used for communication on the Web.  Another common protocol is
+File Transfer Protocol (FTP), an older method for transferring files
+from one computer to another.  You might also run across some other
+protocols in URL's.</p>
+
+<p>A domain name, such as math.hws.edu, identifies a particular computer
+on the Internet.  Most of the computers that are used as &quot;servers&quot;
+of data on the Web have domain names that begin with &quot;www&quot;,
+such as www.whitehouse.gov.  You can often read some information about
+a computer from its domain name.  The computer named math.hws.edu is
+in the Mathematics Department (&quot;math&quot;) at
+Hobart and William Smith Colleges (&quot;hws&quot;), which is
+an educational institution (&quot;edu&quot;).  The last part of
+the domain name, such as &quot;gov&quot; or &quot;edu&quot;
+is called the <font color="#E70000">top-level domain</font>.  Top-level
+domains include:</p>
+
+<UL>
+<LI>COM for commercial purposes
+<LI>EDU for educational institutions
+<LI>GOV for government computers
+<LI>MIL for the military 
+<LI>ORG for other organizations
+<LI>NET for certain Internet services
+</UL>
+
+<p>These domains are usually used by computers in the United States.
+Computers in other countries generally use two-letter country codes
+for their top-level domains.  For example, a domain name ending in
+&quot;it&quot; indicates a computer in Italy, and &quot;ca&quot; is
+used by Canadian computers.</p>
+
+<p>Many companies, organizations, and institutions have &quot;home pages&quot;
+on the Web.  If you know something about domain names, you can often guess
+the URL used by a given company, organization, or institution.
+For example, you might guess that the home page of the United States
+Senate is http://www.senate.gov or that the Coca-Cola corporation 
+has a home page at http://www.cocacola.com.  (When you use a URL
+that omits the directory and file name, you will usually get the
+home page, or index page, from the specified computer.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="search">Searching the Web</A></font></H3>
+
+<p>Because there is so much information on the Web, finding what you want
+can be a problem.  There are several utilities that can help you to find
+things on the Web.  First of all, there are &quot;hierarchical indices&quot;
+that list Web sites according to category.  One of the largest of these
+indices is <a href="http://www.yahoo.com">Yahoo</a>.</p>
+
+<p>Another way to find things on the Web is to use a &quot;search engine.&quot;
+A search engine consists of an index of millions of Web pages and a program
+for searching the index.  (The index is made by a program that constantly
+downloads Web pages and adds their contents to the index.  <b>No</b> index
+can include all the data on the Web because the Web grows so quickly.  Also,
+some of the data in an index will be out of date because people change
+or delete their Web pages.)</p>
+
+<p>To use an index, all you have to do is type some words into a box and 
+click on a button.  (You can do more advanced searches, but most search
+engines allow you to do simple searches in this way.)  You'll get back a list 
+of Web pages that contain the words you entered.  Here, for example, is a
+simple interface to the Alta Vista search engine.  To try it, click in the
+input box, type some words, and the click the Submit button:</p>
+
+<blockquote>
+<FORM method=GET action="http://www.altavista.digital.com/cgi-bin/query">
+<INPUT TYPE=hidden NAME=pg VALUE=q>
+<strong>Search </strong><SELECT NAME=what><OPTION VALUE=web SELECTED>the Web<OPTION VALUE=news>Usenet</SELECT><strong><br>
+and Display the Results</strong>
+<SELECT NAME=fmt><OPTION VALUE="." SELECTED>in Standard Form<OPTION VALUE=c>in Compact Form<OPTION VALUE=d>in Detailed Form</SELECT>
+<br>
+<INPUT NAME=q size=45 maxlength=200 VALUE="">
+<INPUT TYPE=submit VALUE=Submit><br>
+</FORM>
+</blockquote>
+
+<p>There are many search engines, including
+<a href="http://www.altavista.digital.com">Alta Vista</a>,
+<a href="http://www.webcrawler.com">WebCrawler</a>,
+<a href="http://www.lycos.com">Lycos</a>,
+<a href="http://www.excite.com">Excite</a>,
+and <a href="http://www.infoseek.com">Infoseek</a>.
+You will have to use at least one of these search engines in order
+to do some of the exercises at the end of the lab.  To get the 
+most out of a search engine, you should read its help or instructions
+page.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="java">Java and Applets</A></font></H3>
+
+<p>The example of the search engines shows that a Web page can be more
+than just a passive collection of links.  A Web page can also be
+<font color="#E70000">interactive</font>.  The Alta Vista search engine
+uses a type of interaction known as a <font color="#E70000">form</font>
+(or &quot;fill-in form&quot;).  You enter some data in the form and
+click on a submit button.  Your Web browser sends your data to
+another computer, which responds to your data by sending a new page
+for your Web browser to display.</p>  
+
+<p>Web pages can also provide other types of interactivity, without
+involving a second computer.
+One of the new technologies on the Web is <font color="#E70000">Java</font>,
+a programming language that can be used to write <font color="#E70000">applets</font>,
+which are small programs that run on a Web page.  Many Java applets are
+more decorative than useful, like this &quot;Moir&eacute;&quot; applet:</p>
+
+<p align=center>
+<applet code="Moire1.class" 
+              alt="(Java not enabled.)" height=200 width=200>
+   <param name="bgColor" value="yellow">
+   <param name="lineColor" value="0 180 0">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+</p>
+
+<p>(A Moir&eacute; pattern is formed by the &quot;interference&quot;
+between two similar patterns.  In this applet, the basic pattern consists of
+lines radiating out from a command center.  There are two copies of this
+pattern.  One is fixed, while the other drifts about.)
+
+<p>Even this decorative applet allows some interaction.  If you 
+click-and-drag your mouse on the Moir&eacute; applet, you can control
+the motion of the pattern.  (To &quot;click-and-drag&quot; means to
+press the mouse button and then move the mouse, while holding down
+the button.)  If you shift-click on the applet, you can stop and
+restart its motion.  (To &quot;shift-click&quot; means to hold down
+the shift key while you click the mouse button.)  If you are using
+a slow computer, you might want to turn off the Moir&eacute; applet,
+so that it doesn't take computer processing time away from other
+things going on on this page.</p>
+
+<p>Each of the labs for <cite>The Most Complex Machine</cite> uses an
+applet to help you learn something about computer science.  In order
+to make it more convenient to use the applets and read the labs at the same
+time, the applets are set up to run in separate windows.  The lab worksheet
+contains a button that you can click to launch the applet.  In most of the
+labs, this button is close to the beginning of the lab, where it will
+be easy to find.  (The button is itself a small applet that runs
+on the Web page.)</p>
+
+<p>In this lab, you will use a fairly simple applet called &quot;DataReps&quot;.
+You will use this applet to learn how the same binary number can be used
+to represent different types of data.  To <A NAME="launch">launch</A>
+the applet, click on this button:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="DataReps.zip"
+        code="tmcm.DataRepsLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+</p>
+
+<p>The window that opens when you click this button will probably be marked
+with some kind of warning, to alert you to the fact that the window was
+created by an applet.  For example, on my computer, there is a warning bar
+like this one along the bottom of windows opened by applets:</p>
+
+<p align=center><IMG SRC="images/Intro2.gif" WIDTH="373" HEIGHT="17"></p>
+
+<p>Why the warning?  A Java applet is a program that you have downloaded
+from the Internet.  Whenever you download a program, there is a danger that
+the program is malicious -- that it will try to damage your computer or
+steal information from you.  A great deal of attention has been paid to
+making Java applets <font color="#E70000">secure</font>, that is to 
+making sure that they can't damage your computer or access private information
+stored on your computer.  However, nothing can stop you from entering 
+private information, such as a password, into an applet.  The warning on
+applet windows is there to stop malicious applets from tricking you into
+entering such information.  For example, without the warning, the applet
+might imitate a window from a program that has a legitimate need for the
+information.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="reps">Data Representations</A></font></H3>
+
+<p>You'll be using the &quot;DataReps&quot; applet,
+which you launched <A HREF="#launch">above</A>, in some of the
+exercises at the end of the lab.  For now, you should read about
+it and experiment with it to see what it does.</p>
+<p>This applet lets you type in a data value.  You can select the type of data
+you want to enter by clicking on one of the five radio buttons.  Just type
+your data into the input box at the top of the applet, and press return.
+You can also
+click on the 8-by-4 grid of &quot;big pixels&quot; at the center of the applet.
+The applet takes the data you enter, and it converts that data into
+a 32-bit binary number.  (It has to do this in order to store it!)
+It then takes that same binary number and interprets it in six different
+ways. The six interpretations are: a binary number, an integer, 
+a hexadecimal number, a real
+number, a string of four characters, and an eight-by-four grid of
+pixels.  You should remember that you see the
+same string of thirty-two bits interpreted in different ways. 
+You should also remember that the same bit-patterns could also be
+interpreted in an endless variety of additional ways: as a
+bar of music, or the chemical ingredients in a bar of soap, 
+or your tab at your favorite bar, or....)</p>
+
+<p>Here is a short explanation of each of the six data displays.  You should
+try entering various types of values in the applet to see how they are
+represented as binary numbers.</p>
+
+<DL>
+<DT><font color="#E70000">Binary</font>
+<DD>This is the most direct display of the
+32 bit binary number, showing a zero or one to represent each 
+individual bit.  The displayed binary number shows the full 32 bits, 
+including any leading zeros.  The computer stores the zeros, even though
+you don't ordinarily include leading zeros when you write a number.
+</DL>
+<DL>
+<DT><font color="#E70000">Base-ten Integer</font>
+<DD> A binary number can be 
+interpreted as a normal positive integer (0, 1, 2, 3, 4,...) written in
+the &quot;base ten&quot;.  Base ten is the usual way of writing numbers,
+using the digits 0 through 9.  See
+Section 1.1 of <cite>The Most Complex Machine</cite>.
+With 32 bits, you can represent 2<sup>32</sup> different numbers.  Usually,
+you want to use both positive and negative numbers.  The scheme for representing
+negative numbers is a bit strange.  It is explained in Subsection 2.2.3 of
+the text.  Using 32 bits, the integers from -2147483648 to 2147483647 can be represented.
+</DL>
+<DL>
+<DT><font color="#E70000">Hexadecimal</font>
+<DD>It is difficult (for humans) to read
+long strings of zeros and ones.  Hexadecimal numbers are a kind of shorthand
+for writing such strings.  A hexadecimal number is written using the
+sixteen &quot;hexadecimal digits&quot; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+A, B, C, D, E, and F.  Each hexadecimal digit stands for four bits.
+So 0 represents 0000, 1 represents 0001, 2 represents 0010, ..., E represents
+1110, and F represents 1111.  We could also say that the
+hexadecimal digit A stands for the base-ten number 10 (ten), B stands for 11 (eleven),
+C stands for 12, D for 13, E for 14, and F for 15.
+A hexadecimal number is really just a number written
+in the base sixteen, just as ordinary integers are in the base ten
+and binary numbers are in the base two.  You should be able to translate
+between hexadecimal and binary by hand.  (But of course, you could use
+the applet instead.)
+</DL>
+<DL>
+<DT><font color="#E70000">Real Number</font>
+<DD>Real numbers are numbers that can contain decimal points, like 3.14159 or
+-234.5, or 12.0.  They can also be written using &quot;scientific notation.&quot;
+For example, 2.15e12 is a way of writing 2.15 times 10<sup>12</sup>.  The representation
+used in computers for real numbers is very complicated.  And it allows some strange
+possibilities, such as INF and -INF, which stand for infinity and minus infinity.
+There are also NAN's.  NAN stands for &quot;not a number.&quot;  NAN's are used
+to represent the results of illegal operations such as taking a square root of
+a negative number.  Note that the <b>integer</b> 17 and the <b>real number</b>
+17 have completely different representations in the computer, even though 
+they are the same number mathematically.
+All-in-all, it's probably best not to worry about the
+internal representation of real numbers.  I include this data type here for
+completeness, since real numbers are so important.
+</DL>
+<DL>
+<DT><font color="#E70000">ASCII Text</font>
+<DD>Characters can be encoded using ASCII code, as explained in Section 1.1
+of the text.  Each possible character is assigned a code that is one byte (that is, 
+eight bits) long.  With 32 bits, you can represents 4 characters in ASCII code.
+Not every possible byte represents an ordinary, printable character.  The applet
+shows other bytes in the form &lt;#n&gt;, where n is the base-ten number corresponding
+to the byte.  For example, the byte 00000111, which is equivalent to 7 in base ten,
+is shown as &lt;#7&gt;.
+</DL>
+<DL>
+<DT><font color="#E70000">Pixels</font>
+<DD>At the center of the applet, you will see an 8-by-4 grid of little squares.
+Each of these thirty-two squares corresponds to one bit in the binary number.
+You should think of these squares as being very big pixels.  Each pixel can
+be either black or white.  One bit specifies the color of one pixel -- 0 for
+white or 1 for black.  This is how two-color graphical images can be represented
+by binary numbers.  Again, see Section 1.1 of the text.  In the applet, you can
+change the color of a pixel by clicking on it.
+</DL>
+
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+<p><font color=blue><b>Exercise 1:</b></font>
+For this exercise, your goal is to use a search engine such as
+<A HREF="http://www.altavista.digital.com">Alta Vista</A> or <A HREF="http://www.webcrawler.com">WebCrawler</A>
+to find an interesting page on the World Wide Web.  Pick a topic that interests
+you.  Think up some terms related to that topic, and search for pages containing
+those terms.  Pick out one you find interesting.  Don't settle for some
+boring generic page like ESPN Sports or Apple Computer Inc!
+Write a short paragraph saying what your topic was
+and how you went about doing the search.  Also include the URL for the
+page that you find. </p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+Search the Web to find the poem written by the Greek poet
+Sappho about her daughter Cleis.  How did you go about finding the
+poem?  Where did you find it?
+</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>
+Starting from one of the links given <A HREF="#links">above</A>,
+find the radius, in kilometers, of the planet Jupiter.  How did you go about finding
+it?  
+</p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Guess the URL of the home page of each of the following.
+Explain your reasoning.  (Check the Web to see whether you
+are right.)
+</p>
+<UL>
+<LI>The IBM corporation
+<LI>The FBI, an agency of the US government
+<LI>Harvard University
+<LI>The SPCA, an animal-rights organization
+</UL>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+Pick out one or two of the following phrases.  Each phrase is a fragment
+of a reasonably well-known quotation.
+Search the Web for uses of the phrase.  (Use the
+Alta Vista <A HREF="http://www.altavista.digital.com/cgi-bin/query?pg=aq">advanced search</A>; 
+enter the phrase <strong>in quotes</strong> into the text-input box.  This
+will <strong>not</strong> work with the regualar Alta Vista search.)
+Thy to find the complete phrase and the original source of the
+phrase.  Also, try to find a few interesting variations that people
+have used on their Web pages.
+</p>
+
+<UL>
+<LI>&quot;a truth universally acknowledged&quot;
+<LI>&quot;yes, Virginia, there is&quot;
+<LI>&quot;on the shoulders of giants&quot;
+</UL>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+In addition to working on some of the above exercises, you should
+spend some time &quot;surfing&quot; the World-Wide Web.
+Write a short essay describing your experiences with the Web
+and speculating on its possible impact and importance.
+</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+Use the &quot;DataReps&quot; applet to find the following.
+In each case, indicate briefly what you did with the applet
+to answer the question.</p>
+<UL>
+<LI>Find the ASCII code of the upper case letter <font color="#E70000">X</font>.
+<LI>Find the character that has an ASCII code equal to <font color="#E70000">63</font>.
+<LI>What real number has the same binary representation as the hexadecimal
+number <font color="#E70000">4228AE14</font>?
+<LI>What real number has the same binary representation as the four-letter
+word &quot;<font color="#E70000">Fred</font>&quot;?
+<LI>What binary number represents the base-10 number <font color="#E70000">-3</font>?
+</UL>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+Enter the following base-10 integers into the &quot;DataReps&quot; applet:
+1, 2, 4, 8, 16, 32, 64.  Describe the corresponding pixel representation
+of these numbers. (The pixel representation is displayed in the center of the applet).
+What pattern do you see?  Why does this pattern occur?  What can you say 
+about the binary representation of these numbers?
+</p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+Enter a four-letter word such as &quot;TIME&quot; into the &quot;DataReps&quot;
+applet.  (Select &quot;ASCII Text&quot; as the input type, type the word
+into the applets input box, and press return.)  Consider the pixel representation
+of the word, which is displayed in the center of the applet.  Play with the
+pixels in the third column of pixels from the left.  Turn them on and off by
+clicking on them, and observe what happens to each letter in the word.
+What happens?  What does this tell you about the ASCII coding of letters?
+(What is the meaning of the third bit in that encoding?)
+</p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+This final exercise is meant to be a longer essay question.  You should
+try to show your understanding of the way data is represented in a computer,
+and an appreciation for the fact that meaning depends on context and
+convention.</p>
+
+<p>It would be legal to input <font color="#E70000">1000</font> into the Data
+Representation Applet as either a binary number, a base-ten integer, a hexadecimal
+number, a real number, or as ASCII text.  In each case, the input is represented
+differently -- as a different binary number.  How is it possible that five
+different binary numbers can all represent &quot;1000&quot;?  What is going
+on here?  How can the computer keep all the different meanings straight?</p>
+
+
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

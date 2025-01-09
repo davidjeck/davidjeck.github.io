@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="173.32275mm"
+   height="74.048744mm"
+   viewBox="0 0 173.32275 74.048744"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="02-fig1svg.svg"
+   inkscape:export-filename="/home/eck/Desktop/math204_f20/www/f20/guide/figures/02-fig1.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2">
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker1337"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#d40000;fill-opacity:1;fill-rule:evenodd;stroke:#d40000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path1335"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         id="path857"
+         style="fill:#d40000;fill-opacity:1;fill-rule:evenodd;stroke:#d40000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path845"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-3"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path857-6"
+         style="fill:#d40000;fill-opacity:1;fill-rule:evenodd;stroke:#d40000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="410.3878"
+     inkscape:cy="-40.57126"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1020"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-19.693887,-29.200327)">
+    <g
+       id="g1484"
+       transform="translate(-5.8208333,-2.38125)">
+      <g
+         transform="translate(-29.897917,-28.045833)"
+         id="g824">
+        <circle
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="path815"
+           cx="60.041534"
+           cy="116.64866"
+           r="1.0772324" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+           x="63.764584"
+           y="121.84583"
+           id="text819"><tspan
+             sodipodi:role="line"
+             id="tspan817"
+             x="63.764584"
+             y="121.84583"
+             style="stroke-width:0.26458332">P<tspan
+   id="tspan1192"
+   style="font-size:64.99999762%;baseline-shift:sub">1</tspan></tspan></text>
+      </g>
+      <g
+         transform="translate(7.4083333,-49.477083)"
+         id="g832">
+        <circle
+           r="1.0772324"
+           cy="116.64866"
+           cx="60.041534"
+           id="circle826"
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <text
+           id="text830"
+           y="121.84583"
+           x="63.764584"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+           xml:space="preserve"><tspan
+             style="stroke-width:0.26458332"
+             y="121.84583"
+             x="63.764584"
+             id="tspan828"
+             sodipodi:role="line">P<tspan
+   id="tspan1194"
+   style="font-size:64.99999762%;baseline-shift:sub">2</tspan></tspan></text>
+      </g>
+      <path
+         inkscape:connector-curvature="0"
+         id="path834"
+         d="M 30.157546,88.694237 66.920468,67.553212"
+         style="fill:#d40000;stroke:#d40000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker1337)" />
+      <text
+         id="text1198"
+         y="83.549301"
+         x="54.291981"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="fill:#d40000;stroke-width:0.26458332"
+           y="83.549301"
+           x="54.291981"
+           id="tspan1196"
+           sodipodi:role="line"><tspan
+   id="tspan1242"
+   style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif Bold Italic'">v</tspan> =P<tspan
+   id="tspan1200"
+   style="font-size:64.99999762%;baseline-shift:sub;fill:#d40000">2</tspan> - P<tspan
+   id="tspan1202"
+   style="font-size:64.99999762%;baseline-shift:sub;fill:#d40000">1</tspan></tspan></text>
+      <g
+         transform="translate(9.9519703,-17.101146)"
+         id="g1212">
+        <circle
+           r="1.0772324"
+           cy="116.64866"
+           cx="60.041534"
+           id="circle1204"
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+        <text
+           id="text1210"
+           y="121.84583"
+           x="63.764584"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+           xml:space="preserve"><tspan
+             style="stroke-width:0.26458332"
+             y="121.84583"
+             x="63.764584"
+             id="tspan1208"
+             sodipodi:role="line">P<tspan
+   id="tspan1234"
+   style="font-size:64.99999762%;baseline-shift:sub">3</tspan></tspan></text>
+      </g>
+      <g
+         id="g1222"
+         transform="translate(47.25822,-38.532396)">
+        <circle
+           style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           id="circle1214"
+           cx="60.041534"
+           cy="116.64866"
+           r="1.0772324" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+           x="63.764584"
+           y="121.84583"
+           id="text1220"><tspan
+             sodipodi:role="line"
+             id="tspan1218"
+             x="63.764584"
+             y="121.84583"
+             style="stroke-width:0.26458332">P<tspan
+   id="tspan1236"
+   style="font-size:64.99999762%;baseline-shift:sub">4</tspan></tspan></text>
+      </g>
+      <path
+         style="fill:#d40000;stroke:#d40000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+         d="M 70.007433,99.638927 106.77035,78.497907"
+         id="path1224"
+         inkscape:connector-curvature="0" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="95.919205"
+         y="94.119812"
+         id="text1232"><tspan
+           sodipodi:role="line"
+           id="tspan1230"
+           x="95.919205"
+           y="94.119812"
+           style="fill:#d40000;stroke-width:0.26458332"><tspan
+   id="tspan1244"
+   style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif Bold Italic'">v</tspan> = P<tspan
+   id="tspan1238"
+   style="font-size:64.99999762%;baseline-shift:sub">4</tspan> - P<tspan
+   id="tspan1240"
+   style="font-size:64.99999762%;baseline-shift:sub">3</tspan></tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="19.706289"
+       y="32.416668"
+       id="text1248"><tspan
+         sodipodi:role="line"
+         x="19.706289"
+         y="32.416668"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1250">It makes sense to subtract points!  The </tspan><tspan
+         sodipodi:role="line"
+         x="19.706289"
+         y="37.708336"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1254">difference between two points is a</tspan><tspan
+         sodipodi:role="line"
+         x="19.706289"
+         y="43"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1256">vector, representing the change in</tspan><tspan
+         sodipodi:role="line"
+         x="19.706289"
+         y="48.291668"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1258">position from one point to the other.</tspan><tspan
+         sodipodi:role="line"
+         x="19.706289"
+         y="53.583332"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1260">Below, we get the <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif Bold';fill:#000080"
+   id="tspan1264">same vector</tspan> by </tspan><tspan
+         sodipodi:role="line"
+         x="19.706289"
+         y="58.875"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1262">subtracting two different pairs of points.</tspan></text>
+    <g
+       id="g1450"
+       transform="translate(-9.5250001,-73.025)">
+      <circle
+         r="1.0772324"
+         cy="130.01318"
+         cx="145.46576"
+         id="path815-5"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         id="text819-3"
+         y="134.94577"
+         x="147.86589"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.26458332"
+           y="134.94577"
+           x="147.86589"
+           id="tspan817-5"
+           sodipodi:role="line">P<tspan
+   style="font-size:64.99999762%;baseline-shift:sub"
+   id="tspan1192-6" /></tspan></text>
+      <circle
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="circle1391"
+         cx="182.83815"
+         cy="108.71423"
+         r="1.0772324" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path834-2"
+         d="m 145.4797,130.10459 36.76293,-21.14103"
+         style="fill:#d40000;stroke:#d40000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Lend-3)" />
+      <text
+         id="text1198-9"
+         y="122.84299"
+         x="165.3808"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="fill:#d40000;stroke-width:0.26458332"
+           y="122.84299"
+           x="165.3808"
+           id="tspan1196-1"
+           sodipodi:role="line"><tspan
+             id="tspan1242-2"
+             style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif Bold Italic';stroke-width:0.26458332">v</tspan></tspan></text>
+      <text
+         id="text819-3-9"
+         y="105.52952"
+         x="183.38312"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="stroke-width:0.26458332"
+           y="105.52952"
+           x="183.38312"
+           id="tspan817-5-3"
+           sodipodi:role="line">P + <tspan
+   id="tspan1414"
+   style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif Bold Italic'">v</tspan></tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="162.12343"
+       y="104.58178"
+       id="text1418"><tspan
+         sodipodi:role="line"
+         id="tspan1416"
+         x="162.12343"
+         y="108.32729"
+         style="stroke-width:0.26458332" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:serif;-inkscape-font-specification:serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="135.91626"
+       y="70.516663"
+       id="text1422"><tspan
+         sodipodi:role="line"
+         id="tspan1420"
+         x="135.91626"
+         y="70.516663"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332">Of course, it also makes </tspan><tspan
+         sodipodi:role="line"
+         x="135.91626"
+         y="75.808327"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1424">sense to add a vector to</tspan><tspan
+         sodipodi:role="line"
+         x="135.91626"
+         y="81.099998"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1426">a point.  Above, vector <tspan
+   style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:serif;-inkscape-font-specification:'serif Bold Italic';fill:#000080"
+   id="tspan1428">v</tspan> is </tspan><tspan
+         sodipodi:role="line"
+         x="135.91626"
+         y="86.391663"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1430">added to point P giving</tspan><tspan
+         sodipodi:role="line"
+         x="135.91626"
+         y="91.683327"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1432">a point P + v.  It does not</tspan><tspan
+         sodipodi:role="line"
+         x="135.91626"
+         y="96.974991"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1434">however, make sense to</tspan><tspan
+         sodipodi:role="line"
+         x="135.91626"
+         y="102.26666"
+         style="text-align:start;text-anchor:start;fill:#000080;stroke-width:0.26458332"
+         id="tspan1436">add two points.</tspan></text>
+  </g>
+</svg>

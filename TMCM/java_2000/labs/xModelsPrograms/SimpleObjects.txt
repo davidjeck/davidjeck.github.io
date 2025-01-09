@@ -1,0 +1,21 @@
+
+; This simple scene description exhibits a number of
+; basic objects in different colors.
+
+
+background rgb 1.0 0.8 0.8      ; specify a pink background
+
+red                             ; add objects to the scene
+square scale 2 translate 5,5
+
+cyan
+circle scale 5,2 rotate 30
+
+rgb 0.4 0.2 0.2
+square scale 3 rotate 30 translate -5,5
+
+blue
+polygon 0,0 0,5 3,4 translate -7,-7
+
+magenta
+line scale 5 rotate 45 translate 5,-5

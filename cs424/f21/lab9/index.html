@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 2021, Lab 6 Midterm Project</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+<style>
+img {
+   border:2px solid black;
+}
+</style>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 9:  Work on the Midterm Project</h2>
+
+<div class="intro">
+
+
+<p>For this week's lab, you can continue work on the
+<a href="../lab6/index.html">midterm project</a>, which
+you started in Lab&nbsp;6.  This page has a little additional
+help about implementing cameras as scene graph nodes.</p>
+
+<p><b>Midterm projects are due next Thursday.</b>  They should be copied into the
+folder that was set up for your group in <span style="white-space;pre">/classes/cs424</span>.
+Remember that in addition to the API itself, you need to create some examples
+that use it.  Each person in the group is supposed to create an example, and
+get graded on that example individually.  The grade for the API, on the other
+hand, is a group grade.  Make sure that each example clearly identifies who
+wrote it.  One group has asked whether they can
+turn in one large and elaborate example instead of individual
+examples, and get graded graded on that example as a group.  That will be OK
+as long as everyone in the group agrees.</p>
+
+<p>As I grade your project, I might want to ask you about the decisions that
+you made as you designed and implemented your API.</p>
+
+</div>
+
+
+<div class="section">
+<h3>Camera Nodes</h3>
+
+<p>One of the requirements for the API is to implement scene graph nodes that
+represent cameras.  This requires parent pointers in the nodes.  You already
+received an email from me with a new version of my simple 2D API that uses
+parent pointers:  <a href="scene_graph_2d_new.js">scene_graph_2d_new.js</a>
+and an example that uses it, <a href="SceneGraph_new.html">SceneGraph_new.html</a>.
+(I hope that your scene graph API does not simply add a third dimension to this
+2D API. Even if you do something similar, you also have to think about lighting
+and materials and maybe textures.)</p>
+
+<p>Remember that the point of having a camera in the scene graph is that
+modeling transfomations that are applied to the camera node are used to set
+up the viewing transformation for the scene.  To do that, you have to start
+at the camera node and follow parent pointers to the root of the scene graph.
+Along the way, you have to apply the inverse of any modeling transformations 
+that are applied to the nodes that you visit.  This is explained in more detail in
+<a href="https://math.hws.edu/graphicsbook/c4/s4.html#gl1light.4.2">Subsection&nbsp;4.4.2</a>.
+</p>
+
+<p>To render a scene, you need a projection transformation as well as a viewing transformation.
+One way to do that is to set up the projection directly, using <i>glFrustum</i>() or more likely
+<i>gluPerspective</i>() for a perspective projection.  For example,</p>
+
+<pre class=code>
+     glMatrixMode(GL_PROJECTION);
+     glLoadIdentity();
+     gluPerspective( fova, aspect, near, far );
+     glMatrixMode(GL_MODELVIEW);
+     // Now, set the viewing transformation
+</pre>
+
+<p class=np>This approach does not use the camera object that is included in glsim.js.  But it is
+possible to use that object if you want to..  Calling <i>camera.apply</i>() sets
+up both the projection transformation and the viewing transformation that have been configured into the
+camera by calling its methods.  You would call <i>camera.apply</i>() before applying the transformations
+that affect the camera node, because <i>camara.apply</i>() completely replaces any viewing transformation
+that was in effect before it is called.
+It is probably best to leave the viewing transformation in the camera
+itself set to the identity transformation.  That is, 
+leave the camera at (0,0,0), looking down the negative z-axis, in its own coordinate system.
+This will make it easier to understand how the modeling transformations that are applied to the 
+camera node will affect the view.</p>
+
+<p>Once the projection and viewing transformations have been established, 
+you are ready traverse the scene graph to render the scene.</p>
+
+</div>
+
+
+</div>
+</body>
+</html>

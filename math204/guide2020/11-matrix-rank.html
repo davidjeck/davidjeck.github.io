@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Matrix Rank</title>
+</head>
+<body>
+<div id="content">
+
+<h2>11 Matrix Rank</h2>
+<hr>
+
+<p>Section III.3 in Chapter Two is principally about the <span class=nw>rank</span>
+of a matrix.  It begins by discussing row rank and column rank separately but
+ultimately shows that the row rank and column rank are the same.  The rank
+of a matrix is defined to be the common value of its row rank and column rank.</p>
+
+<div class=def><p><span class=dtp>Definition.</span> The <span class=nw>row space</span>
+of an $m\times n$ matrix $A$ is defined to be the subspace of $\R^n$ spanned by the
+rows of $A$.  The <span class=nw>row rank</span> of $A$ is the dimension of that
+subspace. The <span class=nw>column space</span>
+of an $m\times n$ matrix $A$ is defined to be the subspace of $\R^m$ spanned by the
+columns of $A$.  The <span class=nw>column rank</span> of $A$ is the dimension of that
+subspace.</p></div>
+
+<p>It is not hard to see that the row space is not changed by applying a row operation
+to a matrix.  This means that row-equivalent matrices have the same row space and
+the same row rank.  That rank can be determined by putting the matrix into reduced
+echelon form, which will have the same row rank as the original matrix since
+it is row-equivalent to the original matrix.
+The row rank of a reduced echelon form matrix is just the number of non-zero rows
+in the matrix or, equivalently, the number of leading variables.  This is true
+since the non-zero rows are linearly independent and so form a basis for the
+row space.</p>
+
+<p>When a row operation is applied to a matrix, the column space can change.  However,
+the column rank remains the same.  This means that row-equivalent matrices have the
+same column rank, and to find the column rank, you can put the matrix into reduced
+echelon form and check the column rank.  But the column rank of a reduced echelon
+form matrix is just the number of leading variables, since the columns that
+contain leading entries are linearly independent (they are in fact vectors in the
+standard basis $\langle\vec e_1,\vec e_2,\dots,\vec e_n\rangle$), and the other
+columns are linear combinations of the columns that contain leading entries.</p>
+
+<p>Since the number of leading variables in the reduced echelon form of the
+matrix represents both the row rank and column rank of the original matrix,
+we see that the row rank and column rank are indeed the same.</p>
+
+<p>If the $m\times n$ matrix $A$ has rank $r$, then the number of leading variables
+is $r$ and the number of free variables is $n-r$.  Note that the number of free variables
+is the dimension of the space of solutions of the homogeneous system corresponding to
+the matrix.</p>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

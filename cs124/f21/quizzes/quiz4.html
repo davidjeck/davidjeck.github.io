@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>CS 124 Quiz #4 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Fall 2021:
+Sample Answers to Quiz #4</h2>
+
+<p class=info><i>These are sample answers only.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+Show the exact output from the following code segment:
+</p>
+<pre>
+   int i, sumSoFar;
+   sumSoFar = 0;
+   for ( i = 1; i < 6; i++ ) {
+       sumSoFar = sumSoFar + i;
+       System.out.println( i + ": " + sumSoFar );
+   }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+          1: 1
+          2: 3
+          3: 6
+          4: 10
+          5: 15
+</pre>
+<p>(In each iteration of the loop, the new value assigned to <i>sumSoFar</i> is the sum of the
+current value of <i>sumSoFar</i> and the current value of&nbsp;<i>i</i>.  The first time through the
+loop <i>i</i>&nbsp;is&nbsp;1, and <i>sumSoFar</i> becomes 0+1; the second time, it becomes 1+2;
+the third time, it becomes 3+3; the fourth time, it becomes 6+4; and the fifth time it becomes 10+5.
+Then <i>i</i> becomes eaual to 6, and the loop ends.)</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+Explain carefully what is accomplished by each of the two lines in the following Java code segment:
+</p>
+<pre>
+     int[] values;
+     values = new int[ 100 ];
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The first line creates a variable of type <i>int</i><code>[]</code>.  This only creates a variable.
+It has not yet created an array, but the variable is capable of refering to an array.  The second line creates an array that can hold 100 values of
+type <i>int</i>.  Initially, all of the values in the array are zero.  The variable <i>values</i>
+is set to refer to that new array.  So, after that statement, <i>values.length</i> is 100, and
+the 100 array elements are <i>values</i><code>[0]</code>, <i>values</i><code>[1]</code>, ...,
+<i>values</i><code>[99]</code>.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+Suppose that <i>names</i> is a variable of type <i>String</i><code>[]</code>,
+and that the array <i>names</i> has already been created and filled with data.  The values in the array
+are strings.  Write a code segment that will print out every string in the array that begins with the
+letter <code>'A'</code>.  Use a <i>for</i> loop.  (For full credit, take into account that some of the strings might have length zero.)
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+    int index;
+    String oneName;  // one of the names from the list.
+    for (index = 0; index &lt; names.length; index++) {
+        oneName = names[index];
+        if (nameName.length() > 0 &amp;&amp; oneName.charAt(0) == 'A') {
+            System.out.println(oneName);
+        }
+    }
+</pre>
+</div>
+
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,369 @@
+<html>
+<head>
+<title>CS 124 Test #1 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Spring 2021:
+Sample Answers to the First Test</h2>
+
+<p class=info><i>These are sample answers only.  Often, answers that are less<br>
+detailed than the ones given here can still receive full credit.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+What does the computer do to execute the assignment statement&nbsp; <code>x = 3*y + 7;</code>
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The computer will fetch the value from the memory location that was assigned to
+the variable <i>y</i>.  It will multiply that
+value by 3, and then add 7 to the value.  It will store the answer in the memory location
+of the variable&nbsp;<i>x</i>.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+What is the value of the Java expression&nbsp; <code>(742 % 100) / 10</code>&nbsp;? Why?
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The value is 4.  The value of <code>742 % 100</code> is the remainder when 742 is divided by 10,
+which is 42.  Then, <code>42&nbsp;/&nbsp;10</code> is the integer quotient when 42 is divided by
+10, discarding the fractional part, which is&nbsp;4.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+Define the term <i>algorithm</i>, and explain why it plays such an important
+role in computer science.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+An algorithm is an unambiguous, step-by-step procedure for performing some task (usually also required
+to complete after a finite number of steps).  A computer program is the implementation of some
+algorithm.  Algorithms are the central study of computer science &mdash; how to write them, how
+to make them more efficient, how to prove they are correct, what can be done by them.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+To work with Java programs on the command line, you have used the commands
+<i>javac</i> and <i>java</i>.  Explain briefly what each of these commands does.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+<i>javac</i> is a compiler.  It translates a Java program into the machine language for the
+java virtual machine.  If you apply it to a Java file, MyProgram.java, with a
+command such as <i>javac&nbsp;MyProgram.java</i>, then you get
+a .class file, <i>MyProgram.class</i> containing the compiled program.  The <i>java</i>
+command is an interpreter that can be used to run the machine language program in a .class file, 
+with a command such as <i>java&nbsp;MyProgram</i>.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 5a.</b>
+Write a <i>for</i> loop to print out the integers from 1 to 10: 1 2 3 4 5 6 7 8 9 10.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+        int i;
+        for (i = 1; i &lt;= 10; i++) {
+            System.out.println(i);
+        }
+ OR:
+        int i;
+        for (i = 0; i &lt; 10; i++) {
+            System.out.println(i+1);
+        }
+</div>
+
+
+<div class="question">
+<p><b>Question 5b.</b>
+Now wirte a <i>while</i> loop to do the same thing, output: 1 2 3 4 5 6 7 8 9 10.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+       int i;
+       i = 1;
+       while ( i &lt;= 10 ) {
+           System.out.println(i);
+           i = i+1;  // (or i++;)
+       }
+ OR:
+       int i;
+       i = 0;
+       while ( i &lt; 10 ) {
+           System.out.println(i+1);
+           i = i + 1;
+       }
+ OR:
+       int i;
+       i = 0;
+       while ( i &lt; 10 ) {
+           i = i + 1;
+           System.out.println(i);
+       }
+</div>
+
+
+<div class="question">
+<p><b>Question 5c.</b>
+Suppose that <i>jacksAge</i> and <i>jillsAge</i> are variables of type <i>int</i> that
+already have values, and the values give Jack's age and Jill's age.  Write a program segment that
+will test their ages and print the correct message, either  "Jack is older", "Jill is older",
+or "Jack and Jill are the same age".
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+      if ( jacksAge > jillsAge ) {
+          System.out.println("Jack is older.");
+      }
+      else if ( jillsAge > jacksAge ) {
+          System.out.println("Jill is older.");
+      }
+      else {
+          System.out.println("Jack and Jill are the same age.");
+      }
+</div>
+
+
+<div class="question">
+<p><b>Question 6.</b>
+Draw the picture that is produced when the following code segment is executed:
+</p>
+<pre>
+    int x, y, i;
+    x = 0;
+    y = 10;
+    for ( i = 0; i &lt; 5; i++ ) {
+        g.strokeRect(x,0,y,y);
+        x = x + y;
+        y = y + 10;
+    }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<p style="margin-left:110px"><img src="question6-answer.png" width=393 height=146></p>
+<p>The value of <i>y</i> is used as the width and height of the rectangle that is drawn (so it is
+a square).  The value of <i>y</i> starts at 10, and the first rectangle is 10-by-10.  But the
+value of <i>y</i> goes up by 10 every time through the loop, so each square is 10 pixels bigger
+than the previous square.  The <i>for</i> loop runs 5 times, so there are 5 squares, and their
+sizes will be 10, 20, 30, 40, and 50.  The only remaining question is where they are placed.
+The second parameter in <code>g.strokeRect(x,0,y,y)</code> is zero, so the tops of
+all the rectangles line up, with y-coordinate zero.  The x-coordinate starts out
+at zero.  Each time through the loop, the value of <i>y</i> is added to <i>x</i>, which moves
+each rectangle horizontally exactly to the right edge of the previous rectangle. The best thing
+to do is to just go through the loop and keep track of the values of the variables:</p>
+<pre>
+         x         y      the rectangle
+      --------  -------  ----------------------------
+         0         10      g.strokeRect(0,0,10,10)
+         10        20      g.strokeRect(10,0,20,20)
+         30        30      g.strokeRect(30,0,30,30)
+         60        40      g.strokeRect(60,0,40,40)
+        100        50      g.strokeRect(100,0,50,50)
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 7.</b>
+Show the exact output that will be produced when the following code segment is executed:
+</p>
+<pre>
+    int a, b;
+    a = 20;
+    b = 1;
+    while (a > 0) {
+        a = a / b;
+        b = b + 1;
+        if ( a > b ) {
+            System.out.println(a + " > " + b);
+        } else {
+            System.out.println(a + " &lt;= " + b;
+        }
+    }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+         20 > 1
+         10 > 3
+         3 &lt; 4
+         0 &lt; 5
+
+   WORK:
+         a:  20 20 10  3  0
+         b:   1  2  3  4  5
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 8.</b>
+Write a <b>complete Java program</b> that does the following:
+Read one line of text from the user into a <i>String</i> variable, using <i>TextIO</i>.
+Then use a <i>for</i> loop to print out the same line of text <b>backwards</b>.
+For example, if the user's input is <code>Hello World</code>, then the output will be
+<code>dlroW olleH</code>.</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+        import textio.TextIO;
+
+        public class Backwards {
+            public static void main(String[] args) {
+                
+                String userInput;
+                int i;
+                
+                System.out.println("Enter some text:");
+                userInput = TextIO.getln();
+                
+                System.out.println("Your input backwards is:");
+                for (i = str.length() - 1; i >= 0; i--) {
+                    System.out.print( userInput.charAt(i) );
+                }
+                System.out.println();
+                
+            }
+        }
+OR:
+
+        import textio.TextIO;
+
+        public class Backwards {
+            public static void main(String[] args) {
+                
+                String userInput, reverse;
+                int i;
+                
+                System.out.println("Enter some text:");
+                userInput = TextIO.getln();
+                
+                System.out.println("Your input backwards is:");
+                reverse = "";
+                for (i = 0; i &lt; str.length(); i++) {
+                    reverse = str.charAt(i) + reverse;
+                }
+                System.out.println(reverse);
+                
+            }
+        }
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 9.</b>
+Write a code segment that simulates the following experiment:
+Flip a coin repeatedly until the coin has come up heads 1000 times.  Then output
+the total number of times that the coin was flipped.  Declare any variables that you use.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+int flips, heads;
+flips = 0;
+heads = 0;
+while ( heads &lt; 1000 ) {
+   if (Math.random() < 0.5) {
+       heads++;
+   }
+   flips++;
+}
+System.out.println("It took " + flips + " to reach 1000 heads.");
+</pre>
+</div>
+
+
+<div class="question">
+<p><b>Question 10.</b>
+Two important aspects of programming languages are <i>syntax</i> and <i>semantics</i>.
+Explain these two terms.  As part of your answer, give a specific example of a syntax error in
+Java and a specific example of a semantic error in Java.
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+Syntax refers to the "grammar" of the language.  It is the set of rules that determine what is
+legal in the language.  For Java, a program with correct syntax can be compiled.  If
+the program has a syntax error, the compiler will report the error and refuse to compile the
+program.  For example, if a program says, <code style="white-space:pre">if x > y</code> that
+is a syntax error because an <i>if</i> statement must have parentheses around the test.</p>
+<p>Semantics refers to the "meaning" of a language.  For Java, the semantics
+determines what the program does when it is run.  A semantic error doesn't stop the program from
+running, but it will give incorrect results.  For example, if a program says 
+<code style="white-space:pre">if (x > y)</code>, but the programmer actually wanted to test
+whether x is less than y, then that would be a semantic error.
+</p>
+</div>
+
+
+
+</div>
+</body>
+</html>
+

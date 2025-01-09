@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>The Determinant</title>
+</head>
+<body>
+<div id="content">
+
+<h2>17 The Determinant</h2>
+<hr>
+
+<p>We have seen that a $2\times 2$ matrix $\begin{pmatrix} a&b\\ c&d \end{pmatrix}$
+has an inverse if and only if $ad-bc\ne 0$. The quantity $ad-bc$ is the
+"determinant" of the matrix.  In fact, a determinant is defined for any 
+$n\times n$ matrix.  However, for larger matrices, it is not given by such a
+simple formula.  The determinant of a square matrix $A$ can be written
+as $det(A)$ or as $|A|$.  When the entries of the matrix are written in full,
+the determinant is indicated by using vertical bars instead of parentheses:
+$\begin{vmatrix} a&b \\ c&d \end{vmatrix}=ad-bc$.  (It's best not to use the latter
+notation for the determinant of a $1\times 1$ matrix $(a)$ since the determinant
+is $det\big((a)\big) = a$, not the absolute value of $a$.)</p>
+
+<p>The determinant of an $n\times n$ matrix can be thought of as a function of
+the rows of $A$.  So if the rows of the matrix $A$ are $\vec r_1,\vec r_2,\dots,\vec r_n$,
+we might write $det(A) = det(\vec r_1,\vec r_2,...,\vec r_n)$.  As a function of $n$ row vectors,
+the determinant has certain properties.  In particular, it is <span class=nw>multilinear</span>.
+This means that it is linear in each input.  So, if $\vec u,\vec v\in \R^n$ and $\alpha\in\R$, we have
+$$\begin{align*}
+   det(\vec v + \vec u, \vec r_2, \dots, \vec r_n) 
+       &= det(\vec v, \vec r_2, \dots, \vec r_n) + det(\vec u, \vec r_2, \dots, \vec r_n)\\
+   det(\alpha\cdot \vec r_1, \vec r_2, \dots, \vec r_n) 
+       &= \alpha\cdot det(\vec r_1, \vec r_2, \dots, \vec r_n)\\[6pt]
+   det(\vec r_1, \vec v + \vec u, \dots, \vec r_n) 
+       &= det(\vec r_1, \vec v, \dots, \vec r_n) + det(\vec r_1, \vec u,, \dots, \vec r_n)\\
+   det(\vec r_1, \alpha\cdot \vec r_2, \dots, \vec r_n) 
+       &= \alpha\cdot det(\vec r_1, \vec r_2, \dots, \vec r_n)\\[6pt]
+   &\vdots\\[6pt]
+   det(\vec r_1, \vec r_2, \dots, \vec v + \vec u) 
+       &= det(\vec r_1, \vec r_2, \dots, \vec v) + det(\vec r_1, \vec r_2, \dots, \vec u)\\
+   det(\vec r_1, \vec r_2, \dots, \alpha\cdot \vec r_n) 
+       &= \alpha\cdot det(\vec r_1, \vec r_2, \dots, \vec r_n)
+\end{align*}$$
+Another important property of the determinant function is that it is <span class=nw>antisymmetric</span>.
+This means that when two rows are swapped, the sign of the determinant is changed:
+$$\begin{align*}
+det(\vec r_1,\dots,\vec r_{i-1},\vec u,\vec r_{i+1}&\dots,\vec r_{j-1},\vec v,\vec r_{j+1},\dots\vec r_n)\\
+   &= -det(\vec r_1,\dots,\vec r_{i-1},\vec v,\vec r_{i+1},\dots,\vec r_{j-1},\vec u,\vec r_{j+1},\dots\vec r_n)
+\end{align*}$$
+Finally, the determinant of the identity matrix $I_n$ is&nbsp;1.  In fact, it can be shown that there is one and only
+one function of $n\times n$ matrices that satisfies all of these properties:  It is multilinear in the $n$ 
+row vectors, antisymmetric in the $n$ row vectors, and maps the identity matrix to $1.$
+However, we will not do that proof.</p>
+
+<hr class=break>
+
+<p>Several other important properties follow from the basic defining properties of the determinant.
+In particular, the effect of a row operation on a matrix is easy to prove.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>  Let $A$ be an $n\times n$ matrix.  Then</p>
+<ol>
+<li>If $A$ has a zero row, then $det(A)=0$.</li>
+<li>If $A$ has two rows that are identical, then $det(A)=0$.</li>
+<li>If $A$ has a row that is a scalar multiple of another row, then $det(A)=0$.</li>
+<li>If the row operation $\rho_i\leftrightarrow \rho_j$ is applied to $A$, then sign of the determinant is changed.</li>
+<li>If the row operation $k\rho_i$ is applied to $A$, then the determinant is multiplied by&nbsp;$\frac1k$.</li>
+<li>If the row operation $k\rho_i + \rho_j$ is applied to $A$, then the determinant is unchanged.</li>
+</ol>
+</div>
+<div class=prf><p><span class=dtp>Proof:</span>
+<ol>
+<li>This follows easily from multilinearity: 
+     $$\begin{align*}det(\vec r_1,\dots,\vec r_{i-1},\vec 0,\vec r_{i+1},\dots,\vec r_n)
+         &= det(\vec r_1,\dots,\vec r_{i-1},0\cdot \vec 0,\vec r_{i+1},\dots,\vec r_n)\\
+         &=0\cdot det(\vec r_1,\dots,\vec r_{i-1},\vec 0,\vec r_{i+1},\dots,\vec r_n)\\
+         &=0\end{align*}$$
+  </li>
+<li>This follows from antisymmetry.  If any two rows are swapped, the
+sign of the determinant must change.  However, if the two rows of $A$
+that are swapped are identical, then resulting matrix is identical to $A$.
+So, we must have $det(A) = -det(A)$, which implies that $det(A)=0$.</li>
+<li>This follows from part (2) of this theorem and the multilinearity property of the
+determinant:
+   $$\begin{align*}
+      det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1}&,\vec k\cdot r_i,\vec r_{j+1},\dots,\vec r_n)\\
+         &= k\cdot det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1},\vec r_i,\vec r_{j+1},\dots,\vec r_n)\\
+         &= k\cdot 0\\
+         &= 0
+   \end{align*}$$
+</li>
+<li>This simply restates the antisymmetry property.</li>
+<li>This follows from the part of the mulitilinearity property that deals with scalar multiples.
+(Suppose that $B$ is obtained from $A$ by applying the row operation $k\rho_i$. Then
+$det(B) = k \cdot det(A)$ by multilinearity. But note that this also means that
+$det(A) = \frac 1k \cdot det(B).)$
+</li>
+<li>This follows from multilinearity and part (2) of this theorem:
+   $$\begin{align*}
+      det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1}&,\vec k\cdot r_i + \vec r_j,\vec r_{j+1},\dots,\vec r_n)\\
+         &= k\cdot det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1},\vec r_i,\vec r_{j+1},\dots,\vec r_n)\\
+                  &\hskip 1 in + det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1},\vec r_j,\vec r_{j+1},\dots,\vec r_n)\\
+         &= k\cdot 0 + det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1},\vec r_j,\vec r_{j+1},\dots,\vec r_n)\\
+         &= det(\vec r_1,\dots,\vec r_i,\dots,\vec r_{j-1},\vec r_j,\vec r_{j+1},\dots,\vec r_n)\\
+         &= det(A)
+   \end{align*}$$
+</li>
+</ol>
+</div>
+
+<p>Knowing the effect of row operations on the determinant of a matrix allows us to easily calculate
+the determinant of an $n\times n$ matrix that is in echelon form.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>  Let $A$ be an $n\times n$ matrix that is in
+echelon form.  Then the determinant of $A$ is the product of the entries on the diagonal of $A$.
+</p></div>
+
+<div class=thm><p><span class=dtp>Proof:</span>  
+If $A$ has less than $n$ leading variables, then the last row of $A$ is a row of zeros.  By
+part (1) of the previous theorem, $det(A)=0$.  Since the $n^{\rm th}$ diagonal entry is zero,
+the product of the diagonal entries will also be 0, so the determinant is equal to the product
+of the diagonal entries in this case.</p>
+<p>Now, suppose that all of the diagonal entries are 1, so that the product of the diagonal
+entries is 1.  We must show that $det(A)=1$.  Then $A$ can be row-reduced to the
+identity matrix by applying row operations of the form $k\rho_i+\rho_j$.  By part (6) of the
+previous theorem, applying those row operations does not change the determinant.  
+By a basic property of determinants, the determinant of the resulting identity matrix is 1.
+So the determinant of the original matrix, $det(A)$, is also&nbsp;1.</p>
+<p>If $A$ has $n$ leading variables, then all of the diagonal entries are leading entries and
+hence are non-zero.  Say the diagonal entries are $d_1,d_2,\dots,d_n$. 
+We can apply the scalar multiple part of
+multilinearity to write $det(A) = d_1d_2\cdots d_n\cdot det(B)$ where $B$ is a matrix
+in which all of the diagonal entries are 1.  Since $det(B) = 1$, we see that
+$det(A) = d_1d_2\cdots d_n$.
+</p></div>
+
+<p>Using these results, we can calculate the determinant of a matrix by applying row
+operations to put the matrix into echelon form, as long as we keep track of the
+effect of the row operations on the determinant.  For example,
+$$\begin{align*}
+   \begin{vmatrix}
+       0 &  1 &  2 &  3 \\
+      -2 &  4 &  0 &  2 \\
+       2 & -2 &  3 & -3 \\
+       0 &  3 & -1 &  0
+   \end{vmatrix}
+ &\rowop{\rho_1\leftrightarrow\rho_2}
+   \begin{vmatrix}
+      -2 &  4 &  0 &  2 \\
+       0 &  1 &  2 &  3 \\
+       2 & -2 &  3 & -3 \\
+       0 &  3 & -1 &  0
+   \end{vmatrix}\\[8pt]
+ &\rowop{\frac12\rho_1}
+   2\cdot\begin{vmatrix}
+      -1 &  2 &  0 &  1 \\
+       0 &  1 &  2 &  3 \\
+       2 & -2 &  3 & -3 \\
+       0 &  3 & -1 &  0
+   \end{vmatrix}\\[8pt]
+ &\rowop{2\rho_1+\rho_3}
+   -2\cdot\begin{vmatrix}
+      -1 &  2 &  0 &  1 \\
+       0 &  1 &  2 &  3 \\
+       0 &  2 &  3 & -1 \\
+       0 &  3 & -1 &  0
+   \end{vmatrix}\\[8pt]
+ &\rowop{-2\rho_2+\rho_3\\ -3\rho_2+\rho_4}
+   -2\cdot\begin{vmatrix}
+      -1 &  2 &  0 &  1 \\
+       0 &  1 &  2 &  3 \\
+       0 &  0 & -1 & -7 \\
+       0 &  0 & -7 & -9
+   \end{vmatrix}\\[8pt]
+ &\rowop{-7\rho_3+\rho_4}
+   -2\cdot\begin{vmatrix}
+      -1 &  2 &  0 &  1 \\
+       0 &  1 &  2 &  3 \\
+       0 &  0 & -1 & -7 \\
+       0 &  0 &  0 & 40
+   \end{vmatrix}
+\end{align*}$$
+The final determinant can then be computed as $-2(-1)(1)(-1)(40)= -80$.
+
+<hr class=break>
+
+<p>An $n\times n$ matrix has an inverse if and only if its determinant is non-zero.
+This is now easy to see:  An $n\times n$ matrix $A$ is invertible if and only if it has no
+free variables, that is, if and only if when put into echelon form, all of the diagonal
+entries are non-zero.  But that will be true if and only if the determinant is non-zero,
+since the determinant of echelon form matrix is the product of the diagonal entries and
+the determinant of $A$ will be that value times a non-zero constant that comes
+from any row operations of the form $\rho_i\leftrightarrow\rho_j$ and
+$k\rho_i$ that are used in putting the matrix into echelon form.</p>
+
+<p>The determinant also has important properties related to matrix multiplication:
+$det(AB) = det(A)det(B)$ and for an invertible matrix, $det(A^{-1})= \frac{1}{det(A)}$.</p>
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

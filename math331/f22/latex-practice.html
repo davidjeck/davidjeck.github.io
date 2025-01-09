@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+   background-color: gray;
+   margin-top: 0;
+   margin-bottom: 0;
+}
+#content {
+   width: 750px;
+   margin: 0 auto;
+   padding: 0;
+   border-left: thin solid black;
+   border-right: thin solid black;
+   background-color: #F8F8F8;
+   color: black;
+}
+#out p:nth-child(even) {
+   background-color: #FFFFEE;
+}
+#out p:nth-child(odd) {
+   background-color: #EEEEFF;
+}
+#out p {
+   margin: 0;
+   padding: 5px;
+   border-bottom: thin solid black;
+}
+#out {
+   margin: 0;
+   padding: 0;
+   overflow: auto;
+   background-color: lightgray;
+   border-bottom: thin solid black;
+}
+#in {
+   margin: 0;
+   padding: 10px;
+   bottom: 0px;
+   height: 20%;
+   background-color: white;
+}
+
+</style>
+<script type="text/javascript">
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    macros: {
+       R: "{\\mathbb R}",
+       N: "{\\mathbb N}",
+       Z: "{\\mathbb Z}",
+       Q: "{\\mathbb Q}",
+       C: "{\\mathbb C}",
+       qed: "{\\blacksquare}",
+       eps: "\\varepsilon",
+       empt: "\\varnothing"
+    }
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<script>
+async function showHTML() {
+    var text = document.getElementById("inputHTML").value.trim();
+    if (text.length == 0) {
+        document.getElementById("outputHTML").innerHTML = "No text was input.";
+        return;
+    }
+    var par = document.createElement("p");
+    par.innerHTML = text;
+    document.getElementById("out").appendChild(par);
+    await MathJax.typesetPromise();
+    document.getElementById("inputHTML").value = text;
+    document.getElementById("inputHTML").select();
+    document.getElementById("inputHTML").focus();
+    out.scrollTo(0,100000);
+}
+var inputDivHeight;
+function size() {
+   var pageH = window.innerHeight;
+   var h = pageH - inputDivHeight - 5;
+   document.getElementById("out").style.height = h + "px";
+   document.getElementById("in").style.top = h + "px";
+}
+function deleteLast() {
+   var out = document.getElementById("out");
+   var lastChild = out.lastChild;
+   if (lastChild)
+      out.removeChild(lastChild);
+}
+function onEnter(evt) {
+   if ( evt.shiftKey && (evt.keyCode == 13) ) {
+      showHTML();
+      evt.preventDefault();
+   }
+}
+function init() {
+   document.getElementById("inputHTML").onkeydown = onEnter;
+   document.getElementById("inputHTML").value = "The most beautiful equation is $e^{\\pi i}+1=0$.";
+   document.getElementById("typeset").onclick = showHTML;
+   document.getElementById("deletelast").onclick = deleteLast;
+   document.getElementById("out");
+   inputDivHeight = document.getElementById("in").getBoundingClientRect().height;
+   window.onresize = size;
+   size();
+   document.getElementById("inputHTML").select();
+   document.getElementById("inputHTML").focus();
+}
+</script>
+<title>Type Latex</title>
+</head>
+<body onload="init()">
+<div id="content">
+
+<div id="out">
+</div>
+
+<div id="in">
+
+<p>Enter text with math enclosed in dollar signs, and press SHIFT-Enter or click "Typeset It":</p>
+
+<p style="margin-left:1in"><textarea id="inputHTML" rows=4 cols=70></textarea>
+
+<p style="margin-left:1in"><button id="typeset">Typeset it.</button>
+<button style="margin-left:1.5in" id="deletelast">Delete Last Item</button></p>
+</p>
+
+</div>
+
+</div>
+
+</body>
+</html>

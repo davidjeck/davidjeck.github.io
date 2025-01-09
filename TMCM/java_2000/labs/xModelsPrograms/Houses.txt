@@ -1,0 +1,28 @@
+; this file defines a "house" object, then uses it to draw
+; a small "village" consisting of three houses of different sizes.
+; First, a window object is defined.  Windows are then used as
+; components in houses.
+
+define window [ 
+   square
+   line
+   line rotate 90
+]
+
+define house [
+   square ytranslate 0.5 scale 6.5,8
+   polygon -4,8 0,12 4,8
+   window scale 1.5 translate -2,6
+   window scale 1.5 translate 0,6
+   window scale 1.5 translate 2,6
+   window scale 2.5,2 translate -1.5,2.5
+   square ytranslate 0.5 scale 1.5,3 xtranslate 1.5
+]
+
+
+house scale -0.3,0.2 translate -6,0
+    ; note that a negative scale factor gives a "reversed" house
+
+house scale 0.5 translate 0,-1
+
+house scale 0.4,0.2 translate 5,3

@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>CS 327, Spring 2019, First Test Info</title>
+</head>
+<body style="max-width:750px">
+
+<h2>CS 327, Spring 2019<br>
+Information on the First Test</h2>
+
+<p>The first in-class test for this course
+will take place on Monday, March&nbsp;4. You should expect a mix of definitions and essay questions;
+simple code analysis; understanding data structures such as B-Trees and representations of graphs;
+and applying basic algorithms such as merge sort, heap operations,
+inserting into a hash table, and graph traversal.  Essay-type questions will make up the majority of the test.
+You will not be asked to code any complex algorithms.  You might have to give an outline of
+an algorithm (such as heapsort or breadth-first search of a graph).  You might even have to
+code something simple (such as quicksort, given the partitioning subroutine.)  
+</p>
+
+<p>The test covers material that is in the following chapters from the textbook (but mostly avoiding
+the math):  Chapters 2, 3, 4, 6, 7, 8, 9, 11, 12, 18, and 22.</p>
+
+<p>Here is a list of some of the things that you should know about:</p>
+
+<pre style="margin-left: 1cm">
+problems and algorithms
+
+loop invariants
+using a loop invariant to prove correctness of a loop
+working with loop invariants:  Initialization, Maintenance, Termination
+
+run-time analysis of basic (non-recursive) algorithms
+wort case, average case, and best case analysis
+"order of growth" of a function
+comparing order of growth of common functions:  
+       1, log(n), n, n*log(n), n<sup>2</sup>, n<sup>3</sup>, 2<sup>n</sup>, n! 
+Big-Oh:    T(n) = O(f(n))  if  T(n) &lt; c*f(n) for some c and for large n
+Big-Omega: T(n) = &Omega;(f(n))  if T(n) &gt; c*f(n) for some c and for large n
+Big-Theta: T(n) = &Theta;(f(n))  if  both T(n) = O(f(n))  and  T(n) = &Omega;(f(n))
+for &Omega;, &Theta;, and Big-Oh, you "ignore constant multiples and lower order terms"
+
+recurrence relations
+the Master Theorem for solving recurrence relations  T(n) = a*T(n/b) + &Theta;(f(n)):
+     Case 1:  f(n) = O(n^d) where d < log<sub>b</sub>(a).  Then T(n) = &Theta;(n<sup>log<sub>b</sub>(a)</sup>)
+     Case 2:  f(n) = &Theta;(n^d) where d = log<sub>b</sub>(a).  Then T(n) = &Theta;(n<sup>log<sub>b</sub>(a)</sup>*log(n))
+
+data structures
+    heaps
+    the max-heap property (or min-heap property) of a binary tree
+    representing a heap as an array
+    heap operations:  insert and removeMax [or removeMin]
+    priority queues
+    using a heap as a priority queue
+    hash tables, hash functions, and hash codes
+    collisions in a hash table, and how they are handled
+    open hash tables, using chaining to handle collisions
+    closed hash tables, using open addressing to handle collisions
+    linear probing in a closed hash table
+    given a good hash function, operations on a hash table run in time &Theta;(1)
+    binary search tree
+    height of a tree; balanced binary tree
+    insert, delete, find operations take time &Theta;(log(n)) on a balanced binary tree
+    B-Trees
+    minimal degree of a B-Tree
+    data structures on secondary storage
+    dynamic arrays
+    amortized cost of adding an item to a dynamic array
+
+sorting algorithms and their run-time analysis:
+    any sorting algorithm that works by comparisons has run time &Omega;(n*log(n))
+    in-place sorting algorithm (selection sort, insertion sort, heapsort)
+    stable sorting algorithm (insertion sort, mergesort, counting sort, radix short)
+    selection sort (run time &Theta;(n<sup>2</sup>))
+    insertion sort (average run time &Theta;(n<sup>2</sup>); best case &Theta;(n))
+    mergesort (run time &Theta;(n*log(n))
+    heapsort (run time &Theta;(n*log(n))
+    quicksort (worst case run time &Theta;(n<sup>2</sup>), average case &Theta;(n*log(n)))
+    the quicksort partitioning algorithm
+    randomizing the choice of pivot in quicksort, and why it's a good idea
+    counting sort (run time &Theta;(n), but only applies in certain cases)
+    radix sort (run time &Theta;(n), but only applies in certain cases)
+
+graphs:
+    vertices and edges
+    directed graphs and undirected graphs
+    adjacency matrix representation of a graph
+    adjacency list representation of a graph
+    path in a graph
+    cycle
+    basic graph traversal algorithms
+    marking vertices as "undiscovered", "discovered", and "processed"
+    breadth-first search
+    implementation of breadth-first search with a queue
+    recursive depth-first search
+
+</pre>
+
+<hr>
+
+<p>To give you some idea of the kind of questions that might be on the test, here are 
+just a few questions from old CS&nbsp;327 exams:</p>
+
+
+<p><b>1.</b> Suppose A(n) is the average-case run time and W(n) is the worst-case 
+run time of the same algorithm. True or false: A(n) = O(W(n)). Explain your answer.
+[With this question, I was probably too clever for my own good.]</p>
+
+<p><b>2.</b> The basic operation in the Quicksort algorithm is <i>partitioning</i> using a 
+<i>pivot</i> value. Explain the <b>goal</b> (or "postcondition") of partitioning.
+
+<p><b>3.</b> Mark each of the following statements as being true or false:&nbsp;&nbsp;
+<span style="white-space:pre">(a) 5n<sup>3</sup> + n2 = &Theta;(n<sup>3</sup>)</span>&nbsp;&nbsp;&nbsp;
+<span style="white-space:pre">(b) n*log(n) = &Theta;(n)</span>&nbsp;&nbsp;&nbsp;
+<span style="white-space:pre">(c) n*log(n) = &Omega;(n)</span>&nbsp;&nbsp;&nbsp;
+<span style="white-space:pre">(d) n<sup>5</sup> = O(n!)</span>&nbsp;&nbsp;&nbsp;
+<span style="white-space:pre">(e) n + log(n) &Theta;(n)</span>&nbsp;&nbsp;&nbsp;
+<span style="white-space:pre">(f) n<sup>3</sup> + n<sup>2</sup> = &Theta;(n<sup>5</sup>)</span>&nbsp;&nbsp;&nbsp;
+
+<p><b>4.</b> Give an algorithm (in clear pseudocode, with comments where needed) for 
+breadth-first search of a graph, starting from some given vertex v.</p>
+
+<p><b>5.</b> Draw the (undirected) graph that has the following adjacency matrix representation:
+[Insert some square matrix of zeros and ons here.]</p>
+
+<p><b>6.</b> B-trees are balanced trees. Explain what this means and why it is important. (What does being balanced 
+say about the run time for inserting, deleting, and searching for items in the tree?)</p>
+
+<p><b>7.</b> Consider the heap shown below as a binary tree. Draw the heap after the following operations are 
+performed, one ofter the other: insert(24), removeMax(), removeMax().
+[Insert a max-heap represented as a binary tree here.]</p>
+</body>
+</html>

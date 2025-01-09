@@ -1,1 +1,290 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<head>
+<title>David J. Eck</title>
+<style type="text/css">
+    body, html {
+       margin: 0;
+       background-color: gray;
+    }
+    #page {
+       border-right: 2px solid black;
+       border-left: 2px solid black;
+       background-color: white;
+       margin: 0 auto;
+       padding: 8px 16px;
+       max-width:800px;
+       min-width:600px;
+    }
+    $content {
+       margin-left: 16px;
+       margin-right:16px;
+    }
+    .head {
+        color: #009933;
+    }
+    .top {
+        color: #660066;
+    }
+</style>
+<script>
+   var mandelbrotPrefix = "js/mandelbrot/home-page-mandelbrots/mandelbrot";
+   var mbCount = 45;
+   var mandelbrotProg = "js/mandelbrot/MB.html?ex=home-page-mandelbrots%2fmandelbrot";
+</script>
+</head>
+
+<body>
+<div id="page">
+
+<table>
+
+<tr>
+
+<td valign=top>
+<script>
+   var mbNum = 1 + Math.floor(mbCount*Math.random());
+   var img = mandelbrotPrefix + mbNum + ".png";
+   document.write('<a href="' + mandelbrotProg + mbNum + '.xml"' + '><img src="' + img + 
+            '" alt="" align="left" width="250" height="250" hspace="15" title="click to open in Mandelbrot Explorer" border=2></a>');
+</script>
+<noscript>
+<img src="mandelbrot1.jpg" alt="" align="left" width="250" height="250" hspace="15">
+</noscript>
+</td>
+
+<td>
+<h1 class="head">David J. Eck</h1>
+<pre style="top">
+
+Professor Emeritus
+Department of Mathematics and Computer Science
+Hobart and William Smith Colleges
+Geneva, New York 14456
+
+E-mail:  <A HREF="mailto:eck@hws.edu">eck@hws.edu</A>
+      
+</pre>
+</td>
+
+</tr>
+
+</table>
+
+
+<div id="content">
+<hr>
+<p style="text-align:center; font-style:italic">
+For many years, my official web site has been <a href="https://math.hws.edu/eck/">math.hws.edu/eck</a><br>
+but since I retired, I can't be sure that that site will continue.<br>
+This site is a mirror of the most interesting and useful material</br>
+from my math.hws.edu site.</p>
+<hr>
+
+<h1 class="head">Courses That I Taught</h1>
+
+<p><b>(I retired from teaching at the end of 2022.)</b><p>
+
+
+<div style="margin-left:50px">
+<p>Here is a list of <a href="coursesTaught.html"><b>courses I have taught</b></a>,
+including syllabi from many past terms.</p>
+<p>Here is a complete list
+of all the <a href="indep.html"><b>Honors projects and Independent Studies</b></a><br>
+that I supervised over my years at Hobart and William Smith Colleges.</p>
+<p>And here are some links to web sites from the most recent versions of some of my courses, including assignments
+and solutions to those assignments:</p>
+<ul>
+<li><a href="cs124/index.html">CPSC 124: <i>Introductory Programming</i></a></li>
+<li><a href="cs220/index.html">CPSC 220: <i>Computer Architecture</i></a></li>
+<li><a href="cs229/index.html">CPSC 229: <i>Foundations of Computation</i></a></li>
+<li><a href="cs327/index.html">CPSC 327: <i>Data Structures and Algorithms</i></a></li>
+<li><a href="cs424/index.html">CPSC 424: <i>Computer Graphics</i></a></li>
+<li><a href="math135/index.html">Math 135: <i>First Steps into Advanced Math</i></a></li>
+<li><a href="math204/index.html">Math 204: <i>Linear Algebra</i></a></li>
+<li><a href="math331/index.html">Math 331: <i>Foundations of Analysis</i></a></li>
+</ul>
+</div>
+
+
+<HR>
+
+
+<a href="https://math.hws.edu/javanotes/"><img src="javanotes9-fx-front-cover-small.jpeg" align=right></a>
+
+
+<h1 class="head">Free On-Line Java Text</h1>
+
+<p>The first programming course at Hobart and William Smith Colleges
+covers the Java programming language.  Since we started teaching Java
+in 1996, the textbook for the course has been various versions
+of a free on-line Java textbook that I wrote for the course.
+The most recent version, Version&nbsp;9, was released in May 2022.
+It requires Java&nbsp;17 or later, 
+and it comes in two editions, one using JavaFX  for GUI programming and
+one using Swing.  The two editions can be found at</p>
+
+<p  style="margin-left:60px">JavaFX Edition: <a href="https://davidjeck.github.io/javanotes/">https://davidjeck.github.io/javanotes/</a></p>
+
+<p  style="margin-left:60px">Swing Edition: <a href="https://davidjeck.github.io/javanotes-swing/">https://davidjeck.github.io/javanotes-swing/</a></p>
+
+<p>Older versions of the book are also available; see the
+<a href="cs124/javanotes9/preface.html">Preface</a>
+for links.</p>
+
+<p>The textbook is an introduction to programming and also an introduction to Java 
+directed towards people who do not have any background in programming.
+You can use it on-line or download a copy for use on your own computer.
+PDF and print versions are also available. Links can be found at the bottoms of the 
+web pages linked above.</p>
+
+
+<HR style="break:both">
+
+<a href="https://davidjeck.github.io/graphicsbook/index.html"><img src="graphicsbook-cover-150x196.png" 
+          align=right hspace="10" vspace="10" alt="" width="150" height="196"></a>
+
+
+<h1 class="head">Free Computer Graphics Textbook</h1>
+
+<p>An introductory computer graphics textbook, available for use on-line.
+There are also links on the front page for downloading the web-site version or a PDF version.
+This book was used in my 
+<a href="cs424/index.html">Computer&nbsp;Graphics&nbsp;course</a> in Fall 2015,  Fall 2017,
+and Fall 2021. Version 1.4 is new in August 2023; it adds a new chapter on WebGPU.</p>
+
+<p>The prerequisite for the book is two semesters of computer programming in Java, C/C++, or JavaScript,
+including a basic knowledge of data structures, objects, and object-oriented programming.  It covers
+core concepts from 2D graphics in Java, JavaScript, and SVG; 3D graphics with old-fashioned OpenGL 1.1; the three.js
+JavaScript library for 3D Web graphics; WebGL, the version of OpenGL for the Web; and WebGPU, a
+newer API for Web graphics.
+There is an appendix with short introductions to the essential features of Java, C, and JavaScript.
+See the <a href="cs424/graphicsbook-1.4/preface.html">Preface</a> for more information.
+The book is available at</p>
+
+<p style="margin-left:60px"><a href="https://davidjeck.github.io/graphicsbook">https://davidjeck.github.io/graphicsbook</a></p>
+
+
+
+<HR style="break:both">
+
+<h1 class="head">Some Web Apps, written in JavaScript</h1>
+
+<p>For many years, I wrote small web applications as Java applets.  However, applets
+are no longer supported in  web
+browsers.  A more modern alternative to Java Applets is to write web applications in
+JavaScript, which is well-supported in all modern browsers.  (Note that Java and JavaScript
+are completely different languages, in spite of the names.)   One of my projects for my sabbatical
+leave in Spring 2016 was to learn JavaScript better and to write some JavaScript Web apps.
+So far, I have ported some of my examples from Java to JavaScript, and added a few new apps
+that were written originally in JavaScript.
+The work that I have done so far is available on this page:</p> 
+
+<p style="margin-left:1in"><a href="js/index.html">David Eck's JavaScript Page</a>
+
+<p>Here are direct links to some of the more interesting examples:</p>
+<ul>
+<li><a href="js/genetic-algorithm/GA.html">Genetic&nbsp;Algorithms&nbsp;Demo</a>:
+   Demonstrates the Genetic Algorithm by showing how some simple simulated organisms evolve
+   over a series of generations.</li>
+<li><a href="js/mandelbrot/MB.html">Mandelbrot&nbsp;Viewer</a>:
+   Explore the famous Mandelbrot set, and make some amazing pictures!</li>
+<li><a href="js/pentominos/pentominos.html">Pentominos&nbsp;Puzzle&nbsp;Solver</a>:
+   Solves pentominos puzzles, which involve placing twelve pieces
+   of various shapes on a board.  Fun to watch.</li>
+<li><a href="js/symmetry/wallpaper.html">Wallpaper&nbsp;Groups</a>:
+   Draw symmetric patterns in the plane, where the symmetry is given by one of
+   the seventeen wallpaper groups.</li>
+<li><a href="js/sorting/xSortLab.html">xSortLab</a>:
+   Learn about five sorting algorithms and compare their run times.</li> 
+<li><a href="js/xLogicCircuits/xLogicCircuits.html">xLogicCircuits</a>:
+   Construct simulated logic circuits with AND, OR, and NOT gates.</li>
+<li><a href="js/turing-machine/TM.html">Turing Machine Simulation</a>: Create and run
+    simulated Turing machines.</li>
+</ul>
+
+<p>The Mandelbrot set, in particular, is amazing.  There is a large
+<a href="js/mandelbrot/java/MandelbrotSettings/index.html">collection&nbsp;of&nbsp;images</a> that
+are visualizations of pieces of that set.  
+Click on any of the small images on that page to load that example into 
+the Mandelbrot Viewer, where you can see a larger version of the image and
+explore it further.</p>
+
+<HR>
+
+<a href="FoundationsOfComputation/index.html"><img src="FofC_tinycover.png" 
+hspace=8 vspace=8 width=108 height=165 align=right alt=""></a>
+
+<h1 class="head">Free CS Theory Textbook</h1>
+
+<p>CPSC 229: <i>Foundations of Computer Science</i> is an
+introductory course in theoretical computer science.  It is a required
+course in the Computer Science major.  For several years, the textbook
+in this course has been a set of notes written by Professor Carol
+Critchlow and me.  This set of notes is now available for reading
+on-line or for downloading, at no charge.  For more information and
+links to the PDF version of the book, see:</p>
+
+<p style="margin-left:60px"><a href="https://davidjeck.github.io/FoundationsOfComputation">https://davidjeck.github.io/FoundationsOfComputation</a></p>
+
+<p>(A printed textbook can be ordered for the cost of reproduction from 
+<a href="https://www.lulu.com/shop/carol-critchlow-and-david-eck/foundations-of-computation/paperback/product-1m4znw8.html?q=David+Eck&page=1&pageSize=4">lulu.com</a>.)</p>
+
+<br clear=all>
+
+
+
+<hr>
+
+
+<a href="TMCM/index.html"><img src="tmcm_smallest.jpeg" 
+          align=right hspace="10" vspace="10" alt="" width="111" height="167"></a>
+
+
+
+<h1 class="head">The Most Complex Machine</H1>
+
+<p>My introductory computer science textbook, 
+<cite><a href="TMCM/index.html">The Most Complex Machine</a>,</cite> 
+was published in July, 1995.  This book is no longer in print, but I have
+made a <a href="TMCM/TMCM.pdf">PDF</a> available for free download.
+Although a lot of it is outdated, most of it is still valid and is
+still relevant.
+The book surveys several major areas of 
+computer science, and was meant as a textbook for a first course in
+computer science or for self-studt.    A review of in the
+April '96 issue of <cite>CHOICE</cite> magazine says that it is
+&quot;<span class="head">Strongly
+recommended as a foundation for guided self-study for gifted high-school
+students, as well as non-computing majors</span>.&quot;  You can read
+more about it <a href="TMCM/index.html">here</a>.
+</p>
+
+
+<p>I wrote several small programs for use with the book.  The original programs
+were for Macinstosh computers.  They were later translated to Java applets,
+which are unfortunately no longer usable.  More recently, I have translated
+all of the programs in to web apps, which are still useful on their own. See  
+<a href="js/sorting/xSortLab.html">xSortLab</a>,&nbsp;
+<a href="js/turing-machine/TM.html">xTuringMachine</a>,&nbsp;
+<a href="js/xLogicCircuits/xLogicCircuits.html">xLogicCircuits</a>,&nbsp;
+<a href="js/xComputer/xComputer.html">xComputer</a>,&nbsp;
+<a href="js/xModels/xModels.html">xModels</a>,&nbsp;
+<a href="js/xTurtle/Turtle.html">xTurtle</a>,&nbsp; and&nbsp;
+<a href="js/datareps/xDataReps.html">xDataReps</a>.
+</p>
+
+<br clear=all>
+
+<p style="text-align:center; font-style:bold">"The Innocent Eye Test" by Mark Tansey (1981)</p>
+<p style="text-align:center"><img border=2 SRC="innocent_eye_test.jpg" height=389 width=600></p>
+
+<hr>
+
+</div>
+</div>
+
+</body>
+
+</html>
+

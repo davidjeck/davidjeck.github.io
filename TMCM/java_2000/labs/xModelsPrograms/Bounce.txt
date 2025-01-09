@@ -1,0 +1,19 @@
+
+; This file defines a segmented animation in which a
+; red ball bounces between the top and bottom of a
+; black square.  The ball "flattens out" when it
+; "hits" the side of the square.
+
+animate 5 20 5 5 20 5
+
+define bounce [   ; ball bouncing up and down
+        circle scale 4
+                yscale 0.5:1:1:0.5:1:1:0.5
+                xscale 1.3:1:1:1.3:1:1:1.3
+                ytranslate -4:-3:3:4:3:-3:-4
+]
+
+
+square scale 10
+red
+bounce

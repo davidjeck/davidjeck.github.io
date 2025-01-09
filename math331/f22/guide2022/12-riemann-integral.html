@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>The Riemann Integral</title>
+</head>
+<body>
+<div id="content">
+
+<h2>13 The Definite Integral, $\int_a^b f$</h2>
+<hr>
+
+<p>The second part of calculus, after <a href="11-derivatives.html">differentiation</a>
+is <span class=nw>integration</span>.  We want to define the definite integral of a bounded function
+$f$ on a closed, bounded interval $[a,b]$.  In fact, however, not every function
+is integrable.</p>
+
+<p>Mathematicians actually use several
+different definitions of integral.  The one that you are familiar with from Calculus II
+is the Riemann integral, defined using Riemann sums.  More common in advanced
+mathematics is the Lebesgue integral, which has some nice properties that Riemann
+integrals lack.  However, every function that is Riemann integral is also Lebesgue integrable,
+with the same value, and Riemann integrals are easier to understand.  We will study the
+Riemann integral, but using a definition
+of Riemann integral that extends naturally to the definition of Lebesgue integral.</p>
+
+<p>The type of integral used in the textbook, defined using upper and lower sums,
+is actually the Darboux integral.  It is equivalent to the usual definition of 
+Riemann integral that you probably saw in Calculus II:
+$$\int_a^b f(x)\,dx = \lim_{\max(\Delta x_i)\to 0}\sum_{i=1}^nf(x_i*)\Delta x_i$$
+However, the Darboux definition is easier to work with.  To lead up to the
+definition, we start by defining partitions\dots</p>
+
+<div class=def><a><span class=dtp>Definition:</span> A <span class=nw>partition</span> of a closed bounded interval
+$[a,b]$ is a finite set $\{x_0,x_1,\dots,x_n\}$ such that $a=x_0&lt;x_1&lt;\cdots&lt;x_n = b$.
+We will often denote the length of the $i^{\rm th}$ subinterval, $[x_{i-1},x_i]$,  by $\Delta x_i$.</p></div>
+
+<p>The Calculus II idea of Riemann integration is to take $\xi_i\in[x_{i-1},x_i]$ for $i=1,2,\dots,n$, and
+to use $\sum_{i=1}^nf(\xi_i)\Delta x_i$ as an approximation for $\int_a^b f(x)\,dx$.  The sum is referred to
+as a Riemann sum.  To get the exact value of the integral, you have to let the size of the subintervals 
+approach zero.  This is not really a very well-defined kind of limit.  We use a different approach,
+using a particular choice of Riemann sum.</p>
+
+<p>Note that at this point, for no good reason, our textbook starts using the notation "sup" instead of "lub" and
+"inf" instead of "glb".  ("Sup" stands for "supremum" and "inf" stands for "infimum".)
+The meanings, in this context, are the same, but I would also allow sup and inf to be used on unbounded sets,
+with $\pm\infty$ as possible values.  Note that the following definition requires that the function be
+bounded.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Suppose that $f$ is a bounded function on the
+closed, bounded interval $[a,b]$, and that $P=\{x_0,x_1,\dots,x_n\}$ is a partition of $[a,b]$.
+For $i=1,2,\dots,n$, let $M_i = \sup\{f(x)\,|\,x_{i-1}\le x\le x_i\}$ and let
+$m_i = \inf\{f(x)\,|\,x_{i-1}\le x\le x_i\}$.  We define the <span class=nw>upper sum of $f$ relative to
+the partition $P$</span> as $$U(P,f)=\sum_{i=1}^n M_i\cdot(x_i-x_{i-1})$$ and we define 
+the <span class=nw>lower sum of $f$ relative to
+the partition $P$</span> as $$L(P,f)=\sum_{i=1}^n m_i\cdot(x_i-x_{i-1})$$</p></div>
+
+<p>An upper sum overestimates the integral of $f$.  A lower sum underestimates the integral of $f$.
+The idea for the Riemann integral of $f$ is to take the inf of all possible upper sums, $\ds\inf_P\{U(P,f)\}$,
+and the sup of all possible lower sums $\ds\sup_P\{L(P,f)\}$.  If those two values are the same, then
+the function is Riemann integrable and the integral of $f$ is defined to be their common value.
+To make this rigorous, we first need to define a refinement of a partition.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $P$ and $R$ be partitions of $[a,b]$.
+We say that $R$ is a <span class=nw>refinement</span> of $P$ if $R\subseteq P$.</p></div>
+
+<p>It is not too hard to see that refining a partition can decrease the associated upper sum
+of a function and increase the lower sum.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> Let $P$ be a partition of $[a,b]$ and let
+$R$ be a refinement of $P$.  Then $$L(P,f)\le L(R,f)\le U(R,f) \le U(P,f)$$.</p></div>
+
+<p>Note that this means that the set of all possible lower sums of a function is bounded above
+by any individual upper sum, and the set of all possible upper sums of a function is bounded above
+by any individual lower sum.  So we have</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span> Let $f$ be a bounded function on $[a,b]$,
+and let $Q_1$ and $Q_2$ be any partitions of $[a,b]$.  Then $$L(Q_1,f)\le \sup_P\{L(P,f)\}
+\le \inf_P\{U(P,f)\}\le U(Q_2,f)$$</p></div>
+
+<p class=np>We are now ready to define the integral</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $f$ be a bounded function on $[a,b]$.
+We say that $f$ is <span class=nw>Riemann integrable</span> on $[a,b]$ if
+$\ds\sup_P\{L(Q,f)\} = \inf_P\{U(P,f)\}$, and in that case we define the <span class=nw>Riemann integral</span>
+of $f$ on $[a,b]$ to be their common value.  The Riemann integral of $f$ on $[a,b]$ is
+denoted $\int_a^b f$ or $\int_a^b f(x)\,dx$.</p></div>
+
+<p>We should note that there are functions that are <b>not</b> Riemann integrable.  An obvious example
+is Dirichlet's function 
+$D(x)=\begin{cases}0&\mbox{ if $x$ is irrational}\\1&\mbox{ if $x$ is rational}\end{cases}$.  
+Note that every upper sum for $D$ on the interval $[0,1]$ has value 1 while every lower
+sum has value 0. So, $\sup_P\{L(Q,D)\} = 0$ while $\inf_P\{U(P,f)\} = 1$.  Since the values
+are not equal, $D$ is not Riemann integrable.</p>
+
+<p>We will see that every continuous function is Riemann integrable.  Also, every non-increasing
+or non-decreasing function is Riemann integrable.</p>
+
+<p>Since the only kind of definite integral that we will cover is the Riemann (or Darboux) integral, 
+I will generally drop "Riemann" from "Riemann integral" and "Riemann integrable."
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newenvironment{answer}{\bgroup\color{blue}}{\egroup}
+\newenvironment{grading}{\bgroup\color{red}}{\egroup}
+\newenvironment{secondans}{\bgroup\color{green}}{\egroup}
+
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil Homework \#1}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework on Sections 1.I.1 and 1.I.2 is due by the end of the day on Monday, Aug. 31.}}
+\centerline{\textit{Be sure to show your work and explain your reasoning!}}
+
+\medskip
+\hrule
+\medskip
+
+Note: Here is an example of applying row operations to a linear systtem:
+\begin{align*}
+    \begin{matrix}
+       x  &+ 3y &- 2z &= &1\\
+     -2x  &+ y  &- z &= &-3\\
+       x  &- y  &+ z &= &2 
+    \end{matrix}
+  & \rowop{2\rho_1 + \rho_2 \\ -\rho_1 +\rho_3}
+    \begin{matrix}
+       x &+ 3y &- 2z &= &1\\
+         &  7y &- 5z &= &-1\\
+         &- 4y &+ 3z &= &1 
+    \end{matrix}
+\\[15pt]
+  & \rowop{\frac{4}{7}\rho_4 + \rho_3}
+    \begin{matrix}
+       x &+ 3y &- 2z &= &1\\
+         &  7y &- 5z &= &-1\\
+         &     & \frac{1}{7}z &= &\frac{3}{7} 
+    \end{matrix}
+\end{align*}
+ 
+\hrule
+\bigskip
+
+
+\begin{problem}
+The following systems of linear equations have unique solutions.  Use 
+Gauss's Method to  put each system to echelon form, and then find the solution.
+As you apply row operations, show the result of each operation and 
+show which operation you are applying.  You can specify
+a row operation using the same notation as the textbook.
+You can combine several row operations of the form $\rho_j+k\rho_i$ 
+into one step, as long as they use the same $\rho_i$.
+
+\bigskip
+
+\textbf{(a)} \qquad
+    $\begin{matrix}
+       2x & -3y & = & -1 \\
+       x  & +2y & = & 3
+    \end{matrix}$
+
+\bigskip\bigskip
+
+\textbf{(b)} \qquad
+    $\begin{matrix}
+           &   x_2 & +2x_3 & = & 3 \\
+       x_1 &  -x_2 & -3x_3 & = & -2 \\
+      2x_1 & +4x_2 &  -x_3 & = & 0
+    \end{matrix}$
+    
+\bigskip\bigskip
+    
+\textbf{(c)} \qquad
+    $\begin{matrix}
+       x &  +y &  +z & = & 1\\
+       x &  -y & -2z & = & 2\\
+      2x &  +y &  +z & = & 3\\
+       x &  -y &     & = & 4
+    \end{matrix}$
+
+\end{problem}
+\begin{answer}
+% Erase this line and put your answer here!
+\end{answer}
+
+\bigskip
+
+\begin{problem}
+For each of the linear systems in problem {\bf 1}, rewrite the system in the form
+of an augmented matrix.  For this short problem, {\it you do not need to show any work, just
+write the answers}.  You just have to write the augmented matrix form of the original
+system of equations.
+\end{problem}
+\begin{answer}
+% Erase this line and put your answer here!
+\end{answer}
+
+\bigskip
+
+\begin{problem} 
+The following systems are already in echelon form.  Each each system has an 
+infinite number of solutions.  Express the set of solutions in vector form.  The answers
+will have a form similar to $\{\vec v_1 + a\vec v_2 + b\vec v_3 \,|\, a,b\in\R\}$,
+where $v_1$, $v_2$ and $v_3$ are column vectors of constants.
+
+\bigskip
+
+\textbf{(a)} \qquad
+    $\begin{matrix}
+       x & -3y &  -z & = & -1 \\
+         &  2y & +3z & = & 5
+    \end{matrix}$
+
+\bigskip\bigskip
+
+\textbf{(b)} \qquad
+    $\begin{matrix}
+       2x_1 &  -x_2 & +3x_3 &  +x_4 & -2x_5 &  = & 3 \\
+            &       &  -x_3 & +2x_4 &  -x_5 &  = & 1 \\
+            &       &       &   x_4 & +4x_5 &  = & -2
+    \end{matrix}$
+
+\end{problem}
+\begin{answer}
+% Erase this line and put your answer here!
+\end{answer}
+
+\bigskip
+
+\begin{problem}
+The following augmented matrix represents a system of linear equations:
+$$\left(\begin{array}{ccc|c}
+          1 & 1 & 1 & 3\\
+          2 & 3 & -1 & 4\\ 
+          1 & 2 & -2 & b 
+\end{array}\right)$$
+For which values of the variable $b$, if any, does the system have
+exactly one solution? no solution? infinitely many solutions?
+\end{problem}
+\begin{answer}
+% Erase this line and put your answer here!
+\end{answer}
+
+\end{document}
+
+
+

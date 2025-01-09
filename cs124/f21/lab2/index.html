@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS124, Fall 2021, Lab 2</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css">
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css">
+<style>
+   div p .rm {
+      font-style: normal;
+   }
+   .codedef {
+      font-weight: bold;
+      font-face: monospace;
+   }
+</style>
+</head>
+</body>
+
+<div class="content">
+
+<h2>CS 124, Fall 2021<br>
+Lab 2: Using Subroutines</h2>
+
+<div class="intro">
+
+<p>In this lab, you will use subroutines that have already been written for you, so
+that all you have to do is call them.  A subroutine performs some task or computes some
+value.  If you can call a pre-defined subroutine to perform the task or compute
+the value, you don't need to know how to do it yourself!  Building on the work of 
+others&mdash;or on your own work&mdash;is a central idea in computer programming.</p>
+
+<p><b>To start, you need to copy several files into your account.</b>  You can
+get them with one command in Linux.  Change into the directory where you work on 
+Java. (Just use the command <b>cd&nbsp;cs124</b> when you log in, if you made
+a cs124 directory in your home directory in the previous lab.)  Then, use
+the following command to copy the files that you need:</p>
+
+<pre>
+            cp  -r  /classes/cs124_Eck/lab2-files  .
+</pre>
+
+<p class=np>There is a space and a period at the end of the command.  Remember that
+the period is a name for the directory that you are working in.  You can then
+do <b style="white-space:pre">cd&nbsp;lab2-files</b> to change into the lab2-files
+directory.  You can do all of your work for the lab in that directory.  (Change the
+name to "lab2" if you want.)  Another way to copy the folder is to use the GUI:
+Open a file browser window and navigate to the /classes/cs124_Eck folder.
+Copy the lab2-files folder, and then paste it into a file browser window showing
+your cs124 folder.  (Alternatively, you could grab the files from the web, using
+<a href="lab2-files/">this&nbsp;link</a>; be sure to get TextIO.java, and put it
+in a folder named textio.)</p>
+
+<p>When you finish the lab, all of the files that you create should be in your
+lab2-files directory.  To turn in your work, you should copy that directory into
+your homework folder, either using the GUI or using  a command like</p>
+
+<pre>
+           cp  -r  lab2-files  /classes/cs124_Eck/homework/YourLastName
+</pre>
+
+<p class=np>When you give this command, you must be working in the directory
+that contains the lab2-files directory.</p>
+
+<p><b>Your work for this lab is due at the start of lab next Tuesday.</b></p>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Some Style Rules</h3>
+
+<p><b>Read this section before turning in your work for this lab, and make sure
+your programs follow the style rules before you turn them in.</b></p>
+
+<p>Starting with this week's lab, your grade will be based partly on
+program style.  When you write a program, it's important to follow rules 
+of good programming style.  These rules are mostly for human readers, not for
+the computer, and therefore the computer won't give you any feedback about
+them when you compile or run the program.  So it's up to you to make
+sure that your programs show good style.  Here are some of the
+rules that I expect all of your programs to follow:</p>
+
+<ul>
+<li>Use indentation to show the structure of the program.  For example, indent the 
+main routine inside the class, and indent the statements inside the main routine.
+Each level of indentation should be 3 or 4 spaces.</li>
+<li>Use spaces and blank lines to make the program easier on the eyes.  For example, 
+it's a good idea to always put spaces around the "=" in an assignment statement.
+And it's a good idea to put blank lines before and after the main routine, and
+possibly between sections of the main routine that perform different tasks.</li>
+<li>You should declare just one variable per line (or, in some cases two or three
+closely related variables).</li>
+<li>Almost every variable declaration should have a comment to explain the purpose
+of the variable in the program.  These are generally one-line comments, starting
+with <b><code>//</code></b>, on the same line as the variable declaration.  These
+comments should describe the purpose of the variable and/or how it is used in
+the program.</li>
+<li>Every variable name should begin with a <b>lower case letter</b>.  If the name consists of
+several words, each word after the first should be capitalized.  For example:
+<code>myInterestRate</code>.</li>
+<li>Names of variables and programs should be <i>meaningful</i> whenever possible.  <code>InterestCalculator</code>
+and <code>myInterestRate</code> are meaningful names.  <code>MyClass</code>, <code>IC</code>, and <code>x</code> are not.</li>
+<li>Use appropriate types.  For example, a variable that is naturally an integer should have
+type <code>int</code>, not type <code>double</code>.</li>
+<li>There should be a multiline comment for the program as a whole that explains the purpose of
+the class and, when appropriate, how to use it.  This comment goes at the beginning of the java
+file, just <b>before</b> <code>public&nbsp;class...</code>.  Multiline comments are enclosed
+between <b>/*</b> and <b>*/</b>.</li>
+<li>Do not write excessively long lines.  Lines should be really limited to 100 characters (although
+it's hard not to creep above that at times).</li>
+<li>When doing input/output, you should generally prompt the user for inputs,
+and you should label the outputs.  The user must be able to understand what is
+going on.  Include appropriate spaces in your prompts and labels.  For example, an output
+such as "The answer <b>is27</b>" is ugly.  The output should be "The answer <b>is&nbsp;27</b>", with
+a space between "is" and "27".</li>
+</ul>
+
+
+</div>
+<div class="section">
+
+
+<div class="section">
+
+<h3>Exercise 1: A Conversation With The User</h3>
+
+<p>For your first assignment, you will write a program
+that will hold a conversation with the user.  
+Start with the file named <b>Conversation.java</b>,
+from the lab2-files folder, which already implements
+a very short conversation.  You will edit the <i>main</i>()
+routine to produce a longer, more interesting
+conversation.</p>
+
+<p>This program uses the class <i>TextIO</i> to read 
+the user's input.  <i>TextIO</i> is not a standard part
+of Java, so it has to be made available to your program.
+The file that defines it, <i>TextIO.java</i> is in the
+<i>textio</i> folder inside the lab2-files folder.
+The <i>textio</i> folder has to be in the same the
+directory with the program that uses <i>TextIO</i>.
+And the program has to have the command</p>
+
+<pre class=code>
+import textio.TextIO;
+</pre>
+
+<p class=np>at the start.  All this is already set up for
+the program <i>Conversation.java</i>.  <i>TextIO</i> is
+discussed in more detail in <a href="https://math.hws.edu/javanotes/c2/s4.html">Section&nbsp;2.4</a>,
+but you will only need three functions from the <i>TextIO</i> class in this lab:</p>
+
+<ul>
+<li><b>TextIO.getln()</b> &mdash; When the computer executes this function, it reads one
+line of text from the user.  The full line of text is returned to the program as
+a <i>String</i>, which you can assign to a variable of type <i>String</i>.
+An example is the assignment statement&nbsp; <code>name&nbsp;=&nbsp;TextIO.getln()</code>&nbsp;
+in the conversation program.</li>
+<li><b>TextIO.getlnInt()</b> &mdash; When the computer executes this function, it reads
+one number of type <i>int</i> from the user, which you can assign to a variable of
+type <i>int</i>.  If the user happens to type extra stuff on the same line after the
+integer, it is discarded.</li>
+<li><b>TextIO.getlnDouble()</b> &mdash; When the computer executes this function, it reads
+one number of type <i>double</i> from the user, which you can assign to a variable of
+type <i>double</i>.  If the user happens to type extra stuff on the same line after the
+real number, it is discarded.</li>
+</ul>
+
+
+<p>For this exercise, you should use <i>TextIO</i> to implement a conversation between
+the computer and the user of the program. The topic and the structure
+of the conversation are up to you.  Minimum requirements are:  You should ask the
+user <b>at least four questions</b> (and read the user's responses), in addition to
+asking the user's name.  More questions 
+would be even better!  Some of the
+responses should be numbers, and you should do at least <b>two calculations</b> using the
+input numbers.  (For example, you could ask what year the user was born and have
+the computer compute the user's age.)  At least one of the responses should be a <b>string</b>, such
+as the user's favorite color.  You should use the user's inputs
+somehow in your outputs.  (For example, if the user says their favorite color is
+blue, then the program might output "How about that, Fred, blue is my favorite color too.")</p>
+
+<p>Your grade will be partly based on how ambitious the program is and how natural and interesting the
+conversation is.  Feel free to be amusing, obnoxious, philosophical, pedagogical, mathematical,
+or whatever.  <b>Don't forget that you have to do two computations with
+the user's input!</b>  A&nbsp;conversation might go something like this:</p>
+
+<pre class="code">
+ Hi, my name is Kirk.  What's your name?
+ <u>Spock</u>
+ 
+ Gee, Spock is a funny name.
+ Say, you look young to be a StarFleet Science officer.
+ How many years old are you?
+ <u>187</u>
+
+ Let's see, this is the year 2471, so you must have been born in 2284.
+ That was a good year.
+   .
+   .
+   .
+</pre>
+
+<p class="np">But you're not required to duplicate this conversation.  The assignment is
+to make up your own!</p>
+
+</div>
+
+
+<h3>Exercise 2: Timed Typing</h3>
+
+<p>The function <i>System.nanoTime</i>() returns the number of nanoseconds that have
+elapsed since a certain time in the past.  (When that certain time was is irrelevant.)
+A nanosecond is one one-billionth of a second.  This function can be used to find
+the number of nanoseconds <b>between</b> two events in a program:</p>
+
+<pre class=code>
+double startTime, endTime;
+double elapsedTimeInSeconds;
+
+startTime = System.nanoTime();
+   .
+   .  // do something
+   .
+endTime = System.nanoTime();
+
+elapsedTimeInSeconds = ( endTime - startTime ) / 1000000000;
+</pre>
+
+<p class=np>Write a program named <i>TypingSpeed</i>
+that lets the user type in a line
+of text and times how long it takes to type it.  Then report
+the time, in seconds, and also report the number of characters
+per second that the user typed.  A run of the program might
+look like this, where the user typed in the second line:</p>
+
+<pre class=code>
+Type a line of text, and press return:
+<b>A man, a plan, a canal. Panama!</b>
+You typed "A man, a plan, a canal. Panama!".
+That's 31 characters, in 8.678162827 seconds,
+so you typed 3.572184645297391 characters per second.
+</pre>
+
+<p class=np>Remember that if you have a <i>String</i> variable, such as <i>line</i>
+for example, then <i>line.length()</i> is a function that tells how many characters
+are contained in the line.</p>
+
+<p>The program can use the function <i>TextIO.getln</i>() to read the user's
+line of input. Remember to put <i>import&nbsp;textio.TextIO;</i> at the start
+of the program!</p>
+
+<p>The name of the class should be <i>TypingSpeed</i>, and therefore the Java file that
+defines the class should be <i>TypingSpeed.java</i>
+
+</div>
+
+
+<div class="section">
+
+<h3>Exercise 3: Using String Manipulation Functions</h3>
+
+<p>We have seen that strings are objects and that they
+come with functions that operate on the string. All the
+functions that you need can be found in
+<a href="http://math.hws.edu/javanotes/c2/s3.html#basics.3.3">Section&nbsp;2.3.3</a>.</p>
+
+<p>
+Write a program named <i>MyName</i> that gets the user's name and then does the calculations
+and shows the outputs specified below.  The program can use <i>TextIO.getln</i>() to read
+the user's name, but the main point of the program is to use some string functions.</p>
+
+<p>The program should ask for the user's full name (first name and last name, separated by a space).
+It should use <code>TextIO.getln()</code>
+to read the answer into a variable of type <i>String</i>.  <b>You should assume that
+the user enters a reasonable response.</b>  (If they don't, the program can
+crash, but that's OK&mdash;it's the user's fault, not yours.)</p>
+
+<p>Once you have the user's name, use string functions to
+do the following computations with the string, and display the results (with
+appropriate labeling):
+</p>
+
+<ul>
+<li>Tell the user how many characters there are in the name.</li>
+<li>Print a copy of the name with all the letters in upper case.  (You only need one String function to do this!)</li>
+<li>Extract the user's first name and last name into two new variables.
+(Find the index of the space character that separates the names, and use the substring functions
+to get the two pieces of the string.  We did an example like this in class.)
+Output the user's first name and last name on separate lines.</li>
+<li>Output the user's initials (the first letter of the first name and the first
+letter of the last name). The first letter of the last name is just the character that
+follows the space in the input string.</li>
+</ul>
+
+<p class=np>When the user runs the program, it should work more or less as follows,
+where the user in this example types in their name as "James Kirk":</p>
+
+<pre class=code>
+Hi!  Please tell me your name.
+Type in your first name and last name, separated by a space:  <u>James Kirk</u>
+
+Your full name contains 10 characters
+Your name in uppercase letters is JAMES KIRK
+Your first name is James
+Your last name is Kirk
+Your initials are JK
+</pre>
+
+<p class=np>Feel free to modify the format, but you should at least output the
+required information.</p>
+
+<p>The name of the class should be <i>MyName</i>, and therefore the Java file that
+defines the class should be <i>MyName.java</i>
+
+</div>
+<div class="section">
+
+
+<div class="section">
+
+<h3>Exercise 4 Introduction to JavaFX Graphics</h3>
+
+<p>In the last part of the lab, you will get your first taste of
+GUI programming.  At this point in the course, the only thing that you know how to do is
+to write a "once-through" list
+of instructions that is executed from beginning to end &mdash; but you can 
+do anything with those instructions, as long
+as you have access to the right subroutines. In this part of the lab,
+you will use some drawing subroutines that are part of the "GUI toolkit" named
+<i>JavaFX</i>.</p>
+
+<p>JavaFX is not really a standard part of Java, and compiling and running JavaFX programs
+requires modifications to the <i>javac</i> and <i>java</i> commands.  On our Linux system,
+I have defined two new commands that include those modifications.  <b>For compiling
+FirstGraphics.java, use the command <i>jfxc</i> instead of <i>javac</i>, and for
+running the program, use <i>jfx</i> instead of <i>java</i>.</b>  So, the two-step
+process for compiling and running will be</p>
+
+<pre class=code>
+  jfxc  FirstGraphics.java
+  jfx  FirstGraphics
+</pre>
+
+<p>There is a lot about GUI programming that you won't understand for
+a while, such as how to open windows and respond to the user's actions.
+But as far as actually drawing on the screen, it all comes down to a
+bunch of subroutines for drawing basic geometric shapes.  The
+program <i><a href="FirstGraphics.java">FirstGraphics.java</a></i> has a very simple example of this.
+Your job for this exercise is to replace the drawing commands in that program with
+commands that will draw a picture of your own design.
+</p>
+
+<p>The code that draws the picture is inside a subroutine definition named <i>drawPicture</i>,
+which looks like this:</p>
+
+<pre class=code>
+public void drawPicture(GraphicsContext g) {
+   .
+   .  // commands for drawing the picture
+   .
+}
+</pre>
+
+<p class=np>You should ignore everything outside that definition, since you won't understand
+it at this point.  However, what you need to do inside that definition is simply write
+a list of commands for the computer to execute when the program is run, which is
+nothing new for you!</p>
+
+<p>Drawing uses (<i>x</i>,<i>y</i>) <b>coordinates</b>, where <i>x</i> goes from zero on
+the left to some maximum value at the right, and <i>y</i> goes from zero at the top to some
+maximum value at the bottom.  The coordinates can be real numbers,
+though in practice for this lab, you will probably use integer values for the coordinates.
+The maximum values for <i>x</i> and <i>y</i> in <i>FirstGraphics.java</i> are 800 and 600.
+(You can probably see how to change those values if you look through the code
+outside the <i>drawPicture()</i> subroutine.) The following illustration shows the picture
+that is drawn when <code>FirstGraphics</code> is run.  The picture is in
+the white area.  The numbers and arrows show how the coordinates work.
+Of course, you can compile and run the program to see the picture at
+full size.</p>
+
+<p align=center class=np><img src="graphics.png" width="468" height="365"></p>
+
+<p class=np>You should understand how the code in <i>FirstGraphics.java</i> produced this
+picture before you try to make your own picture.</p>
+
+<p><b>For the final exercise of the lab</b>, you should
+modify <code>FirstGraphics.java</code> to draw a different picture.
+Erase the code inside the <code>drawPicture()</code> routine, and
+replace it with your own code.  (To start, you might want to comment out the
+code instead of erasing it, so you will have it around for reference.  Just enclose
+it between <code>/*</code> and <code>*/</code>.  But you should remove the old code before you turn in the program!)</p>
+
+<p>Try to make a picture of some recognizable object, such as
+a house, a boat, a face, a clock, or a snowman.  Maybe use a multicolor background made of two rectangles
+(representing ground and sky).  Add some detail, like a cloud or some
+stars (stars could be asterisks, or maybe just little ovals).  At a minimum, your picture should use <b>at least a dozen commands</b> and
+<b>several different colors</b>, and you should draw <b>at least one String</b>.  
+Grade will be based partly on
+ambition and execution&mdash;and maybe a little bit on artistic merit, though
+I'm not really the one to judge that.  (But I don't expect you to spend a huge
+amount of time on this.  Some people in past classes may have gone a little
+overboard on similar exercises.)</p>
+
+<p>The following subroutines are available for you to use in the
+<code>drawPicture()</code> routine:</p>
+
+<ul>
+
+<li>
+<span class="codedef">g.setFill(c)</span> is called to set the
+color to be used for filling shapes. The parameter, <code>c</code> is an object
+belonging to a class named <i>Color</i>.  For example, if you want to fill shapes with red,
+you would say "<code>g.setFill(Color.RED);</code>" <b>before</b> drawing those
+shapes. The specified color is
+used for all subsequent fill operations up until the next time <code>g.setFill()</code> is
+called.  Note that previously drawn shapes are <b>not</b> affected!</li>
+
+<li>
+<span class="codedef">g.setStroke(c)</span> is called to set the color to be used
+for stroking shapes. It works similarly to <code>g.setFill(c)</code>.</li>
+
+<li>
+<span class="codedef">g.setLineWidth(w)</span> sets the size of the pen that will be used
+for subsequent stroke operations, where <code>w</code> is measured in pixels.</li>
+
+<li>
+<span class="codedef">g.strokeLine(x1,y1,x2,y2)</span> draws a line from the point with
+coordinates <code>(x1,y1)</code> to the point with coordinates <code>(x2,y2)</code>.
+The width of the line is 1, unless a different line width has been set by calling
+<code>g.setLineWidth()</code>, and the color is black unless a different color has
+been set by calling <code>g.setStroke()</code>.</li>
+
+<li>
+<span class="codedef">g.strokeRect(x,y,w,h)</span> draws the outline
+of a rectangle with vertical and horizontal sides.
+This subroutine draws the outline of the rectangle whose
+top-left corner is <code>x</code> pixels from the left edge of the drawing area and
+<code>y</code> pixels down from the top. The horizontal width of the rectangle
+is <code>w</code> pixels, and the vertical height is <code>h</code> pixels.  Color
+and line width can be set by calling <code>g.setStroke()</code> and <code>g.setLineWidth()</code>
+any time before the rectangle is stroked.</li>
+
+<li>
+<span class="codedef">g.fillRect(x,y,w,h)</span> is similar to
+<code>g.strokeRect()</code> except that it fills in the inside of the rectangle instead
+of drawing an outline, and it uses the color set by <code>g.setFill()</code>.</li>
+
+<li>
+<span class="codedef">g.strokeOval(x,y,w,h)</span> draws the outline
+of an oval.  The oval just fits inside the rectangle that would be drawn by
+<code>g.strokeRect(x,y,w,h)</code>.  To get a circle, use the same value for both <code>w</code>
+and for <code>h</code>.</li>
+
+<li>
+<span class="codedef">g.fillOval(x,y,w,h)</span> is similar to
+<code>g.strokeOval()</code> except that it fills in the inside of the oval instead
+of drawing an outline.</li>
+
+<li>
+<span class="codedef">g.setFont( Font.font(N) )</span> sets the size of the font that
+will be used in subsequent calls to <code>g.fillText()</code> and <code>g.strokeText()</code>.
+Replace the "N" with the size that you want. (<code>N</code>&nbsp;is about
+the height of an upper case letter, in pixels.) The <code>setFont</code> method is
+actually more general than this, but this is the only way that we will use it for
+now.</li>
+
+<li>
+<span class="codedef">g.fillText(str,x,y)</span> draws the string <i>str</i> with its lower
+left corner at the point with coordinates (x,y).</li>
+
+<li>
+<span class="codedef">g.strokeText(str,x,y)</span> draws just the outlines of the characters in
+<i>str</i> with its lower left corner at the point with coordinates (x,y).  This is only 
+really useful if the font is fairly large.</li>
+
+</ul>
+
+<p>There are many predefined colors for use as the "c" value in <code>g.setFill(c)</code> 
+and <code>g.setStroke(c)</code>, including
+<code>Color.BLACK</code>, <code>Color.GRAY</code>, 
+<code>Color.RED</code>,  <code>Color.GREEN</code>, <code>Color.BLUE</code>, 
+<code>Color.YELLOW</code>,  <code>Color.CYAN</code>, <code>Color.MAGNETA</code>,
+and many fancier colors such as <code>Color.FUCHSIA</code> and <code>Color.HONEYDEW</code>.
+<a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/paint/Color.html"><b>Click&nbsp;this&nbsp;link</b></a>
+for documentation about the <i>Color</i> class, and scroll down just a screen or two for a full list of
+color names that you can use.  You can also use</p>
+
+<pre class=code>
+g.setFill( Color.color( r, g, b ) );
+</pre>
+
+<p class=np>where <i>r</i>, <i>g</i>, and <i>b</i> are real numbers in the range 0.0 to 1.0.
+This uses the fact that a color is made up of a combination of various proportions of red,
+green, and blue.  So, you can make any color in this way, if you know the correct proportions.
+(But see the sample code in <i>FirstGraphics.java</i> for the idea of making a random
+color.)</p>
+
+<p>There are no predefined fonts, but it is easy to specify fonts of different sizes.  For example:</p>
+
+<pre class="code">
+g.setFont( Font.font(15) );   // A smallish font.
+g.setFont( Font.font(36) );   // A rather big font.
+g.setFont( Font.font(72) );   // A huge font.
+</pre>
+
+
+</div>
+
+</div>
+
+</body>
+</html>

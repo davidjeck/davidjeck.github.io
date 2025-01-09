@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<style>
+    img {
+        border: thin solid black
+    }
+</style>
+<title>CS220, Fall 2022, Lab 5</title>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 5: Memory Circuits in Logisim</h2>
+
+<div class="intro">
+
+<p>For this lab, you will work with the Logisim
+program that you used in the <a href="../lab5/index.html">previous&nbsp;lab</a>.
+Last week, you built combinational circuits.
+This week, you will build memory circuits.
+A memory circuit is a kind of sequential circuit, since its output can
+depend on the sequence of past inputs instead of just on the current input.</p>
+
+<p>You will build five circuits:  a D-latch, a D-flip-flop,
+a basic 8-bit register, a four-location RAM, and an 8-bit register that can take its
+input from several different sources.  Logisim already includes similar
+pre-defined circuits, but the point of the lab is to build the circuits
+of yourself, starting from basic logic gates.</p>
+
+<p><b>The lab is due next Thursday as usual.  (But because of the test next Wednesday,
+requests for short extensions will likely be granted.)
+You should create a single file named <i>lab5.circ</i>
+containing the five circuits that you create for this lab.
+To submit your work, copy your <i>lab5.circ</i>
+file into your homework folder in <i style="white-space:pre">/classes/cs220/homework</i>.</b></p>
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Circuit #1:  D-Latch</h3>
+
+<p>We covered D-latches and D-flip-flops in class.  You will start by making a
+D-latch circuit for this exercise.  Start up Logisim and use the "Add&nbsp;Circuit" command from the
+"Project" menu to create a new circuit named "<span style="white-space:pre">D-Latch</span>".</p>
+
+<p><b><span style="color:#AA0000">Warning:</span> The memory circuits that you build for this lab might show
+errors on some of the wires until their Load/Clock inputs are turned on and off to store a value in
+the circuit.  This is normal.</b></p>
+
+<p>Recall that a D-latch 
+has two inputs, <i style="white-space:pre">Data-in</i> and <i>Load</i>.  It
+has one output, <i style="white-space:pre">Data-out</i>.  The operation is
+this:  As long as <i>Load</i> wire is ON, the value of <i style="white-space:pre">Data-out</i>
+is that same as <i style="white-space:pre">Data-in</i>.  When the <i>Load</i> input
+is OFF, <i style="white-space:pre">Data-out</i> cannot change.  Basically,
+the circuit is a 1-bit memory that stores the value that is on the data-in wire at the time that the clock input
+is turned off.  As a memory, its operating rule is: Place the value that you want to save on
+<i style="white-space:pre">Data-out</i>, then turn <i>Load</i> on and off; the stored value is
+then protected as long as <i>Load</i> is off.</p>
+
+<p>A D-Latch can be built from an S-R (or "Set/Reset") latch plus some added circuitry.
+(In an <span style="white-space:pre">S-R</span> latch, turning the Set input
+on and off  stores a 1, and turning Reset on and off stores a zero.)
+Start your circuit with an <span style="white-space:pre">S-R</span> latch, 
+using either of the two designs from class.
+(One design uses two NOR gates.  The other uses an OR gate, an AND gate, and
+a NOT gate.) Recall that the two versions look like this; use the one you like:
+
+
+<p align=center class=np><img src="S-R.png" width="530" height="123"></p>
+
+<p class=np>Add the <i style="white-space:pre">Data-in</i> and <i>Load</i> inputs
+and the <i style="white-space:pre">Data-out</i> output.  (<b>Please add labels to your
+inputs and outputs.</b>)  
+You can then add the extra circuitry that you need for a
+<span style="white-space:pre">D-Latch</span>:  Two AND gates and a NOT gate.  The
+extra circuitry is there to make sure that <i>Set</i> is only turned
+on when both <i style="white-space:pre">Data-in</i> and <i>Load</i> are on.
+And <i>Reset</i> should be on only when <i style="white-space:pre">Data-in</i>
+is off and <i>Load</i> is on.  Be sure to test your circuit to make
+sure that it works correctly.</p>
+
+</div>
+
+
+
+
+<div class="section">
+
+<h3>Circuit #2: D-Flip-Flop</h3>
+
+<p>Use "Add Circuit" to create a second new circuit, named "<span style="white-space:pre">D-flip-flop</span>".
+Like a  <span style="white-space:pre">D-Latch</span>, a
+<span style="white-space:pre">D-flip-flop</span> has a <i style="white-space:pre">Data-in</i>
+and a <i style="white-space:pre">Data-out</i>, but the <i>Load</i> input
+is renamed to be a <i>Clock</i> input, and 
+the output can only change on the falling edge of the
+clock cycle, that is, at the moment that the clock is turned off.
+(The Clock input is meant ultimately to be connected to an actual clock component,
+but for now, it will just be a regular input that you will turn on and off by hand.)
+</p>
+
+<p>The circuit is very simple to build, as we saw in class.
+(Add two copies of your <i>D-latch</i> circuit.  The first latch's output connects
+to the second latch's input.  The <span style="white-space:pre">flip-flop's</span>
+ <i style="white-space:pre">Data-in</i>
+connects to the Data-in of the first latch, while the <span style="white-space:pre">flip-flop's</span>
+<i style="white-space:pre">Data-out</i> connects to the Data-out
+of the second latch.  The <span style="white-space:pre">flip-flop's</span>
+ <i>Clock</i> input connects to the latches' <i>load</i> inputs, directly to one
+of the two latches, and through a NOT gate to the other latch.  Where you put
+the NOT gate determines whether the output changes on the rising clock edge
+or the falling clock edge. For this lab, you want it to change on the falling clock edge.
+Again, test your circuit to make sure that it works!)</p>
+
+</div>
+
+
+
+
+<div class="section">
+
+<h3>Circuit #3: Basic 8-bit Register</h3>
+
+<p>Next, add a new circuit to your project named <i>Register</i>, and construct
+an <span style="white-space:pre">8-bit</span> register.  The register should have an 8-bit
+<i style="white-space:pre">Data-in</i>
+input and an 8-bit <i style="white-space:pre">Data-out</i> output.  It has
+a <b style="white-space:pre">one-bit</b> <i>Clock</i> input that connects to
+all eight registers.  It can be built using 8 <span style="white-space:pre">D-flip-flops</span> 
+and a couple of Splitters.</p>
+
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Circuit #4: Four Location RAM</h3>
+
+<p>For the fourth circuit, add another circuit to the project named <i>RAM</i>.  You should
+build a four-location addressable memory, with each location holding an 8-bit number.  We looked 
+at the basic structure for the circuit in class.</p>
+
+<p>The RAM will contain four copies of your 8-bit Register.  Each register is a location in
+the RAM and has an address: 00, 01, 10, or 11.</p>
+
+<p>There will be: a 2-bit <i>address</i> input that specifies a location;
+an 8-bit <i style="white-space:pre">data-in</i> input, used to specify a value to be stored
+in the selected location; an 8-bit <i style="white-space:pre">data-out</i> output, which shows 
+the value currently stored in the selected location; and a 1-bit <i>clock</i> input.</p>
+
+<p>To store a value, that value has to be on the <i style="white-space:pre">data-in</i> input,
+and the clock input must turned on and off.  The value is stored in the location specified by
+the <i>address</i>.</p>
+
+<p>(I should note that actual RAMs, like the memory in your computer, are built in a 
+more efficient way.)</p>
+
+<div class="section">
+
+<h3>Circuit #5: Multi-input Register</h3>
+
+<p>A register in a CPU can often take its input from several different
+sources, depending on the instruction that is being executed.  For that
+to be possible, of course, there must be "select" control wires that specify
+which of the inputs is actually stored into the register.  The source
+of the input can be selected using a multiplexer.   All the possible 
+inputs are inputs to the multiplexer, and the output of the multiplexer is
+the selected input for the register. 
+(An alternative to using a multiplexer would be to design your own
+control circuitry, which might be more efficient in this case; however,
+I suggest using a standard Logisim multiplexer component.)</p>
+
+<p>You can build your multi-input register as the "main" circuit of
+the file that you are creating.  (Double-click "main" to open that
+circuit for editing.)</p>
+
+<p>Add a copy of your 8-bit register to the circuit, to use as a basis for
+the new circuit.  The register will have four possible sources of input.
+To control the input to the register, you can use a standard 
+Logisim multiplexer component, with its "Data Bits" set to 8 and its 
+"Select Bits" set to&nbsp;2.</p>
+
+<p>The circuit will have an eight bit <i>Data-in</i> input, an eight bit 
+<i style="white-space:pre">Data-out</i> output showing the current value
+stored in the register, a two bit <i style="white-space:pre">Select</i>
+input to select the source of input to the register, and a
+<i>Clock</i> input connected to the Clock input of the register.</p>
+
+<p>When the Clock input is turned on and off, a new value is stored in the
+register on the falling edge of the clock.  There are four possible
+sources for the new value.  Which value is stored depends on the value 
+of the Select input, which can be 00, 01, 10, or 11.  Here is how the
+value stored in the register should correspond to the Select value:
+</p>
+
+<ul>
+<li><b>00</b> &mdash; The new value comes from the <i>Data-in</i> input.</li>
+<li><b>01</b> &mdash; The new value is zero; the value can come from a Logisim Constant component set equal to zero.</li>
+<li><b>10</b> &mdash; The new value is the current value plus 1; the value can be computed using
+a Logisim Adder component and a Constant component with its value set equal to&nbsp;one.</li>
+<li><b>11</b> &mdash; The new value is the current value shifted right one bit position, with a zero to 
+fill in the vacated spot on the left; the value can be computed using a couple of Splitters and a Constant
+set equal to zero.</li>
+</ul>
+
+<p class=np>As always, be sure to test your circuit!</p>
+
+
+</div>
+
+</div>
+
+</body>
+</html>

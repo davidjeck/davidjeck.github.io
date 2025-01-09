@@ -1,0 +1,53 @@
+.nw {
+   color: #008080;
+   font-weight: bold;
+}
+h1, h2, h3 {
+    color: #008080;
+}
+h1 {
+    text-align:center;
+}
+p {
+    text-indent: 25pt;
+    line-height: 1.5;
+}
+p.np {
+    text-indent: 0;
+}
+div.def, div.thm, div.prf {
+    margin-left: 20pt;
+    padding-left: 10pt;
+    border-left: 1pt solid #AA0000;
+}
+div.def p:first-child, div.thm p:first-child, div.prf p:first-child {
+    text-indent: 0;
+}
+span.dtp {
+    font-weight:bold;
+    color: #AA0000;
+}
+h3.exercise {
+    color: #006600;
+}
+div.exercise p{
+   text-indent: 0;
+}
+span.exercise {
+   font-weight: bold;
+   color: #006600;
+}
+hr.break {
+   width:33%;
+   text-align: center;
+}
+li {
+   margin-top:5pt;
+}
+div.nav {
+   display: none;
+}
+a {
+   color: black;
+   text-decoration: none;
+}

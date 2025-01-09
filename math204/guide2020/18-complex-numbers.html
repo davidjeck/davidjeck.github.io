@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Complex Numbers and Complex Vector Spaces</title>
+</head>
+<body>
+<div id="content">
+
+<h2>18 Complex Numbers and Complex Vector Spaces</h2>
+<hr>
+
+<p>So far in this course, we have only looked at vectors spaces "over $\R$,"
+also called "real vector spaces."  In the definition of a vector space over $\R$,
+the scalars are real numbers.  The standard $n$-dimensional vectors space is $\R^n$.
+Linear maps are represented by matrices of real numbers.
+</p>
+
+<p>However, the real numbers are just one example of a "field."  A field
+is a certain kind of algebraic structure.  There are other fields besides
+$\R$, and any field can be used in the definition of vector space in place
+of $\R$.  In particular, we will need to use $\C$, the field of complex numbers,
+and vectors spaces over $\C$.  The definition of field pretty much just
+says that addition and multiplication in the field have all the familiar
+properties of addition and multiplication of real numbers.</p>
+
+<div class=def><p><span class=dtp>Definition:</span>
+A <span class=nw>field</span>, $\def\F{{\mathbb F}} (\F,+,\cdot)$, consists
+of a set $\F$ and two binary operators, $+$ and $\cdot$, on $\F$ satisfying
+<ol>
+<li>Closure under addition: for all $a,b\in\F$, $a+b\in\F$.</li>
+<li>Addition is commutative: for all $a,b\in\F$, $a+b = b+a$.</li>
+<li>Addition is associative: for all $a,b\in\F$, $a+(b+c) = (a+b)+c$.</li>
+<li>Additive identity: there exists $0\in\F$ such that $0\cdot a = 0$ for all $a\in\F$.</li>
+<li>Additive inverses: for every $a\in\F$, there exists $-a\in\F$ such that $a+(-a)=0$.</li>
+<li>Closure under multiplication: for all $a,b\in\F$, $a\cdot b\in\F$.</li>
+<li>Multiplication is commutative: for all $a,b\in\F$, $a\cdot b = b\cdot a$.</li>
+<li>Multiplication is associative: for all $a,b\in\F$, $a\cdot (b\cdot c) = (a\cdot b)\cdot c$.</li>
+<li>Multiplicative identity: there exists $1\in\F$ such that $1\cdot a = a$ for all $a\in\F$.</li>
+<li>Multiplicative inverses: for any $a\in\F$, if $a\ne0$, there exists $a^{-1}\in\F$ such that $a\cdot a^{-1}=1$.</li>
+<li>Multiplication distributes over addition:  for all $a,b,c\in\F$, $c\cdot(a+b) = (c\cdot a) + (c\cdot b)$.
+<li>$1\ne 0$.
+</ol>
+</div>
+
+<p>The set $\Q$ of rational numbers is a field that is a subset of $\R$.  $\Q$ is a <span class=nw>subfield</span>
+of $\R$ becasue it uses the addition and multiplication operations that it inherits from $\R$.
+$\R$ actually has many other subfields, such as $\{a+b\sqrt{2}\,|\,a,b\in\Q\}$.
+There are even finite fields.  For example the set $\Z_p=\{0,1,2,\dots,p-1\}$, where $p$ is any prime
+number, becomes a field if addition and multiplication are defined "mod&nbsp;p".  (This just means that in $\Z_p$,
+$a$ plus $b$ means the remainder when the usual $a+b$ is divided by $p$, and similarly for $a$ times $b$.)
+However, the only field that we will actually use is the field of complex numbers.</p>
+
+<p>A <span class=nw>complex number</span> can be written in the form $a+bi$ where $a$ and $b$ are real numbers
+and $i$ is used to represent the constant $\sqrt{-1}$.  A real number $a$ is also a complex number since
+it can be written in the form $a+0\cdot i$.  So $\R$ is a subset of $\C$.  But to make $\C$ into a field,
+we have to define addition and multiplication of complex numbers.  This is done as follows:
+$$\begin{align*}
+   (a+bi) + (c+di) &= (a+b)+(c+d)i\\[6pt]
+   (a+bi)\cdot(c+di) &= ac + adi + bci + bdi^2\\
+      &= ac + adi + bci - bd\\
+      &= (ac - bd) + (ad+bc)i
+\end{align*}$$
+It can be shown that with these definitions, $(\C,+,\cdot)$ is a field.  The multiplicative
+inverse of a non-zero complex number $a+bi$ is given by $\frac{1}{a+bi} =
+\frac{a}{a^2+b^2} - \frac{b}{a^2+b^2}i$.  More generally, we can compute a quotient
+as $$
+\frac{a+bi}{c+di} = \frac{a+bi}{c+di}\cdot\frac{c-di}{c-di}
+   = \frac{(a+bi)(c-di)}{c^2+d^2} = \frac{ac+bd}{c^2+d^2} + \frac{ad-bc}{c^2+d^2}i
+$$
+</p>
+
+<p>The complex number $a+bi$ can be visualized as the point $(a,b)$ in the plane.
+The <span class=nw>complex plane</span> consists of all the complex numbers, visualized
+in this way.  The horizontal axis of the plane represents the real numbers and
+is called the real axis.  The vertical axis consists of all multiples of $i$ and
+is called the imaginary axis.  Note that this identifies $\C$ with $\R^2$, and in fact
+$\C$ can be considered to be a real vector space of dimension two, with
+scalar multiplication $r\cdot(a+bi) = ra + rbi$ for $r\in\R$.</p>
+
+<p>If $z=a+bi$ is a complex number, then the <span class=nw>norm</span> (or length or 
+absolute value) of $z$ is defined to be $|z| = |a+bi| = \sqrt{a^2+b^2}$.  Note that
+the norm is a non-negative real number.  The <span class=nw>conjugate</span> of $z$
+is defined to be $\overline{z} = \overline{a+bi} = a-bi$.
+Note that $z\in\R$ if and only if $z=\overline{z}$.  Also,
+$|z|^2 = z\cdot\overline{z}$.</p>
+
+<p>Recall that it is possible for a polynomial $p(x)$ of degree two or higher, 
+with real coefficients, to have no roots.  That is, the equation $p(x)=0$ might
+have no solutions.  The simplest example is $p(x)=x^2+1$.  There is no real
+number $x$ such that $x^2+1=0$.  However, the complex numbers $i$ and $-i$ are
+complex roots of this equation.  Note that $x^2+1$ cannot be factored if we
+only have real numbers to work with. We say that $x^2+1$ is "irreducible over
+the real numbers."  But if we are using complex numbers,
+we can factor $x^2+1=(x-i)(x+i)$.  One of the most important and surprising 
+facts about complex numbers &mdash; and the main reason why we need them 
+in this course &mdash; is the following theorem:</p>
+
+<div class=thm><p><span class=dtp>Fundamental Theorem of Algebra:</span>
+Any non-constant polynomial with complex coefficients has a root in the
+complex numbers.  Any complex polynomial of degree $n>0$ factors
+into a product of $n$ linear factors.</p></div>
+
+<hr class=break>
+
+<p>To define vector spaces over a field $\F$, we can use exactly the same
+definition as for vector spaces over $\R$, except that scalars are elements
+of $\F$ instead of elements of $\R$.  We will only be interested in
+vector spaces over $\C$, which are also called <span class=nw>complex vector spaces</span>.
+Almost everything that we did with real vector spaces could have been done
+with complex vector spaces.  The only exception is things involving inner
+product (including length, orthogonality, and angles), which has to
+be defined differently for complex column vectors).
+</p>
+
+<p>Thus, we define column vectors, row vectors, matrices, row operations, echelon form, 
+linear combinations, matrices, matrix multiplication, homomorphisms, and determinants
+using complex numbers instead of real numbers.</p>
+
+<p>The standard $n$-dimensional vector space is $\C^n$, the vector space of
+column vectors where the entries can be complex numbers.  The standard
+basis for $\C^n$ is the same as the standard basis for $\R^n$, $E_n=\langle
+\vec e_1,\vec e_2,\dots,\vec e_n\rangle$.  Any $n$-dimensional
+complex vector space is isomorphic to $\C^n$.  We can redefine
+$\mathscr P_n$ to be the complex vector space of polynomials with
+complex coefficients and degree less than or equal to $n$, and we
+then have that $\mathscr P_n$ is isomorphic to $\C^{n+1}$.
+Similarly, $M_{m\times n}$ now represents $m\times n$ matrices with
+complex entries, a complex vector space of dimension $mn$.
+Any $m\times n$ matrix $A$ of complex numbers defines a homomorphism
+from $\C^n$ to $\C^m$ by sending $\vec v$ to $A\vec v$.</p>
+
+<p>Note that the determinant of an $n\times n$ complex matrix
+will be a complex number.  It is still true that the determinant
+is zero if and only if the matrix is singular.</p>
+
+<p>In short, nothing much changes except that multiplication
+and division become harder.  The reason for making the change
+from real to complex vector spaces will become clear as we
+study eigenvalues and eigenvectors.</p>
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.5 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9.5 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+%\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}\noindent\textbf{Answer:}\par\medskip}{\egroup\medskip}
+\newenvironment{answer}{\par\medskip\bgroup\color{darkblue}}{\egroup\medskip}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\medskip}
+\newenvironment{secondans}{\par\medskip\bgroup\color{darkgreen}}{\egroup\medskip}
+\newcommand{\grd}[1]{{\color{darkred}#1}}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\hbox to \hsize{\textbf{Math 331, Fall 2022\hfill Homework 6}}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due on Monday, October 17.}}
+
+\bigskip
+
+\def\ds{\displaystyle}
+
+\begin{problem} % problem 1
+Let $(M,d)$ be a metric space, and let $f\colon M\to \R$ and
+$g\colon M\to \R$ be two functions from $M$ to $\R$ (where $\R$ has
+its usual metric).  Let $a\in M$.  Suppose $f$ and $g$ are
+continuous at $a$.  Show that the function $f+g$ is continuous
+at $a,$ where $(f+g)(x) = f(x) + g(x)$ for $x\in M.$
+[Hint: Just imitate the proof for functions from $\R$ to $\R.$]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+\begin{problem}  % problem 2
+Let $X$ be any set. Consider the metric space $(X,\delta)$ where $\delta$ is the
+discrete metric, $\delta\colon X\times X\to \R$ by $\delta(a,b) = 
+\begin{cases} 0&\text{if }a=b\\ 1&\text{if }a\not=b\end{cases}$.
+Suppose that $\{x_i\}_{i=1}^\infty$ is a \textbf{convergent} sequence in the
+metric space $(X,\delta).$  Show that there is a number $N$ such
+that $x_N=x_{N+1}=x_{N+2}=\cdots$.  (We say that the sequence is
+``eventually constant.'') [Hint: The number is the limit of the sequence.]
+
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+\begin{problem}  % problem 3
+Let $(M,d)$ be a metric space and let $X\subseteq M$. The closure, $\overline{X}$ of $X$ can be
+defined as the set containing all the points of $X$ plus all the accumulation
+points of $X$.  Show that the
+closure of $X$ can be characterized as follows:  For $z\in M,$ $z \in \overline{X}$ if and only if there is a
+sequence $\{x_n\}_{n=1}^\infty$ of points of $X$ such that $\displaystyle \lim_{n\to\infty}x_n = z.$
+[Hint: Treat separately the cases where $z\in X$ and where $z$ is an accumulation
+point of $X.$]
+\end{problem}
+
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+\begin{problem}  % problem 4
+[From textbook problem 3.1.3a]
+Even though $|x|$ is not differentiable at 0, show that the function $g(x)=\frac{1}{2}x|x|$ is
+differentiable at~0, and show that $g'(x)=|x|$ for all $x$.  (Thus, $|x|$ has antiderivative
+$\frac{1}{2}x|x|$.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+\begin{problem}  % problem 5
+[Textbook problem 3.3.10]
+A \textbf{fixed point} of a function is a point $d$ such that $f(d)=d$.  Suppose that
+$f$ is differentiable everywhere and that $f'(x)<1$ for all $x$.  Show that there can
+be at most one fixed point for $f$. [Hint:  Suppose that $a$ and $b$ are two fixed points of $f$.
+Apply the Mean Value Theorem to obtain a contradiction.]
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+\begin{problem} % problem 6
+[From textbook problem 3.3.2]
+Recall that $f$ satisfies a Lipschitz condition if there is a constant $M$ such that
+$|f(b)-f(a)|\le M|b-a|$ for all $a,b$.  Problem \#9 on Homework \#4 proved that
+any function that satisfies a Libschitz condition is uniformly continuous.
+Let $f$ be a function that is differentiable on some interval I (not necessarily bouned or closed),
+and suppose $f'(x)\le M$ for all $x$, where $M$ is some constant.  Use the 
+Mean Value Theorem to prove that $|f(b)-f(a)|\le M|a-b|$ for all $a,b$.
+Conclude that $f$ is uniformly continuous.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here, 3 points
+\end{answer}
+
+
+
+
+
+\end{document}

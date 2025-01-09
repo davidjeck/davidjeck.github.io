@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Taylor Polynomials</title>
+</head>
+<body>
+<div id="content">
+
+<h2>Taylor Polynomials</h2>
+<hr>
+
+<p>The definition of limit, $f'(a)=\ds\lim_{x\to a}\frac{f(x)-f(a)}{x-a}$ can
+be thought of, informally, as saying that for $x$ near $a$.
+$\ds\frac{f(x)-f(a)}{x-a}$ is approximately equal to $f'(x)$.
+That is, $f(x)\approx f(a) + f'(a)(x-a)$.  Of course,
+$y=f(a)+f'(a)(x-a)$ is the equation of a line through the point $(a,f(a))$
+with slope $f'(a)$, so this is the tangent line approximation.  The tangent line
+at $a$ is the best <i>linear</i> approximation to the function $y=f(x)$
+near $a$.  We can try to get a better approximation for $f$ near $a$ by
+using higher degree polynomials.</p>
+
+<p>Suppose that $f(x)$ is $n$ times differentiable at $a$.  That is, $f(a)$,
+$f'(a), f''(a), \dots, f^{(n)}(a)$ all exist.  We can look for
+a polynomial $p(x)$ of degree $n$ whose values for the first $n$ derivatives
+at $a$ are the sames as the values for the derivatives of $f(x)$ at $a$.  
+There is only one polynomial that works.  To see this, we need to write
+$p(x)$ as a polynomial in powers of $(x-a)$.  If we write
+$p(x)=c_0 + c_1(x-a) + c_2(x-a)^2 + \cdots + c_n(x-a)^n$, then we have
+$$\begin{align*}
+   p(x) & = c_0 + c_1(x-a) + c_2(x-a)^2   +\cdots + c_n(x-a)^n   & p(a) &= c_0\\
+   p'(x) & = c_1 + 2c_2(x-a) + 3c_3(x-a)^2  + \cdots + nc_n(x-a)^{n-1}    & p'(a) &= c_1\\
+   p''(x) & = 2c_2 + 3\cdot2c_3(x-a) + 4\cdot3(x-a)^2\cdots + n(n-1)c_n(x-a)^{n-2} & p''(a) &= 2c_2\\
+   p'''(x) & = 3\cdot2c_3 + 4\cdot3\cdot2(x-a) + \cdots + n(n-1)(n-2)c_n(x-a)^{n-3} & p'''(a) &= 3\cdot2c_3\\
+   p^{(4)}(x) & = 4\cdot3\cdot2(x-a) + \cdots + n(n-1)(n-2)(n-3)c_n(x-a)^{n-4} & p^{(4)}(a) &= 4\cdot3\cdot2c_4\\
+     &\vdots & &\vdots\\
+   p^{(n)}(x) & = n(n-1)(n-2)(n-3)\cdots2\cdot1\cdot c_n & p^{(n)}(a) &= n!\cdot c_n\\
+\end{align*}$$
+We can write the general case as $p^{(k)}(a) = k!\cdot c_k$.  So if we want $p^{(k)}(a) = f^{(k)}(a)$
+for $k=0,1,\dots,n$, then we must have $k!\cdot c_k = f^{(k)}(a)$, that is, $\ds c_k = \frac{f^{(k)}(a)}{k!}$.
+</p>
+
+<div class=def><p><span class=dtp>Definition:</span></p>
+Let $n\in\N$ and let $f(x)$ be a function that has derivatives up to order $n$ at $x=a$.
+Then the <span class=nw>Taylor Polynomial for $f$ of degree $n$ at $a$</span> is defined to be
+the polynomial $$\begin{align*}
+p_{n,a}(x) &= \sum_{k=0}^n\frac{f^{(k)}(a)}{k!}(x-a)^k\\
+  &= f(a) + f'(a)(x-a) + \frac{f''(a)}{2}(x-a)^2 + \cdots + \frac{f^{(n)}(a)}{n!}(x-a)^n
+\end{align*}$$ </p></div>
+
+<p>We expect that a Taylor polynomial $p_{n,a}(x)$ for $f$ can be used as an approximation for $f(x)$
+when $x$ is near $a$.  But the question has to be how good the approximation is.  That is, we want
+to put some bound on the error in the approximation.  We can define a <span class=nw>remainder term</span>,
+$r_{n,a}(x)$ that represents the error.  The remainder is the difference between $p_{n,a}(x)$
+and $f(x)$.  So we have
+$$\begin{align*}
+f(x) &= p_{n,a}(x) + r_{n,a}(x)\\ 
+  &= \left(\sum_{k=0}^n\frac{f^{(k)}(a)}{k!}(x-a)^k\right) + r_{n,a}(x)\\
+  &= f(a) + f'(a)(x-a) + \frac{f''(a)}{2}(x-a)^2 + \cdots + \frac{f^{(n)}(a)}{n!}(x-a)^n + r_{n,a}(x)
+\end{align*}$$</p>
+Taylor's Theorem gives a formula for the remainder, with the assumption that $f$ has
+a continuous derivative of order $(n+1)$ on an interval containing $a$.  The formula
+for $r_{n,a}(x)$ in this theorem is called the <span class=nw>integral form of the remainder</span>.</p>
+
+<div class=thm><p><span class="dtp">Theorem (Taylor's Theorem with Remainder):</span>
+Suppose that $f$ has a continuous derivative of order $(n+1)$ on an open interval that
+contains $a$.  Then for any $x$ in that interval, the remainder term $r_{n,a}(x) = f(x)-p_{n,a}(x)$
+is given by $$r_{n,a}(x) = \int_a^x \frac{f^{(n+1)}(t)}{n!}(x-t)^n\,dt$$
+</p></div>
+
+<p>An interesting case is when it can be shown that the remainder term approaches zero as $n$
+approaches infinity.  In that case, we will be able to write $f(x)$ near $a$ as an infinite series
+in powers of $x-a$.  That series will be called the Taylor series for $f$ at $a$.  Taylor series
+will be covered in Chapter 4.</p>
+
+<p>There are two other ways to write the remainder in Taylor's Theorem, still assuming that
+$f$ has a continuous derivative of order $(n+1)$. The <span class=nw>Cauchy form of the remainder</span>
+says that
+$$r_{n,a}(x) = \frac{f^{(n+1)}(\xi)}{n!}(x-t)^n(x-a)\mbox{, for some $\xi$ between $x$ and $a$}$$
+while the <span class=nw>Lagrange form of the remainder</span> says
+$$r_{n,a}(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!}(x-a)^{n+1}\mbox{, for some $\xi$ between $x$ and $a$}$$
+</p>
+
+<p>(Note, by the way, that if $f$ has a continuous $(n+1)^{\rm st}$ derivative on some interval,
+then all of the derivatives of order less than $n$ must exist and be continuous on that interval.
+We say that $f$ is ``$n$ times continuously differentiable'' on the interval.)</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

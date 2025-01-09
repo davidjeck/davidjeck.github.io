@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>CPSC 229, Foundations of Computation, Spring 2021</title>
+</head>
+
+<style type="text/css" media="screen">
+   body, html {
+      margin: 0;
+      background-color: #999999;
+   }
+   #content { 
+     margin: 0 auto;
+     padding: 8px;
+     max-width: 800px;
+     font-family: serif;
+     background-color: #F4F4F4;
+     border-left: 2px solid black;
+     border-right: 2px solid black;
+   }
+   h2, h3 {
+      color: #000099;
+      font-family: sans-serif;
+   }
+   h2 {
+     padding-bottom: 5px;
+   }
+   h3 {
+   }
+   p {
+      margin-left: 0.5cm;
+   }
+   li {
+      margin-bottom: 7px;
+   }
+   ul  b {
+      color: #000099;
+   }
+   hr {
+      margin-top: 25px;
+      margin-bottom: 25px;
+   }
+</style>
+
+<style type="text/css" media="print">
+   body {
+      font-family: serif;
+   }
+   h2, h3 {
+      font-family: sans-serif;
+   }
+   h3 {
+     padding: 3px 3px 3px 10px;
+     margin-top: 1cm;
+     border: thin solid black;
+     border-radius: 12px
+   }
+   a {
+      text-decoration: none;
+      color: black;
+   }
+</style>
+
+
+<body bgcolor="#FFFFFF">
+
+<div id="content">
+
+	<table align=center cellpadding=8 bgcolor=white border=2><tr><td align=center><b>This course ended<br>on May 5, 2021</b></td></tr></table>
+
+<h2>CPSC 229: Foundations of Computation</h2>
+
+<pre>           <a href="http://math.hws.edu">Department of Mathematics and Computer Science</a>
+           <a href="http://www.hws.edu">Hobart and William Smith Colleges</a>
+
+           Spring 2021.
+
+           Instructor:  <a href="http://math.hws.edu/eck/">David J. Eck</A>&nbsp; (<a href="mailto:eck@hws.edu">eck@hws.edu</a>)
+           
+           Syllabus:  <a href="http://math.hws.edu/eck/courses/cpsc229_s21.html">http://math.hws.edu/eck/courses/cpsc229_s21.html</a>
+           
+           Textbook PDF:  <a href="s21/FoundationsOfComputation.pdf">Foundations of Computation</a>, by Carol Critchlow and David Eck
+           
+           Monday, Wednesday, Friday, 12:10&ndash;1:10 PM
+                Room Coxe 8.
+
+</pre>
+
+
+<hr>
+
+<table border=1 cellpadding=4 cellspacing=0 bgcolor=white align=center style="margin-top:25px">
+ <tr><td colspan=4 bgcolor="#D8D8FF" align=center><b>Homework and Answers to Tests</b></td></tr>
+ <tr>
+     <td width="25%" align=center><a href="s21/hw1.pdf">Homework 1</a><br>Due February 3<br><a href="s21/hw1-answers.pdf">Answers</a></td>
+     <td width="25%" align=center><a href="s21/hw2.pdf">Homework 2</a><br>Due February 10<br><a href="s21/hw2-answers.pdf">Answers</a></td>
+     <td width="25%" align=center><a href="s21/hw3.pdf">Homework 3</a><br>Due February 17<br><a href="s21/hw3-answers.pdf">Answers</a></td>
+     <td width="25%" align=center><a href="s21/hw4.pdf">Homework 4</a><br>Due February 24<br><a href="s21/hw4-answers.pdf">Answers</a></td>
+</tr>
+<tr>
+     <td align=center><a href="s21/hw5.pdf">Homework 5</a><br>Due March 3<br><a href="s21/hw5-answers.pdf">Answers</a></td>
+     <td align=center><a href="s21/test1-answers.pdf">Sample Answers<br>for First Test</a></td>
+     <td align=center><a href="s21/hw6.pdf">Homework 6</a><br>Due March 17<br><a href="s21/hw6-answers.pdf">Answers</a></td>
+     <td align=center><a href="s21/hw7.pdf">Homework 7</a><br>Due March 24<br><a href="s21/hw7-answers.pdf">Answers</a></td>
+</tr>
+<tr>
+     <td align=center><a href="s21/hw8.pdf">Homework 8</a><br>Due March 31<br><a href="s21/hw8-answers.pdf">Answers</a></td>
+     <td align=center><a href="s21/hw9.pdf">Homework 9</a><br>Due April 12<br><a href="s21/hw9-answers.pdf">Answers</a></td>
+     <td align=center><a href="s21/test2-answers.pdf">Sample Answers<br>for Second Test</a></td>
+     <td align=center><a href="s21/hw10.pdf">Homework 10</a><br>Due May 1<br><a href="s21/hw10-answers.pdf">Answers</a></td>
+</tr>
+</table>
+
+
+<hr>
+
+<h3>Final Exam:  Wednesday, May 5</h3>
+
+<p>The final exam for this course takes place at 1:30 on Wednesday, May 5.  A study guide is available:<p>
+
+<p style="text-align:center"><a href="s21/finalinfo.pdf">Final Exam Study Guide</a></p>
+
+<hr>
+
+<h3>Fourteenth Week: April 26, 28, and 30</h3>
+
+<p>The reading for the last week of the semester is Sections 5.2 and 5.3, which cover general questions
+of computability, including The Church-Turing Thesis and the unsolvability of the Halting Problem.</p>
+
+<p><a href="s21/hw10.pdf">Homework 10</a> is due by noon on Saturday, May 1 and will not be accepted late.</p>
+
+<hr>
+
+
+<h3>Thirteenth Week: April 19, 21, and 23</h3>
+
+<p>We started looking at general grammars, Section 4.6, last Friday.  We will continue with
+general grammars on Monday.  After that, we will be moving on to Turing machines, Section&nbsp;5.1.</p>
+
+
+<hr>
+
+
+<h3>Twelfth Week: April 12, 14, and 16</h3>
+
+<p>There is test on Wednesday, April 14.  <a href="s21/test2info.pdf">Click here for the study guide</a></p>
+
+<p>We will review for the test on Monday, and will go over some of the problems from the study guide.
+On Friday, we should start Section 4.6, which covers general grammars.</p>
+
+<p><a href="s21/hw9.pdf">Homework&nbsp;9</a> is due on Monday this week.  It can 
+be turned in late until noon on Sunday, April 18, but it would be a good idea to get it done before the test.
+There will be no new assignment this week.</p>
+
+
+<hr>
+
+
+<h3>Eleventh Week: April 5, 7, and 9</h3>
+
+<p>The reading for the week is Sections 4.3 and 4.4, which cover parsing, parse trees, and
+pushdown automata.  We will, however, not cover LR(1) parsing from Section 4.3, and we
+will not be putting much emphasis on pushdown automata.</p>
+
+<p>There is a test next week, on April 14, which will cover Chapter 3 and Sections 4.1 through 4.3.
+<a href="s21/hw9.pdf">Homework&nbsp;9</a> is due on Monday, April 12.  The next homework
+assignment will be available some time after the test.</p>
+
+
+<hr>
+
+
+<h3>Tenth Week: March 29 and 31; April 2</h3>
+
+<p>The reading for the week is Sections 3.7, 4.1, and 4.2, although we probably
+need to continue with 4.2 next week.  Section 3.7 covers the Pumping Lemma for
+Regular Languages, which can be used to prove that certain languages are
+not regular.  Section 4.1 introduces our next category of language, context-free
+languages, which are defined by context-free grammars.  Context-free languages
+can be used to specify the basic syntax of most programming languages (but not
+all common syntax rules).  Section 4.2 covers BNF, a notation equivalent to
+context-free grammars which is often used for programming languages.</p>
+
+<p><a href="s21/hw8.pdf">Homework 8</a> is due as usual by midnight on Wednesday
+for full credit.  However, it can be turned in late until class time on Monday,
+April&nbsp;5, with a 10% penalty.  The next homework assignment will not be
+available until April&nbsp;5 or later.</p>
+
+<hr>
+
+
+<h3>Ninth Week: March 22, 24, and 26</h3>
+
+<p>The reading for the week is Sections 3.5 and 3.6.  We will cover Nondeterministic
+Finite-State Automata and the relationship between finite automata and regular
+languages.  It turns out that regular expressions, DFAs, and NFAs all define 
+the same category of languages.</p>
+
+
+<hr>
+
+
+<h3>Eighth Week: March 15, 17, and 19</h3>
+
+<p>We continue with Chapter 3.  The reading for the week includes Section 3.3, which 
+covers practical regular expressions, and Section 3.4, which introduces DFAs (Deterministic
+Finite-State Automata).  Also included in the reading for the week is a
+<a href="s21/regular-expressions.html">web&nbsp;page</a> about practical regular expressions</a>.
+The new assignment this week will include some computer work with regular expression.</p>
+
+<hr>
+
+
+<h3>Seventh Week: March 6, 8, and 10</h3>
+
+<p>We move on to Chapter 3 this week.  Chapter 3 starts with the general idea of a formal
+language, then covers regular expressions, finite automata, and the relationship between them.
+This is a major turning point in the course; we have finished with the purely mathematical
+part and are beginning that part about theoretical computer science.
+The reading for the week is Sections 3.1 and 3.2.</p>
+
+<p><a href="s21/test1-answers.pdf">Sample answers</a> for the first test are available.</p>
+
+<p>There was no new assignment last week, and no work is due this week.  The last time for
+turning in Homework&nbsp;5 late was noon on Sunday, March&nbsp;7.</p>
+
+
+<hr>
+<h3>Sixth Week: March 1, 3, and 5</h3>
+
+<p>There is a test on Friday, March 5.  A <a href="s21/test1info.pdf">study guide</a>
+is available.</p>
+
+<p>We will cover Section 2.6 this week, which covers counting, infinity, and
+countable and uncountable sets.  However, this material is not on the test.</p>
+
+<p>Homework 5 is due on Wednesday.  Because of the test, there will not be a
+new homework assignment this week.</p>
+
+<hr>
+
+
+<h3>Fifth Week: February 22, 24, and 26</h3>
+
+<p>We will continue with Chapter 2, covering sets and functions.  The reading
+for the week is Sections 2.2, 2.3, and 2.4.  Looking ahead, note that the only other section
+that we will cover from Chapter 2 will be Section 2.6.</p>
+
+
+
+<hr>
+
+
+<h3>Fourth Week: February 15, 17, and 19</h3>
+
+<p>We did not get to Section 1.8 last week, so that section is
+first up on Monday.  It covers a proof technique called mathematical
+induction.  The reading for the week also includes Section 1.9 and
+Section 2.1.  Section 1.9 talks about using induction to prove the
+correctness of recursive algorithms.  Since not everyone in the class
+has worked with recursive programs, this is not something that I will ask you to
+do on homework or tests.  However, we will also look at some other
+examples of proving program correctness.</p>
+
+<p>We will then skip Section 1.10 and move on to Chapter 2, which
+covers sets and functions.  Section 2.1 covers the basics of sets
+and set notation.  Note that we will be skipping large parts of
+this chapter.</p>
+
+<hr>
+
+
+<h3>Third Week: February 8, 10, and 12</h3>
+
+<p>The reading for the week is Sections 1.6, 1.7, and 1.8.
+The topic is mathematical proof, including various proof 
+techniques such as direct proof, counterexample, proof 
+by contradiction, and induction.  At the beginning of the
+week, we still need to spend some time on formal proof (Section 1.5),
+and it is likely that we will still be working on induction (Section 1.8)
+early next week.</p>
+
+<p><a href="s21/hw2.pdf">Homework 2</a> is due by the end of
+the day on Wednesday.  It can be turned in up until noon
+on Saturday, but if it is turned in after midnight on Wednesday
+without a good reason, there will be a 10% lateness penality.</p>
+
+
+<hr>
+
+
+<h3>Second Week: February 1, 3, and 5</h3>
+
+<p>The reading for the week is Sections 1.3, 1.4, and 1.5.
+We have already started 1.3, which covers logic circuits, and we
+will not spend much more time on that.  Section 1.4 covers
+predicate logic, and Section 1.5 covers logical deduction.
+These are important topics that will take some time to cover,
+but hopefully we will get through them by the end of the week.</p>
+
+<p>The <a href="s21/hw1.pdf">first homework</a> is due before
+midnight on Wednesday, but it will be accepted late until Saturday
+morning.  Since this is the first assignment, there will be no
+penalty for turning it in late, but starting with the second
+assignment, there will be a 10% penalty for work turned in
+late, unless there is some good reason for it being late.</p>
+
+
+<hr>
+
+
+<h3>First Week: January 25, 27, and 29</h3>
+
+
+<p>Welcome to the course!</p>
+
+<p>You should download the <a href="s21/FoundationsOfComputation.pdf">PDF of the textbook</a>
+(or read it in your web browser), and start reading Chapter One.  We will cover
+Sections 1.1 and 1.2 from that chapter this week.  These sections introduce
+propositional logic and Boolean algebra.</p>
+
+<p>You should also carefully read the 
+<a href="http://math.hws.edu/eck/courses/cpsc229_s21.html">syllabus</a> for the course!</p>
+
+<p>The PDF version of the textbook is free.
+You will not need a printed copy, but if you would like to have one, you can order a copy from 
+lulu.com at <a href="http://www.lulu.com/shop/david-eck-and-carol-critchlow/foundations-of-computation/paperback/product-15899474.html">this&nbsp;link</a>.</p>
+
+<p>The <a href="s21/hw1.pdf">first homework</a> will be due Wednesday of next week.  You will need to submit
+your solutions in PDF form.  If you do not know how to scan your work to PDF, see 
+<a href="s21/scanning-homework.html">these instructions.</a></p>
+
+
+</div>
+
+</body>
+
+</html>

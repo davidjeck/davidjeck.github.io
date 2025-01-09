@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Math 331, Fall 2022</title>
+<style type="text/css">
+  a { white-space: pre }
+  h2, h3 {
+      color: #990033;
+  }
+  body {
+      background-color: #000066;
+  }
+  #content {
+      max-width: 800px; 
+      background-color: #EEEEFF; 
+      padding: 0.3cm; 
+      border: solid 2pt blue; 
+      margin: 0.3cm auto;
+  }
+   td p {
+      margin: 5pt 0pt 0pt 2pt;
+   }
+</style>
+</head>
+
+<body>
+
+
+
+<div id="content"> 
+
+<table align=center cellpadding=8 bgcolor=white border=2><tr><td align=center><b>This course ended<br>on December 6, 2022</b></td></tr></table>
+
+
+<h2>Math 331: Foundations of Analysis</h2>
+
+<pre>
+       <A HREF="https://math.hws.edu">Department of Mathematics and Computer Science</A>
+       <A HREF="https://www.hws.edu">Hobart and William Smith Colleges</A>
+
+       Fall 2022.
+
+       Instructor:  <A HREF="https://math.hws.edu/eck/index.html">David J. Eck</A>&nbsp; (<a href="mailto:eck@hws.edu">eck@hws.edu</a>)
+
+       Syllabus:  <a href="https://math.hws.edu/eck/courses/math331_f22.html">https://math.hws.edu/eck/courses/math331_f22.html</a>
+
+       Monday, Wednesday, Friday, 9:50&ndash;10:50.
+           Room: Coxe 1.
+        
+       Regular Office Hours, Lansing 313:  Monday, Wednesday, and Thursday 1:30 to 3:00.
+       Usually Available:  Tuesday, 1:00 to 3:30 and in the period after class.
+</pre>
+<hr>
+
+<table border=1 cellpadding=4 cellspacing=0 bgcolor=white align=center style="margin-top:25px">
+ <tr><td colspan=4 bgcolor="#D8D8FF" align=center><b>Homework</b></td></tr>
+ <tr valign=top align=center>
+     <td width="25%"><a href="f22/hw1.pdf"><b>Homework 1</b></a>,<br>Due August 31.
+                      <p><a href="f22/hw1.tex">LaTeX source</a>.
+                      <p><a href="f22/hw1-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw2.pdf"><b>Homework 2</b></a>,<br>Due September 7.
+                      <p><a href="f22/hw2.tex">LaTeX source</a>.
+                      <p><a href="f22/hw2-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw3.pdf"><b>Homework 3</b></a>,<br>Due September 19.
+                      <p><a href="f22/hw3.tex">LaTeX source</a>.
+                      <p><a href="f22/hw3-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw4.pdf"><b>Homework 4</b></a>,<br>Due September 26.
+                      <p><a href="f22/hw4.tex">LaTeX source</a>.
+                      <p><a href="f22/hw4-answers.pdf">Sample answers.</a>
+     </td>
+</tr>
+<tr valign=top align=center>
+     <td><a href="f22/takehome1.pdf"><b>Takehome Test 1</b></a>,<br>Due October 3.
+                      <p><a href="f22/takehome1.tex">LaTeX source</a>.
+                      <p><a href="f22/takehome1-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw5.pdf"><b>Homework 5</b></a>,<br>Due October 7.
+                      <p><a href="f22/hw5.tex">LaTeX source</a>.
+                      <p><a href="f22/hw5-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw6.pdf"><b>Homework 6</b></a>,<br>Due October 17.
+                      <p><a href="f22/hw6.tex">LaTeX source</a>.
+                      <p><a href="f22/hw6-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw7.pdf"><b>Homework 7</b></a>,<br>Due October 24.
+                      <p><a href="f22/hw7.tex">LaTeX source</a>.
+                      <p><a href="f22/hw7-answers.pdf">Sample answers.</a>
+     </td>
+</tr>
+<tr valign=top align=center>
+     <td width="25%"><a href="f22/hw8.pdf"><b>Homework 8</b></a>,<br>Due November 2.
+                      <p><a href="f22/hw8.tex">LaTeX source</a>.
+                      <p><a href="f22/hw8-answers.pdf">Sample answers.</a>
+     </td>
+     <td width="25%"><a href="f22/hw9.pdf"><b>Homework 9</b></a>,<br>Due November 11.
+                      <p><a href="f22/hw9.tex">LaTeX source</a>.
+                      <p><a href="f22/hw9-answers.pdf">Sample answers.</a>
+     </td>
+     <td><a href="f22/takehome2.pdf"><b>Takehome Test 2</b></a>,<br>Due November 18.
+                      <p><a href="f22/takehome2.tex">LaTeX source</a>.
+                      <p><a href="f22/takehome2-answers.pdf">Sample answers.</a>
+     </td>
+     <td><b>Homework 10.</b><br><br>Be present for<br>the last week<br>of classes!
+     </td>
+</tr>
+</table>
+
+<hr>
+
+<h3>Final Presentations: December 8</h3>
+
+<p>The final exam period for this course is Wednesday, December 8, from 7:00 to 9:00 PM.
+We will use this period for <a href="f22/final-project.html">final&nbsp;project</a> presentations.</p>
+
+
+<hr>
+
+<h3>Fifteenth Week: November 29 and 30; December 2</h3>
+
+<p>For the last week of the semester, we will turn again to metric spaces.
+After a short review of the material that we looked at previously, I will
+cover three new topics:
+<a href="https://math.hws.edu/eck/metric-spaces/compactness.html">Compactness,</a>
+<a href="https://math.hws.edu/eck/metric-spaces/completeness.html">Completeness,</a> and
+<a href="https://math.hws.edu/eck/metric-spaces/connectedness.html">Connectedness.</a></p>
+
+
+
+<hr>
+
+<h3>Fourteenth Week: November 21</h3>
+
+<p>Because of Thanksgiving break, we only have class on Monday this week.  (Happy Thanksgiving!)</p>
+
+<p>We will finish our look at series of functions, which will also finish Chapter 4.  That's the last of
+what we will do from the textbook!  We should also take some time to talk about final projects.</p>
+
+<p>Resubmissions for Homework 9 are due on Wednesday, November 30.</p>
+
+<hr>
+
+<h3>Thirteenth Week: November 14, 16, and 18</h3>
+
+<p>The second takehome exam is due at the start of class on Friday, November 18:</p>
+
+<p align=center class=np><a href="f22/takehome2.pdf">Second Take-home Exam</a></p>
+
+<p>The second in-class test will be on Friday, November 18.  Here is the study guide:</p>
+
+<p align=center class=np><a href="f22/test2info.pdf">Second In-class Exam Study Guide</a></p>
+
+<p>Aside from the tests, we will work on Section 4.6, Series of Functions. Here is a
+summary of the main results:</p>
+
+<ul>
+<li><a href="f22/guide2022/17-series-of-functions.html">17. Series of Functions</a></li>
+</ul>
+
+<p>Note that all the things that were supposed to be due on November 11 have been postponed
+to Monday, November 14.</p>
+
+<hr>
+
+<h3>Twelfth Week: November 7, 9, and 11</h3>
+
+<p>Here is web page that we looked at in class on Friday: <a href="f22/nov11/index.html">Math 331, November 11</a></p>
+
+<p>We have looked at convergence tests for series of real numbers from Sections 4.3 and 4.4.
+We will work on examples of applying those tests.  The we move on to Section 4.5, which
+covers sequences of functions.  For a summary of results from Section 4.5, see</p>
+
+<ul>
+<li><a href="f22/guide2022/16-sequences-of-functions.html">16. Sequences of Functions</a></li>
+</ul>
+
+<p>And see <a href="https://math.hws.edu/~mitchell/FoundationsOfAnalysis/">Professor Mitchell's web site</a>, 
+mentioned at the end of that summary, for some interactive examples.</p>
+
+<p>The second take-home test and second in-class are coming up.  The take-home test will be
+distributed this Friday, and the in-class test is next Friday.  With a lot coming up in
+the next two weeks, here is a schedule:</p>
+
+<ul>
+<li>Friday, November 11: 
+    <ul>
+    <li>Homework 9 and resubmission of homework 8 are due.</li>
+    <li>Take-home test and study guide for in-class test to be distributed.</li>
+    <li><a href="f22/final-project.html">Final project</a> topic must be chosen (or one will be assigned).</li>
+    </ul>
+</li>
+<li>Friday, November 18:
+    <ul>
+    <li>In-class test.</li>
+    <li>Take-home test due at start of class.</li>
+    </ul>
+</li>
+</ul>
+
+<hr>
+
+<h3>Eleventh Week: October 31; November 2 and 4</h3>
+
+<p>We covered monotone sequences and the Monotone Convergence Theorem from Section 4.2 last Friday.
+We will cover Cauchy sequences from that section on Monday, and we will then move on to infinite
+series, Sections&nbsp;4.3 and possibly into Section&nbsp;4.4 on Friday.  Here is an outline of
+the material on sequences and series of real numbers:</p>
+
+<ul>
+<li><a href="f22/guide2022/15-sequences-and-series.html">15. Sequences and Series</a></li>
+</ul>
+
+<p>Remember that <a href="f22/hw8.pdf">Homework 8</a> and the revisions for 
+<a href="f22/hw8.pdf">Homework&nbsp;7</a> are due on Wednesday.</p>
+
+<hr>
+
+<h3>Tenth Week: October 24, 26, and 28</h3>
+
+<p>We will finish will finish Chapter 3 with a proof of the Second Fundamental Theorem of
+Calculus and a look at Taylor polynomials.  And to finish integration, I want to briefly
+cover improper integrals, which are covered in the book only in Exercise 3.5.16.  We will 
+then move on to Chapter&nbsp;4, which covers sequences and series.  The reading for
+the week is sections 3.7, 4.0, and 4.1.  It is possible that we will start Section&nbsp;4.2
+on Friday.  Here is a summary of the material on Taylor Polynomials:</p>
+
+<ul>
+<li><a href="f22/guide2022/14-taylor-polynomials.html">14. Tarylor Polynomials</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Ninth Week: October 17, 19, and 21</h3>
+
+<p>We continue the study of the Riemann integral with Section 3.5 (properties of the integral)
+and Section 3.6 (Fundamental Theorems of Calculus).  Here is a short summary of the results
+in those two sections:</p>
+
+<ul>
+<li><a href="f22/guide2022/13-integral-theorems.html">13. Integral Theorems</a></li>
+</ul>
+
+<p>Note that revisions for Homework 5 are due by Wednesday, October 19.  Homework&nbsp;6 is due
+this Monday, October&nbsp;17, and Homework&nbsp;7 is due next Monday, October&nbsp;24.</p>
+
+<hr>
+
+<h3>Eighth Week: October 12 and 14</h3>
+
+<p>There is no class on Monday because of Fall break.</p>
+
+<p>This course requires a final project and presentation, which is due at the
+end of the semester.  Everyone in the class needs a different topic.  
+Here is more information about the project, including some ideas for
+possible topics:</p>
+
+<p align=center class=np style="font-size:110%"><a href="f22/final-project.html">About the Final Project</a></p>
+
+<p>We did not get to Section 3.3, which covers the Mean Value Theorem, so we will pick
+up there on Wednesday.  However, I will not cover the generalized mean value theorem
+and L'Ho&#770;pital's rule from that section; that material will be left as reading, if you want to do it.
+We will then move on to Section 3.4, which defines the
+Riemann integral.  Here is a summary of the definitions and basic theorems:</p>
+
+<ul>
+<li><a href="f22/guide2022/12-riemann-integral.html">12. The Definite Integral</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Seventh Week: October 3, 5, and 7</h3>
+
+<p>There is an <a href="f22/test1info.pdf">in-class test</a> on Monday, and the
+<a href="f22/takehome1.pdf">take-home test</a> is due at the same time. A&nbsp;short
+<a href="f22/hw5.pdf">homework</a> on metric spaces will be due on Friday, along
+with revisions for homework&nbsp;4.</p>
+
+<p>For Wednesday and Friday, we move on to Chapter&nbsp;3.  The reading for
+the week is Sections 3.1, 3.2, and&nbsp;3.3.  These sections cover the definition
+and basic properties of the derivative.  The material will be familiar to you 
+from Calculus&nbsp;I.  Here is a short summary:</p>
+
+<ul>
+<li><a href="f22/guide2022/11-derivatives.html">11. Derivatives</a></li>
+</ul>
+
+<hr>
+
+<h3>Sixth Week: September 26, 28, and 30</h3>
+
+<p>It's testing time!  A <a href="f22/takehome1.pdf">take-home test</a> is available.  An in-class test is scheduled
+for next Monday, October&nbsp;3.  The take-home will be due at the start of the in-class test on Monday, October&nbsp;3.</p>
+
+<p>There is also an in-class test on Monday, October 3.  A <a href="f22/test1info.pdf">study&nbsp;guide</a> is available and
+will be handed out in class on Wednesday.</p>
+
+<p>Homework 4 is due on Monday of this week (September 26), along with any revisions for Homework&nbsp;3.</p>
+
+<p>In lecture this week, we will continue with metric spaces.  We still need to cover some material
+on <a href="https://math.hws.edu/eck/metric-spaces/open-and-closed-sets.html" style="white-space:pre">Open and Closed Sets</a>.
+After that we will move on to <a href="https://math.hws.edu/eck/metric-spaces/limits-and-continuity.html" 
+style="white-space:pre">Limits and Continuity</a>.  This will include infinite sequences in metric spaces and their
+limits.  For the case of sequences in the real numbers, you can also see Section&nbsp;4.1 in the textbook.
+here is a short summary of the main facts:</p>
+
+<ul>
+<li><a href="f22/guide2022/10-limits-and-continuity-in-metric-spaces.html">10. Limits and Continuity in Metric Spaces.</a></li>
+</ul>
+
+<hr>
+
+<h3>Fifth Week: September 19, 21, and 23</h3>
+
+<p>We mostly finished with Section 2.5, continuity, last week.  This week we will cover 
+continuity on closed intervals, Section&nbsp;2.6, including two important theorems:
+the Intermediate Value Theorem and the Extreme Value Theorem.  That will finish
+Chapter&nbsp;2.  After that, we will be taking a short break from the textbook
+to look at metric spaces.  A metric space is a set, M, together with a function
+d(x,y) for x,y in M that generalizes the notion of distance in the real numbers.
+You should read the following on-line material about metric spaces:
+<a href="https://math.hws.edu/eck/metric-spaces/">Introduction to metric spaces</a> and
+<a href="https://math.hws.edu/eck/metric-spaces/open-and-closed-sets.html">Open and Closed Sets</a>.
+Here are reading guides for continuity and for metric spaces:</p>
+
+<ul>
+<li><a href="f22/guide2022/08-continuity.html">08. Continuity and Uniform Continuity</a></li>
+<li><a href="f22/guide2022/09-metric-spaces.html">09. Metric Spaces</a></li>
+</ul>
+
+<p>In class on Friday, September 16, we looked at an example of an increasing function defined on the
+interval (0,1) that is continuous at every irrational number and has a jump discontinuity at
+every rational number.  The web page</p>
+
+<p align=center><a href="f22/strangegraph.html">strangegraph.html</a></p>
+
+<p>draws a very close approximation of the function.  However, note that almost all of the
+jumps are too small to see, so that it really looks like the graph is constant on
+most subintervals.  In fact, I can only see nine or ten jumps.  The web page gives you some
+options to make a more satisfactory graph.  Now, maybe you'd like to think about what the ranged of these
+functions look like.</p>
+
+<hr>
+
+<h3>Fourth Week: September 12, 14, and 16</h3>
+
+<p>We will continue with limits, Sections 2.2 through 2.4.  Section 2.4 briefly covers limits at infinity,
+infinite limits, and one-sided limits.  The reading guide for Section 2.4 is here:</p>
+
+<ul>
+<li><a href="f22/guide2022/07-other-limits.html">07. Other Kinds of Limit</a></li>
+</ul>
+
+<p> By the end of the week, we will at least start Section 2.5, on continuity. (I have dropped the
+idea of looking at Section 4.1 this week; we will get to infinite sequences after we finish 
+Chapter&nbsp;2 and cover some of the basics of metric spaces.)</p>
+
+<p>The due date for Homework 3 has been extended to <b>Monday (September 19), at 3:00</b>.  However,
+revisions for Homework&nbs;2 are still due by 3:00 on Thursday (September&nbsp;15).</p>
+
+<hr>
+
+<h3>Third Week: September 5, 7, and 9</h3>
+
+<p>We begin the week with the proof of the Heine-Borel Theorem, the definition of accumulation point,
+and the Bolzano Weirstrass Theorem. That will complete Chapter&nbsp;1.  We will move on to Chapter&nbsp;2,
+which covers differential calculus.  The main reading is Section&nbsp;2.1, on functions, and
+Section&nbsp;2.2, on limits, although I will try to get started on Section&nbsp;2.3 by 
+the end of the week.  Most of the
+material in Section&nbsp;2.1 should be familiar to you, and we will only look at a few points from
+that section in class.  Here is the reading guide for Sections&nbsp;2.2 and&nbsp;2.3:</p>
+
+<ul>
+<li><a href="f22/guide2022/06-limits.html">06. Limit of a Function at a Point</a></li>
+</ul>
+
+
+<hr>
+
+<h3>Second Week: August 29 and 31; September 2</h3>
+
+<p>The reading for the week is to finish Section 1.2, read Section 1.3, and start Section 1.4.
+After finishing Section 1.2, we will turn to an axiom system for the real numbers.  I hope that
+by the end of the week, we will start Section 1.4, up to the proof of the Heine-Borel Theorem.
+The reading guides for this material can be found here (but I don't expect to cover the
+Bolzano-Weirstrass Theorem until next week):</p>
+
+<ul>
+<li><a href="f22/guide2022/04-axioms-for-R.html">04. Axioms for the Real Numbers</a></li>
+<li><a href="f22/guide2022/05-heine-borel-theorem.html">05. Heine-Borel and Bolzano-Weirstrass Theorems</a></li>
+</ul>
+
+
+<hr>
+
+<h3 >First Week: August 22, 24, and 26</h3>
+
+<p>Welcome to the course!</p>
+
+<p>The reading for the week is Chapter 1, Sections 1.0 through 1.2.  Please read them!  
+We will continue with Section&nbsp;1.2 next week.  Note that you are not responsible for
+the parts of the reading that cover historical background.
+From Section 1.1, you should be familiar with irrational numbers 
+and the Fundamental Theorem of Arithmetic
+(but we will not spend a great deal of time on that theorem, and you are not responsible
+for the proof).  Section 1.2 gives
+a "construction" of the set of real numbers; that is, it defines a specific mathematical
+object that has the properties that we expect the real numbers to have.</p>
+
+<p>I plan to publish short <a href="f22/guide2022/index.html">guides</a> to the readings, emphasizing
+the most important points and often adding information or
+perspective that is not in the textbook.  Generally, there will only be one or two guides per week,
+but for this first week, there are three; the third reading guide will carry us into next week:</p>
+
+<ul>
+<li><a href="f22/guide2022/01-irrational-numbers.html">01. Irrational Numbers</a></li>
+<li><a href="f22/guide2022/02-dedekind-cuts.html">02. Dedekind Cuts</a></li>
+<li><a href="f22/guide2022/03-least-upper-bound-axiom.html">03. Least Upper Bound Property</a></li>
+</ul>
+
+<p>The reading guides are part of the required reading!</p>
+
+
+<p>The <a href="f22/hw1.pdf">first homework assignment</a> is already available.  You are encouraged to
+write up your solutions in LaTeX, using a free account at <a href="https://overleaf.com">overleaf.com</a>,
+but I will also accept neatly handwritten work.  For more information
+about submitting homework, see</p>
+
+<p style="text-align:center"><a href="f22/submitting-homework.html">http://math.hws.edu/eck/math331/f22/submitting-homework.html</a></p>
+
+
+
+</div>
+</body>
+</html>

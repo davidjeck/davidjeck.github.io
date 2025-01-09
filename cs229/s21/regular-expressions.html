@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Regular Expressions</title>
+<style>
+   @media screen {
+      body {
+          max-width:800px;
+          min-width:600px;
+          margin-left: auto;
+          margin-right:auto;
+          padding-left:10px;
+          padding-right:8px;
+      }
+   }
+</style>
+</head>
+<body>
+<hr>
+<h2>Regular Expressions on the Computer</h2>
+<hr>
+
+<p>Regular expressions are patterns that can be matched against strings.
+Regular expressions are important tools for text processing.  Many text
+editors and most programming languages have some built-in support for
+regular expressions.  Unfortunately, the syntax is not completely standardized.
+However, most of the basics are supported by most implementations.
+</p>
+
+<p>Certain characters have special purposes in regular expressions.
+These are called <i>meta-characters</i> or <i>meta-symbols</i>.  
+Meta-characters are not part of the strings that are matched by
+a pattern.  Instead, they are part of the syntax that is used for
+representing patterns.  Typically, the following characters are
+meta-characters:</p>
+
+<pre>          .   *   |   ?   +   (   )   [   ]   {   }   ^   $   \
+</pre>
+
+<p>(The first thing on the preceding line is a period.)
+These characters have special meaning in regular expressions.
+For example, parentheses are used for grouping.  
+If you want to use a meta-character as a regular character instead
+of with its special meaning, you have to "escape" it by preceding
+it with a backslash, such as <tt>\*</tt>, <tt>\(</tt>, <tt>\$</tt>,
+or <tt>\\</tt>.  (You might run into a few implementations where
+some of these characters are <b>not</b> treated as meta-characters,
+and the special meta-character meaning is obtained by using the
+backslash.  For example, "<tt>(</tt>" and "<tt>)</tt>" might be
+considered regular characters, while "<tt>\(</tt>" and "<tt>\(</tt>"
+are used for grouping in the regular expression syntax.)</p>
+
+<p>In addition to the special symbols listed above, certain other
+things can be represented by escaped characters.  For example,
+an escaped t, "<tt>\t</tt>", represents a tab character, while
+"<tt>\s</tt>" represents any whitespace character.</p>
+
+<p>In the rest of this document, I will discuss <i>Perl-style regular
+expressions</i>.  Perl is a programming language that was one of the
+first to introduce a rich regular expression syntax.  The same syntax
+has been adopted (with some variations)
+by many other languages, including Java, JavaScript,
+Python, and Microsoft's .NET framework.  It is also used in some
+text editors.  For example, the editor in the Eclipse IDE supports regular
+expressions.  Regular expressions can be used on the command line with the 
+<i>grep</i> and <i>egrep</i> commands.</p>
+
+<hr>
+
+<h3>Patterns and Pattern Matching</h3>
+
+<p>Regular expressions are patterns.  A string can be classified as either matching or
+not matching the pattern.  Regular expressions are used in at least three different ways:</p>
+
+<ul>
+<li>Given a string, check whether the entire string matches the pattern.
+</li><li>Given a string, try to find a substring that matches the pattern.
+</li><li>Given a string, try to find a substring that matches the pattern, and then replace the matching
+substring with given replacement text.
+</li></ul>
+
+<p>Theoretical discussions, such as in CPSC 229, often consider only the first use.
+Practical applications on a computer often use the second ("find") or third
+("find and replace") operations.</p>
+
+<p>Here is a table giving examples of some of the more common types of patterns and
+the strings (or substrings) that they match:</p>
+
+<div style="margin-left: 1cm; margin-right: 1cm;">
+
+<table align="center" border="1" cellpadding="5">
+<tbody><tr>
+  <td><b><big>Pattern</big></b></td>
+  <td><b><big>Matches</big></b></td>
+</tr>
+<tr>
+  <td>a</td>
+  <td>matches the single character "a". Any non-special character matches only itself.  (Note that a space is
+   a non-special character so that a space in a regular expression matches a space in the string.)</td>
+</tr>
+<tr>
+  <td>.</td>
+  <td>a period matches any single character except (usually) end-of-line characters. The new line
+  and carriage return characters can (generally) be matched by <tt>\n</tt> and <tt>\r</tt>.
+  (<tt>\n</tt>&nbsp;marks end-of-line in UNIX, while <tt>\r\n</tt> is used in Windows.)</td>
+</tr>
+<tr>
+  <td>[abc]</td>
+  <td>matches one of the single characters "a", "b", or "c". [&nbsp;and ] make a <i>character class</i> that matches any single character that is among those listed between the brackets.</td>
+</tr>
+<tr>
+  <td>[a-zA-Z]</td>
+  <td>matches any single alphabetic character; a
+hyphen inside a character class indicates a range of characters, so
+that [a-d] is the same as [abcd]</td>
+</tr>
+<tr>
+  <td>[^a-zA-Z]</td>
+  <td>matches any single <i>non</i>-alphabetic character; a "^" at the beginning of a character class negates the class so that it matches any character that is <i>not</i> listed.
+</td></tr>
+<tr>
+   <td>[+\-*/]</td>
+   <td>matches any one of the usual arithmetical operators.  
+      (In a character class, most special characters lose their special status and can be used without blackslashes.
+      However "\", "^", and "]" are still special and must be escaped and "-" becomes special. So the "-"
+      in the example has to be written "\-".)</td>
+</tr>
+<tr>
+  <td>ab</td>
+  <td>matches the string "ab"; when patterns are concatenated, the strings that they match are also concatenated</td>
+</tr>
+<tr>
+  <td><span style="white-space:pre">[a-z][a-z][0-9]</span></td>
+  <td>matches a string consisting of two lower-case letters followed by one digit</td>
+</tr>
+<tr>
+  <td>a|b</td>
+  <td>matches either "a" or "b"; a "|" between
+patterns means "or" and the overall pattern matches any string that
+matches either of the sub-patterns</td>
+</tr>
+<tr>
+  <td>a|bc</td>
+  <td>matches either "a" or "bc"; the "|" has lower precedence than concatenation so that "a|bc" means the same thing as "a|(bc)"</td>
+</tr>
+<tr>
+  <td>a*</td>
+  <td>matches the empty string and any string of a's; a "*" after a pattern means repeat the pattern zero or more times </td>
+</tr>
+<tr>
+  <td>ab*</td>
+  <td>matches a string consisting of an a followed
+by zero or more b's; * has higher precedence than concatenation so that
+"ab*" means "a(b*)"</td>
+</tr>
+<tr>
+  <td>(ab)*</td>
+  <td>matches the empty string and the strings ab, abab, ababab, abababab, ...</td>
+</tr>
+<tr>
+  <td>a+</td>
+  <td>matches a sequence of one or more a's (does <i>not</i> match the empty string); "+" means "one or more repetitions of the preceding pattern";
+     +&nbsp;has the same precedence as *</td>
+</tr>
+<tr>
+  <td>a?</td>
+  <td>matches the empty string and the string "a"; "?" means "optional" or "either empty or matching the previous pattern";
+     ?&nbsp;has the same precedence as *</td>
+</tr>
+<tr>
+  <td>a{6}</td>
+  <td>matches aaaaaa; {n} means
+"matching exactly n copies of the preceding pattern, where n
+is a positive integer.
+{n} has
+the same precedence as *
+</td>
+</tr>
+<tr>
+  <td>a{3,5}</td>
+  <td>matches aaa, aaaa, and aaaaa; {m,n} means
+"matching m through n copies of the preceding pattern, where m and n
+are non-negative integers; "{m,}" matches m or more copies; "{n,n}" matches exactly n copies
+and so is the same as {n}.
+{m,n} has
+the same precedence as *
+</td>
+</tr>
+<tr>
+   <td>"[^"]*"</td>
+   <td>matches a string enclosed in double quotes, including the quotation marks, where the quoted string cannot
+   contain any embedded double quotes; the pattern <tt>".*"</tt> would match strings with nested quotation marks, such as:
+   <tt>"one"&nbsp;two&nbsp;"three"</tt>
+</td></tr>
+<tr>
+  <td>\w</td>
+  <td>matches a single "word" character; this is an abbreviation for [a-zA-Z0-9]; other abbreviations include:
+      \W = any non-word character, \s = any whitespace character, \S any non-whitespace character</td>
+</tr>
+<tr>
+  <td>^a</td>
+  <td>matches an a at the beginning of a line; a "^" does not match any characters itself but "anchors" the
+      expression to the start of the line.</td>
+</tr>
+<tr>
+  <td>a$</td>
+  <td>matches an a at the end of a line; a "$" does not match any characters itself but "anchors" the
+      expression to the end of the line.</td>
+</tr>
+<tr>
+  <td>\bfoo\b</td>
+  <td>matches foo as a complete word; that is, foo must be bounded on both ends by a non-word character or by a start or end of line;
+     \b does not itself match any character but "anchors" the pattern to a word boundary. Similarly,
+     \B matches any non-word-boundary.</td>
+</tr>
+<tr>
+  <td>\b\w+\b</td>
+  <td>matches any entire word.   (Note: keep in mind that digits are word characters.)</td>
+</tr>
+<tr>
+   <td>^.+$</td>
+   <td>matches an entire non-empty line. (Remember that "." matches any character, "+" means "one or more",
+    and the ^ and $ anchor the pattern to the beginning and end of the line)</td>
+</tr>
+</tbody></table>
+
+</div>
+
+<hr>
+<br><br>
+<h3>Backreferences</h3>
+
+<p>There is one more important aspect of regular expressions on a computer: <i>backreferences</i>.
+A backreference is a way of referring to a substring that was matched by an earlier part of the
+expression.  Backreferences take the form <tt>\1</tt>, <tt>\2</tt>, <tt>\3</tt>, ...,&nbsp;<tt>\9</tt>.
+<tt>\1</tt>&nbsp;represents the part of the string that was matched by the first parenthesized
+sub-expression in the regular expression; <tt>\2</tt>,&nbsp;the part that was matched by the
+second parenthesized sub-expression, and so on.  For example,
+the expression</p>
+
+<pre>          ^(\w+).*\1$
+</pre>
+
+<p>matches a line of text that begins and ends with the same word.  The <tt>\1</tt> matches
+whatever sequence of characters were matches the by the <tt>\w+</tt> that is enclosed in
+the first (and only) set of parentheses in the expression.  The numbering of sub-expressions
+is done by counting left parentheses, and sub-expressions can be nested.  For example,
+in</p>
+
+<pre>          ((\d+)\s*[+\-*/]\s*(\d+))=(\d+)
+</pre>
+
+<p><tt>\1</tt> would refer to whatever matched <tt>(\d+)\s*[+\-*/]\s*(\d+)</tt>,
+<tt>\2</tt> would refer to the stuff that matched the first <tt>\d+</tt>,
+and <tt>\4</tt> would refer to the stuff that matches the final, <tt>\d+</tt>.</p>
+
+<p>When doing a "find and replace" operation with regular expressions, it is usually possible to
+use backreferences in the replacement string.  This means that is is possible to include selected
+pieces of the original  string in the replacement.  This is actually the most interesting use of
+backreferences.  In the replacement text, <tt>\0</tt> can be used to represent the entire matched
+substring.  (In some implementations, <b>including Java's</b>, backreferences in the replacement string are
+written as <tt>$0</tt>, <tt>$1</tt>, etc., instead of using&nbsp;"\".)</p>
+
+<p>(<b>Warning</b>:  CPSC 229 students should note that "regular expressions" that contain
+backreferences might not be regular expressions at all in the usual sense.  That is,
+the language that is represented by a "regular expression" with backreferences might not
+be a regular language!  Backreferences extend the power of regular expression beyond
+what can be done with the regular expressions introduced in Section 3.2 of the CPSC 229
+textbook.)</p>
+
+<hr>
+
+<h3>The egrep Command</h3>
+
+<p><i>grep</i> is a command line utility that is commonly available on UNIX computers, 
+including Linux and Mac&nbsp;OS.  Its basic purpose is to find all the lines in a
+file that contain a substring that matches a given regular expression.  It prints any
+matching lines to standard output.  By default, <i>grep</i> uses a simple form of 
+regular expression, but you can use <i>grep&nbsp;-E</i> or <i>egrep</i> to use the
+full regular expression syntax described above. I will use <i>egrep</i> here.
+The command:</p>
+
+<pre>           egrep  'regular-expression'  file-name
+</pre>
+
+<p>will print all lines from the file named <i>file-name</i> that match the 
+<i>regular-expression</i> (where "match" means "contains a substring that matches").
+The single quotes around the regular expression can be omitted if the regular expression
+does not contain any characters that have special meaning on the command line; if in
+doubt, use the single quotes.  You can have multiple file names in the command.</p>
+
+<p>Like most UNIX command-line utility programs,
+<i>egrep</i> has a lot of options.  Some of the more useful ones include:</p>
+
+<ul>
+   <li><tt>-i</tt>  --- ignore case, treating upper- and lower-case letters as equivalent.
+   </li><li><tt>-v</tt>  --- print all the lines that <b>don't</b> match the regular expression.
+   </li><li><tt>-r</tt>  --- recursive processing; when a file-name refers to a directory, all the files in that directory are processed.
+   </li><li><tt>-o</tt>
+--- only print the matching substrings, instead of the entire line.
+This can include multiple matching substrings from a single line of
+text.
+</li></ul>
+
+<p>UNIX utility program such as <i>grep</i> are designed to work together using the "pipe" operator,&nbsp;"|".
+On the command line, this operator sends the output from one program into the input of the next program.
+For example, here is a command that will print an alphabetical list of all "tags" that are used
+in an html file, with duplicates removed:</p>
+
+<pre>          egrep -o '&lt;\w+( |&gt;)]' index.html | egrep -o '\w+' | sort -u 
+</pre>
+
+<p>The first command, "<tt>egrep&nbsp;-o&nbsp;'&lt;\w+(&nbsp;|&gt;)]'</tt>" prints all substrings from the file that
+match  the regular expression <tt>&lt;\w+[ /&gt;]</tt>.  This will include strings such as
+"<tt>&lt;hr&gt;</tt>" and "<tt>&lt;table&nbsp;</tt>" that are complete HTML tags or the beginning of HTML tags.
+The next command in the pipe, "<tt>egrep&nbsp;-o&nbsp;'\w+'</tt>", allows only the alphabetic parts of these
+tags to pass through.  The final sort command puts the list into alphabetical order; the <tt>-u</tt> option
+tells it to remove duplicates.  The output from the final command is printed on standard output.</p>
+
+<hr>
+
+<h3>Perl Substitutions with <i>perl -pe</i></h3>
+
+<p>Perl is a powerful programming language.   Here, I will describe one little thing that you
+can do with it on the command line.  A command of the form</p>
+
+<pre>      perl -pe '<i>statement</i>'
+</pre>
+
+<p>will execute the Perl <i>statement</i> for each line of input and will print the result.
+You can pipe the input from a previous command, or you can add an input file name to the command.
+Here, we are interested in a regular-expression substitution statement, which takes the form</p>
+
+<pre>       s/<i>search-expression</i>/<i>replacement-text</i>/
+</pre>
+
+<p>The <i>search-expression</i> is a regular expression.  This statement will look for 
+the first matching substring (if any) in the input line, and will replace that substring with the
+replacement text.  All or parts of the matched substring can be included in the replacement text
+by using backreferences <tt>\0</tt>, <tt>\1</tt>,
+<tt>\2</tt>, etc.  The command given above only replaces the first matching substring
+in each line; to apply it to all matching substrings, append a "g" to the command.  As a
+simple example, I have used</p>
+
+<pre>       perl -pe 's/\t/   /g'
+</pre>
+
+<p>to transform every tab character in the input into a sequence of three spaces.</p>
+
+
+<hr>
+
+<h3>Regular Expressions in Text Editors</h3>
+
+<p>Many text editors are capable of doing regular expression search and regular expression search
+and replace.  However, this is usually an option that has to be turned on by checking an option
+in the find or replace dialog.  Usually the box is named something like "Regular Expression", but
+I've also seen "Use Grep" used.</p>
+
+<p>Note that usually, just as in grep, matches are only done within one line at a time, so that it is not
+possible to match strings that extend over several lines.  However, some editors allow 
+<tt>\n</tt> to be used to explicitly match the new-line character, which allows a matched 
+string to extend over several lines.</p>
+
+<p>Regular expression find-and-replace can be a powerful tool for reformatting a text file,
+especially when applied to an entire file at once with a "Replace All" command.</p>
+
+<hr>
+
+<h3>Regular Expressions in Java</h3>
+
+<p>Java has support for regular expressions, provided by the classes
+<tt>java.util.regex.Pattern</tt> and <tt>java.util.regex.Matcher</tt>.  Full details can
+be found in the API documentation for those classes.</p>
+
+<p>Java regular expressions are specified by strings that use the syntax described above.
+There is one unfortunate complication when specifying a regular expression as a String literal
+in Java:  String literals themselves have special characters that have to be escaped.
+For example, suppose you want to write the regular expression</p>
+
+<pre>          \([^"]*\)
+</pre>
+
+<p>in Java.  This expression matches a string that starts with a left parenthesis, ends with a
+right parenthesis, and contains no double quotation marks.  To write this as a Java string
+literal, you have to escape the special characters <tt>\</tt> and <tt>"</tt> with backslashes
+and enclose it in quotation marks:</p>
+
+<pre>          "\\([^\"]\\)"
+</pre>
+
+<p>This can get very ugly, but it is unavoidable.  Remember in particular that you have to
+use <i>two</i> backslashes to "double escape" any character that is supposed to be escaped
+in the regular expression.</p>
+
+<p>When Java does regular expression search and replace, the syntax for backreferences in the
+replacement text uses dollar signs rather than backslashes:  <tt>$0</tt> represents the entire
+string that was matched; <tt>$1</tt> represents the string that matched the first parenthesized
+sub-expression, and so on.  If you want to include a literal $ or \ in the replacement text,
+you have to escape them with a backslash: \$ and&nbsp;\\.</p>
+
+<p>Regular expressions come up in several places in the Java API.  For example, the delimiter used
+by a <tt>Scanner</tt> is specified as a regular expression.  The <tt>String</tt> class
+includes several instance methods that make it easy to use regular expressions for several
+purposes.  The following methods are defined for an object of type <tt>String</tt>:</p>
+
+<ul>
+<li><tt><b>public boolean matches(String regex)</b></tt> -- test whether or not the entire string matches the
+regular expression <i>regex</i>
+</li><li><tt><b>public String replaceAll(String regex, String replacement)</b></tt> -- replace all substrings
+that match the regular expression <i>regex</i> with the <i>replacement</i> text (which can include
+backreferences <tt>$0</tt>, <tt>$1</tt>, etc.).  The return value is the string after the replacements have been made.
+</li><li><tt><b>public String replace(String regex, String replacement)</b></tt> -- replace just the first matching 
+substring.  The return value is the string after the replacements have been made.
+</li><li><tt><b>public String[] split(String regex)</b></tt> -- breaks the string into "tokens" separated by substrings
+that match the regular expression <i>regex</i>.  The return value is an array containing all the tokens,
+but <i>not</i> the substrings that match the delimiting regular expression.
+</li></ul>
+
+<p>To do fancier stuff with regular expression, you have to use the <tt>Pattern</tt> and
+<tt>Matcher</tt> classes.  A <tt>Pattern</tt> represents a "compiled" regular expression. 
+A pattern object is created using a static function in the <tt>Pattern</tt> class:</p>
+
+<pre>          Pattern regexPattern = Pattern.compile(regexString);
+</pre>
+
+<p>where <i>regexString</i> specifies the expression as a string.  A second parameter can be
+added to specify one or more flags such as <tt>Pattern.CASE_INSENSITIVE</tt> and
+<tt>Pattern.MULTILINE</tt>.  Multiple flags can be combined with the bitwise or operator,&nbsp;|.
+In fact, the only case you are really likely to use is:</p>
+
+<pre>          Pattern regexPattern = Pattern.compile(regexString, Pattern.CASE_INSENSITIVE);
+</pre>
+
+<p>In order to match the Pattern against a string, you have to create a <tt>Matcher</tt>:</p>
+
+<pre>          Matcher regexMatcher = regexPattern.matcher(String stringToBeMatched);
+</pre>
+
+<p>There are three reasons to use a <tt>Matcher</tt> instead of simply using <tt>stringToBeMatched.matches(regexString)</tt>:</p>
+
+<p>First, it is possible to search for a matching substring, instead of just trying to match the entire string.
+Do this with <tt>regexMatcher.find()</tt>, which returns a boolean to indicate whether or not a matching
+substring was found.  By default, the next call to <tt>find()</tt> after a successful search will start
+looking for a match at the end of the string that was found by the previous match.</p>
+
+<p>Second, it is possible to set a "region" within the string that is being matched.  The region is the substring
+that is considered for the match.  A successful <tt>find()</tt> operation sets the beginning of the
+region to be the position at the end of the substring that was found, but the region can also be set
+explicitly  by calling <tt>regexMatcher.reset(startIndex,endIndex)</tt>.  By default, the regular
+expression "anchor" characters <tt>^</tt> and&nbsp;<tt>$</tt> match the beginning and end of the
+region.</p>
+
+<p>And third, it is possible to discover the entire string that was matched and the substrings that
+were matched by parenthesized sub-expressions.  This is done by calling <tt>regexMatcher.group(n)</tt>
+after a successful match.  This returns the entire matched string when <tt>n&nbsp;=&nbsp;0</tt> or the
+string that matched the n-th parenthesized sub-expression when <tt>n&nbsp;&gt;&nbsp;0</tt>.  You can also find
+the starting and ending positions for group number n, by calling <tt>regexMatcher.start(n)</tt>
+and <tt>regexMatcher.end(n)</tt>.</p>
+
+
+<hr>
+<p class=np align=center>
+<img src="xkcd208-regular_expressions.png" width="600" height="607"><br>
+<span style="margin-top:6px; font-size:85%"><a href="https://xkcd.com/208">https://xkcd.com/208</a></span>
+</p>
+
+
+<hr>
+<div style="text-align:right"><small><a href="http://math.hws.edu/eck/">David Eck</a>, 2007 with some minor editing later</small></div>
+
+
+</body>
+</html>

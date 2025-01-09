@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>The Derivative</title>
+</head>
+<body>
+<div id="content">
+
+<h2>12 The Derivative</h2>
+<hr>
+
+<p>Of course, one of the main reasons for looking at limits in calculus is to
+use them to define the derivative of a function.  The derivative is covered
+in sections 3.1 through 3.3 of the textbook.  There is little here, really,
+that was not already covered in calculus, except that the level of rigor
+is higher.</p>
+
+<div class=def><p><span class=dtp>Definition:</span>
+Let $f$ be a real-valued function of a real variable, and let $a\in \R$.  Assume
+that $f$ is defined on some open interval containing $a$.  Then the <span class=nw>derivative
+of $f$ at $a$</span> is defined to be $$f'(a)=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}$$
+provided the limit exists.  If the limit exists, then $f$ is said to be 
+<span class=nw>differentiable</span> at $a$.  The function $f'$ is called the
+<span class=nw>derivative</span> of $f$, and its domain is the set of all points
+in the domain of $f$ at which $f$ is differentiable.</p></div>
+
+<p>It is then possible to prove that if $f$ is differentiable at $a$, then
+$f$ must be continuous at $a$.  It is also possible to prove the usual differentiation
+rules for sums, differences, products, and quotients, as well as the chain rule
+for the derivative of a composition $f\circ g$.</p>
+
+<p>The Mean Value Theorem (MVT) is a geometrically obvious fact that turns out
+to be important in the proofs of a number of future calculus theorems, such
+as L'H&ocirc;pital's rule.  There is also a Generalized Mean Value Theorem that applies 
+to two functions.</p>
+
+<div class=thm><p><span class=dtp>Theorem</span> (Mean Value Theorem):
+Suppose the function $f$ is continuous on the closed, bounded interval $[a,b]$ and is differentiable
+on $(a,b)$.  Then there is a $c\in(a,b)$ such that $$f'(c)=\frac{f(b)-f(a)}{b-a}$$</p></div>
+
+<div class=thm><p><span class=dtp>Theorem</span> (Generalized Mean Value Theorem):
+Suppose the functions $f$ and $g$ are continuous on the closed, bounded interval $[a,b]$ and are differentiable
+on $(a,b)$.  Then there is a $c\in(a,b)$ such that $$(g(b)-g(a))f'(c)=(f(b)-f(a))g'(c)$$</p></div>
+
+<p class=np>It is the Generalized Mean Value Theorem that is used to prove L'H&ocirc;pital's rule.  Note
+that if it happens that $g'(c)\ne 0$ and $g(b)\ne g(a)$, then the conclusion can be written
+$$\frac{f'(c)}{g'(c)}=\frac{f(b)-f(a)}{g(b)-g(a)}$$ In particular, applying the generalized theorem
+to the functions $f(x)$ and $g(x)=x$ yields the basic Mean Value Theorem for $f(x)$.</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

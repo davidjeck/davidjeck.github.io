@@ -1,0 +1,171 @@
+<html>
+<head>
+<title>x86-64 Registers and Instructions</title>
+</head>
+<body>
+
+<h3 align=center>x86-64 Registers</h3>
+<table align=center cellpadding=7px cellspacing=0 border=2>
+<tr>
+   <th>64-bit</th>
+   <th>32-bit</th>
+   <th>16-bit</th>
+   <th>8-bit</th>
+   <th>Special Purpose<br>for functions</th>
+   <th>When calling<br>a function</th>
+   <th>When writing<br>a function</th>
+</tr>
+<tr>
+   <td>rax</td><td>eax</td><td>ax</td><td>ah,al</td>
+      <td>Return Value</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>   
+<tr>
+   <td>rbx</td><td>ebx</td><td>bx</td><td>bh,bl</td>
+      <td>&nbsp;</td>
+      <td>Will not be changed</td>
+      <td>Save before using!</td>
+</tr>   
+<tr>
+   <td>rcx</td><td>ecx</td><td>cx</td><td>ch,cl</td>
+      <td>4<sup>th</sup> integer argument</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>   
+<tr>
+   <td>rdx</td><td>edx</td><td>dx</td><td>dh,dl</td>
+      <td>3<sup>rd</sup> integer argument</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>   
+<tr>
+   <td>rsi</td><td>esi</td><td>si</td><td>sil</td>
+      <td>2<sup>nd</sup> integer argument</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>   
+<tr>
+   <td>rdi</td><td>edi</td><td>di</td><td>sil</td>
+      <td>1<sup>st</sup> integer argument</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>   
+<tr>
+   <td>rbp</td><td>ebp</td><td>bp</td><td>bpl</td>
+      <td>Frame Pointer</td>
+      <td>Maybe Be Careful</td>
+      <td>Maybe Be Careful</td>
+</tr>   
+<tr>
+   <td>rsp</td><td>esp</td><td>sp</td><td>spl</td>
+      <td>Stack Pointer</td>
+      <td>Be Very Careful!</td>
+      <td>Be Very Careful!</td>
+</tr>
+<tr>
+   <td>r8</td><td>r8d</td><td>r8w</td><td>r8b</td>
+      <td>5<sup>th</sup> integer argument</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>
+<tr>
+   <td>r9</td><td>r9d</td><td>r9w</td><td>r9b</td>
+      <td>6<sup>th</sup> integer argument</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>
+<tr>
+   <td>r10</td><td>r10d</td><td>r10w</td><td>r10b</td>
+      <td>&nbsp;</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>
+<tr>
+   <td>r11</td><td>r11d</td><td>r11w</td><td>r11b</td>
+      <td>&nbsp;</td>
+      <td>Might be changed</td>
+      <td>Use freely</td>
+</tr>
+<tr>
+   <td>r12</td><td>r12d</td><td>r12w</td><td>r12b</td>
+      <td>&nbsp;</td>
+      <td>Will not be changed</td>
+      <td>Save before using!</td>
+</tr>
+<tr>
+   <td>r13</td><td>r13d</td><td>r13w</td><td>r13b</td>
+      <td>&nbsp;</td>
+      <td>Will not be changed</td>
+      <td>Save before using!</td>
+</tr>
+<tr>
+   <td>r14</td><td>r14d</td><td>r14w</td><td>r14b</td>
+      <td>&nbsp;</td>
+      <td>Will not be changed</td>
+      <td>Save before using!</td>
+</tr>
+<tr>
+   <td>r15</td><td>r15d</td><td>r15w</td><td>r15b</td>
+      <td>&nbsp;</td>
+      <td>Will not be changed</td>
+      <td>Save before using!</td>
+</tr>
+</table>
+
+<p align=center>"Might be changed" = "Caller saved";&nbsp; "Will not be changed" = "Callee saved".</p>
+<p align=center><b>The first 8 floating point arguments are passed in registers xmm0 to xmm7.</b></p>
+
+<br>
+<h3 align=center>Basic x86-64 Instructions</h3>
+<table align=center cellpadding=7px cellspacing=0 border=2>
+<tr>
+    <th>Arithmetic</th>
+    <th>Logic</th>
+    <th>Jumps</th>
+    <th>Stack</th>
+</tr>
+<tr valign=top>
+    <td>
+       add &langle;dest&rangle; &langle;src&rangle;<br>
+       sub &langle;dest&rangle; &langle;src&rangle;<br>
+       inc &langle;dest&rangle;<br>
+       dec &langle;dest&rangle;<br>
+       imul &langle;dest&rangle; &langle;src&rangle;<br>
+       div &langle;dest&rangle;
+    </td>
+    <td>
+       and &langle;dest&rangle; &langle;src&rangle;<br>
+       or &langle;dest&rangle; &langle;src&rangle;<br>
+       not &langle;dest&rangle;<br>
+       shr &langle;dest&rangle;, &langle;imm&rangle;<br>
+       shr &langle;dest&rangle;, cl<br>
+       shl &langle;dest&rangle;, &langle;imm&rangle;<br>
+       shl &langle;dest&rangle;, cl<br>
+       sar &langle;dest&rangle;, &langle;imm&rangle;<br>
+       sar &langle;dest&rangle;, cl
+    </td>
+    <td>
+       jmp &langle;label&rangle;<br>
+       cmp &langle;dest&rangle; &langle;src&rangle;<br>
+       je &langle;label&rangle;<br>
+       jne &langle;label&rangle;<br>
+       jg &langle;label&rangle;<br>
+       jge &langle;label&rangle;<br>
+       jl &langle;label&rangle;<br>
+       jle &langle;label&rangle;
+    </td>
+    <td>
+       call &langle;label&rangle;<br>
+       ret<br>
+       push &langle;src&rangle;<br>
+       pop &langle;dest&rangle;
+    </td>
+</tr>
+</table>
+
+<p align=center>&langle;dest&rangle; is register or memory<br>
+&langle;src&rangle; is register or memory or immediate<br>
+&langle;imm&rangle; is immediate (byte only)
+
+

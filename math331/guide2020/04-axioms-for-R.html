@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Axioms for the Real Numbers</title>
+</head>
+<body>
+<div id="content">
+
+<h2>04 Axioms for $\R$</h2>
+<hr>
+
+<p>We have looked at <a href="02-dedekind-cuts.html">Dedekind cuts</a> as an explicit
+construction of the set of real numbers.  But how do we know that we have properly
+captured all of the properties that we would expect $\R$ to have?  We need a list
+of properties that express exactly what it means to be "the real numbers."
+That list is given in the textbook as a set of fifteen <span class=nw>axioms</span>.
+The axioms are statements about a system consisting of a set together with
+operations of addition, multiplication, and comparison.  It can be shown that 
+any two systems that satisfy the fifteen axioms are essentially the same;
+that is, there is a one-to-one correspondence between the two sets that preserves
+all of the operations.  Probably the most important thing to remember from
+Section 1.3 is simply what it means to have an axiomatic specification of
+the real numbers.</p>
+
+<p>Just listing the axioms does not show that there
+is any system that actually satisfies them. But it can be shown that Dedekind
+cuts satisfy the fifteen axioms.  So, we have come at the real numbers from
+two directions: We have a set of properties that
+completely characterize what we think the real numbers should be, and
+we have a particular mathematical object that has all of those properties.
+This allows us to say, in some sense, that we understand the real numbers
+(although we don't really understand them until we understand all the
+consequences of the axioms&mdash;a process that can never really be
+completed but that we will start in the <a href="05-applying-the-axioms.html">next&nbsp;section</a>).</p>
+
+<p>The first eleven axioms say that the set of real numbers, together with the
+addition and multiplication operations, is a <span class=nw>field</span>.
+They define the algebra of the real number system.  The requirement is that
+addition and multiplication are <span class=nw>commutative</span> and 
+<span class=nw>associative</span>, that <span class=nw>identities</span>
+and <span class=nw>inverses</span> exist for both addition and multiplication, 
+and multiplication <span class=nw>distributes</span> over addition.  There are
+also <span class=nw>closure</span> axioms, which say that the sum and product
+of real numbers are also real numbers. Any
+system that satisfies the field axioms will automatically have many other algebraic 
+properties.  That is, it will have properties that can be <b>proved</b> from
+the axioms.  For example, it can be proved that identities and inverses are
+unique.</p>
+
+<p>The field axioms do not completely determine the real numbers.
+There are many other fields, including $\Q$, the set of rational numbers, and
+$\C$, the set of complex numbers.  The set $\{a+b\sqrt{2}\,|\,a,b\in\R\}$
+is a field.  So is $\big\{\frac{p(\pi)}{q(\pi)}\,\big|\,p(x)$ and $q(x)$ are
+polynomials with rational coefficients and $q(x)$ is not the zero polynomial$\big\}.$
+For all of the these sets, the addition and multiplication operations are
+the usual operations for numbers.</p>
+
+<p>There are also finite fields.  You are probably familiar with 
+$\Z_n$, the set $\{0,1,\dots,n-1\}$ with the operations of addition
+and multiplication $mod\;\,n$.  For a prime number $p$, $\Z_p$ is
+a field.</p>
+
+<p>And there are algebraic systems that are not fields.  The set $\Z$ of
+integers is not a field because not every integer has a multiplicative
+inverse in $\Z$.  The set $\N$ of natural numbers is even further from
+being a field, because it is missing both additive and multiplicative inverses.
+The set $\Z_n$, where $n$ is not prime, is not a field. (Suppose
+$n$ factors as $n=ab$ where both $a$ and $b$ are strictly between
+1 and $n.$  Then $b$ has no multiplicative inverse in $\Z_n$.
+For if <span class=nb>$bx=1$ ($mod\;\,n$)</span>, then
+<span class=nb>$0=0x=nx=abx=a1=a$ ($mod\;\,n$)</span>,
+but in fact <span class=nb>$a\ne0$ ($mod\;\,n$)</span> because $a$
+is strictly between 1 and $n$.)</p>
+
+<hr class=break>
+
+<p>$\R$ is not just a field; it is an <span class=nw>ordered field</span>.
+There is an operator $&lt;$ for comparing two real numbers.  The
+properties of this operation are expressed by three axioms, which 
+are actually properties of the set of positive numbers:
+There is a subset $P$ of $\R$ that is closed under addition and
+multiplication and $\R$ is a disjoint union of $P$, $\{0\}$,
+and $-P.$  Given the set $P$, the comparison operation is defined
+by saying $x&lt;y$ if and only if $y-x\in P.$  The set $P$ is
+that set of <span class="nw">positive</span> elements of $\R$,
+and $-P=\{-a\,|\,a\in P\}$, the set of <span class="nw">negative</span>
+elements. </p>
+
+<p>But there are other ordered fields besides $\R$, such as the
+rational numbers or indeed any field that is a proper subset of $\R$.
+The final piece to completely characterize the real numbers is
+<span class=nw>completeness</span>, which can be expressed by
+the <a href="03-least-upper-bound-axiom.html">least upper bound axiom</a>.
+This axiom means, intuitively, that there are no "holes" in the
+real number line.  As we have seen, it also implies the Archimedian
+property of the real numbers:  There
+is no real number $x$ that is greater than every natural number.  
+(Note that the field of rational numbers is Archimedian but is not 
+complete, so the Archimedian property does not imply completeness.)</p>
+
+<hr class=break>
+
+$\newcommand{\F}{{\mathbb F}}$
+
+<p>The Archimedian property might seem very natural to you, so
+it is interesting to look at an ordered field that is not Archimedian.
+For that, we can use rational functions $\frac{p(x)}{q(x)}$
+where $p(x)$ and $q(x)$ are polynomials with real coefficients and
+$q(x)$ is not the zero polynomial.  Note that we have to consider
+two rational functions $\frac{p_1(x)}{q_1(x)}$ and $\frac{p_2(x)}{q_2(x)}$
+to be equivalent if they can be made equal by dividing out common factors
+from the numerator and denominator of each fraction.  Every rational
+function is then equivalent to one of the form $\frac{p(x)}{q(x)}$ where
+$p(x)$ and $q(x)$ have no common factors of degree greater than zero
+and the leading coefficient of $q(x)$ is&nbsp;1.  [The leading coefficient of a polynomial
+is the constant factor in the term in which $x$ has the highest degree in that polynomial.]
+With that understanding,
+we let $\F$ be the set of rational functions with real coefficients,
+with the usual addition and multiplication of functions.</p>
+
+<p>Note that a real number $a$ can be considered to be the rational
+function $\frac{p(x)}{q(x)}$ where $p(x)=a$ and $q(x)=1$.  So we can
+consider $\R$ to be a subset of $\F$.  Since $\frac a1\cdot \frac b1 = \frac{ab}1$
+and $\frac a1 + \frac b1 = \frac{a+b}1$, addition and multiplication of
+real numbers are the same in $\F$ as in $\R.$  That is, $\R$ is actually
+a subfield of $\F$.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>The field of rational functions, $\F$, 
+is a non-Archimedian ordered field.</p></div>
+<div class=prf><p><span class=dtp>Proof:</span>
+We give a brief outline of the proof.  It is not hard to show that $\F$ satisfies the eleven field axioms.
+To make it into an ordered field, we need to define the set of 
+positive elements in $\F$.  We define $P=\big\{\frac{p(x)}{q(x)}\,\big|\,$the
+leading coefficient of $q(x)$ is 1 and $p(x)$ is non-zero and has a positive leading
+coefficient$\big\}$.  We have to check that $P$ satisfies the three ordering
+axioms.  Recalling that any rational function can be written
+as a fraction in which the denominator has leading coefficient 1, it is clear
+that any rational function $r(x)$ satisfies exactly one of $r(x)\in P$,
+$r(x)=0$, or $-r(x)\in P$.  To see that $P$ is closed under addition and
+multiplication, suppose $r(x)=\frac{ax^n+\cdots}{x^m+\cdots}$
+and $s(x)=\frac{bx^k+\cdots}{x^\ell+\cdots}$ where $a$ and $b$ are positive and 
+in each case <span class=nb>"$\dots$"</span> represents terms of lower degree. Then
+$$r(x) \cdot s(x) = \frac{ax^n+\cdots}{x^m+\cdots} \cdot \frac{bx^k+\cdots}{x^\ell+\cdots} =
+         \frac{abx^{n+k}+\cdots}{x^{m+\ell}+\cdots}$$
+and so $r(x)\cdot s(x)\in P$ since $ab>0$.  For addition,
+$$\begin{align*}
+   r(x) + s(x) &= \frac{ax^n+\cdots}{x^m+\cdots} + \frac{bx^k+\cdots}{x^\ell+\cdots} \\[8pt]
+       &= \frac{(x^\ell+\cdots)(ax^n+\cdots)+(x^m+\cdots)(bx^k+\cdots)}{(x^m+\cdots)(x^\ell+\cdots)}\\[8pt]
+       &= \frac{ax^{\ell+n}+b^{k+m}+\cdots}{x^{m+\ell}+\cdots}
+\end{align*}$$
+and so $r(x)+s(x)\in P$ because the leading coefficient in the numerator is either $a$ or $b$ or $a+b$
+(depending on whether $\ell+n$ is greater than or less than or equal to $k+m$),
+and all of these are positive.</p>
+<p>To see that $\F$ is not Archimedian, consider the rational function $\frac x1$ (where the
+numerator, $x$, is the polynomial $p(x)=x$). We claim that for every natural number $n$, $\frac n1&lt;\frac x1$.
+(In $\F$, the natural number $n$ becomes the rational fraction $\frac n1$.)
+By definition, $\frac n1 &lt;\frac x1$ means that  $\frac x1 - \frac n1 \in P$. 
+But $\frac x1 - \frac n1 = \frac{x-n}{1}$, and the fact that the leading coefficient
+of the numerator is positive means that $\frac{x-n}{1}\in P$.
+We have shown that $\frac x1$ is an element of $\F$ that is greater than every natural number,
+which means $\F$ is non-Archimedian. $\qed$
+</p></div>
+
+<p>It is also true in $\F$ that $\frac 1x &lt; \frac 1n$ for any integer $n$, so there
+are elements of $\F$ that are greater than zero but less than $\frac 1n$ for every
+integer $n$.</p>
+
+<p>You can try to imagine all the elements of $\F$ laid out in a linear order, with $\R$ as a
+small bit in the middle.  Any rational function in which the degree of the numerator is
+greater than the degree of the denominator lies to the left or to the right of $\R$.
+Any rational function in which the degree of the numerator is smaller than the
+degree of the denominator lies within $\R$, infinitely close but not equal to zero.
+I will leave you to find the rational functions in which the degrees of the numerator
+and denominator are equal.  We started our investigation of the real numbers by
+identifying $\R$ as "the real line."  But we had only some intuitions about what
+"the real line" should mean.  Is it possible that $\F$ would be a better model for
+the real numbers, instead of the set of Dedekind cuts?  Maybe so, but it would mean
+giving up the least upper bound axiom, which is the basis of most of the things 
+that we will prove about real numbers in this course.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>
+

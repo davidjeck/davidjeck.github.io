@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 2021, Lab 12</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 13: gl-matrix</h2>
+
+<div class="intro">
+
+<p>This is, I hope, a genuinely short lab that you should be able to complete
+in the lab period.</p>
+
+<p>You will need a copy of <a href="lab13-files/" class=nb>/classes/cs424/lab13-files</a>,
+or at least copies of the four files that it contains.  The folder includes a copy of
+the JavaScript library  <a href="lab13-files/gl-matrix.js" class=nb>gl-matrix.js</a>,
+which we have discussed in class.  In this lab, you will use that library to manipulate
+a modelview matrix.  There is also a copy of
+<a href="lab13-filesbasic-object-models-IFS.js" class=nb>basic-object-models-IFS.js</a>,
+which is used to create the basic objects that are used in the program.
+You will work on the file <a href="lab13-files/lab13.html">lab13.html</a>.
+
+<p>This lab is due at our next lab period, on Tuesday, December&nbsp;2.
+For the final lab, on that day, you will work on a program in class
+and will get credit for showing up and getting the program at least
+partly working.</p> 
+
+<p>A short written progress report on your <a href="../final-project.html">final project</a> is due in class
+on Monday, November 22.  You then need to meet with me at least once in the
+period November&nbsp;29 to December&nbsp;6 to discuss the project and presentation.
+And remember that the final project itself is due at the scheduled
+file exam period, Thursday, December&nbsp;7, 7:00 PM to 10:00 PM.
+You will also give your final project presentation at that time.
+
+
+
+</div>
+
+<div class="section">
+<h3>The project</h3>
+
+<p><img align=right style="margin:8px" src="windmill.jpg" width="274" height="374">
+The original <a href="lab13-files/lab13.html">lab13.html</a> shows a tiny box that
+can be rotated by dragging your mouse on the canvas.  Your assignment is to
+replace the box with a large windmill sitting on a rectangular base, as shown in the
+picture at the right.  The vanes of the windmill should rotate when animation is
+turned on.  Each vane of the windmill should be constructed from two cones,
+as we have done in examples in the past.  For full credit, add the teapot to the
+base of the windmill, as shown.  (See <a style="white-space:pre" href="lab13-files/teapot-model-IFS.js">teapot-model-IFS.js</a>.)</p>
+
+<p>The program includes three instance variables representing basic objects:
+<i>box</i>, <i>cone</i>, and <i>cylinder</i>.  These variables have instance
+methods <i>box.render</i>(), <i>cone.render</i>(), and <i>cylinder.render</i>()
+that can be called to draw the objects.  The untransformed objects are of size
+1 in all three directions, and they have their centers at (0,0,0).  The
+axis of the cone and the axis of the cylinder are aligned along the <span class=nb>z-axis</span>.
+All objects in the scene should be transformed versions of the three basic objects or of
+a basic teapot object.
+</p>
+
+<p>By the way, this is procedural graphics, not scene graph based.  You will probably want
+to write functions to draw some of the complex objects.</p>
+
+<br clear=all>
+
+</div>
+
+
+
+</div>
+</body>
+</html>

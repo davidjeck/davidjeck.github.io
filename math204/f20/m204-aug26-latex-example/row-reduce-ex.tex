@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9 true in}
+\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newenvironment{answer}{\bgroup\color{blue}}{\egroup}
+\newenvironment{grading}{\bgroup\color{red}}{\egroup}
+\newenvironment{secondans}{\bgroup\color{green}}{\egroup}
+
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+\noindent Consider the following linear system of four equations in four variables:
+$$\begin{matrix}
+    &   y &  +z &  +w & = & 2\\
+ 2x &  +y & -2z & -2w & = & -3\\
+ -x & -3y &     &  +w & = & 4\\
+  x &  -y &  -z &     & = & 3
+\end{matrix}$$
+The augmented matrix for this system is:
+$$\left(\begin{array}{cccc|c}
+   0 & 1 & 1 & 1 & 2 \\
+   2 & 1 &-2 &-2 &-3 \\
+  -1 &-3 & 0 & 1 & 4 \\
+   1 &-1 &-1 & 0 & 3
+\end{array}\right)$$
+Do a row reduction on this matrix:
+\begin{align*}
+    \left(\begin{array}{cccc|c}
+       0 & 1 & 1 & 1 & 2 \\
+       2 & 1 &-2 &-2 &-3 \\
+      -1 &-3 & 0 & 1 & 4 \\
+       1 &-1 &-1 & 0 & 3
+    \end{array}\right)
+ &\rowop{\rho1\leftrightarrow\rho2}
+    \left(\begin{array}{cccc|c}
+      -1 &-3 & 0 & 1 & 4 \\
+       2 & 1 &-2 &-2 &-3 \\
+       0 & 1 & 1 & 1 & 2 \\
+       1 &-1 &-1 & 0 & 3
+    \end{array}\right) \\[15pt]
+  &\rowop{2\rho_1+\rho_2\\ -\rho_1+\rho_4} 
+    \left(\begin{array}{cccc|c}
+      -1 &-3 & 0 & 1 & 4 \\
+       0 &-5 &-2 & 0 & 5 \\
+       0 & 1 & 1 & 1 & 2 \\
+       0 &-4 &-1 & 1 & 7
+    \end{array}\right) \\[15pt]
+  &\rowop{\rho_2\leftrightarrow\rho_3} 
+    \left(\begin{array}{cccc|c}
+      -1 &-3 & 0 & 1 & 4 \\
+       0 & 1 & 1 & 1 & 2 \\
+       0 &-5 &-2 & 0 & 5 \\
+       0 &-4 &-1 & 1 & 7
+    \end{array}\right) \\[15pt]
+  &\rowop{5\rho_2+\rho_3\\ 4\rho_2+\rho4}
+    \left(\begin{array}{cccc|c}
+      -1 &-3 & 0 & 1 & 4 \\
+       0 & 1 & 1 & 1 & 2 \\
+       0 & 0 & 3 & 5 & 15 \\
+       0 & 0 & 3 & 5 & 15
+    \end{array}\right) \\[15pt]
+  &\rowop{-\rho_3+\rho_4}
+    \left(\begin{array}{cccc|c}
+      -1 &-3 & 0 & 1 & 4 \\
+       0 & 1 & 1 & 1 & 2 \\
+       0 & 0 & 3 & 5 & 15 \\
+       0 & 0 & 0 & 0 & 0
+    \end{array}\right)
+\end{align*}
+This is in echelon form.  The leading variables are $x$, $y$, and $z$.  The variable $w$ is free.
+We can solve this equation easily, using $w$ as a parameter.  First, use the third equation to solve for $z$ in terms
+of $w$:
+\begin{align*}
+    3z + 5w &= 15\\
+    3z &= 15 - 5w\\
+     z &= 5 -\frac{5}{3}w
+\end{align*}
+Then use the second equation to solve for y, again using $w$ as a parameter:
+\begin{align*}
+   y + z + 2 &= 2\\
+   y &= 2 - z - w\\
+     &= 2 - \big(5-\frac{5}{3}w\big) - w\\
+     &= -3 + \frac{2}{3}w
+\end{align*}
+Finally, use the first equation to solve for $x$:
+\begin{align*}
+  -x - 3y + w &= 4\\
+  x +3y - w &= -4\\
+  x &= -4-3y+w\\
+    &= -4 -3\big(-3+\frac{2}{3}w\big) + w\\
+    &= 5 - w
+\end{align*}
+We can write the solution as
+$$\begin{pmatrix} x \\ y \\ z \\ w\end{pmatrix} = \begin{pmatrix} 5 - w\\ -3 + \frac{2}{3}w \\ 5 - \frac{5}{3}w \\ w \end{pmatrix}$$
+or as a set,
+$$\left\{\begin{pmatrix} 5 - w\\ -3 + \frac{2}{3}w \\ 5 - \frac{5}{3}w \\ w \end{pmatrix} : w\in \R\right\}$$
+or, using vector multiplication and addition, as
+$$\left\{\begin{pmatrix} 5 \\ -3 \\ 5  \\ 0 \end{pmatrix}
+            + w\cdot\begin{pmatrix} -1\\ \frac{2}{3} \\ \frac{5}{3} \\ 1 \end{pmatrix} \ :\  w\in \R\right\}$$
+
+\end{document}
+

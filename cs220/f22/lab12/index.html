@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<title>CS220, Fall 2022, Lab 11</title>
+<style>
+   li {
+       margin-top:8px
+   }
+   p.exercise {
+       text-indent: 0pt;
+   }
+   p.exercise b {
+       font-size: 110%;
+       font-weight: bold;
+       font-color: #000080;
+   }
+</style>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Lab 12: Floats and Files</h2>
+
+<div class="intro">
+
+<p>This is a relatively short lab.  It will only be worth ten points instead of the
+usual fifteen.  You will use some the x86-64 instructions for
+working with floating point numbers, and you will work with files using functions
+from the standard C library.  The program that you write will need to be linked
+to the C library.  You can use the same <a href="build.sh">build&nbsp;script</a> that
+you used for last week's <a href="../lab11/index.html">lab</a>, with the -c option. </p>
+
+
+<p><b>This lab is an individual assignment. You cannot work with a partner.</b></p>
+
+<p>This lab is due next Thursday, as usual.  Please name the file <b>lab12.asm</b> and submit
+it to your homework folder
+</p>
+
+<p>(Note that because of the test and because it was
+a longer lab than usual, the due date for Lab&nbsp;11 has been changed
+to Monday, November 14, at 3:00&nbsp;PM.)</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>Processing a Data File</h3>
+
+<p>You will write this week's program from scratch.  Create a new text file named <i>lab12.asm</i>
+for your program.</p>
+
+<p>The program will do some simple numerical processing of floating point values.  The data
+that you process will come from an input file, and the results will be written to an output file.
+This is just an exercise in using floating point and files; neither the data nor the processing
+is meaningful or interesting.</p>
+
+<p>The input file for the program is <a href="data12.txt">data12.txt</a>.  You can get a copy
+from the folder <span style="white-space:pre">/classes/cs220</span>, or you can download it from
+the above link.  The name of the output file is up to you; you do <b>not</b> need to turn in the
+output file.  You do <b>not</b> need to ask the user to input the file names; you can hard
+code them into your program.
+Remember that when you open an existing file for output, the current contents of
+the file will be erased.  For this lab, you are <b>not</b> required to check whether the output
+file exists before opening it.</p>
+
+<p>The sample programs <a href="../integral.asm">integral.asm</a> and 
+<a href="../copyfile.asm">copyfile.asm</a> work with floating point numbers and files.
+You might find some of the code from copyfile.asm, in particular, to be useful.</p>
+
+<hr align=center width="33%">
+
+<p class=np><b>The assignment:</b></p>
+
+<p>The format of the input file, data12.txt, is as follows:  Each line of text contains
+a name, an integer, and several floating point numbers.  The integer is the number of
+floating point values on the same line. The number of items is always greater
+than zero.  Items on the line are separated by spaces.  The
+name does not contain spaces, so it can be read using the format specification&nbsp;%s.</p>
+
+<p>You will write one line to the output file for each line of input.  The output line
+contains two items: a copy of the name from the input line and the average of the
+floating point values from the input line.  (To find the average, add up the
+values and divide by the count.)</p>
+
+<p>The end of the file is not marked in any way.  You can recognize the end of file
+when <i>fscanf</i> cannot read the data from the start of a line, that is, when
+the return value from <i>fscanf</i> is less than the number of items that you
+were trying to read.</p>
+
+<p>You should check the return value from <i>fopen</i> when opening the files.  If a file
+can't be opened, you should print an error message and exit.  As noted above the name of 
+the output file is up to you.  The data in data12.txt has the specified format, so if your
+program is correct, the only error that you will encounter while processing it is the
+read error from <i>fscanf</i> at the end the file.  However, you might want to check for
+input errors anyway because they can reveal errors in your program.  (When I wrote my 
+own program, a bug caused it to output an infinite number of lines; it wrote several
+megabytes before I was able to stop it with Control-C.)</p>
+
+
+<hr align=center width="33%">
+
+<p class=np><b>Discussion and hints:</b></p>
+
+<p>I had a strange bug when writing my solution to this lab.  I spent a lot of time on
+it and learned something new:  <b>When calling a varargs function such as <i>fprintf</i>,
+the rax register is supposed to contain the number of xmm registers that are used
+for passing arguments to the function.</b>  I am still not sure why this is necessary,
+but in my program, when rax was zero, <i>printf</i> did not print out correct floating
+point values from xmm registers.  (Apparently, rax really just has to be non-zero when
+passing values in xmm registers.)</p>
+
+<p>When using <i>fscanf</i>, you need to pass addresses to the function where you want
+the input values to be stored.  This pretty much forces you to use variables for the
+data.  My solution defines the variables that I needed in the following .bss section:</p>
+
+<pre class=code>
+section .bss
+     
+    name resb 100  ; The name that is the first item on an input line.
+    count resq 1   ; The integer that is the second item on an input line.
+    data resq 1    ; One of the floating point data items from an input line.
+    sum resq 1     ; The sum of the floating point data items from an input line.
+</pre>
+
+<p class=np>Allowing 100 bytes for the name is more than enough.  You can assume that
+all the names in the file are short.</p>
+
+<p>I learned the hard way that none of the xmm registers are safe when calling functions.
+This is another reason to use variables rather than registers for the floating point
+values in particular: The values of the variables are safe and will not be changed by
+calling a function.</p>
+
+<p>You can use the %s format for reading and for writing the name.  You can use
+either %d or %ld for integers and either %g or %lg for floating point values.
+The %ld and %lg are for 64-bit values.  There are other formats for floating
+point values, but the "g" format generally works well.</p>
+
+
+
+
+</div>
+
+
+</div>
+</body>
+</html>

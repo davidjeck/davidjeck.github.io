@@ -1,0 +1,26 @@
+{
+  A very simple application of multitasking.
+  Several turtles are created, and each one
+  engages in a random walk.  (It looks sort of
+  like a bunch of bugs wandering randomly
+  around on the screen.)
+
+  You will have to stop this program manually, for
+  example by clicking on the Stop button.
+}
+
+fork(10)   { Creates 10 turtles; you might want
+             to try changing the number of
+             turtles. }
+
+
+{ Each turtle executes the rest of the 
+  program independently. }
+
+PenUp
+
+LOOP
+   face( randomInt(360) )  { face in a random direction }
+   forward( randomInt(10) / 10 )  { go forward a random amount }
+   EXIT IF 1=2  { loop will never end }
+END LOOP

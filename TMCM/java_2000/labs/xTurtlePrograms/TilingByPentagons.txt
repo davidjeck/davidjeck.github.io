@@ -1,0 +1,52 @@
+{ 
+  This program shows 90 turtles, each drawing two
+  "hexagons" (six-sided figures).  The intersections
+  of the hexagons form pentagons (five-sided figures)
+  that cover the entire screen.  Such an arrangement
+  of repeated figures is called a "tiling" of the
+  plane.  This tiling was a favorite of the artist
+  M.C. Escher.
+
+  This program was written by Kevin Mitchell. 
+}
+
+
+declare l   { first, compute some sizes }
+l := 1.5
+declare edge
+edge := .825*l
+declare side
+side := 2.25*l
+
+sub hexagon(side,edge)  { Draws two hexagons }
+   face(0)
+   forward(side)
+   turn(60)
+   forward(edge)
+   turn(60)
+   forward(side)
+   penUp
+   forward(-side/2)
+   turn(-90)
+   forward(-side/2)
+   penDown
+   forward(side)
+   turn(60)
+   forward(side)
+   turn(60)
+   forward(edge)
+end sub
+
+penUp
+        { Split into 90 turtles and move into position. }
+fork(9)
+move( (forkNumber-5)*(side+cos(60)*edge),
+      (forkNumber-4)*sin(60)*edge)
+
+fork(10)
+move( -(forkNumber-5)*cos(30)*edge,
+       (forkNumber-5)*(side+sin(30)*edge))
+
+penDown
+
+hexagon(side,edge)  { each turtle draws two hexagons }

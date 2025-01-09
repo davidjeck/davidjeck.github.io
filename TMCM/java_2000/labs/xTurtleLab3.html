@@ -1,0 +1,427 @@
+<HTML>
+
+<HEAD> <TITLE>xTurtle Lab 3</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xTurtle Lab 3:
+          Subroutines and Recursion</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+1">S</font>UBROUTINES WERE INTRODUCED
+in the <A HREF="xTurtleLab2.html">previous lab</A>.  This lab
+will continue the study of subroutines.  The lab concentrates on the idea
+of a subroutine as a black box and on recursive subroutines
+that call themselves, either directly or indirectly.</p>
+
+<p>You should be familiar with the material from Chapter 7 of
+<cite>The Most Complex Machine</cite>,
+especially with the material on recursive subroutines from
+Section 3.  The Koch curve and the binary tree introduced in that
+section will be used in the lab.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#box">Black Boxes</A>
+   <LI><A HREF="#tree">Recursive Trees and Recursive Walks</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>Start by clicking this button to launch xTurtle in its own window:</p>
+
+<p align=center>
+<applet codebase="../classes/" archive="xTurtleClasses.zip"
+        code="tmcm.xTurtleLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xTurtlePrograms/">
+   <param name="URL"  value="SymmetrySubs.txt">
+   <param name="URL1" value="BinaryTrees.txt">
+   <param name="URL2" value="KochCurves.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+</p>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="box">Black Boxes</A></font></H3>
+
+<p>You are familiar with the idea of a subroutine as a
+black box.  When you use predefined subroutines such as
+<font color="#007000">forward</font>
+and <font color="#007000">moveTo</font>, you don't need to know
+exactly how they work.  All you need to understand is how
+to use them and what they will do.  User-defined
+subroutines can also be used as black boxes, provided
+that someone else has written them for you.</p>
+
+<p>The xTurtle applet that you launched for use in this
+lab is set up to load a sample program called
+&quot;SymmetrySubs&quot;  This program contains
+the definitions of six subroutines for drawing symmetric
+pictures.  These subroutines are meant to be used in the
+same way as the usual drawing subroutines such as
+<font color="#007000">forward</font> and 
+<font color="#007000">circle</font>.  For example, one
+of the subroutines defined in &quot;SymmetrySubs&quot;
+is <font color="#007000">multiForward</font>.
+This subroutine is similar to the built-in
+<font color="#007000">forward</font> command,
+except that instead of just drawing one line, it
+draws eight lines in a symmetrical pattern.  The
+&quot;SymmetrySubs&quot; program defines the
+following six subroutines, each of which draws
+a symmetric pattern:
+<font color="#007000">multiForward</font>,
+<font color="#007000">multiBack</font>,
+<font color="#007000">multiMoveTo</font>,
+<font color="#007000">multiMove</font>,
+<font color="#007000">multiCircle</font>, and
+<font color="#007000">multiArc</font>.
+</p>
+
+<p>To see how this works, select the &quot;SymmetrySubs&quot;
+program from the pop-up menu at the top of the xTurtle
+applet, and use the &quot;Run Program&quot; button to
+run the program.  Nothing appears on the screen, since all the
+program does is define some subroutines.  However, once
+the subroutines are defined, you can use them as commands,
+just as you would use any of xTurtle's built-in commands.</p>
+
+<p>As an example, type the following commands
+into the text-input box below the xTurtle drawing area,
+pressing return after you enter each command:</p>
+
+<pre>            multiArc(5,40)
+            turn(-40)
+            multiforward(3)
+            multicircle(2)
+</pre>
+
+<p>Also try some other commands.  If you want to make a 
+more complicated picture, go back to the &quot;SymmetrySubs&quot;
+program and add your commands at the <strong>end</strong>
+of that program (after the definitions of all the 
+subroutines).  For example, add the following
+commands to the end of the program, and then hit the
+&quot;Run Program&quot; button:</p>
+
+<pre>            LOOP
+                multiforward(0.5)
+                face(randomInt(360))
+                EXIT IF 1=2
+            END LOOP
+</pre>
+
+<p>You will have to end the 
+program with the &quot;Stop&quot; button.  (The
+statement &quot;exit if 1=2&quot; in this program is a fancy
+way of saying &quot;Never exit.&quot;)</p>
+
+
+<p>In the previous part of the lab, you used several
+subroutines as black boxes, without having to understand
+what went on inside the box.  But you should
+remember that &quot;not having to know what's inside&quot; is
+only part of the black box story!  When you write a subroutine
+<strong>yourself</strong>, you are working <strong>inside</strong>
+the box.  While you are writing the subroutine, you can
+concentrate on making it perform the specific task it is
+designed to do, without worrying for
+the moment exactly what role it will play in a complete
+program.  From the point of view of a programmer trying
+to design a complex program, subroutines are a tool
+for breaking a complex problem down into smaller,
+more manageable subproblems.</p>
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="tree">Recursive Trees and Recursive Walks</A></font></H3>
+
+<p>A <font color="#E70000">recursive subroutine</font> is one that calls
+itself.  A recursive subroutine is a black box that uses
+<strong>itself</strong> as a black box.
+Section 7.3 in the text introduces
+recursive subroutines using the example of a
+<font color="#E70000">binary tree</font>.
+The program for this example is in the Sample program
+&quot;BinaryTrees&quot;.  Select this program from the
+pop-up menu at the top of the xTurtle applet and
+run it. Nothing will happen, since the file only defines
+some subroutines.  The main subroutine defined in the file
+is called <font color="#007000">TestTree</font>.  If you
+enter this into the text-input box beneath the drawing area
+of the applet, you will be asked to specify a complexity
+level.  The computer will draw a tree with the complexity
+that you specify.  Try this, for example, for a complexity
+level of 5.</p>
+
+<p>A binary tree of complexity zero is defined to be a single
+straight line segment.  A binary tree of complexity greater
+than zero is defined to consists of a &quot;trunk,&quot;
+which is just a line segment, with two &quot;branches&quot;
+attached to it.  Each of the branches is a binary tree,
+which is smaller than the complete tree and which has smaller
+complexity than the complete tree.  This is a recursive
+definition because we are saying that a tree contains pieces
+which are themselves trees.  Because binary trees are
+defined recursively, they can be drawn by a recursive subroutine.
+You should try to understand the definition of the 
+<font color="#007000">Tree</font> subroutine.</p>
+
+<p>A second example of recursion is contained in the
+sample program &quot;KochCurves.&quot;  This example is also
+taken from Section 7.3 in <cite>The Most Complex Machine</cite>.
+A Koch curve is a way of getting from one point
+to another -- with a lot of detours.  To help you understand
+this, run the sample program &quot;KochCurves.&quot;  After
+you have run the program, you can use the command
+<font color="#007000">TestKoch</font> in the xTurtle
+applet's text-input box.  When you do so, you will be asked
+to specify a complexity level for the Koch curve.  You
+should try complexity levels of 0, 1, 2, 3, and 4.</p>
+
+<p>A Koch curve of complexity 0 is defined to be
+a straight line segment.  A Koch curve of complexity 1
+is a line segment with a &quot;bump&quot; or &quot;detour.&quot;
+The complexity-one curve is made up of four line segments,
+but you should think of each line segment a Koch curve
+of complexity zero.  A Koch curve of complexity 2
+is obtained from the curve of complexity 1 by adding
+a detour to each line segment in the curve.  You should 
+look at a Koch curve of complexity 2 as being made up of
+four smaller pieces, where each piece is a Koch curve of
+complexity 1.  More generally, a Koch curve of complexity
+N is made up of four smaller Koch curves of complexity
+N-1.  Once again, this is a recursive definition, and the
+subroutine that draws Koch curves is a recursive 
+subroutine.  Try to understand how the pictures you see
+are produced by the <font color="#007000">Koch</font>
+subroutine.</p>
+
+<p>The &quot;KochCurves&quot; program also defines
+a subroutine named &quot;Snowflake&quot; which draws
+&quot;Koch snowflakes.&quot;  A Koch snowflake is
+made by joining three Koch curves together at their endpoints,
+producing a symmetric, snowflake-like picture.  Try it!</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+
+<p><font color=blue><b>Exercise 1:</b></font>
+Add the following lines to the <b>end</b> of the &quot;SymmetrySubs&quot;
+sample program, after all the subroutines.  Run the program a few time,
+to see what it does.  The write a short essay explaining exactly how
+the program works and why it produces the pictures that it does.
+(Try running this at fastest speed, with the turtle turned off.)</p>
+
+<pre>            declare x
+            x := 0
+            loop
+               face(360*random)
+               hsb(x,1,1)
+               multiforward(0.4)
+               x := x + 0.005
+               if x > 1 then
+                  x := 0
+               end if
+               exit if 1 = 2 
+            end loop
+</pre>
+
+</p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+The mathematics used in the subroutines defined
+in &quot;SymmetrySubs&quot; is not
+trivial.  How much did you need to know about this mathematics to 
+use the subroutines?  What point about subroutines does this
+illustrate?</p>
+
+<p><font color=blue><b>Exercise 3:</b></font>
+The Speed pop-up menu in the xTurtle applet works by inserting
+delays betweens commands.  Since <font color="#007000">circle</font>
+is a single command, a complete circle is drawn instantaneously,
+no matter what the setting of the speed menu.  This disappointed one
+of my students, who wanted to be able to watch the circles being
+drawn.  Write a subroutine</p>
+
+<pre>           SUB SlowCircle(radius)
+</pre>
+
+<p>that will draw a circle by drawing 60 arcs, where each arc covers 6 degrees.
+Then use your subroutine to (slowly) draw a picture like the following:</p>
+
+<p align=center><IMG WIDTH=180 HEIGHT=164 SRC="images/xTurtle7.gif"></p>
+
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Modify your subroutine from Exercise 3 so that it draws each of the
+arcs of the circle in a different color.  The color of an arc can be set
+to <font color="#007000">hsb(hue,1,1)</font>.  At the beginning, the
+value of <font color="#007000">hue</font> should be zero.  After drawing
+each arc, it should be increased by 1/60.
+</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font>
+A subroutine such as the one you wrote for Exercise 4 can be used in
+many different programs.  What did you have to know about those programs
+in order to write the subroutine?  What does this illustrate about
+black boxes?</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+How many straight line segments are there in a Koch curve
+of complexity 2?  You can use the <font color="#007000">TestKoch</font>
+subroutine to draw the curve and them count the line segments.
+You could do the same for complexity 3, and maybe for complexity
+4.  But what about complexity 10 or 100?  There are two many
+line segments to count.  However, it is possible to predict
+the number of segments for any complexity, if you think about
+how Koch curves are created.  The question you should ask yourself
+is, When the complexity is increased by one, what happens to
+the number of line segments?  Try to figure out the pattern
+by looking at the number of line segments in curves of
+complexity 1, 2, 3, and 4 and by thinking about what happens
+as you go from one curve to the next.  Try to find a
+formula that gives the number of line segments in a Koch
+curve of any given complexity.</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+This exercise asks you to find the number of line
+segments in a binary tree of a given complexity.
+It is similar to the previous exercise, but it's harder
+to find a formula in this case.  Run the &quot;BinaryTrees&quot;
+example program, and then use the <font color="#007000">TestTree</font>
+subroutine to draw trees of complexity 0, 1, 2, 3, 4, and 5.
+For each of these trees,  count the number of straight
+line segments that it contains.  For example, in a tree of
+complexity 1, the number
+of line segments is 3 -- each branch is a single line, and
+the trunk is the third line.  You should try to find a 
+formula that gives the number of line segments for
+<strong>any</strong> given complexity.  You might not
+be able to find a formula that gives the number directly,
+but you should at least be able to find a formula that
+tells how the number of line segments changes
+as you go from one complexity level to the next.</p>
+
+<p>One way to approach this problem is first to determine how many
+<strong>new</strong> lines are added to the tree when you go from a
+tree of complexity N to one of complexity N+1. 
+Then use that to figure out the total number of line
+segments.  Another approach is to &quot;think recursively&quot;:
+Remember that a tree of complexity N+1 is made up of a trunk
+plus two trees of complexity N.</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>
+The text notes that you can add randomness to a Koch curve by
+deciding randomly whether to detour to the left (using turns of
+60, -120 and 60) or to the right (using turns of -60,
+120, and -60 instead).  Make this change to the program
+&quot;KochCurves&quot; sample program,
+and try it out.  In the subroutine, you can
+declare a variable named x (for example) and set
+<font color="#007000">x := RandomInt(2)</font>.  Use the
+value of x to decide whether to detour to the left or
+to the right.  (When you have made the change,
+the <font color="#007000">SnowFlake</font> subroutine will produce a &quot;Koch
+Island&quot; instead.  Try it!) </p>
+
+
+<p><font color=blue><b>Exercise 9:</b></font>
+The idea of &quot;detouring&quot; used in making
+Koch curves can be used to make other interesting fractal pictures.
+In a Koch curve, the idea is to replace a straight line with a line
+containing a &quot;triangular detour,&quot; like this:</p>
+
+<p align=center><img src="images/xTurtle5.gif" width=372 height=113></p>
+
+<p>Suppose that a &quot;square detour&quot; were used instead,
+looking like this:</p>
+
+<p align=center><img src="images/xTurtle6.gif" width=372 height=132></p>
+
+<p>What would the resulting picture look like, for higher degrees
+of complexity?  Find out by rewriting the subroutine
+<font color="#007000">Koch</font>
+to use square detours instead of triangular detours.
+</p>
+
+
+<p><font color=blue><b>Exercise 10:</b></font>
+For this exercise, you will write a recursive subroutine that displays
+an element of randomness.  The subroutine will be called &quot;mountain&quot;,
+because it draws pictures that look a bit like a mountain range.
+Here are two pictures produced by the subroutine:</p>
+
+<p align=center><IMG SRC="images/xTurtle8.gif" WIDTH="469" HEIGHT="110"></p>
+
+<p>Each of these pictures was produced with the commands:</p>
+
+<pre>          clear penUp moveTo(-7,0) penDown mountain(7,0,10)
+</pre>
+
+<p>The command <font color="#007000">mountain(x,y,c)</font> should
+move the turtle along a jagged path from its current position to
+the point (x,y).  The amount of jaggedness is specified by
+the &quot;complexity,&quot; c.  If the third parameter, c, is
+zero, then <font color="#007000">mountain(x,y,c)</font> simply
+draws a straight line from the current position to (x,y).
+If c &gt; 0, then <font color="#007000">mountain(x,y,c)</font> will
+choose a random point, (x1,y1), somewhere between the current position
+and (x,y).  It will draw a &quot;mountain&quot; of
+complexity c-1 to the point (x1,y1) and from there it will draw
+a second mountain curve of complexity c-1 to the point (x,y).  The
+trick is to choose the intermediate point (x1,y1).  This can be
+done by finding the midpoint between the current position and (x,y),
+and then moving the y coordinate of that midpoint up or down by
+a random amount.  This computation can be done as follows, recalling
+that the current position of the turtle is given as (xcoord,ycoord):</p>
+
+<pre>
+               x1 := (xcoord + x) / 2
+               y1 := (ycoord + y) / 2
+               y1 := y1 + (random - 0.5) * (xcoord - x)
+</pre>
+
+<p>Try to put all this together into a definition of
+<font color="#007000">mountain(x,y,complexity)</font>.  Remember
+to declare x1 and y1 at the beginning of your subroutine.</p>
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1997</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

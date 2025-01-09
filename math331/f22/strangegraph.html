@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Strange Functions</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border. */
+    body {
+        background-color: #DDDDDD;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    macros: {
+       R: "{\\mathbb R}"
+    }
+  }
+};
+</script><script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<script>
+
+    "use strict";  // gives improved error-checking in scripts.
+
+    let canvas;    // The canvas element on which we will draw.
+    let graphics;  // A 2D graphics context for drawing on the canvas.
+    
+    function draw() {
+
+        graphics.fillStyle = "white";
+        graphics.fillRect(0,0,650,650);
+                
+        graphics.lineWidth = 4;
+        graphics.beginPath();
+        graphics.moveTo(25,625);
+        graphics.lineTo(640,625);
+        graphics.moveTo(25,10);
+        graphics.lineTo(25,625);
+        graphics.stroke();
+        
+        let x,y;
+        
+        graphics.fillStyle = "red";
+        for (let i = 0; i <= 600; i++) {
+            x = i/600.;
+            y = func(x);
+            graphics.fillRect(i+25-0.5,625-600*y-0.5,2,2);
+        }
+        
+     } // end of draw()
+     
+     let default_fractions = [1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7,
+                      4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9, 1/10,
+                      3/10, 7/10, 9/10, 1/11, 2/11, 3/11, 4/11, 5/11, 6/11, 7/11, 8/11, 
+                      9/11, 10/11, 1/12, 5/12, 7/12, 11/12 ];
+                      
+     let fractions;
+     let shortListLength;
+                      
+     let denom = 2;
+     
+     function func(x) {
+        let sum = 0;
+        for (let n = 0; n < fractions.length; n++) {
+           if (fractions[n] < x)
+              sum += (denom-1) * 1/((denom)**(n+1));
+        }
+        return sum;
+     }
+     
+     function getFractions(n) {
+         if (n == 3)
+            fractions = [...default_fractions];
+         else {
+            fractions = new Array(shortListLength);
+            for (let i = 0; i < shortListLength; i++)
+               fractions[i] = default_fractions[i];
+         }
+         if (n > 1) {
+            for (let top = fractions.length; top > 0; top--) {
+               let r = Math.floor(Math.random()*top);
+               let temp = fractions[r];
+               fractions[r] = fractions[top-1];
+               fractions[top-1] = temp;
+            }
+         }
+         draw();
+     }
+     
+     function setDenom(d) {
+        denom = Number(d);
+        document.getElementById("denom").innerHTML = "z = " + denom.toFixed(2);
+        draw();
+     }
+       
+
+    function init() {
+        try {
+            canvas = document.getElementById("canvas");
+            graphics = canvas.getContext("2d");
+        } catch(e) {
+            document.getElementById("canvasholder").innerHTML =
+               "<p>Canvas graphics is not supported.<br>" +
+               "An error occurred while initializing graphics.</p>";
+            return;
+        }
+        document.getElementById("range").value = "2";
+        shortListLength = default_fractions.length;
+        for (let i = 1; i < 199; i++)
+            default_fractions.push(i/199);
+        getFractions(1);
+    }
+    
+    window.onload = init; // arranges for function init to be called when page is loaded
+    
+    
+</script>
+</head>
+<body> 
+
+<noscript>
+    <!-- This message will be shown in the page if JavaScript is not available. -->
+<p>JavaScript is required to use this page.</p>
+</noscript>
+
+<div style="max-width: 650px; float:left; margin-right:25px">
+
+<p>The default graph on this page is a graph on the interval $[0,1]$ of the function 
+$f(x)=\displaystyle\sum_{r_n&lt;x} \frac{1}{2^n}$ where $r_n$ only ranges over the 
+following finite list of rational numbers:</p>
+
+<pre>
+      1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7,
+      4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9, 1/10,
+      3/10, 7/10, 9/10, 1/11, 2/11, 3/11, 4/11, 5/11, 6/11, 7/11, 8/11, 
+      19/11, 10/11, 1/12, 5/12, 7/12, 11/12
+</pre>
+
+<p>This $f(x)$ approximates the function that uses the full list of rational numbers between 0 and 1
+to within about $10^{-15}$.  The exact function has a jump discontinuity at every rational number but
+is continuous at every irrational number.</p>
+
+<p>You can elect to randomly reorder the list of rational numbers and see the graph that results, and you can
+add a lot of extra fractions before randomizing, which allows jumps at more places.  Just click one:</p>
+
+<p align=center><button onclick="getFractions(1)">Use default list</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <button onclick="getFractions(2)">Randomly order default list</button></p>
+<p align=center><button onclick="getFractions(3)">Add 1/199, 2/199, ..., 198/199 and randomize</button></p>
+
+<p>You can modify the function to $f(x)=\displaystyle(z-1)\sum_{r_n&lt;x}\frac{1}{z^n}$ for $z$ in the
+range 1.1 to&nbsp;2. When using the full list of rational numbers, this function will still satisfy
+$f(1)=1$. For $z&lt;2$, the jumps will be smaller than they are for $z=2$, so you can see more of them.</p>
+
+<p align=center><input type=range min=1.1 max=2.0 step=0.05 onchange="setDenom(this.value)" 
+                    oninput="setDenom(this.value)" id="range"><br><span id="denom">z = 2</span></p>
+                 
+
+</div>
+
+<div id="canvasholder">
+<canvas id="canvas" width="650" height="650">
+    <!-- This message is shown on the page if the browser doesn't support the canvas element. -->
+Canvas not supported.
+</canvas>
+</div>
+
+
+</body>
+</html>

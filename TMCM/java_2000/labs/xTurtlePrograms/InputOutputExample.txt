@@ -1,0 +1,67 @@
+
+{ This program illustrates input/output in
+  xTurtle. (Note, by the way, how the position
+  of the turtle changes after the DrawText
+  command is executed.) }
+
+{ The program gets an initial bank account
+  balance from the user.  It then calculates
+  the amount that will be in the account for
+  the next five years, assuming that the
+  account earns 5% in interest each year. The
+  final amount is displayed to the user and
+  the amount for each of the five years is
+  displayed in the drawing area. }
+
+
+
+DECLARE amount { A variable to store the amount
+                 of money in the account; this value
+                 of this variable changes every year. }
+
+  { First, get the initial deposit from the user.
+    (Note that the string in this command has to
+    be typed entirely on one line, according to
+    the syntax rules of xTurtle. }
+
+TellUser("This program will calculate your bank balance for the next 5 years, assuming a 5% interest rate.")
+
+AskUser("What is starting balance in your account?", amount)
+
+  { Next, move the turtle to the point in
+    the drawing area where the amount is
+    to appear. }
+
+penUp
+moveto(-7,0)
+penDown
+
+
+  { Compute and display the amount after each of
+    the next five years.  Each year, 5% interest
+    is added to the amount.  This is the same 
+    as multiplying the amount by 1.05.  The
+    outputs from the DrawText command appear 
+    in the drawing area. }
+
+amount := amount * 1.05
+DrawText("After one year, you will have $#amount.")
+
+amount := amount * 1.05 
+DrawText("After two years, you will have $#amount.")
+
+amount := amount * 1.05
+DrawText("After three years, you will have $#amount.")
+
+amount := amount * 1.05
+DrawText("After four years, you will have $#amount.")
+
+amount := amount * 1.05 
+DrawText("After five years, you will have $#amount.")
+
+
+  { Finally, inform user of the final
+    amount in a "TellUser" box. }
+
+TellUser("After five years, you will have $#amount; amounts for other years are displayed in the graphics window.")
+

@@ -1,0 +1,57 @@
+{ This program sends the turtle on a 
+  "random walk".  The turtle repeatedly
+  chooses a direction at random -- either
+  up, down, left, or right -- and moves 1/2
+  unit in that direction.  It does this
+  until it leaves the 20-by-20 square
+  centered at the origin. }
+
+DECLARE directionNum  { Creates a variable named
+                        "directionNum."  A variable
+                        can hold a number that is
+                        going to be used in the
+                        program. }
+
+LOOP
+
+   directionNum := randomInt(4)
+       { An assignment statementm which stores
+         a number in the variable, directionNum.
+         In this case, the number is computed by
+         the function randomInt(4).  For any
+         positive integer N, randomInt(N) is
+         a number chosen randomly from among
+         1, 2, ..., N.  So randomInt(4) is either
+         1, 2, 3, or 4. }
+
+   { The following IF statement decides which
+     direction to face by checking the value of
+     directionNum.  Just one of the four
+     statements "face(0)", "face(90)", "face(-90)",
+     and "face(180)" is executed. }
+
+   IF directionNum = 1 THEN
+      face(0)
+   OR IF directionNum = 2 THEN 
+      face(90)                 
+   OR IF directionNum = 3 THEN  
+      face(-90)                
+   OR IF directionNum = 4 THEN 
+      face(180)
+   END IF
+
+   forward(0.4) { The turtle moves forward in the
+                 chosen direction. }
+
+   EXIT IF (xcoord >= 10) OR 
+              (xcoord <= -10) OR 
+              (ycoord >= 10) OR 
+              (ycoord <= -10) 
+        { The loop ends if the given condition 
+          has the value "true", that is if either
+          the x coordinate or the y coordinate has
+          moved outside the range from -10 to 10.
+          The operator ">=" is the way to write the
+          test "is greater than or equal to." }
+
+END LOOP

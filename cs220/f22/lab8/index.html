@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="screen" href="../labs_screen.css"> 
+<link rel="stylesheet" type="text/css" media="print" href="../labs_print.css"> 
+<style type="text/css">
+  h3 {border-radius: 10px}
+</style>
+<title>CS220, Fall 2022, Lab 8</title>
+</head>
+<body>
+
+<div class=content>
+
+<h2>CPSC 220, Fall 2022<br>
+Completing and Testing Larc-in-Logisim</h2>
+
+<div class="intro">
+
+<p>For this week, you will continue working on Larc-in-Logisim, which
+you started <a href="../lab7/index.html">last&nbsp;week</a>.  This web
+page has some information about testing your simulation.</p>
+
+<p>Several Larc machine language <a href="larc-tests/">test programs</a> are
+available that can be loaded into your simulation.  You can find them in
+the folder</p>
+<p class=np align=center>/classes/cs220/Larc-in-Logisim/larc-tests</p>
+<p class=np>The <a href="larc-tests/ABOUT.txt">ABOUT.txt</a> file in that folder has information 
+about the tests and instructions for using them.
+You can also download this <a href="larc-tests.zip">zip archive</a> that contains the 
+test file directory.</p>
+
+<p><b>Your group's completed simulation is due next Thursday.  It should be in
+the directory assigned to your group in  <span style="white-space:pre">/classes/cs220/Larc-in-Logisim.</span></b></p>
+
+
+
+</div>
+
+
+
+<div class="section">
+
+<h3>Testing</h3>
+
+<p>You can start testing your simulation as soon as you start wiring the major
+components together.  For example, after connecting the output of the instruction ROM
+to an instruction-decoding circuit, you can store an instruction code in ROM and see whether
+the decoding circuit produces the outputs that you expect.  As you build the circuitry for
+executing instructions, you can check that all the wires are carrying the values that 
+you expect.</p>
+
+<p>Remember that you can change the contents of an individual memory
+location in a Logisim ROM or RAM &mdash; just click on the contents of the memory
+location and start typing the new value.  This means that you can set the PC to zero,
+enter one or two Larc instructions at the start of ROM, and turn the clock on and off by hand
+to execute one instruction.  This lets you test your simulation on 
+individual instructions.  (Remember that you can open up the Register File circuit by
+double-clicking it with the Poke tool, so that you can
+view the numbers stored in the registers.  And you can use the Poke Tool
+on wires to check the inputs and output of the ALU or any other circuit.)</p>
+
+<p>For more complete testing, you will want to run some longer programs.
+The test files <i>testall.ROM</i>, <i>test1.ROM</i>, <i>test2.ROM</i>,
+<i>test3.ROM</i>, and <i>test4.ROM</i> are provided for that purpose
+in the directory mentioned above.
+Read more about the tests in <a href="larc-tests/ABOUT.txt">ABOUT.txt</a>.
+</p>
+
+<p>You will want to make sure that your simulation works for the 
+<i>testall.ROM</i> test, since that test will definitely be used
+for grading.  That file contains machine language code in hexadecimal 
+format.  You should be able to figure out what each instruction means.  The assembly
+language code for the program is in <a href="larc-tests/testall.s">testall.s</a>.</p>
+
+<p>But you might want to start with the simpler tests in <i>test1.ROM</i> and
+<i>test2.ROM</i>.  And I certainly hope that you will want to try your simulation
+on the more realistic programs in <i>test3.ROM</i> and <i>test4.ROM</i>!</p>
+
+</div>
+
+<div class=section>
+
+<h3>The <i>diff</i> Command</h3>
+
+<p>After running one of the tests, you will want to make sure that the content of
+RAM is correct.  You can save the data to a file and compare it with the
+"RAM-AFTER-RUN" file for that test.  But it can be difficult to spot small
+difference in two files just by looking at them.</p>
+
+<p>On Linux and MacOS, the <i>diff</i> command can be used to check two files for differences.
+(Windows is supposed to have a similar command called <i>fc</i>.)
+Note that if the files are identical, the <i>diff</i> command will give no output
+at all.  You get output if the files are different.  For text files, the
+output will show the differences.  (Actually, the output shows what 
+changes have to be made to the first file to transform it into an
+identical copy of the second.)  For example to check whether the
+content of the files <i>myOutput.txt</i> and <i>test4.RAM-AFTER-RUN</i> are
+different, use the command</p>
+
+<pre class=code>
+    diff  myOutput.txt  test4.RAM-AFTER-RUN
+</pre>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

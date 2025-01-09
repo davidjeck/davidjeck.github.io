@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 2021, Lab 4</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 4: First Work in 3D</h2>
+
+<div class="intro">
+
+
+<p>This is our first lab on 3D graphics.  You will be working with OpenGL 1.1,
+drawing and transforming simple shapes.  You can work either in Java or in JavaScript.</p>
+
+<p>If you use JavaScript, you will need copies of the  three files in
+<span style="white-space:pre">/classes/cs424/lab4-files-js</span>.
+Or you can get the files here:
+<a href="lab4-files-js/First3D.html" style="white-space:pre">First3D.html</a>,
+<a href="lab4-files-js/glsim.js" style="white-space:pre">glsim.js</a>,
+and <a href="lab4-files-js/basic-object-models-IFS.js" style="white-space:pre">basic-object-models-IFS.js</a>.
+You will only make changes to First3D.html, but that program depends on the two JavaScript files.
+No special setup is needed for the JavaScript version.</p>
+
+<p>If you use Java, you will need copies of the two files in
+<span style="white-space:pre">/classes/cs424/lab4-files-jogl</span>.
+Or you can get the files here:
+<a href="lab4-files-jogl/First3D.java" style="white-space:pre">First3D.java</a>
+and <a href="lab4-files-jogl/Camera.java" style="white-space:pre">Camera.java</a>.
+You will only make changes to First3D.java, but that program depends on Camera.java.</p>
+
+<p><b>To program in Java, you will need to use the JOGL API</b>, an implementation of
+OpenGL for Java. See <a href="https://math.hws.edu/graphicsbook/c3/s6.html#gl1geom.6.2">Subsection&nbsp;3.6.2</a>
+for instructions on doing that in Eclipse.  The basic idea is to make a "User Library" containing
+the JOGL two .jar files, <span style="white-space:pre">jogl-all.jar</span> and <span style="white-space:pre">gluegen-rt.jar</span>.  
+Then you can start a new project and add the JOGL user library to the
+project.  There are copies of the JOGL .jar files and the native libraries for Linux
+in <i style="white-space:pre">/classes/cs424/JOGL</i>.  (<b>Note:</b> There is
+no need to make copies of these files, if you are using them on Linux.  Your User Library
+can can refer directly to the copies in <i style="white-space:pre">/classes/cs424/JOGL</i>.)
+You can also get copies of the .jar files and the native libraries for 
+Linux, Windows, or Mac from 
+<a href="https://math.hws.edu/eck/cs424/jogl_2_4_support/" style="white-space:pre">https://math.hws.edu/eck/cs424/jogl_2_4_support/</a>.
+Be sure to read all the instructions in the textbook and follow them carefully!
+Note that it is also possible to compile and run JOGL programs on the command line by adding
+appropriate options to the javac and java commands.</p>
+
+<p><b>Turning in your work:</b>
+Your completed program should be submitted by the beginning of the lab period next Thursday.
+You can turn in a folder containing all of the required files, or you can just submit the
+file that you worked on, First3D.java or First3D.html.</p>
+
+</div>
+
+<div class="section">
+
+<h3>The Assignment</h3>
+
+<p>When the program for this lab is complete, it will be able to draw six 3D objects (although
+one of the objects is a flat 2D object that lies in a plane).  You just need to complete
+the <i>draw</i>() subroutine, which is called whenever the scene needs to be redrawn.
+The <i>draw</i>() subroutine will draw just one of the objects; which one it draws will
+depend on the value of the global integer variable <i>objectNumber</i>, which can 
+be 1, 2, 3, 4, 5, or&nbsp;6. The six objects that you have to draw are described below.</p>
+
+<p>You only need to work in the section of the program that is labeled
+"TODO: Complete this section!".  You don't need to understand the rest of the program.</p>
+
+<p>The program contains empty subroutines named <i>bar</i>(), <i>square</i>(), and <i>cage</i>()
+for drawing three of the objects.  This is hierarchical modeling:  <i>bar</i>() will be used
+to write <i>square</i>(), and <i>square</i>() will be used to write <i>cage</i>().  You can
+write subroutines for the other three objects, if you want to, but that is not required.</p>
+
+<p>The user will select the object to be drawn by pressing the number keys 1, 2, 3, 4, 5, and 6
+on the keyboard.  The user can rotate the scene by dragging on it with the mouse.
+Pressing the Return or Home will restore the original point of view.  You don't have to
+implement any of that.  It's already done by the program.</p>
+
+<p>We have not yet covered a lot of things that are necessary for
+realistic-looking 3D scenes.  To avoid disappointing you with the look of the scenes
+in this lab, the starter files do some setup in their initialization subroutines
+that you are not expected to understand.  In particular, they set up a
+perspective projection and turn on some basic lighting effects.  And they
+turn on the option <code>GL_COLOR_MATERIAL</code>, which makes the colors 
+set by <i>glColor*</i> functions act like correctly lit material so that the
+objects are shaded correctly.</p>
+
+</div>
+
+
+<div class="section">
+
+<h3>OpenGL and GLUT Functions</h3>
+
+<p>You will use the OpenGL <i>glColor*</i> functions for setting the color of objects.
+You will need the transformation functions <i>glRotated</i>, <i>glScaled</i>, and <i>glTranslated</i>
+for applying transformations, and <i>glPushMatrix</i> and <i>glPopMatrix</i> for saving and
+restoring the current transformation.</p>
+
+<p>(Note that for JOGL, all the OpenGL functions are implemented as methods in a graphics context object, 
+which is named <i>gl2</i> in the program.  That is, all the names must be preceded by
+"gl2.".  For example, <code>gl2.glColor3d(1,0,1)</code>. Furthermore OpenGL constants are defined in the
+class <i>GL2</i>, so they have names like <code>GL2.GL_TRIANGLES</code>.
+
+<p>For two of the objects, you will use <i>glBegin</i>, <i>glEnd</i>, and <i>glVertex*</i>.
+The other four objects will be constructed out of basic shapes using transformations.
+To draw the basic shapes, you will use three functions from the GLUT library:
+<i>glutSolidShpere</i>(), <i>glutSolidCylinder</i>(), and<i>glutSolidCone</i>(). (For JavaScript,
+you will actually be using simulated GLUT functions, defined in the program).
+These GLUT functions are discussed below, when they are needed.
+</p>
+
+</div>
+
+<div class="section">
+<h3>Object Number 1: A 2D Shape</h3>
+
+<p>Object number 1 is a simple 2D shape, which you should draw directly, using <i>glBegin</i>(),
+<i>glEnd</i>(), <i>glVertex*</i>(), and <i>glColor*</i>.  <b>Use different colors
+for different vertices.</b>  Here is the shape, with the vertices labeled:</p>
+
+<p class="np" style="text-align:center"><img src="shape.png" width="185" height="161" style="border:none"></p>
+
+<p class="np">It is possible to make this shape using <b>a single primitive</b> of type either GL_TRIANGLE_FAN or GL_TRIANGLE_STRIP.
+</p>
+
+</div>
+
+
+
+<div class="section">
+<h3>Object Number 2: Wireframe Polyhedron</h3>
+
+<p>This exercise is as much about understanding arrays as it is about OpenGL drawing.  You might want
+to leave it for later so that during the lab you can concentrate on using 3D transformations for the next four objects.</p>
+
+<p>Object number 2 is a wireframe polyhedron.  That is, you will just draw the <b>edges</b> of the
+polyhedron.  The particular polyhedron is called a <i>stellated dodecahedron</i>.  It has 60
+triangular faces.  The data for the polyhedron is already in the program, in two large two-dimensional arrays named
+<i>dodecVertices</i> and <i>dodecTriangles</i>.  You should find those arrays and take a look at them!</p>
+
+<p>The first array, <i>dodecVertices</i>,
+contains the (x,y,z) coordinates of the vertices of the polyhedron.
+For example, vertex number 13 has coordinates</p>
+
+<pre>
+         (<i>dodecVertices</i>[13][0], <i>dodecVertices</i>[13][1],  <i>dodecVertices</i>[13][2])
+</pre>
+
+<p class=np>You can use these coordinates in the function <i>glVertex3d</i>(x,y,z), or you can
+use the entire array in <i>glVertex3dv</i>(array).  (In Java, remember, the functions
+are <i>gl2.glVertex3d</i>(x,y,z) and <i>gl2.glVertex3dv</i>(array,0).)</p>
+
+<p>The second array, <i>dodecTriangles</i>, is a 2D array of integers.  Each row of the array contains
+three integers, giving the vertex numbers for the vertices of one of the triangular faces of the polyhedron.
+That is, the integers in <i>dodecTriangles</i> are indices into the vertex array.  For example,
+The three vertices of face number 7 have vertex numbers <i>dodecTriangles</i>[7][0], <i>dodecTriangles</i>[7][1],
+and <i>dodecTriangles</i>[7][2].  These vertex numbers are row numbers in the <i>dodecVertices</i> array. 
+</p>
+
+<p>Your job is to draw the outline of each of the 60 triangular faces.  You can do that by drawing 
+each face separately as a primitive of type <i>GL_LINE_LOOP</i>.  
+Using the two arrays can easily get confusing.  When processing face
+number <i>i</i>, I suggest that you give names to the vertex numbers for that face.  For example,</p>
+
+<pre class="code">
+int b = dodecTriangles[i][1];  // Index in dodecVertices for vertex 1 of face i.
+</pre>
+
+<p class="np">(If you still find this confusing, you can look ahead at the discussion of
+"Indexed Face Sets" in
+<a href="http://math.hws.edu/graphicsbook/c3/s4.html#gl1geom.4.1">Subsection&nbsp;3.4.1</a>.
+But remember that here you are drawing the edges, not the faces, of the polyhedron.)</p>
+
+<p><b>Important Note:</b> A wireframe should be drawn with lighting effects turned off!  To implement that,
+you should use the command</p>
+
+<pre class="code">
+glDisable(GL_LIGHTING);  // or gl2.glDisable(GL2.GL_LIGHTING) in Java
+</pre>
+
+<p class="np">before you draw the polyhedron, and</p>
+
+<pre class="code">
+glEnable(GL_LIGHTING);  // or gl2.glEnable(GL2.GL_LIGHTING) in Java
+</pre>
+
+<p class="np">after you draw the polyhedron.</p>
+
+<p>(One more note:  The initialization subroutine calls <i>glLineWidth</i>(3), to make lines 3 pixels
+wide.  The stellated dodecahedron is the only shape that uses lines, so this setting only applies
+to that shape.  The wider lines make the shape more distinct.)</p>
+
+<hr width="33%" align=center>
+
+<p class=np style="text-align:center"><b>Stellated Dodecahedron Wireframe, rotated</b></p>
+
+<p class=np style="text-align:center"><img src="dodec.png" width="333" height="305"></p>
+
+</div>
+
+
+
+<div class="section">
+<h3>Object Number 3: A Simple Tree</h3>
+
+<p>Object number 3 is a very simple example of using GLUT and transforms.  This is just
+a warm-up for the remaining objects.  The third
+object is a solid, 3D object that consists of a green cone sitting on top
+of a brown cylinder, meant to look a little like a tree.  Here are two pictures of the
+tree in slightly different orientations so that you can see that cone actually has
+no bottom (which is unfortunate, but we will put up with it):</p>
+
+<p class="np" style="text-align:center"><img src="trees.png" width="476" height="399"></p>
+
+<p class="np">The cone and the cylinder can be drawn using the GLUT library:</p>
+
+<pre class="code">glutSolidCylinder( radius, height, 32, 8 );
+
+glutSolidCone( radius, height, 32, 8 );
+</pre>
+
+<p class="np">In Java, the method names will be <i>glut.glutSolidCylinder</i>
+and <i>glut.glutSolidCone</i>.  The first two parameters specify the size of the
+object.  The last two are "slices" and "stacks" and determine how smooth the
+curved surfaces will be; the values 32 and 8 are fine for this lab.</p>
+
+<p>For this example, my cone has radius 3.5 and height 8, my cylinder has
+radius 1.5 and height 5, and the cylinder sticks 1 unit into the
+interior of the cone.</p>
+
+<p>If no transformation is applied, both the cone and the cylinder are drawn with the center of their bases
+at (0,0,0) and with their axes lying along the positive z-axis (that is,
+pointing directly out of the screen).  So, if you just use the above commands, the cone and cylinder will be in the same location!
+Obviously, you will need to apply a transformation.  In the end, the complete
+object should have its center approximately at (0,0,0) for proper display.  It will still
+be pointing directly at you, so you will have to apply a transformation to rotate it into
+a vertical orientation on the screen.</p>
+
+<p>Don't forget to use <i>glPushMatrix</i>() and <i>glPopMatrix</i>(), as necessary, to
+limit the effect of the transformations that you apply!</p>
+
+</div>
+
+<div class="section">
+<h3>Objects Number 4, 5, and 6: Build a Cage</h3>
+
+<p>Objects number 4, 5, and 6 are stages in building a "cage" out of cylinders and
+spheres.  The cage, object number 6, has eight spheres at the vertices of a cube.  The centers are
+the points (-4,-4,-4), (-4,-4,4), (-4,4,-4), etc.  There is a narrow cylinder
+lying along each edge of the cube.  You should use a different color for the cylinders than you use for
+for the spheres.  Note that a sphere can be drawn using the GLUT function</p>
+
+<pre class="code">
+glutSolidSphere( radius, 32, 32 );
+</pre>
+
+<p class="np">or <i>glut.glutSolidShpere</i> for Java.  The center of the sphere is
+at (0,0,0).  The first parameter is the radius.  The other two parameters are, again,
+"slices" and "stacks"; you can use the value 32 for this lab.</p>
+
+<p>Object number 4 is a "bar" consisting of a cylinder with a sphere at each end.
+<b>The cylinder lies along the x-axis</b>, and the centers of the spheres are at (-4,0,0) and (4,0,0):</p>
+
+<p class="np" style="text-align:center"><img src="bar.png" width="254" height="54"></p>
+
+<p class="np">You should complete the <i>bar</i>() subroutine to draw this object.  Note that for Java,
+the graphics context, <i>gl2</i>, is a parameter to the subroutine.</p>
+
+<p>Object number 5 is square shape that can be made out of two translated copies of the bar,
+plus two additional cylinders.  <b>The square lies in the xy-plane</b>, and the centers
+of the four spheres are at (-4,4,0), (4,4,0), (-4,-4,0), and (4,-4,0).  (Do not make
+the square out of four bars &mdash; that would actually contain eight spheres, not four.)
+This is to be drawn by the <i>square</i>() subroutine:</p>
+
+<p class="np" style="text-align:center"><img src="square.png" width="248" height="249"></p>
+
+<p>Finally, object number 6 is the full cage, which can be made from two translated copies of
+the square, plus four additional cylinders.  It should be centered at (0,0,0):</p>
+
+<p class="np" style="text-align:center"><img src="cage.png" width="358" height="365"></p>
+
+</div>
+
+
+<hr>
+
+<div class="section">
+
+<p>Here, by the way is what happens to the cage when lighting is turned off, and the colors
+are treated as simple color rather than material  Simple color looks completely flat.  There
+is none of the shading that comes from the interaction of light with material.  The picture
+barely looks 3D at all.  Your brain might still try to interpret it as 3D because the smaller
+size of some spheres makes them look farther away and because similar line drawings are
+often used to represent cubes,</p>
+
+<p class="np" style="text-align:center"><img src="cage-unlit.png" width="359" height="365"></p>
+
+
+
+</div>
+
+
+
+
+</div>
+</body>
+</html>

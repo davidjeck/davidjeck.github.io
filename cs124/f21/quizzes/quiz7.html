@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>CS 124 Quiz #7 with Solutions</title>
+<style type="text/css">
+   body {
+      background-color: white;
+   }
+   #content {
+       margin: 0.5cm auto;
+       max-width: 700px;
+   }
+   div.question {
+      background-color: #E8F0FF;
+      padding: 0 10px;
+      border: thin solid #0000AA;
+      border-radius: 12px;
+      margin: 10px 0;
+   }
+   div.answer {
+      background-color: #FFFBE8;
+      padding: 3px 10px;
+      border: thin solid #808000;
+      border-radius: 12px;
+      margin: 10px 0 30px 0;      
+   }
+   pre {
+      margin-left: 1.5cm;
+   }
+   h2, p.info {
+      text-align:center;
+      color: #770000;
+   }
+</style>
+</head>
+<body>
+<div id="content">
+
+<h2>CPSC 124, Fall 2021:
+Sample Answers to Quiz #7</h2>
+
+<p class=info><i>These are sample answers only.</i><p>
+
+<div class="question">
+<p><b>Question 1.</b>
+Explain the meaning and effect of
+"extends Fruit" in a class definition that begins:&nbsp;&nbsp;
+<code>public class Kumquat extends Fruit {...</code>
+</p>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+Saying that "Kumquat extends Fruit" makes <i>Kumguat</i> a subclass of <i>Fruit</i>.
+<i>Fruit</i> must be a class that already exists.  The subclass, <i>Kumquat</i>, 
+inherits all the instance variables and methods from the <i>Fruit</i> class.  It is
+then possible to add new variables and instance variables to class <i>Kumquat</i>,
+and to override (that is, provide different definitions for) methods that are defined
+in class <i>Fruit</i>.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 2.</b>
+Given the classes <i>Kumquat</i> and
+<i>Fruit</i> from the previous problem, which of the following statements
+could be legal in Java?  Explain.</p>
+<pre>
+    (1)  Fruit delicious = new Kumquat();
+    
+    (2)  Kumquat goodForYou = new Fruit();
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+Since <i>Kumquat</i> is a subclass of <i>Fruit</i>, any object of type <i>Kumquat</i>
+is also a <i>Fruit</i>.  So it is legal to assign a Kumquat object to a Fruit varialbe.
+That is, (1) is legal (as long as class <i>Kumquat</i> has a constructor with no parameters).
+However, not every Fruit is a Kumquat, so (2) cannot be legal.</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 3.</b>
+A class contains the following setter method.  What
+is the meaning of "<i>this.name</i>", and why is it necessary here?</p>
+<pre>
+   public void setName( String name ) {
+       this.name = name;
+   }
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+The special variable "this" refers to the object that contains the method.  That
+object must have an instance variable named <i>name</i>.  So, <i>this.name</i> 
+refers to the value of the instance variable <i>name</i> in the object.
+It is necessary here because the method has a parameter named <i>name</i>, the
+same as the name of the instance variable.  Inside the method, <i>name</i> by
+itself refers to the parameter, while <i>this.name</i> refers to the instance
+variable.  The instance variable is hidden by the parameter, and <i>this</i>
+allows access to it.
+</p>
+</div>
+
+
+<div class="question">
+<p><b>Question 4.</b>
+A class named <i>PrintableDoc</i> has an instance method
+<i>print</i>() that prints the document.  A subclass named <i>DocWithCount</i> adds the
+ability to keep track of how many times the document was printed.  Complete the following
+definition of class <i>DocWithCount</i> by adding three lines:<p>
+<pre>
+public class DocWithCount extends PrintableDoc {
+    private int printCt = 0; // Number of times this document has been printed.
+    public void print() { // Print document and increment counter.
+    
+    
+    }
+    public int getPrintCt() {
+    
+    }
+}
+</pre>
+</div>
+<div class="answer">
+<p><b>Answer.</b>
+</p>
+<pre>
+public class DocWithCount extends PrintableDoc {
+    private int printCt = 0; // Number of times this document has been printed.
+    public void print() { // Print document and increment counter.
+        <b>super.print();  // Call print method from superclass to print the document.</b>
+        <b>printCt++;</b>
+    }
+    public int getPrintCt() {
+        <b>return printCt;</b>    
+    }
+}
+</pre>
+</div>
+
+
+
+</div>
+</body>
+</html>
+

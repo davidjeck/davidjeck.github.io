@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Transforms2D</title>
+<style>
+    /* This style section is here to make the canvas more obvious on the
+       page.  It is white on a light gray page background, with a thin
+       black border. */
+    body {
+        background-color: white;
+    }
+    canvas {
+        background-color: white;
+        display: block;
+    }
+    #canvasholder {
+        border:2px solid black;
+        float: left; /* This makes the border exactly fit the canvas. */
+    }
+</style>
+<script>
+
+    let g;   // A 2D graphics context for drawing on the canvas.
+    let pic; // An image of the space shuttle.
+    
+    /**
+     *  The draw() function is called when the page loads and
+     *  when the user changes the setting of the popup menu.
+     */
+    function draw() {
+         g.save(); // Save current graphics state.
+         g.fillStyle = "yellow";
+         g.fillRect(0,0,600,600);
+         g.translate(300,300);
+         let whichTransform = Number(document.getElementById("transform").value);
+         // whichTransform is the number of the selected item in the popup menu, from 0 to 0.
+         
+         // TODO Apply transforms here, depending on the value of whichTransform, from 1 to 9!
+        
+
+
+         // Do NOT change the following line.  This will draw the image, subject
+         // to whatever transformations have been applied.
+         g.drawImage(pic,-200,-150);   // Draw image with center at (0,0).
+         g.restore(); // Restore graphics state to initial value.
+     } // end of draw()
+    
+       
+    /**
+     * The init() funciton is called after the page has been
+     * loaded.  It initializes the canvas and graphics variables,
+     * and it calls draw() to draw on the canvas.  If an error
+     * occurs, a message is displayed in place of the canvas.
+     */
+    function init() {
+        try {
+            let canvas = document.getElementById("canvas");
+            g = canvas.getContext("2d");
+        } catch(e) {
+            document.getElementById("canvasholder").innerHTML =
+               "<p>Canvas graphics is not supported.<br>" +
+               "An error occurred while initializing graphics.</p>";
+            return;
+        }
+        pic = document.getElementById("shuttle");
+        document.getElementById("transform").onchange = draw;
+        document.getElementById("transform").value = "0";
+        draw();
+    }
+    
+    window.onload = init; // arranges for function init to be called when page is loaded
+    
+</script>
+</head>
+<body> 
+
+<h2>CS 424 Lab 1:  Transforms2D</h2>
+
+<noscript>
+    <!-- This message will be shown in the page if JavaScript is not available. -->
+<p>JavaScript is required to use this page.</p>
+</noscript>
+
+
+<p><b>Select Transform</b>: <select id="transform">
+      <option value="0">None</option>
+      <option value="1">Number 1</option>
+      <option value="2">Number 2</option>
+      <option value="3">Number 3</option>
+      <option value="4">Number 4</option>
+      <option value="5">Number 5</option>
+      <option value="6">Number 6</option>
+      <option value="7">Number 7</option>
+      <option value="8">Number 8</option>
+      <option value="9">Number 9</option>
+</select></p>
+
+<div id="canvasholder">
+<canvas id="canvas" width="600" height="600">
+    <!-- This message is shown on the page if the browser doesn't support the canvas element. -->
+Canvas not supported.
+</canvas>
+</div>
+
+<div style="display:none">
+   <!-- This is a cheap way to get the image loaded into the page. -->
+   <img src="shuttle.jpg" id="shuttle">
+</div>
+
+</body>
+</html>

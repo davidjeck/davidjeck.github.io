@@ -1,0 +1,463 @@
+<HTML>
+
+<HEAD> <TITLE>xTurtleLab 4</TITLE> </HEAD>
+
+<BODY bgcolor="#FFFFFF">
+
+<blockquote>
+
+<H3 align=center><font color="#E70000">Labs for
+          <cite>The Most Complex Machine</cite></font></H3>
+
+<H2 align=center><font color="#E70000">xTurtle Lab 4: 
+         Multiprocessing</font></H2>
+
+<hr alignt=center width="50%">
+
+<p><font size="+2">A </font>CENTRAL PROCESSING UNIT EXECUTES A PROGRAM one step at a time,
+fetching each instruction from memory and executing it before going
+on to the next instruction.  In many cases, though, a problem can
+be broken down into sub-problems that could be solved at the same
+time.  In <font color="#E70000">parallel processing</font>, several CPUs work simultaneously
+on a problem, each one solving a different sub-problem.  This is one
+of the major techniques for speeding up the execution of programs.</p>
+
+<p>Even when only one processor is available, it is sometimes natural to
+break down a program into parts that can be executed simultaneously.
+<font color="#eE70000">Multitasking</font> can be applied to divide the single processor's
+time among the various parts of the program.  The program won't
+be executed any more quickly, but the use of parallel processing
+&quot;abstractions&quot; might make the program easier to write.</p>
+
+<p>In this lab, you will use the multitasking capabilities of the
+xTurtle programming language.  In this language, it is possible
+to split (or <font color="#e70000">fork</font>) a process into several processes that
+will all execute simultaneously and independently.  Each process will
+have its own turtle visible on the screen, so you can actually see
+what is going on.  Although you will be seeing only simulated
+parallel processing, it would be at least theoretically possible for
+each process to run on its own CPU.</p>
+
+<p>The background material for this lab is covered in Sections 10.1 and 10.2 of 
+<cite><a href="http://math.hws.edu/TMCM.html">The Most Complex Machine</a></cite>.
+It would be useful, but not essential, for you to read that material before working
+on the lab.</p>
+
+<p>This lab includes the following sections:</p>
+
+<UL>
+   <LI><A HREF="#mult">Multiple Turtles</A>
+   <LI><A HREF="#sched">Scheduling</A>
+   <LI><A HREF="#shared">Shared Variables</A>
+   <LI><A HREF="#exercises">Exercises</A>
+</UL>
+
+<p>Start by clicking this button to launch xTurtle in its own window:</p>
+
+
+<p align=center>
+<applet codebase="../classes/" archive="xTurtleClasses.zip"
+        code="tmcm.xTurtleLauncher.class"
+        alt="(Java not enabled.)"
+        width=150 height=30>
+   <param name="BASE" value="xTurtlePrograms/">
+   <param name="URL"  value="Bugs.txt">
+   <param name="URL1" value="ParallelSpectrum.txt">
+   <param name="URL2" value="TwoTasks.txt">
+   <param name="URL3" value="ParallelSnowflake.txt">
+   <param name="URL4" value="Circles.txt">
+   <param name="URL5" value="SynchronizedRandomWalk.txt">
+   <param name="URL6" value="ThreeNPlusOneMax.txt">
+   <param name="URL7" value="TwoGraphs.txt">
+   <param name="URL8" value="SumOfSquares.txt">
+   <font color="#E70000">(Sorry, your browser doesn't do Java!)</font>
+</applet>
+
+<p>(For a full list of labs and applets, see the <A HREF="../index.html">index page</A>.)</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="mult">Multiple Turtles</A></font></H3>
+
+<p>After launching xTurtle, select the first sample program,
+&quot;Bugs.txt,&quot; from the pop-up menu at the top of the
+xTurtle window.  Run the program by clicking on the &quot;Run
+Program&quot; button.  You will
+see ten turtles wandering around on the screen.  This is a very
+simple program, but it illustrates the basic multiprocessing
+command in xTurtle, the <font color="#007000">fork</font> statement.</p>
+
+<p>The statement <tt>fork(10)</tt> causes a single process to split into
+ten processes.  Any commands in the program that follow the fork
+statement will be executed by each process independently and
+simultaneously.  In the Bugs program,
+each of the ten processes goes into a loop that sends
+its turtle on a random walk, and so you see all ten
+turtles wandering aimlessly on the screen.  Each turtle
+follows the same program, but each turtle chooses different
+random numbers and so each turtle follows its own random
+path.  The first two exercises at the end of the lab ask
+you to add a few modifications to this program.</p>
+
+<hr align=center width="33%">
+
+
+<p>When a process is forked, all of the processes that are created
+start out in exactly the same state, with one small exception.
+The xTurtle language has a predefined variable named <font color="#007000">ForkNumber</font>.
+This is a read-only variable; that is, you can test the value
+of this variable but you can't change its value.  Each of the
+processes created by a <font color="#007000">fork</font> statement gets its own value
+for <font color="#007000">ForkNumber</font>.  For the first process, the value of
+<font color="#007000">ForkNumber</font> is 1, for the second the value is 2, and so forth.
+To test this, try executing the following commands.  Type them
+on a single line in the input box at the bottom of the xTurtle window,
+and then click the &quot;Do It&quot; button:</p>
+
+<p align=center><tt>fork(5)&nbsp;&nbsp;TellUser(&quot;ForkNumber = #ForkNumber&quot;)</tt></p>
+
+<p>When the computer executes the TellUser command, it substitutes the
+actual value of ForkNumber for &quot;<tt>#ForkNumber</tt>&quot;.
+Make sure you understand what happens.  (You have to type both
+commands in the input box on one line.  If you execute ``<tt>fork(5)</tt>''
+by itself, two processes will be created, but both processes will
+&quot;die&quot; before you get a chance to type in the next command.)
+</p>
+
+<p>In the sample program &quot;ParallelSpectrum.txt&quot;, the 
+ForkNumber is used in the program in several calculations.  Each 
+process does the same calculation, but since different processes
+have different values for ForkNumber, the result will be different
+in each process.  For example, &quot;<tt>turn(4*ForkNumber)</tt>&quot;
+will make Turtle #1 turn 4 degrees, Turtle #2 turn 8 degrees,
+Turtle #3 turn 12 degrees, and so on.</p>
+
+
+<p>The sample program &quot;TwoTasks.txt&quot; shows how ForkNumber
+can be used to make several turtles do several completely different
+tasks.  When you run this program, two processes are created with
+a <font color="#007000">fork</font> command.  Both processes execute
+an IF statement of the form:</p>
+
+<pre>                   IF  ForkNumber = 1  THEN
+                      { do one thing }
+                   ELSE
+                      { do something else }
+                   END IF
+</pre>
+
+<p>The first turtle, with a ForkNumber of 1, does one task
+while the second turtle, with a ForkNumber of 2,
+does another, completely different task.
+You are asked to do something similar in Exercise 3 at the end of 
+the lab.</p>
+
+<hr align=center width="33%">
+
+<p>Two other sample programs, &quot;ParallelSnowflake.txt&quot;
+and &quot;Circles.txt,&quot; show that a program can contain
+more than one <font color="#007000">fork</font> command.
+In these programs, the first <font color="#007000">fork</font>
+command creates several processes.  Each of these processes
+then goes on to execute a second <font color="#007000">fork</font>
+command.  When this happens, <b>each</b> process splits into
+several processes.  You can see this clearly when you run
+&quot;ParallelSnowflake.txt,&quot; which creates 216 processes
+with a sequence of three <tt>fork(6)</tt> commands.</p>
+
+<p>The &quot;Circles.txt&quot; sample program illustrates another
+important fact.  It shows how a <font color="#007000">declare</font>
+statement works when it occurs after a <font colot="#007000">fork</font>.
+Every process will execute the <font color="#007000">declare</font>
+statement separately, so that every process will have its <b>own</b>
+copy of the variable.  Thus, the variable can be assigned different values
+in different processes.  You will need to understand the
+&quot;Circles.txt&quot; program in order to do exercise 4
+at the end of the lab.</p>
+
+<p>On a <a href="xTurtleTilingExamples.html">separate web page</a>,
+I've provided a set of six sample programs that use xTurtle multitasking
+to draw some interesting &quot;tilings&quot; of the plane.  These
+are pictures that would be more difficult to draw without multitasking.
+If you like pretty pictures, you might want to take a look.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="sched">Scheduling</A></font></H3>
+
+<p>The operating system of a multitasking computer
+is in charge of <font color="#E70000">scheduling</font> all
+the processes.  That is, it determines which process gets to run next and
+how long it will be permitted to run.  The CPU, under the control of the
+operating system, will execute one process for a while, then switch to
+another, then to another, and so forth.  In xTurtle,
+the scheduling is done by the xTurtle applet, but the objective
+is to simulate the way things are done in an actual multitasking
+computer system.</p>
+
+<p>When you watch the execution of the &quot;ParallelSnowflake.txt&quot;
+or &quot;Circles.txt&quot; sample program, you'll see that the processes
+do not all run at exactly the same speed.  As the system switches its attention
+from one process to another, there is some randomness in the amount of
+time that is spent on each process.  The xTurtle program
+is set up to run this way by default, since it's the way real multitasking
+systems work.</p>
+
+<p>However, the xTurtle applet has an option to run all the processes
+at exactly the same rate of speed.  To turn this option on, click
+on the &quot;Lock Step&quot; checkbox in the bottom right corner of
+the xTurtle window.  When this box is checked, all the turtles on
+the screen will move in &quot;lock step.&quot;  While this might not
+be an accurate simulation of multitasking, it can be pretty to watch.
+You might want to try executing some of the sample programs with
+this option turned on.</p>
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="shared">Shared Variables</A></font></H3>
+
+<p>In all the examples you have seen so far, the multiple processes are
+completely independent.  The various turtles go about their business without
+interacting with the other turtles in any way.  (This is not quite true,
+since the turtles have to share the same screen.  You might have noticed
+that one turtle will sometimes wipe out the image of another turtle
+temporarily.)</p>
+
+<p>Things can get more interesting when the processes have to communicate
+with each other.  In xTurtle, processes communicate through <font color="#e70000">shared
+variables</font>.  When a variable is declared <b>before</b> a <font color="#007000">fork</font>
+command, there is only <b>one</b> copy of that variable, which is shared by
+all the processes.  If any of those processes changes the value of the
+variable, then all the other processes can see the new value.  This is the
+only form of communication between processes that can occur in xTurtle.</p>
+
+<p>As explained in <cite>The Most Complex Machine,</cite>
+great care must be taken when shared variables
+are used for communication, so that one process does not change the value
+of a variable while another process is using that value.  A process must
+obtain exclusive access to a shared variable while it is using that
+variable.  This is the <font color="#e70000">mutual exclusion</font> problem.
+In xTurtle, the <font color="#007000">grab</font>
+statement is provided to make mutual exclusion possible.
+A <font color="#007000">grab</font> statement takes the form</p>
+
+<pre>                   GRAB &lt;global variable name&gt; THEN
+                      &lt;statements&gt;
+                   END GRAB
+</pre>
+
+<p>Only one process at a time is allowed to &quot;grab&quot; a given variable.
+When a process comes to a <font color="#007000">grab</font>
+statement, the computer checks
+to see whether another process has already grabbed the variable.
+If so, then the second process must wait until the first process
+releases its lock on the variable by finishing the execution
+of its <font color="#007000">grab</font> statement.
+Only then is the second process allowed to grab the variable and
+execute the statements in its own <font color="#007000">grab</font>
+statement.
+(Of course, this can cause big problems if a process grabs a
+variable and doesn't release it.  Other processes that want
+to grab the variable will never get a chance to run at all.)</p>
+
+<p>The statements inside a <font color="#007000">grab</font>
+statement are called a <font color="#e70000">critical
+region</font>.  As long as access to shared variables is confined to
+critical regions, processes can use the variables to communicate in
+relative safety.</p>
+
+<hr align=center width="33%">
+
+<p>Even with the grab statement, communication among processes
+can still be very complicated.  A relatively straightforward
+example can be found in the sample program &quot;SynchronizedRandomWalk.txt.&quot;
+Select this program from the pop-up menu, read the comments, and run the program.
+You will see two turtles executing identical random walks.
+One of the turtles selects a random angle to be used in the random
+walk and records it in the shared variable, <tt>angle</tt>.  The other
+turtle reads the value from the shared variable and uses it.
+A second shared variable, <tt>control</tt>, is used in a <font color="#007000">grab</font>
+statement to control access to <tt>angle</tt>.  Exercise 6 asks you
+to modify this program so that more than two processes are
+involved.</p>
+
+<p>Another example of shared variables is given in the sample program
+&quot;ThreeNPlusOneMax.txt.&quot;
+Read the comments in the program and run the program.  It will take
+a few seconds to run, and you won't see anything happening until the
+end, when the program reports the value that it has computed.
+In Exercise 7, you will work with a similar example.</p></p>
+
+<p>The ThreeNPlusOneMax program also illustrates what happens when a <font color="#007000">fork</font>
+command is used inside a subroutine:  At the end of the subroutine,
+all the processes are &quot;rejoined&quot; into one process before the subroutine
+terminates.  After the subroutine finishes, there is only
+one process to carry on.  The forking is part of the subroutine's black box;
+it has no effect outside the subroutine.  In the sample program, there is only
+one process to execute the TellUser statement at the end of the program.</p>
+
+
+
+<HR>
+<H3><font color="#E70000"><A NAME="exercises">Exercises</A></font></H3>
+
+
+<p><font color=blue><b>Exercise 1:</b></font>
+Modify the sample program &quot;Bugs.txt&quot; so that each
+bug will leave a trail behind it as it wanders randomly
+around on the screen.  Each of the trails should be a
+different color.  The screen should look something like
+this after the program has run for a while:</p>
+
+<p align=center><img src="images/xTurtle10.gif" alt="Bugs with trails" width="204" height="181"></p>
+
+
+<p><font color=blue><b>Exercise 2:</b></font>
+In the sample program &quot;Bugs,&quot; ten &quot;bugs&quot; wander around on the
+screen.  Real bugs, though, are born and die.  Add &quot;birth&quot; and 
+&quot;death&quot; to the Bugs program.  Add birth by programming 
+a one-in-twenty-five chance that a bug will split in two, each time
+it moves.  (You can program a one-in-twenty-five chance by checking
+whether RandomInt(25) is 1.) Similarly, there should be a 1-in-25 chance
+that the bug will die.</p>
+<p>To program death, you will need to know about another built-in xTurtle command,
+<font color="#007000">KillProcess</font>.  When a process executes
+the command <font color="#007000">KillProcess</font>, it dies.
+The turtle for that process disappears from the screen. (Note that
+this command differs from <font color="#007000">Halt</font>.  If
+any process executes a <font color="#007000">Halt</font> command,
+the entire program halts and so <b>all</b> the turtles die.)</p>
+
+
+<p><font color=blue><b>Exercise 3:</b></font>
+The sample program &quot;TwoGraphs.txt&quot;
+draws the graphs of two functions, one after the other.
+Instead of a single turtle that draws the graphs one
+after the other, the program could use two turtles
+that draw the graphs at the same time. 
+Modify the program so that it does this.
+You only need to do a bit of work on the half-dozen
+or so lines at the very bottom of the program.</p>
+
+<p><font color=blue><b>Exercise 4:</b></font>
+Write a program that uses two <font color="#007000">fork(9)</font>
+statements to draw a multiplication table like this one on
+the screen:</p>
+
+<pre>               1   2   3   4   5   6   7   8   9
+               2   4   6   8  10  12  14  16  18
+               3   6   9  12  15  18  21  24  27
+               4   8  12  16  20  24  28  32  36
+               5  10  15  20  25  30  35  40  45
+               6  12  18  24  30  36  42  48  54
+               7  14  21  28  35  42  49  56  63
+               8  16  24  32  40  48  56  64  72
+               9  18  27  36  45  54  63  72  81
+</pre>
+
+<p>The entry in row number <i>row</i> and column number <i>col</i>
+is <i>row*col</i>.  Your program will be similar in outline to the
+sample program, &quot;Circles.txt.&quot;  You'll need to use
+the <font color="#007000">DrawText</font> command to write 
+each number on the screen.  Recall that if <i>num</i> is a variable,
+then the command <font color="#007000">DrawText(&quot;#num&quot;)</font>
+will output the value of <i>num</i> at the current turtle position.</p>
+
+
+<p><font color=blue><b>Exercise 5:</b></font> A recursive subroutine
+for drawing binary trees was covered in <a href="xTurtleLab3.html">xTurtle Lab 3</a>.
+Binary trees can also be drawn using multitasking.  Each &quot;fork&quot;
+in the tree is represented by a <font color="#E70000">fork</font> command
+in the program.  Here is a recursive subroutine that uses multitasking to
+draw a binary tree:</p>
+
+<pre>            SUB tree(size, complexity)
+               IF complexity &gt; 0 THEN
+                  forward( size/2 )
+                  fork( 2 )
+                  IF ForkNumber = 1 THEN
+                     turn( 45 )
+                  ELSE
+                     turn( -45 )
+                  END IF
+                  tree( size/2, complexity - 1 )
+               END IF
+            END SUB
+</pre>
+
+<p>Implement this subroutine in a program that draws binary trees.
+Then modify the subroutine to add some color and an element
+of randomness.  For example, instead of being always equal to two,
+the number of branches could be random.  Instead of just dividing the
+size by 2, you could multiply it by a random amount. Try to make
+your program draw &quot;bushes&quot; that bear at least some resemblance
+to real bushes.</p>
+
+
+<p><font color=blue><b>Exercise 6:</b></font>
+Modify the sample program &quot;SynchronizedRandomWalk.txt&quot;
+so that instead of showing two turtles moving in identical
+random walks, it shows <i>five</i> turtles moving in identical
+random walks.  Each of the turtles should start from a different
+position and should draw in a different color.  The hard part of
+this exercise is passing off the &quot;control&quot; from one turtle
+to the next.  You have to make sure that the <i>control</i> goes
+through the values 1, 2, 3, 4, 5, and then back to 1 so that each
+turtle will get a chance to move.  Just as in the original program,
+Turtle #1 should select the random angle.  Each of the other four
+turtles should use the same angle.</p>
+
+
+<p><font color=blue><b>Exercise 7:</b></font>
+The Sample program &quot;SumOfSquares.txt&quot;
+is a <b>failed</b> attempt to write a program that computes the value
+of the sum</p>
+
+<p align=center>1<sup>2</sup> + 2<sup>2</sup> + 3<sup>2</sup> + ... + 25<sup>2</sup></p>
+
+<p>Run the program several times.  It will give a different answer
+each time.  (If you've turned on the &quot;Lock Step&quot; checkbox,
+then you'll get the same answer each time, but it will still be an
+incorrect answer.)
+Use a <font color="#007000">grab</font> statement to fix the program so
+that it gives the correct answer.  See the &quot;ThreeNPlusOneMax.txt&quot;
+sample program for an example of using a <font color="#007000">grab</font>
+statement for a similar purpose.
+Write a short essay explaining carefully what
+goes wrong when the <font color="#007000">grab</font> statement is omitted
+and how adding the <font color="#007000">grab</font> statement fixes the problem.
+</p>
+
+
+<p><font color=blue><b>Exercise 8:</b></font>  Design your own
+parallel processing xTurtle program.  Try to make a nice colorful
+design, either random or symmetric.  Hopefully, it will be fun to
+watch as multiple turtles construct the picture.
+</p>
+
+<p><font color=blue><b>Exercise 9:</b></font>  
+Is it really sometimes easier to write a program using parallel processing
+than to write a standard program to do the same task?  Write a short essay
+explaining and defending your opinion.</p>
+
+
+<HR>
+<font size="-1">This is one of a series of labs written to
+be used with <cite><A HREF="http://math.hws.edu/TMCM.html">The
+Most Complex Machine: A Survey of Computers and Computing</A></cite>,
+an introductory computer science textbook
+by <A HREF="http://math.hws.edu/eck/index.html">David Eck</A>.
+For the most part, the labs are also useful on their own,
+and they can be freely used and distributed for private,
+non-commercial purposes.  However, they should not be used
+as a formal part of a course unless <cite>The Most Complex
+Machine</cite> is also adopted for use in that course.</font></p>
+
+<p align=right><font size="-1"><i>--<A HREF="http://math.hws.edu/eck/index.html">David Eck</A>
+(<A HREF="mailto:eck@hws.edu">eck@hws.edu</A>), Summer 1998</i></font></p>
+
+</blockquote>
+
+</BODY>
+
+</HTML>

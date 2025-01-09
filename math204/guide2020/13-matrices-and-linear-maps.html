@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Matrices and Linear Maps</title>
+</head>
+<body>
+<div id="content">
+
+<h2>13 Matrices and Linear Maps from $\R^n$ to $\R^m$</h2>
+<hr>
+
+$\newcommand{\mij}[1]{\begin{pmatrix} 
+      #1_{11} & #1_{12} & \cdots & #1_{1n} \\ 
+      #1_{21} & #1_{22} & \cdots & #1_{2n} \\ 
+      \vdots  & \vdots  & \ddots & \vdots\\
+      #1_{m1} & #1_{m2} & \cdots & #1_{mn} \end{pmatrix}}
+\newcommand{\mrc}[3]{\begin{pmatrix} 
+      #1_{11} & #1_{12} & \cdots & #1_{1#3} \\ 
+      #1_{21} & #1_{22} & \cdots & #1_{2#3} \\ 
+      \vdots  & \vdots  & \ddots & \vdots\\
+      #1_{#21} & #1_{#22} & \cdots & #1_{#2#3} \end{pmatrix}}     
+      $
+
+
+<p>Observe that the set, $M_{m\times n}$, of $m\times n$ matrices can be made into
+a vector space by defining vector addition and scalar multiplication entry-wise:
+$$\mij a + \mij b = \begin{pmatrix} 
+      a_{11} + b_{11} &  \cdots & a_{1n} + b_{1n} \\ 
+      a_{21} + b_{21} &  \cdots & a_{2n} + b_{2n} \\ 
+      \vdots  &  \dots & \vdots\\
+      a_{m1} + b_{m1} &  \cdots & a_{mn} + b_{mn} \end{pmatrix}
+$$
+and $$r\cdot\mij c = \mij{rc}$$
+It is clear that $M_{m\times n}$ is isomorphic to $\R^{mn}$, since an $m\times n$
+matrix has $mn$ entries.</p>
+
+<p>We can also define another kind of operation on matrices called <span>matrix multiplication</span>.
+A matrix multiplication operation takes an $m\times k$ matrix and a $k\times n$ matrix, 
+and it outputs an $m\times n$ matrix:
+$$\mrc amk \mrc bkn = \mrc cmn$$ 
+where $$c_{ij} = a_{i1}b_{1j}+ a_{i2}b_{2j}+ a_{ik}b_{kj}$$ 
+That is, the $i,j$ entry in the matrix product is the inner product of the $i^{\rm th}$ row vector 
+of the first matrix with the
+$j^{th}$ column vector of the second matrix.  Note that the number of rows in the first matrix must equal the
+number of columns in the second matrix.</p>
+
+<p>The $n\times n$ <span class=nw>identity matrix</span> is defined to have 1's along the
+main (descending) diagonal, and 0's everywhere else:
+$$I_n\begin{pmatrix}
+   1 & 0 & 0 &\cdots &0 \\
+   0 & 1 & 0 &\cdots &0 \\
+   0 & 0 & 1 &\cdots &0 \\
+   \vdots&\vdots&\vdots&\ddots&\vdots\\
+   0 & 0 & 0 &\cdots &1 \\
+\end{pmatrix}$$
+This matrix satisfies $AI_n=A$ and $I_nB=B$ for all matrices $A,B$ for which the products are
+defined.</p>
+
+<p>Given an $n\times n$ matrix $A$, an <span class=nw>inverse matrix</span> for $A$ is
+a matrix $A^{-1}$ satisfying $AA^{-1}=I_n$ and $A^{-1}A=I_n$.  Not every $n\times n$ matrix
+has an inverse.  A matrix that has an inverse is said to be <span class="nw">invertible</span>.
+In fact, a matrix is invertible if and only if it is non-singular, which is true if and
+only if when it is put into reduced echelon form, the result is the identity matrix.</p>
+
+<p>There is a straightforward technique for finding the inverse of a matrix, if it exists.
+For an $n\times n$ matrix $A$, form the augmented matrix $(A|I_n)$, where $I_n$ is the
+identity matrix.  Put the matrix into reduced echelon form.  If the resulting augmented
+matrix has the form $(I_n|B)$, then $A$ is is invertible and $B=A^{-1}$.</p>
+
+<hr class=break>
+
+<p>In particular, when the first matrix is $m\times n$ and the second is an $n\times 1$ matrix,
+we are looking at the multiplication of a matrix times a column vector of length $n$.  The result is a column
+vector of length $m$
+$$\mrc amn \begin{pmatrix}b_1\\b_2\\\vdots\\b_n\end{pmatrix}
+=\begin{pmatrix}
+a_{11}b_1 + a_{12}b_2 + \cdots + a_{1n}b_n\\
+a_{21}b_1 + a_{22}b_2 + \cdots + a_{2n}b_n\\
+\vdots\\
+a_{m1}b_1 + a_{m2}b_2 + \cdots + a_{mn}b_n
+\end{pmatrix}
+$$
+This defines a function, $h$, from $\R^n$ to $\R^m$, and that function is a homomorphism.
+If you compute $h(\vec e_i)$ for the standard basis vector $\vec e_i$, you can see that
+$h(\vec e_i)$ is just the $i^{\rm th}$ column of the matrix.  We get a relationship between
+$m\times n$ matrices and homomorphisms from $\R^n$ to $\R^n$.</p>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+Let $A$ be an $m\times n$ matrix.  Define the function $h_A\colon \R^n \to \R^m$ by
+$h_A(\vec v)= A\vec v$ (where $A\vec v$ represents the matrix product of the $m\times n$
+matrix $A$ with $\vec v$ considered as an $n\times 1$ matrix).  Then $h_A$ is a
+homomorphism.  For each standard basis vector $\vec e_i$ in $\R^n$, $h(\vec e_i)$ is
+the $i^{\rm th}$ column vector of $A$.  The range space of $h_A$ is the column space of $A$.
+The null space of $A$ is the set of solutions of the homogeneous system corresponding
+to $A$.  The rank of $h_A$ is the rank of $A$, which is also the number of leading variables
+in $A$.  The nullity of $h_A$ is the number of free variables in $A$, which is also
+$n$ minus the rank of $A$.</p></div>
+
+<p>Recall that $L(\R^n,\R^m)$ is the vector space of all homomorphisms from $\R^n$ to
+$\R^m$.  We have associated each $m\times n$ matrix $A$ with a homomorphism 
+$h_A\colon \R^n\to\R^m$.  This association defines a function $\mathscr H\colon M_{m\times n}
+\to L(\R^n,\R^m)$, given by $\mathscr H(A) = h_A$.  This function is in fact an
+isomorphism.  Thus, the space of $m\times n$ matrices is vector space isomorphic
+to the space of linear maps $L(\R^n,\R^m)$.</p>
+
+<p>But note that this isomorphism is defined using the standard bases of $\R^n$ and
+$\R^m$.  Our goal is to use matrices to represent arbitrary homomorphisms between
+finite-dimensional vector spaces.  To do that, we must choose a basis for each
+vector space, and the matrix representation that we get for a homomorphism will
+depend on those choices.  Even for $\R^n$ and $\R^m$, if we use bases different
+from the standard bases, we get a different matrix representation than the one
+that we have considered here.</p>
+
+<p>One final note:  Suppose that $f\colon \R^n\to \R^k$ and $g\colon \R^k\to \R^m$ are
+homomorphisms.  Then the composition $g\circ f\colon \R^n\to\R^m$ is also a homormorphism.
+Now, $f$ can be represented by a $k\times n$ matrix $B$, $g$ can be represented by
+an $m\times k$ matrix $A$, and $g\circ f$ can be represented by an $m\times n$ matrix $C$.
+If you follow the effects of these matrices on the standard bases, you will
+find that $C=AB$.  That is the matrix for a composition of homomorphisms is the
+matrix product of the matrices for the individual homomorphisms.
+</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{color}
+\setlength{\topmargin}{-0.3 true in}
+\setlength{\headsep}{0 true in}
+\setlength{\topskip}{0 true in}
+\setlength{\textwidth}{6.5 true in}
+\setlength{\oddsidemargin}{0 true in}
+\setlength{\evensidemargin}{0 true in}
+\setlength{\textheight}{9 true in}
+%\renewcommand{\arraystretch}{1.2}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\Z}{{\mathbb Z}}
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\definecolor{darkblue}{RGB}{0,0,150}
+\definecolor{darkred}{RGB}{180,0,0}
+\definecolor{darkgreen}{RGB}{0,120,0}
+\newenvironment{answer}{\par\bigskip\bgroup\color{darkblue}}{\egroup}
+\newenvironment{grading}{\par\medskip\bgroup\color{darkred}}{\egroup\par\bigskip}
+\newenvironment{secondans}{\bgroup\color{darkgreen}}{\egroup}
+\pagestyle{empty}
+
+\def\rowop#1{\qquad\xrightarrow{\begin{matrix}#1\end{matrix}}\qquad}
+
+\begin{document}
+
+
+\hbox to \hsize{\bf Math 204, Fall 2020\hfil  Homework \#6}
+\nointerlineskip
+\vskip 2pt
+\hrule height 1pt
+
+\medskip
+
+\centerline{\textit{This homework is due by \textbf{noon} on Tuesday, October 13,}}
+
+\medskip
+
+% A definition to make it easier to write column vectors.
+\def\vc#1{\begin{pmatrix}#1\end{pmatrix}}
+
+
+\begin{problem}
+Find the rank of each matrix:
+
+\medskip
+\hbox to \hsize{ \hskip 0.7 in
+   \textbf{(a)}\qquad
+   $\begin{pmatrix}
+       1 &  3 & -2 & 4\\
+       2 &  1 &  1 & 3\\
+      -1 &  2 & -3 & 1
+   \end{pmatrix}$
+   \hfil
+   \textbf{(b)}\qquad
+   $\begin{pmatrix}
+         1 & 0 &  3 &  5 & 2\\
+        -1 & 2 &  1 & -2 & 3\\
+         2 & 4 &  0 &  1 & 1\\
+         3 & 4 &  3 &  6 & 3\\
+         1 & 6 &  1 & -1 & 4
+   \end{pmatrix}$
+   \hfil}
+
+\end{problem}
+
+\begin{answer}
+%You can put your answer here for problem 1 -- 5 points
+\end{answer}
+
+
+\begin{problem}
+Suppose that $h\colon \R^3\to\R^3$ is a homomorphism that satisfies
+
+\bigskip
+\centerline{$h\vc{1\\0\\0}=\vc{0\\2\\1}$,\qquad $h\vc{0\\1\\0}=\vc{3\\-1\\0}$,\quad and\quad
+             $h\vc{0\\0\\1}=\vc{1\\2\\3}$}
+\begin{itemize}
+\item[(a)] Find $h\vc{-2\\3\\1}$. (Remember that $h$ is a homomorphism.)
+\item[(b)] For any vector $\vc{a\\b\\c}\in\R^3$, find $h\vc{a\\b\\c}$, writing the answer in
+terms of $a$, $b$, and $c$. 
+\item[(c)] Find a specific vector $\vc{a\\b\\c}\in\R^3$ such that $h\vc{a\\b\\c} = \vc{-1\\0\\2}.$
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here for problem 2 -- 4 points
+\end{answer}
+
+
+
+
+\begin{problem}
+In class, we showed that the function from $\mathscr P_3$ to $\mathscr P_3$ that maps
+the polynomial $p(x)$ to the polynomial $p(x-1)$ is an automorphism of $\mathscr P_3$.
+Define the homomorphism $h\colon\mathscr P_2\to \mathscr P_2$ by $h(p(x)) = p(2x+5)$.
+(You do not have to show that this function is a homomorphism.  Note that it is defined
+on $\mathscr P_2$, not $\mathscr P_3$.)
+\begin{itemize}
+\item[(a)] Show that $h$ is bijective by finding an inverse function.
+\item[(b)] Write out $h(a+bx+cx^2)$ as a polynomial in standard form ($d+ex+fx^2$),
+where $d,e,f$ are expressed in terms of $a,b,c$).
+\end{itemize}
+\end{problem}
+
+\begin{answer}
+%You can put your answer here for problem 3 -- 3 points
+\end{answer}
+
+
+
+
+\begin{problem}
+Define $f\colon \R^4\to\R^4$ by $f\vc{a\\b\\c\\d}=\vc{d\\c\\b\\a}$.
+Show by direct calculation that $f$ is a homomorphism, and show that it is in fact
+an automorphism by finding its inverse.
+\end{problem}
+
+\begin{answer}
+%You can put your answer here for problem 4 -- 3 points
+\end{answer}
+
+
+
+\begin{problem}
+Suppose that $V$, $W$, and $X$ are vector spaces and that $f\colon V\to W$ and $g\colon W\to X$
+are homomoprhisms.  Recall that the compostion, $g\circ f$, of $g$ and $f$ is defined to
+be the function from $V$ to $X$ given  by $g\circ f(\vec v$ = $g(f(\vec v))$ for $\vec v\in V$.
+Show that $g\circ f$ is a homomorphism.  (This is easy!  Just check the two conditions for a
+function to be a homomorphism.)
+\end{problem}
+
+\begin{answer}
+%You can put your answer here for problem 5 -- 2 points
+\end{answer}
+
+
+
+
+\end{document}
+
+
+

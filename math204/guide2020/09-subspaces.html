@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Subspaces, Spans, and Linear Independence</title>
+</head>
+<body>
+<div id="content">
+
+<h2>09 Subspaces, Spans, and Linear Independence</h2>
+<hr>
+
+<p>Chapter Two, Sections 1.II and 2.I look at several different
+kinds of subset of a vector space.</p>
+
+<p>A <span class=nw>subspace</span> of a vector space $(V,+,\cdot)$
+is a subset of $V$ that is itself a vector space, using the vector
+addition and scalar multiplication that are inherited from $V$.
+(This means that for $\vec v$ and $\vec u$ in the subspace and a real
+number $r$, $\vec v+\vec u$ and $r\cdot \vec v$ have the same
+values whether $\vec v$ and $\vec u$ are thought of as elements
+of the subspace as they do when $\vec v$ and $\vec u$ are thought of
+as elements of $V$)</p>
+
+<p>Suppose $V$ is a vector space and $W\subseteq V$, and you want
+to show that $W$ is a subspace of $V$.  This means verifying that
+$(W,+,\cdot)$ satisfies the ten properties listed in the <a href="08-vector-spaces.html#vec">definition</a>
+of vector space.  However, $W$ satisfies many of those properties
+automatically, because they are already known to hold in $V$.
+For example, if $\vec v, \vec u\in W$, we know without checking it
+that $\vec v+\vec u=\vec u+\vec v$ because that equation is true
+for all elements of $V$.  To show that $W$ is a subspace of $V$,
+it suffices to check just three things:</p>
+
+<ol>
+<li>$W$ is closed under vector addition.  That is for all $\vec v, \vec u\in W$,
+$\vec v+\vec u\in W$.</li>
+<li>$W$ is closed under scalar multiplication.  That is, for all 
+$\vec v\in W$ and $r\in\R$, $r\cdot\vec v\in W$.</li>
+<li>$W$ is not empty. (Usually, this is shown by showing $\vec 0\in W$.)</li>
+</ol>
+
+<p class=np>It's usually fairly easy to check that a subset is a subspace.
+For example the set $\mathscr D$ of differentiable functions from $\R$ to $\R$
+is a subspace of the vector space, $\mathscr F$, of all functions from
+$\R$ to $\R$.  This is because (1) the sum of two differentiable functions
+is differentiable; (2) a constant times a differentiable function is 
+differentiable; and (3) the constant function $f(x)=0$ (which is the
+additive identity in $\mathscr F$) is differentiable.</p>
+
+<hr class=break>
+
+<p>If you take some arbitrary subset of a vectors space $V$, it is
+probably not a subspace.  However, you can "generate" a subspace
+from any subset of $V$ by taking the "span" of that subset.</p>
+
+<div class=def><p><span class=dtp>Definition:</span>
+Suppose that $(V,+,\cdot)$ is a vector space, and $S$ is any non-empty
+subset of $V$.  The <span class=nw>span</span> of $S$ is defined to
+be the subset, $[S]$, of $V$ given by 
+$$[S]=\{a_1\vec v_1+a_2\vec v_2+\cdots a_k\vec v_k\,|\, k\in\N\mbox{ and }a_1,a_2,\cdots a_k\in\R
+\mbox{ and } \vec v_1,\vec v_2,\dots\vec v_k\in S\}$$
+That is, $[S]$ is the set of all linear combinations of any number of vectors in $S$.
+The notation $span(S)$ is also used instead of $[S]$.
+In addition, wel say that $span(\varnothing)=\{\vec 0\}$; that is, the span of the
+empty set is the trivial subspace that contains only the single vector $\vec 0.$
+</p></div>
+
+<div class=thm><p><span class=dtp>Theorem:</span>
+If $(V,+,\cdot)$ is a vector space and $S\subseteq V$, then the span, $[S]$, of $S$
+is a subspace of $V$.
+</p></div>
+<div class=prf><p><spa class=dtp>Proof:</span>
+If $S=\varnothing$, then $[S]=\{\vec 0\}$, which is a subspace of $V$.  Suppose that $S$ is non-empty.
+Then
+<ol>
+<li>$[S]$ is not empty.  For, since $S\ne\varnothing$, there is some $\vec v\in S$.  Now, $1\cdot \vec v$ is a linear combination
+of the single vector $\vec v$, so $1\cdot \vec v\in [S]$ by defintion of $[S]$.  So $[S]\ne\varnothing$.
+[Since $1\cdot \vec v=\vec v$, we see that $\vec v\in S$. This shows that $S\subseteq [S]$.]</li>
+<li>$[S]$ is closed under vector addition.  For suppose that $\vec \alpha, \vec \beta\in [S]$.  We must show
+that $\vec \alpha+ \vec \beta\in [S]$.  But, by definition of $S$, we can write 
+$\vec \alpha = a_1\vec v_1+\cdots+ a_k\vec v_k$ and $\vec \beta = b_1\vec u_1+\cdots+b_\ell\vec u_\ell$,
+were $a_1,\dots,a_k,b_1,\dots,b_\ell\in\R$ and $ \vec v_1,\dots,\vec v_k,\vec u_1,\dots,\vec u_\ell\in S$.
+But then, $\vec\alpha+\vec\beta=a_1\vec v_1+\cdots+ a_k\vec v_k+b_1\vec u_1+\cdots+b_\ell\vec u_\ell$,
+which is in $[S]$ since it is a linear combination of elements of $S$. [Note that we do not require the
+vectors in a linear combination to be distinct, so it's OK if some of the $\vec v\mbox{'s}$ are equal to
+some of the $\vec u\mbox{'s}$.]
+<li>$[S]$ is closed under scalar multiplication.  For let $\vec\alpha\in [S]$ and $r\in\R$.
+Write $\vec \alpha = a_1\vec v_1+\cdots+ a_k\vec v_k$ where $a_1,\cdots,a_k\in \R$ and
+$\vec v_1,\dots,\vec v_k\in S$.  Then $r\cdot \vec\alpha = 
+(ra_1)\cdot\vec v_1+\cdots (ra_k)\cdot\vec v_k$, which is in $[S]$ since it is a linear combination of
+elements of $S$.</li>
+</ol>
+<p class=np>Since $[S]$ has these three properties, it is a subspace.
+</p></div>
+
+<p class=np>If $[S]=W$, we say that $S$ <span class=nw>spans</span> $W$ or
+<span class=nw>generates</span> $W$, and that $S$ is a <span class=nw>spanning set</span>
+for $W.$</p>
+
+<hr class=break>
+
+<p>We have actually been working with spans for a while.  If $S$ consists of a single non-zero
+vector $\vec v$, then $[S]$ is the set of all scalar multiples of $\vec v$.  That is,
+$[S] = \{a\vec v\,|\,a\in\R\}$.  So the span of $S$ is the line through the origin in direction
+$\vec v$.  If we add another vector, $\vec u$, to $S$, the span of $S$ would be 
+$\{a\vec v+b\vec u\,|\,a,b\in\R\}$.  If $\vec u$ is a multiple of $\vec v$, then it adds nothing new to the span;
+you still just get the line through the origin in direction $\vec v$.  But if $\vec u$ does not lie
+on that line, then $\vec v$ and $\vec u$ generate a plane that contains the origin.  
+If we then add a third vector, $\vec w$, to $S$, the possibilities are that either $\vec w$ lies
+on the plane spanned by $\vec v$ and $\vec u$ (in which case, it adds nothing new to the span),
+or $\vec w$ is not on the plane (in which case $\vec v$, $\vec u$, and $\vec w$ span a three-dimensional
+linear space).  I will also note that the solution set of a homogeneous linear system written
+as a set $\{a_1\vec v_1+a_2\vec v_2+\cdots+a_k\vec v_k\,|\,a_1,a_2,\dots,a_k\in\R\}$ is the
+span of the set $\{\vec v_1,\vec v_2,\dots,\vec v_k\}$.  In particular, it is a subspace.
+It is also easy to prove that fact directly.</p>
+
+<p>Note by the way that when we take the span of a finite set of vectors, say
+$S=\{\vec\beta_1,\vec\beta_2,\dots,\vec\beta_m\}$, then the span can be written
+$[S]=\{a_1\vec\beta_1+a_2\vec\beta_2+\cdots+a_m\vec\beta_m\,|\, a_1,a_2,\dots,a_m\in\R\}$.
+That is, we can include all $m$ vectors from $S$ in every linear combination in the span,
+even though the definition allows linear combinations with any number of vectors from $S$.
+This is because some or all of the coefficients, $a_i$, can be zero in a linear combination,
+and because if the same vector is used several times in a linear combination, all the
+terms that use it can be added together to get a single term (for example, 
+$3\vec\beta_i+2\vec\beta_i-1\vec\beta_i$ can be combined to make $5\vec\beta_i$).
+
+<hr class=break>
+
+<p>The idea that adding another vector to a spanning set will add something new to the
+span, unless that new vector is a linear combination of the vectors already in the set,
+is an essential one.  It leads to the idea of linear dependence and linear independence.
+Spanning and linear independence are closely related concepts that are absolutely 
+central to linear algebra.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $(V,+,\cdot)$ be a vector
+space, and let $S$ be a subset of $V$.  We say that $S$ is <span class=nw>linearly
+independent</span> (or that the vectors in $S$ are linearly independent) if
+no element of $S$ can be written as a linear combination of other elements of $S$.
+A set that is not linearly independent is called <span class=nw>linearly dependent</span>.
+</p></div>
+
+<p>I actually prefer a different definition of linear dependence and independence,
+and I believe that this alternative definition is more common in math books.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $(V,+,\cdot)$ be a vector
+space, and let $S$ be a subset of $V$.  We say that $S$ is <span class=nw>linearly
+independent</span> if in any linear combination that adds up to zero,
+$$a_1\vec v_1+a_2\vec v_2+\cdots+a_k\vec v_k = \vec 0$$
+where $\vec v_1,\vec v_2,\cdots,\vec v_k\in S$, all of the coefficients $a_i$ must be zero.
+And $S$ is <span class=nw>linearly dependent</span> if there is a linear combination of elements of $S$ that
+adds up to $\vec 0$, and in which at least one of the coefficients is non-zero.</span>
+</p></div>
+
+<p class=np>I will accept either definition.  It is easy to prove that the two
+definitions are equivalent.</p>
+
+<p>But there is another complication.  Sometimes, instead of dealing with <b>sets</b>
+of vectors, we work with <b>lists</b> of vectors.  The difference is that a list
+is ordered and can contain duplicates while a set cannot contain duplicates and
+the order of the elements in a set does not matter.  So, for example,
+$3,1,2$ and $2,3,1$ are different lists, but $\{3,1,2\}$ and $\{2,3,1\}$ are
+the same set.  And $2,3,2$ and $2,3$ are different lists while $\{2,3,2\}$
+is just another way of writing the set $\{2,3\}$.  Order is not really important
+for linear independence, but there is a subtle difference between linear independence 
+of lists and linear independence of sets that arises because of the possibility
+of duplicates in a list.  Consider this definition, and note this in this case,
+<b>all</b> of the elements from the list are used in the linear combination:</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $(V,+,\cdot)$ be a vector
+space, and let $\vec v_1, \vec v_2, \dots, \vec v_k$ be a list of elements of $V$.  
+We say that this list of vectors is <span class=nw>linearly
+independent</span> if in any linear combination that adds up to zero,
+$$a_1\vec v_1+a_2\vec v_2+\cdots+a_k\vec v_k = \vec 0$$
+all of the coefficients $a_i$ must be zero.
+And the list is <span class=nw>linearly dependent</span> if there is a linear combination of this form that
+adds up to $\vec 0$, and in which at least one of the coefficients is non-zero.</span>
+</p></div>
+
+<p class=np>The subtle difference turns up when you consider a list that contains
+duplicates.  A list of vectors that contains duplicates cannot be linearly independent.
+For example, the list $\vec v, \vec w, \vec v$ is linearly dependent because
+$1\cdot\vec v+0\cdot\vec w+(-1)\cdot\vec v=0$.  However, the set $\{\vec v, \vec w, \vec v\}$
+is really just the set $\{\vec v,\vec w\}$, which is linearly independent unless one of
+the two vectors is a multiple of the other.  Usually, it is clear whether we are working
+with lists or with sets of vectors.</p>
+
+<p>Many things can be proved about linearly independent sets and their spans.  Mostly
+they amount to understanding that a set $S$ is linearly independent if it is a 
+<b>minimal</b> spanning set for the subspace that it spans.  That is, removing any element
+from a linearly independent set will remove some things from the span.  On the
+other hand, if a set is linearly dependent, then there is at least one element
+that you can remove without affecting the span.  That would be an element that
+is a linear combination of other elements from the set.  That element adds
+nothing new to the span of the other elements.</p>
+
+
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

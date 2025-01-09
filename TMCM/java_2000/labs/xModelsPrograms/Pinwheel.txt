@@ -1,0 +1,28 @@
+
+animate 120
+
+define blade [
+    square translate 0.5,0.5
+           rotate 45
+           yscale 5
+]
+
+define pinwheel [
+    red
+    blade
+    green
+    blade rotate 60
+    blue
+    blade rotate 120
+    cyan
+    blade rotate 180
+    magenta
+    blade rotate 240
+    yellow
+    blade rotate 300
+]
+
+background black
+
+pinwheel rotate 0:360
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script><title>Series of Functions</title>
+</head>
+<body>
+<div id="content">
+
+<h2>18 Series of Functions</h2>
+<hr>
+
+<p>After looking at <a href="17-sequences-of-functions.html">Sequences of Functions</a>,
+it is natural to look at series of functions.  The convergence of a series is
+equivalent to the convergence of its sequence of partial sums.  This allows to
+immediately extend some definitions and theorems to series of functions.  This material
+is from Section 4.6 in the textbook.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $D\subseteq \R$, and let $\{f_k\}_{k=1}^\infty$
+be a sequence of functions defined on $D$.  We say that the series of functions $\sum_{k=1}^\infty f_k$
+<b>converges pointwise</b> to a function $f$ on the domain $D$ if the sequence of partial sums
+$\big\{\sum_{k=1}^n f_k\big\}_{n=1}^\infty$ converges pointwise to $f$ on $D$.
+We say that the series of functions $\sum_{k=1}^\infty f_k$
+<b>converges uniformly</b> to a function $f$ on the domain $D$ if the sequence of partial sums
+$\big\{\sum_{k=1}^n f_k\big\}_{n=1}^\infty$ converges uniformly to $f$ on $D$.</p></div>
+
+<div class=thm><p><span class="dtp">Theorem:</span> (a) If each function $f_k$ is continuous on the
+interval $I$, and the series $\sum_{k=1}^\infty f_k$ converges uniformly to $f$ on $I$, then
+$f$ is continuous on $I$.</p>
+
+<p>(b) If each function $f_k$ is integrable on $[a,b]$, and the series $\sum_{k=1}^\infty f_k$ 
+converges uniformly to $f$ on $[a,b]$, then $f$ is integrable on $[a,b]$, and
+$\int_a^b f = \sum_{k=1}^\infty \big(\int_a^b f_k\big)$.</p>
+
+<p>(c) If each function $f_k$ is differentiable on $[a,b]$, the series $\sum_{k=1}^\infty f_k$ 
+converges (pointwise) to $f$ on $[a,b]$, and the series $\sum_{k=1}^\infty f_k'$ 
+converges uniformly to $g$ on $[a,b]$, then $f$ is differentiable and $f' = g$;
+that is, $\frac{d}{dx}\big(\sum_{k=1}^\infty f_k(x)\big) = \sum_{k=1}^\infty\big(\frac{d}{dx}f_k(x)\big)$
+on $[a,b].$
+</p></div>
+
+<p class=np>We also get a new theorem that is useful in proving uniform convergence:</p>
+
+<div class=thm><p><span class=dtp>Theorem (Weierstrass M-test):</span> 
+Let $\{f_k\}$ be a sequence of functions defined on a domain $D\subseteq\R$.  Let $\{M_k\}_{k=1}^\infty$
+be a sequence of nonnegative numbers.  Suppose that for all $k\in\N$ and all $x\in D$,
+$f_k(x)&lt;M_k$.  If $\sum_{k=1}^\infty$ converges, then $\sum_{k=1}^\infty f_k$ converges uniformly
+on $D$.</p></div>
+
+<hr class=break>
+
+<p>For us, the most important kind of series of functions is power series.  A power series is like
+an infinite polynomial.  That is, it is a sum of powers of $x$ or, more generally, powers of $(x-a)$,
+multiplied by constant coefficients.</p>
+
+<div class=def><p><span class=dtp>Definition:</span> Let $a\in\R$, and let $\{a_k\}_{k=0}^\infty$ be
+a sequence of numbers.  Then $\sum_{k=0}^\infty a_k(x-a)^k$ is a <b>power series</b> centered at $a$.</p></div>
+
+<p>Note that a power series is a sum of functions, where each function is a monomial $f_k(x) = a_k(x-a)^k$.
+Also note that power series most commonly start at $k=0$, rather than $k=1$, but in practice, of course,
+any starting point for the sum is allowed.</p>
+
+<p>Since monomials are continuous, differentiable, and integrable, many of the hypotheses of the
+theorems about series of functions are fulfilled automatically for power series.  The major remaining
+question is about uniform convergence, and the result here is remarkable:  If a power series
+$\sum_{k=0}^\infty a_k(x-a)^k$ converges at any point $x_o\ne a$, then it converges (pointwise) on the
+entire open interval $|x-a|&lt;r$, where $r=|x_o-a|$.  Furthermore, for any $s$ satisfying $0&lt;s&lt;|x_o-a|$,
+it converges uniformly on the closed interval $|x-a|\le s$.  Similarly, if the series
+diverges at some point $x_1$, then it diverges for any $z$ such that $|z-a|>|x_1-a|$. (This follows immediately
+from the previous result, since if the series were to converge at such a $z$, then it would also converge at $x_1$.)</p>
+
+<p>This allows us to define a <b>radius of convergence</b> for any power series.  
+Let $\sum_{k=0}^\infty a_k (x-a)^k$ be a power series centered at 0.</p>
+
+<ul>
+<li>If $\sum_{k=0}^\infty a_k (x-a)^k$ converges only for $x=a$, then the radius of convergence of the
+series is&nbsp;0.</li>
+<li>If $\sum_{k=0}^\infty a_k (x-a)^k$ converges for all $x\in\R$, then the radius of convergence of
+the series is $\infty.$  The series converges uniformly on any closed interval.</li>
+<li>Otherwise, there is a number $R>0$ such that the series converges for $|x-a|&lt;R$ and
+diverges for $|x-a|&gt;R$.  In this case, the radius of convergence is $R$.  The series 
+converges on the interval $(a-R,a+R)$ and it converges uniformly on $[b,c]$ for any $b,c$
+satisfying $a-R&lt;b&lt;c&lt;a+R$.  At the endpoints $x=a-R$ and $x=a+R$, the series can
+either converge or diverge.</li>
+</ul>
+
+<p>Given a power series $\sum_{n=0}^\infty a_n(x-a)^n$, we can differenetiate it term by term to get
+the derivative power series $\sum_{n=1}^\infty na_n(x-a)^{n-1}$.  Again remarkably, this derivative series
+has the same radius of convergence as the original series.
+If the series converges pointwise to a function $f(x) = \sum_{n=0}^\infty a_n(x-a)^n$ for $|x-a|&lt;R$,
+then by the theorems about series of functions, $f'(x)$ exists  and
+$f'(x)=\sum_{n=1}^\infty na_n(x-a)^{n-1}$ for $|x-a|&lt;R.$</p>
+
+<p>We can also form the antiderivative series $\sum_{n=0}^\infty \frac{a_n}{n+1}(x-a)^{n+1}$.
+Again, this series has the same radius of convergence as the original series, and
+if $f(x) = \sum_{n=0}^\infty a_n(x-a)^n$ for $|x-a|&lt;R$, then
+$\sum_{n=0}^\infty \frac{a_n}{n+1}(x-a)^{n+1}$ converges to an antiderivative of $f$
+for $|x-a|&lt;R$.  In terms of indefinite integrals, we have that 
+$\int_a^b \big(\sum_{n=0}^\infty a_n(x-a)^n\big)\,dx =
+C + \sum_{n=0}^\infty \frac{a_n}{n+1}(x-a)^{n+1}$ on the interval $|x-a|&lt;R.$</p>
+
+<hr class=break>
+
+<p>If $\sum_{n=0}^\infty a_n(x-a)^n$ converges to $f(x)$ for $|x-a|&lt;R$, where $R>0$, then
+$f(x)$ is infinitely differentiable at $a$, and $f^{(n)}(a) = n!\cdot a_n$.  This means that
+$$f(x) = \sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!}(x-a)^n$$
+This is like an infinite <a href="15-taylor-polynomials.html">Taylor polynomial</a> for $f$, 
+and it is called the <b>Taylor Series</b> for $f$ at $a.$</p>
+
+<p>It is important to understand that if we start with a function $g$ that is infinitely 
+differentiable at $a$, and form the series $\sum_{n=0}^\infty \frac{g^{(n)}(a)}{n!}(x-a)^n$,
+it is <b>not</b> necessarily true that this series converges to $g(x)$ for any $x$
+other than $a.$  This is so even if the series has a non-zero radius of convergence.
+The series might converge to a completely different function than $g.$</p>
+
+<p>Suppose that $f$ is a function on an open interval $I$, and for each $a\in I$, 
+$f$ is given by a power series on some open interval containing $a$.  (Note that in this
+case, that series must be the Taylor series for $f$ at $a$, and $f$ must be infinitely
+differentiable at $a$.)  Then $f$ is said to be <b>real analytic</b> on the interval $I$.
+Being real analytic is a much stronger condition than simply being infinitely differentiable.</p>
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+
+</body>
+</html>

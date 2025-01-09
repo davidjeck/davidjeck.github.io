@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css" media="screen">
+<link rel="stylesheet" type="text/css" href="printstyle.css" media="print">
+<script type="text/javascript" src="setup.js"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<title>Reduced Echelon Form</title>
+</head>
+<body>
+<div id="content">
+
+<h2>06 Reduced Echelon Form and Row Equivalence</h2>
+<hr>
+
+<p>We have used <a href="01-row-operations.html">Gauss's Method</a> to solve linear
+systems of equations.  This method uses row operations to put a linear system or
+matrix into echelon form.  [From now on, I will just talk in terms of matrices.]
+Chapter 1, Section III covers <span class=nw>reduced
+echelon form</span>.  In an echelon form matrix, any all-zero row is at the bottom,
+and for rows that are not all-zero (after the first row), the leading entry 
+in that row lies to the right of the leading entry in the previous row.
+A reduced echelon form matrix has the additional properties that
+(1)&nbsp;every leading entry is&nbsp;a&nbsp;1 and (2)&nbsp;in any column that contains
+a leading entry, that leading entry is the only non-zero entry in that column.
+</p>
+
+<p>After a matrix has been put into echelon form, it is easy to apply
+additional row operations to put the matrix into reduced echelon form.
+Just divide each non-zero row by the leading entry in that row, making
+the leading entry equal to one.  Then, for any column that contains a
+leading entry for row $i$, convert all the other entries in that
+column to zero by subtracting appropriate multiples of row $i$ from
+the other rows.  (For the second stage, work from right to left.)
+For example:
+$$\begin{align*}
+   \begin{pmatrix}
+      2 & -4 &  1 &  6  & 3 \\
+      0 &  0 & -4 &  2  & 0 \\
+      0 &  0 &  0 &  3  & 2 \\
+      0 &  0 &  0 &  0  & 0 
+   \end{pmatrix}
+ &\rowop{\frac12\rho_1\\ -\frac14\rho_2\\ \frac13\rho_3}
+   \begin{pmatrix}
+      1 & -2 &  \frac12 &  3  & \frac32 \\
+      0 &  0 & 1 &  -\frac12  & 0 \\
+      0 &  0 &  0 &  1  & \frac23 \\
+      0 &  0 &  0 &  0  & 0 
+   \end{pmatrix}\\[15pt]
+ &\rowop{-3\rho_3+\rho1\\ \frac12\rho_3+\rho_2}
+   \begin{pmatrix}
+      1 & -2 &  \frac12 &  0  & -\frac12 \\
+      0 &  0 & 1 &  0  & \frac13 \\
+      0 &  0 &  0 &  1  & \frac23 \\
+      0 &  0 &  0 &  0  & 0 
+   \end{pmatrix}\\[15pt]
+ &\rowop{-\frac12\rho_2+\rho_1}
+   \begin{pmatrix}
+      1 & -2 &  0 &  0  & -\frac23 \\
+      0 &  0 & 1 &  0  & \frac13 \\
+      0 &  0 &  0 &  1  & \frac23 \\
+      0 &  0 &  0 &  0  & 0 
+   \end{pmatrix}
+\end{align*}$$
+Once a system is in reduced row-echelon form, it is very easy to solve.</p>
+
+<hr class=break>
+
+<p>But the more interesting aspect of Section 1.III is
+the definition of <span class="nw">row equivalence</span> of matrices,
+the proof that row equivalence is an <span class="nw">equivalence relation</span>
+on the set of all $m\times n$ matrices, and the proof that given any $m\times n$ 
+matrix, $A$, there is one and only one reduced echelon form matrix that
+is row equivalent to $A.$</p>
+
+<p>The really important consequence of all this is that no matter what specific sequence of
+row operations that you apply to a matrix to put it into reduced echelon
+form, you will always end up with the same reduced echelon form matrix.</p>
+
+<p>We defined free variables and leading variables for echelon form matrices.
+But starting from a matrix, $A$, you can get many different echelon form matrices
+by applying different sequences of row operations.  Do those various echelon
+form matrices that are row-equivalent to $A$ have the same free variables?
+Do they even have the same number of free variables?  We now know that the
+answer to these questions is "yes."  The reason is that all of those echelon
+form matrices must reduce to the same reduced echelon form matrix, and
+going from echelon form to reduced echelon form does not change the set of 
+free variables (since a free variable just corresponds to a column that does 
+not contain a leading entry).</p>
+
+<p>Finally, there is result stated as a Lemma in Section 1.III.2 that will be important
+for us later:  In an echelon form matrix, a non-zero row cannot be a linear
+combination of the other non-zero rows.  Another way of saying this is that
+the non-zero rows in an echelon form matrix are <span class=nw>linearly independent</span>.</p>
+
+<hr class=break>
+
+<p>There is some fairly sophisticated mathematics in Section 1.III that will require 
+some work to understand, especially for people who have not taken Math&nbsp;135.</p>
+
+<p>There is the idea of "equivalence relation" on a set.  A relation on a set is
+an operation that takes any two elements of the set and tells you whether or
+not they are related in the sense defined by that relation.  If I say that
+$\sim$ is a relation on a set $X$, then for any $a,b\in X$, we would write
+$a\sim b$ if $a$ and $b$ are related according to that relation.  For example,
+$\le$ is a relation on the set $\R$, and we write $x\le y$ to mean that
+$x$ and $y$ are related according to that relation.</p>
+
+<p>An equivalence relation is a type of relation that
+breaks up a set into non-empty subsets, where the intersection of any two subsets
+is empty.  This is called a <span class=nw>partition</span> of the set.  
+All of the elements a given subset are related to each other, and two elements
+from different subsets are not related.  Given a relation, you can show that
+it is an equivalence relation by showing that it has certain properties&mdash;reflexive,
+symmetric, and transitive&mdash;but usually we are most interested in the way 
+the relation partitions the set.   (For the record, a relation $\sim$ on a set $X$ is 
+<span class=nw>reflexive</span> if $x\sim x$ for all $x\in X$.  It is
+<span class=nw>symmetric</span> if whenever $x\sim y$, it is also true that
+$y\sim x$.  And it is <span class=nw>transitive</span> if whenever $x\sim y$
+and $y\sim z$, it is also true that $x\sim z$.)
+
+<p>Two matrices $A$ and $B$ are said to be <span class=nw>row equivalent</span> if 
+there is a sequence of row operations that transforms $A$ to $B$.  Of course, this
+can't happen unless $A$ and $B$ have the same numbers of rows and columns.
+For any given positive integers $n$ and $m$, row equivalence is a relation on the 
+set of $m\times n$ matrices.  It is easy to show that this relation is reflexive,
+symmetric, and transitive.  That means that it is an equivalence relation, and
+it partitions the set of $m\times n$ matrices into non-empty, non-intersecting subsets.</p>
+
+<p>The most difficult theorem we have encountered so far (Theorem 2.6 in Section
+1.III.2) says that each of those
+subsets contains exactly one reduced echelon form matrix.  Since two matrices are
+row equivalent if and only if they are in the same subset, this means that
+every matrix is row equivalent to one and only one reduced echelon form matrix.
+Furthermore, two matrices are row equivalent if and only if they reduce to the same
+reduced echelon form matrix.
+The proof of the theorem uses <span class=nw>proof by mathematical induction</span>.</p>
+
+<p>Proof by induction is actually very natural.  It amounts to showing that
+something is true for $n=1$, then that it follows from that that it is also
+true for $n=2$, then that it follows from that that it is also true for
+$n=3$, then that it follows from that that it is also true for $n=4$,
+and so on.  That is, each step follows logically from the previous step. 
+Obviously, phrased this way it becomes ridiculously tedious.  Imagine
+trying to prove that it's true for $n=10000$.  Proof by induction is a
+standard way of presenting this type of proof that doesn't require
+proving each step individually.  Proof by induction is used to show that
+some statement is true for all positive integers $n$.
+The proof is done in just two parts:</p>
+
+<ol>
+<li><span class=nw>Base case:</span> Prove that the statement is true for $n=1$.</li>
+<li><span class=nw>Inductive case:</span> Prove that whenever the statement is
+true for some positive integer $k$, then it is also true for $k+1$.</li>
+</ol>
+
+<p class=np>The inductive case takes care of proving all of the infinitely
+many individual steps&mdash;from 1 to 2, from 2 to 3, from 3 to 4, from 4 to 5, and so on&mdash;all
+at once. (Sometimes, the induction starts with a base case other than $n=1$.  For example, if
+the base case is $n=5$, then you prove that the statement is true for all integers
+greater than or equal to&nbsp;5.)</p>
+
+<p>A typical first example of induction is to prove that $1+2+3+\cdots+n=\frac{n(1+n)}{2}$ for
+any positive integer $n$.  To convince you of this without using induction, I might
+say the following and ask you to convince yourself that there is a pattern that allows
+you to derive each step from the previous step, and that that pattern will keep working
+forever:</p>
+
+<ul>
+<li>For $n=1$, $1=\frac{1(1+1)}{2}$. &#x2713;</li>
+<li>For $n=2$, $(1)+2=\frac{1(1+1)}{2}+2 = \frac{1(1+1)+2\cdot2}{2}=\frac{1\cdot2+2\cdot2}{2}=\frac{3\cdot2}{2}=\frac{2(1+2)}{2}$. &#x2713;</li>
+<li>For $n=3$, $(1+2)+3=\frac{2(1+2)}{2}+3 = \frac{2(1+2)+2\cdot3}{2}=\frac{2\cdot3+2\cdot3}{2}=\frac{4\cdot3}{2}=\frac{3(1+3)}{2}$. &#x2713;</li>
+<li>For $n=4$, $(1+2+3)+4=\frac{3(1+3)}{2}+4 = \frac{3(1+3)+2\cdot4}{2}=\frac{3\cdot4+2\cdot4}{2}=\frac{5\cdot4}{2}=\frac{4(1+4)}{2}$. &#x2713;</li>
+<li>For $n=5$, $(1+2+3+4)+5=\frac{4(1+4)}{2}+5 = \frac{4(1+4)+2\cdot5}{2}=\frac{4\cdot5+2\cdot5}{2}=\frac{6\cdot5}{2}=\frac{5(1+5)}{2}$. &#x2713;</li>
+</ul>
+
+<p class=np>Or I might give a formal proof by induction, which should be easier to understand and absolutely convincing:</p>
+
+<p><b>Base Case:</b>  For $n=1$, we have $1=\frac{1(1+1)}{2}$, so the theorem is true in this case.</p>
+
+<p><b>Inductive Case:</b> Suppose that $k$ is any positive integer and that we already know that $1+2+\cdots+k=\frac{k(1+k)}{2}$.
+We must show $1+2+\cdots+k+(k+1)=\frac{(k+1)(1+(k+1))}{2}$.  But
+$$\begin{align*}
+   1+2+\cdots+k+(k+1) &= (1+2+\cdots+k)+(k+2)\\
+    &=\frac{k(1+k)}{2}+(k+1)\\
+    &=\frac{k(1+k) + 2(k+1)}{2}\\
+    &=\frac{(k+2)(k+1)}{2}\\
+    &=\frac{(k+1)(2+k)}{2}\\
+    &=\frac{(k+1)(1+(k+1))}{2}
+\end{align*}$$
+
+<hr>
+<p style="font-size:80%; font-style:italic; text-align:right; margin-top:2pt">
+<a href="index.html"><i>(back to contents)</i></a>
+</p>
+
+</body>
+</html>

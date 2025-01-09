@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<head>
+<title>Larc Computer and Programming</title>
+</head>
+<body style="max-width:900px; min-width:700px; margin: 0 auto">
+
+<div style="margin: 0 8px">
+
+
+<h2>Larc Computer and Machine Language</h2>
+
+<hr>
+
+<p>"Larc," or "little architecture," is a very simple model computer and an ISA 
+(Instruction Set Architecture) for that computer.  
+It was developed about a dozen years ago by Marc Corliss for
+use in CS&nbsp;220 when he was a professor at Hobart and William Smith Colleges.
+We will use it in CS&nbsp;220 this semester as a first example of an ISA, and
+later in the semester you will create a working simulation of the Larc computer
+in the Logisim logic circuit simulation program.</p>
+
+<p>This document describes the Larc model computer and machine language.  It also
+discusses a very simple Larc assembly language that 
+is really just an alternative notation for the machine language, without all
+the convenient features of a normal assembly language.
+A <a href="larcsim.html">second&nbsp;document</a> discusses a program that
+simulates the Larc computer.</p>
+
+<hr>
+
+<h3>The Larc Computer</h3>
+
+<p>The Larc CPU contains 16 general-purpose registers, in addition to
+a PC (Program Counter) register.  Each register holds a 16-bit binary number.
+The general purpose registers are numbered 0 to 15, or 0b0000 to 0b1111 in
+binary; that is, a register number is a four-bit binary number.
+Register number 0 has the peculiar property that its value is always zero.
+</p>
+
+<p>The main memory, or RAM, for Larc has 65536, or 2<sup>16</sup>, locations, and each
+location holds a 16-bit binary number.  Locations are numbered 0 to 65535, or
+0b0000000000000000 to 0b1111111111111111 in binary.  The number of a location is 
+called its address.  Note that an address of a location is RAM is a 16-bit binary number.</p>
+
+<p>A machine language (ML) instruction for Larc is a 16-bit binary number.  The structure of
+the machine language is discussed below.  Any RAM location can hold one instruction, but
+the contents of a memory location can also be interpreted in other ways, such as an integer
+that is meant as data for the program.  The meaning of a number depends on how that number is used.</p>
+
+<p>The operation of the computer is the basic fetch-and-execute cycle.  The 16-bit
+number in the PC gives the address of the memory location that contains the next
+ML instruction to be executed.  The computer fetches the instruction from that 
+address, adds one to the PC, and then executes the instruction. It repeats
+the cycle indefinitely until it is halted in some way.  Some instructions modify the PC when
+they are executed; these are "branch" or "jump" instructions.  Adding 1 to the PC
+gets the PC ready for the next instruction in the usual sequence, but the sequence
+can be changed by a branch or jump.</p>
+
+<hr>
+
+<h3>The Larc Machine Language</h3>
+
+<p>An ML instruction is a 16-bit number.  The
+four high-order bits of an instruction are an opcode that specifies the
+operation encoded by the instruction, and the remaining twelve bits contain
+data for the operation.  There are several formats for the data in an instruction, 
+depending on the instruction's opcode.</p>
+
+
+<p>The following table
+describes the 16 ML instructions.  Reg[<i>n</i>] represents
+the value stored in register number&nbsp;n.  The function sext(<i>x</i>) sign-extends <i>x</i>
+to a 16-bit number.  The mnemonic for an instruction is
+used in the assembly language notation for that instruction.  The semantics
+are expressed using Java-like notation.</p>
+
+<table align=center border=1 cellpadding=5 cellspacing=0 width="90%">
+<tr align=center>
+    <td><b>Instruction Format</b>
+    <td><b>Opcode</b>
+    <td><b>Mnemonic</b>
+    <td><b>Semantics</b>
+</tr>
+<tr valign=top>
+    <td rowspan=8><b>Arithmetic.</b>  The twelve data bits
+       in an instruction contain three four-bit register numbers, which are
+       referred to here as <i>ra</i>, <i>rb</i>, and <i>rc</i>.</td>
+    <td align=center>0000</td>
+    <td align=center>add</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = Reg[<i>rb</i>] + Reg[<i>rc</i>].</span></td>
+</tr>
+<tr valign=top>
+    <td align=center>0001</td>
+    <td align=center>sub</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = Reg[<i>rb</i>] - Reg[<i>rc</i>]</span></td>
+</tr>
+<tr valign=top>
+    <td align=center>0010</td>
+    <td align=center>mul</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = Reg[<i>rb</i>] * Reg[<i>rc</i>]</span></td>
+</tr>
+<tr valign=top>
+    <td align=center>0011</td>
+    <td align=center>div</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = Reg[<i>rb</i>] / Reg[<i>rc</i>],</span><br>
+    but if Reg[<i>rc</i>] is zero, the computer halts because of a division by zero error.</td>
+</tr>
+<tr valign=top>
+    <td align=center>0100</td>
+    <td align=center>sll</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = Reg[<i>rb</i>] &lt;&lt; (Reg[<i>rc</i>] &amp; 15)</span>;<br>
+    shift left logical (with zero fill)</td>
+</tr>
+<tr valign=top>
+    <td align=center>0101</td>
+    <td align=center>srl</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = Reg[<i>rb</i>] >>> (Reg[<i>rc</i>] &amp; 15)</span>;<br>
+    shift right logical (with zero fill)</td>
+</tr>
+<tr valign=top>
+    <td align=center>0110</td>
+    <td align=center>nor</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = ~(Reg[<i>rb</i>] | Reg[<i>rc</i>]);</span><br>
+    bitwise logical NOR operation.</td>
+</tr>
+<tr valign=top>
+    <td align=center>0111</td>
+    <td align=center>slt</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = (Reg[<i>rb</i>] &lt; Reg[<i>rc</i>]) ? 1 : 0</span>;<br>
+    set if less than</td>
+</tr>
+<tr valign=top>
+    <td rowspan=4><b>Immediate.</b> The first four data bits, <i>ra</i>, represent a register
+    number.  The last eight data bits, shown here as <i>limm</i>, represent a signed 8-bit number.
+    "limm" stands for "long immediate," and an "immediate" is a field in an instruction that represents
+    a constant rather than a register number.</td>
+    <td align=center>1000</td>
+    <td align=center>li</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = sext(<i>limm</i>)</span>;<br>
+    load immediate</td>
+</tr>
+<tr valign=top>
+    <td align=center>1001</td>
+    <td align=center>lui</td>
+    <td><span style="white-space:pre">Reg[<i>ra</i>] = <i>limm</i> &lt;&lt; 8</span>;<br>
+    load upper immediate</td>
+</tr>
+<tr valign=top>
+    <td align=center>1010</td>
+    <td align=center>beqz</td>
+    <td><span style="white-space:pre">if (Reg[<i>ra</i>] == 0) PC = PC + sext(<i>limm</i>)</span>;<br>
+    branch if equal to zero</td>
+</tr>
+<tr valign=top>
+    <td align=center>1011</td>
+    <td align=center>bnez</td>
+    <td><span style="white-space:pre">if (Reg[<i>ra</i>] != 0) PC = PC + sext(<i>limm</i>)</span>;<br>
+    branch if not equal to zero</td>
+</tr>
+<tr valign=top>
+    <td rowspan=2><b>Memory.</b> Data bits are two 4-bit register numbers, <i>ra</i> and <i>rb</i>, and 
+    and a signed 4-bit number, <i>simm</i>. "simm" stands for "short immediate."</td>
+    <td align=center>1100</td>
+    <td align=center>lw</td>
+    <td>Load value from memory location <span style="white-space:pre">Reg[<i>rb</i>]+sext(<i>simm</i>)</span>
+      into Reg[<i>ra</i>]</td>
+</tr>
+<tr>
+    <td align=center>1101</td>
+    <td align=center>sw</td>
+    <td>Store value from Reg[<i>ra</i>] into memory location <span style="white-space:pre">Reg[<i>rb</i>]+sext(<i>simm</i>)</span></td>
+</tr>
+<tr valign=top>
+    <td><b>Jump.</b> Two 4-bit fields, <i>ra</i> and <i>rb</i>; last four data bits are ignored.</td>
+    <td align=center>1110</td>
+    <td align=center>jalr</td>
+    <td>Jump-and-link-register:  Save current PC in Reg[<i>ra</i>] and set PC to Reg[<i>rb</i>].</td>
+</tr>
+<tr valign=top>
+    <td><b>Syscall.</b> All data bits are ignored.</td>
+    <td align=center>1111</td>
+    <td align=center>syscall</td>
+    <td>Call system subroutine number Reg[1].</td>
+</tr>
+</table>
+
+
+<br>
+<p>For example, the 16-bit binary number 0x0001001100100111 represents a subtraction
+operation (code 0001) applied to register numbers 3, 2, and 7 (binary numbers 0011, 0010,
+and 0111).  That is, when it is executed, the values from registers 2 and 7 are added, 
+and the result is stored in register&nbsp;3</p>
+
+<p>The number 0b0000100011110000 means to add the values from registers 15 and 0, and
+store the result in register&nbsp;8.  Since the value in register 0 is always zero,
+this has the effect of copying the value from register 15 into register&nbsp;8.</p>
+
+<p>Or consider 0b1100000100020011.  This is a "load" command with arguments 1, 2, and 3.
+It takes the value from register 2 and adds the number 3 to that value, and it uses the
+result as the address of a location in memory.  The value from that location is copied
+into register&nbsp;2.  (The SIMM value in a memory instruction will most often be zero.
+Non-zero values are sometimes useful when you want to load a sequence of values from
+consecutive memory locations.)</p>
+
+<p>The load-upper-immediate (<i>lui</i>) command exists because a <i>limm</i> is an 8-bit value,
+but a register holds a 16-bit value.  The lui command loads an 8-bit constant value
+into the leftmost, or upper, eight bits of a register, and fills the lower 8 bits of
+the register with zeros.  Note that it can be difficult to get an arbitrary 16-bit
+constant into a register; it requires a combination of <i>lui</i>, <i>li</i>, and other commands.</p>
+
+<p>The <i>jalr</i> command can be used to jump to any memory address.  Before jumping,
+it stores the current PC value in a register to make it easy to jump back to that
+address later; this can be used for calling and returning from subroutines.  The conditional
+branch instructions, <i>beqz</i> and <i>bnez</i>, can only be used to jump to nearby addresses.  They add
+a constant amount to current value of the PC.  The constant is treated as a signed
+8-bit value, in the range -128 to 127.  Note that the constant is added to the PC value
+that has already been incremented as part of the fetch-and-execute cycle, so the constant
+actually gives an offset from the instruction that follows the branch instruction in memory.</p>
+
+<p>The <i>syscall</i> instruction needs more explanation.  It really only makes sense if
+the computer is running under the control of an operating system.  In a real computer,
+the operating system has full access to all aspects of the computer, while other
+programs have restricted access.  A <i>syscall</i> instruction is used to call subroutines
+in the operating system.  This is different from calling a normal subroutine because
+it means removing the restrictions that apply to normal programs.  We will not implement
+an operating system, but the <a href="larcsim.html">Larc&nbsp;Simulator</a> fakes a few
+system subroutines to give <i>syscall</i> something useful to do.  Note that in a real computer,
+a system error, such as division by zero, also transfers control to the operating system.<p>
+
+
+<hr>
+
+<h3 id="asm">Larc ML as Assembly Language Instructions</h3>
+
+
+<p>An ML instruction is a 16-bit binary number.  But for our purposes,
+we can also represent ML instructions in a textual form, using the mnemonics from
+the above table.  An instruction is represented by a mnemonic, followed by
+its arguments, separated by spaces.</p>
+
+<p>In an assembly language command, an argument that is a register
+number is represented by&nbsp;a&nbsp;$ followed by a decimal number in the range 0 to 15:
+$0, $1, $2, $3,&nbsp;...,&nbsp;$15.  A <i>limm</i> immediate value, which is an 8-bit
+binary number can be represented by a decimal constant in the range -128 to 255, by a hexadecimal 
+constant in the range 0x00 to 0xFF, or by a binary constant in the range 0b00000000 to 0b11111111.
+(Note that Java notation is always used for binary and hexadecimal constants.)
+Similarly, the <i>simm</i> value in a memory instruction, which is a 4-bit binary
+number, can be represented by a decimal constant in the range -8 to 7, by a hexadecimal 
+constant in the range 0x0 to 0xF, or by a binary constant in the range 0b0000 to 0b1111.</p>
+
+<p>Some examples: <i style="white-space:pre">add $2 $2 $3</i>, <i style="white-space:pre">beqz $2 -13</i>,
+<i style="white-space:pre">li $1 0xF3</i>,
+<i style="white-space:pre">sw $3 $2 0</i>,  <i style="white-space:pre">jalr $11 $6</i>,
+<i>syscall</i>.</p>
+
+<p>The following table shows the assembly language syntax for Larc machine language instructions.
+Here, ra, rb, and rc represent register numbers in the range 0&nbsp;to&nbsp;15.  LIMM and SIMM
+represent constants with the appropriate number of bits.  There are two entries for each
+memory instruction, because the SIMM value can be omitted from the assembly language instruction
+when its value is zero.</p>
+
+<table align=center border=1 cellpadding=5 cellspacing=0>
+<tr>
+   <td>add $ra $rb $rc</td>
+   <td>Reg[ra] = Reg[rb] + Reg[rc]</td>
+</tr>
+<tr>
+   <td>sub $ra $rb $rc</td>
+   <td>Reg[ra] = Reg[rb] - Reg[rc]</td>
+</tr>
+<tr>
+   <td>mul $ra $rb $rc</td>
+   <td>Reg[ra] = Reg[rb] * Reg[rc]</td>
+</tr>
+<tr>
+   <td>div $ra $rb $rc</td>
+   <td>Reg[ra] = Reg[rb] / Reg[rc]</td>
+</tr>
+<tr>
+   <td>sll $ra $rb $rc</td>
+   <td>Reg[ra] = Reg[rb] &lt;&lt; Reg[rc]</td>
+</tr>
+<tr>
+   <td>srl $ra $rb $rc</td>
+   <td>Reg[ra] = Reg[rb] >>> Reg[rc]</td>
+</tr>
+<tr>
+   <td>nor $ra $rb $rc</td>
+   <td>Reg[ra] = ~(Reg[rb] | Reg[rc])</td>
+</tr>
+<tr>
+   <td>slt $ra $rb $rc</td>
+   <td>Reg[ra] = (Reg[rb] &lt; Reg[rc])? 0 : 1</td>
+</tr>
+<tr>
+   <td>li $ra LIMM</td>
+   <td>Reg[ra] = sext(LIMM)</td>
+</tr>
+<tr>
+   <td>lui $ra LIMM</td>
+   <td>Reg[ra] = LIMM &lt;&lt; 8</td>
+</tr>
+<tr>
+   <td>beqz $ra LIMM</td>
+   <td>if Reg[ra] == 0, then PC = PC + sext(LIMM)</td>
+</tr>
+<tr>
+   <td>bnez $ra LIMM</td>
+   <td>if Reg[ra] != 0, then PC = PC + sext(LIMM)</td>
+</tr>
+<tr>
+   <td>lw $ra $rb</td>
+   <td>Reg[ra] = Mem[ Reg[rb] ]</td>
+</tr>
+<tr>
+   <td>sw $ra $rb</td>
+   <td>Mem[ Reg[rb] ] = Reg[ra]</td>
+</tr>
+<tr>
+   <td>lw $ra $rb SIMM</td>
+   <td>Reg[ra] = Mem[ Reg[rb] + sext(SIMM) ]</td>
+</tr>
+<tr>
+   <td>sw $ra $rb SIMM</td>
+   <td>Mem[ Reg[rb] + sext(SIMM) ] = Mem[ra]</td>
+</tr>
+<tr>
+   <td>jalr $ra $rb</td>
+   <td>temp = PC; PC = Reg[rb]; PC = Reg[ra]</td>
+</tr>
+<tr>
+   <td>syscall</td>
+   <td>call system subroutine number Reg[1]</td>
+</tr>
+</table>
+
+
+</div>
+</body>
+</html>
+

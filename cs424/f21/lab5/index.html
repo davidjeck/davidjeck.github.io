@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CS424, Fall 2021, Lab 5</title>
+<link rel=stylesheet href="../labs_print.css" type="text/css" media=print>
+<link rel=stylesheet href="../labs_screen.css" type="text/css" media=screen>
+</head>
+<body>
+<div class="content">
+
+<h2>CS 424: Computer Graphics, Fall 2021<br>
+Lab 5: Data for glDrawArrays</h2>
+
+<div class="intro">
+
+
+<p>Last week, you worked with an IFS representation of a polyhedron, and used it
+to draw a wireframe model with the functions glBegin(), glVertex(), and so on.  But those
+functions are not available in modern OpenGL.  Instead, glDrawArrays() and glDrawElements()
+are used for drawing.  The function glDrawElements() is actually not suitable for drawing
+flat shaded polyhedra.  (It's good for smooth shaded polyhedra that are trying to look like
+a curved surface.)  So in this lab, you will draw polyhedra using glDrawArrays().  Hopefully,
+this will help you understand this function.</p>
+
+<p>You will need the three files in /classes/cs424/lab5-files, or you can get them
+through these links:&nbsp;
+<a href="lab5-files/Polyhedra.html">Polyhedra.html</a>,&nbsp;
+<a href="lab5-files/glsim.js">glsim.js</a>,&nbsp; and&nbsp;
+<a href="lab5-files/polyhedra.js">polyhedra.js</a>.
+You will only work on Polyhedra.html.</p>
+
+
+<p><b>Turning in your work:</b>
+Your completed program should be submitted by the beginning of the lab period next Thursday.
+You can turn in a folder containing all of the required files, or you can just submit the
+file that you worked on, Polyhedra.html.</p>
+
+</div>
+
+<div class="section">
+
+<h3>The Assignment</h3>
+
+<p>The assignment is mostly about drawing polyhedra using <i>glDrawArrays</i>(), but as a
+warm-up, you will draw a "point cloud," a large number of randomly selected points inside a sphere.</p>
+
+
+<p>You should edit the file <a href="lab5-files/Polyhedra.html">Polyhedra.html</a>.
+You will only need to fill in the bodies of the <i>drawPointCloud</i>() function and of the
+<i>drawPolyhedron</i>() function &mdash; and 
+hopefully write some other functions to help you will the polyhedra.  There is a long
+comment on <i>drawPolyhedron</i>(), and the nasty code that is needed for using
+<i>glDrawArrays</i>() is there in a comment inside the function.  We looked 
+at that code in class on Wednesday.</p>
+
+<p>For a point cloud, you need to generate a large number of points inside a sphere of radius 8.
+To pick points, you can just choose random values for <i>x</i>, <i>y</i>, and <i>z</i>
+using the formula <code style="white-space:pre">16*Math.random() - 8</code>.
+This gives a point in a cube.  You can test whether the point is inside the sphere by testing
+if <code style="white-space:pre">x**2 + y**2 + z**2 < 64</code>.  If not, you should discard the
+point; only keep points that are inside the sphere.  The coordinates for the points have to stored
+in a <i>Float32Array</i>, which is meant to be the global variable named <i>pointCloud</i> in the
+program.  You should create that array <b>only once</b>, the first time <i>drawPointCloud</i>() is
+called. Note that you can check whether the array already exists using the test
+<code style="white-space:pre">if (pointCloud)</code>.
+Once you have that array, you can draw the sphere using a call to
+<i>glDrawArray</i>() with primitive type <code>GL_POINTS</code>.  See the <i>drawPointcloud</i>()
+function for details.  Here is a point cloud with 10,000 points.  It looks interesting when
+you rotate it.</p>
+
+<p style="text-align:center" class=np><img src="pointcloud.png" width=369 height=369></p>
+
+<p>The JavaScript file <i>polyhedra.js</i> defines several polyhedra as indexed face sets.
+Each polyhedron is a JavaScript object.  If <i>poly</i> is one of those objects, then
+it has three properties: <i>poly.vertices</i>, <i>poly.faces</i>, and <i>poly.faceNormals</i>.
+Each of these is an array of arrays (that is, a two-dimensional array).  See the
+on function <i>drawPolyhedron</i>() in file Polyhedra.html for more information.</p>
+
+<p>For use with <i>glDrawArrays</i>(), the data for the polyhedron must be stored in
+one-dimensional arrays of numbers.  The arrays that you need can be constructed using
+the data from <i>poly.vertices</i>, <i>poly.faces</i>, and <i>poly.faceNormals</i>.
+That is your job for this lab.</p>
+
+<p>Rather than rebuild the arrays every time a polyhedron needs to be drawn, 
+you should compute them once and save them.  JavaScript has the nice property that
+you can add things to an object that already exists.  It makes sense to stash the
+arrays that you need for <i>glDrawArrays</i>() in the same object that already
+represents the polyhedron.  The arrays that you need to create will be
+<i>poly.lineCoords</i>, <i>poly.faceCoords</i>, and <i>poly.normalCoords</i>().
+(You can create the array the first time you need it, and add it to the object
+for later reuse.  Note that you can test whether <i>poly.lineCoords</i> already
+exists by testing <code>if&nbsp;(&nbsp;!&nbsp;poly.lineCoords&nbsp;)</code>.</p>
+
+<p>So, what has to go into these new arrays?  I suggest that you start with
+<i>poly.lineCoords</i> and get the wireframe working first.</p>
+
+<p>The wireframe polyhedron is drawn using <i>poly.lineCoords</i> and <i>GL_LINES</i>
+with <i>glDrawArrays</i>().
+For <i>GL_LINES</i>, you need two vertices in the array for each line segment that is to be drawn.
+Each vertex requires three coordinates, so that's six numbers per line segment.
+Every side of every face in the polyhedron has to be drawn.  You need to collect
+all of the coordinates for all of the line segments into an array.  In JavaScript,
+a nice way to do that is to start with an empty array and use the array's <i>push</i>()
+function to add elements to it.  If you have collected all the coordinates into
+a JavaScript array named <i>coords</i>, then you should set</p>
+
+<pre class=code>poly.linecCoords = new Float32Array(coords);</pre>
+
+<p class=np>The above line creates a <i>Float32Array</i> containing the
+same data as <i>coords</i>.</p>
+
+<p>When you are making the coordinate array, remember that the numbers in one of
+the face arrays from <i>poly.faces</i> are indices into the array of vertices, <i>poly.vertices</i>.
+You need to get the coordinates out of the vertex array.  Note that edges of a face connect
+vertex number <i>j</i> to vertex number <i>j+1</i> of that face, except for the last edge,
+which connects back to vertex number zero.  As usual, it will be less confusing if you give
+names to the two vertex indices for an edge.</p>
+
+<hr width="40%" align=center>
+
+<p>For drawing the faces of the polyhedron using <i>GL_TRIANGLES</i>, you need 
+an array of vertex coordinates for the faces (<i>poly.faceCoords</i>) and an array of 
+normal vector coordinates (<i>poly.normalCoords</i>).
+The array of vertex coordinates contains three vertices &mdash;
+that is, nine numbers &mdash; for every triangular face. The array <i>poly.normalCoords</i>
+must contain a separate normal vector (three numbers) for every vertex in <i>poly.faceCoords</i>.
+This is true even though all the vertices of a face have the same normal vector.  There is
+a lot of redundancy here: You will add multiple copies of the same normal vector
+to <i>poly.normalCoords</i>.</p>
+
+<p>You have another problem.  The faces that you draw using the <i>GL_TRIANGLES</i>
+primitive must be triangles.  But some faces of the polyhedra have four, five, or six
+sides.  You have to subdivide those faces into triangles and treat each triangle
+separately:</p>
+
+<p class=np align=center><img src="triangles.png" width="423" height="130">
+
+<p class=np>Note that the vertices of the triangles are vertex zero, vertex <i>j</i>
+and vertex <i>j+1</i>, for all values of <i>j</i> from 1 to one less than the maximum
+vertex number.  For example, the three vertices in the five-sided polygon have
+vertices number 0, 1, and 2 for the first triangle; 0, 2, and 3 for the second triangle;
+and 0, 3, and 4 for the third triangle.
+</p>
+
+<hr width="40%" align=center>
+
+<p>You will need to apply a scale to the polyhedra to get them to a reasonable size.  
+Unfortunately, they are not all scaled to the same initial size.  Using <i>glScale3f(3,3,3)</i>
+doesn't give bad results.  But it would be nicer to compute the correct scale for each polyhedron.
+To do that, you can find the maximum length of all the vertices in the polyhedron.
+Then a nice value for the scale factor is <i style=white-space:pre>8/maxLength</i>.
+The length of a vertex with coordinates (<i>x,y,z</i>) is
+<i style="white-space:pre">Math.sqrt(x**2 + y**2 + z**2)</i>.  ("Length" here really means
+the distance of the vertex from (0,0,0).)</p>
+
+<hr width="40%" align=center>
+
+<p>You might want to try assigning random colors to the faces of the polyhedra.  If you
+want to do that, you would need a color array, and you would have to use
+<i>glEnableClientState</i>(<i>GL_COLOR_ARRAY</i>) to activate it...</p>
+
+<hr>
+
+<p style=np>Here are two stellated dodecahedrons, showing both the faces and the wireframe,
+one using random face colors (with random color components computed as 0.5+0.5*Math.random()).</p>.
+
+<p class=np align=center><img src="dodecahedron.png" width="251" height="254">&nbsp;
+   <img src="dodecahedron-color.png" width="258" height="250"></p>
+
+
+
+</div>
+
+
+
+
+</div>
+</body>
+</html>

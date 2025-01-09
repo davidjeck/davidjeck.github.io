@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html>
+<meta charset="UTF-8">
+<head>
+<title>Using Linux for Yasm and DDD</title>
+<style>
+@media screen {
+    body {
+        background-color: #003355;
+    }
+    #content {
+        background-color: #F0F4FF;
+        max-width: 800px;
+        padding: 10px 30px;
+        margin: 0pt auto;
+        border: 2px solid black;
+    }
+    h1, h2, h3 {
+        color: #003355;
+    }
+    th {
+        color: white;
+        background-color: #003355;
+    }
+    td {
+        background-color: white;
+    }
+    img {
+        background-color: white;
+        border: 1px solid black;
+    }
+}
+h3, #heading {
+    padding-top:15px;
+    margin-top:15px;
+    border-top: 2px solid #003355;
+}
+p {
+   text-indent: 30px;
+}
+h3 + p:first-letter {
+   font-size: 150%;
+}
+h3 + p {
+   text-indent: 0;
+}
+p.np {
+   text-indent:0;
+}
+li {
+   margin-top:5px;
+}
+</style>
+</head>
+
+
+<body>
+
+<div id="content">
+
+<h1>Using Linux for <i>yasm</i> and <i>ddd</i></h1>
+
+<p>For the first half of CPSC 220, you have been able to work on your own computer,
+as long as you had Java installed.  However, the programs that we will be using 
+for x86-64 programming must be run on Linux.  It is still possible to use a
+Windows or Mac computer, but to do that, you will have to connect to one of our
+Linux computers.  This page has some information about working on Linux either
+directly or through a network connection.</p>
+
+<p>In any case, you will need to do some work on the Linux command line.
+You should at least be familiar with the <i>cd</i>, <i>ls</i>, <i>cp</i>,
+and <i>mkdir</i> commands.  If you are not familiar with them, see the
+basic <a href="https://math.hws.edu/about_linux/commandline.html">command&nbsp;line&nbsp;info</a>
+on my <a href="https://math.hws.edu/about_linux/">About&nbsp;Linux</a> site.</p>
+
+<p>Remember, of course, that you always have the option of working directly on a Linux computer in
+Rosenberg 009 or Lansing 310.</p>
+
+<hr>
+
+<h2>Working Directly on Linux</h2>
+
+<p>You can log onto a Linux computer in Rosenberg 009 or Lansing 310.  In that
+case, you will be using a Linux GUI, and you can access files through a file
+browser.  You can use the file browser to create directories and view their
+content.  A nice trick on our version of Linux is to right-click a directory
+and select "Open in Terminal" from the popup menu; this will open a 
+Terminal with that directory set as the working directory.</p>
+
+<p>Double-clicking a text file, such as an assembly language (.asm) file, will
+open it in the default file editor, <i>xed</i>.  That editor is good enought
+for our purposes, but you will certainly want to change some of the
+preferences to make it more suitable for programming.  <b>In any xed window, 
+select the "Preferences" command from the "Edit"
+menu.  Consider changing the settings in the "Editor" section as
+follows:</b>
+
+<p align=center class=np><img src="xed-prefs.png" width="548" height="488"></p>
+
+<hr>
+
+<h2>Working from Windows</h2>
+
+<p>To use <i>yasm</i> or <i>ddd</i> from Windows, you will have to log on to
+one of our Linux computers remotely.  Those programs are not installed on
+math.hws.edu, so you need to use one of our lab computers.  (If you are
+trying to connect from off campus, you will need to use the VPN to
+connect to the campus network first.)  It is recommended to use one
+of the eight computers <b>csfac0.hws.edu</b>, <b>csfac1.hws.edu</b>,
+..., <b>csfac7.hws.edu</b>.  The twelve computers in Lansing 310
+might also be available, but they are more likely to be turned off;
+they are <b>cslab0.hws.edu</b>, <b>cslab1.hws.edu</b>, ..., 
+<b>csfac11.hws.edu</b>.</p>
+
+<p>You can use <i><a href="https://math.hws.edu/about_linux/ssh.html">ssh</i></a>
+to connect to any of these machines, and you will be able to use command-line
+programs such as <i>yasm</i> and <i>gdb</i>.  However, you will not be able to
+use the GUI debugger, <i>ddd</i>.  Now, <i>ddd</i> is just a GUI front-end
+for <i>gdb</i>, so <i>gdb</i> might be good enough for you.  But if you
+want to use <i>ddd</i>, you will need a different way to connect.  You
+might try <a href="https://mobaxterm.mobatek.net/">MobaXTerm</a>, a Windows
+program for remote access.  Although it is a commercial program, a 
+free "Home Edition" is available for personal use.  I suggest downloading
+the <b>Portable Edition</b> from this page:</p>
+
+<p align=center class=np><a href="https://mobaxterm.mobatek.net/download-home-edition.html">MobaXTerm Download</a></p>
+
+<p class=np>You will get a .zip file that contains an .exe file.  You can simply 
+double-click the .exe file to run the program.  You want to open an ssh session
+in MobaXTerm.  In the main window, click the "Session" button.  And in the
+"Session Settings" popup window, click "ssh".  It will look like this:</p>
+
+<p align=center class=np><img src="MobaXTerm-session.png" width="733" height="458"></p>
+
+<p class=np>You just need to fill in the "Remote host" box with the name of the 
+Linux computer that you want to connect to, and fill in "Specify username" with
+your Linux username.  Click "OK".  You will have to enter your Linux password.
+If everything is working, you will get a command-line interface to your
+Linux account.  There will also be a file browser that shows the files
+on the Linux system.  It will look something like this:</p>
+
+<p align=center class=np><img src="MobaXTerm.png" width="646" height="384"></p>
+
+<p class=np>MobaXTerm has a <b>built-in file editor</b> that you can use to
+edit the files in your Linux account.  For a text file, such as an
+assembly language (.asm) file, you can just double-click the file name
+in the file browser (or if that doesn't work, right-click and select
+Open in Default Editor).</p>
+
+
+<hr>
+
+<h2>Working from MacOS</h2>
+
+<p>To use <i>yasm</i> or <i>ddd</i> from a Mac, you will have to log on to
+one of our Linux computers remotely.  Those programs are not installed on
+math.hws.edu, so you need to use one of our lab computers.  (If you are
+trying to connect from off campus, you will need to use the VPN to
+connect to the campus network first.)  It is recommended to use one
+of the eight computers <b>csfac0.hws.edu</b>, <b>csfac1.hws.edu</b>,
+..., <b>csfac7.hws.edu</b>.  The twelve computers in Lansing 310
+might also be available, but they are more likely to be turned off;
+they are <b>cslab0.hws.edu</b>, <b>cslab1.hws.edu</b>, ..., 
+<b>csfac11.hws.edu</b>.</p>
+
+<p>You can use <i><a href="https://math.hws.edu/about_linux/ssh.html">ssh</i></a>
+to connect to any of these machines, and you will be able to use command-line
+programs such as <i>yasm</i> and <i>gdb</i>.  However, you will not be able to
+use the GUI debugger, <i>ddd</i>.  Now, <i>ddd</i> is just a GUI front-end
+for <i>gdb</i>, so <i>gdb</i> might be good enough for you.  However, if you
+want to use a GUI, you will need to install some extra software.</p>
+
+<p>First of all, to use your Mac for editing text files, such as assembly 
+language (.asm) files, in your Linux account, I recommend using a Mac
+program that supports opening and saving files using the <i>sftp</i>
+protocol.  This lets you edit a file from Linux without copying it
+to and from your computer.  Many editor programs have this ability.
+I like <i>BBEdit</i>, which you can use for free. You can download 
+it by clicking the "Free Download" button on this page:</p>
+
+<p align=center class=np><a href="http://www.barebones.com/products/bbedit/index.html">BBEdit download site</a></p>
+
+<p class=np>You will get a .dmg file that contains the BBEdit application.</p>
+
+<p>To open a file from Linux using <i>sftp</i>, just use the "Open from SFTP Server" command
+in the BBEdit "File" menu.  A popup window will allow you to connect to a
+remote computer:</p>
+
+<p align=center class=np><img src="bbedit-sftp.png" width="576" height="469"></p>
+
+<p class=np>Fill in the "Server" box with the name of any of our Linux computers;
+math.hws.edu will work here.  Make sure that "SFTP" is checked.  Use your
+Linux user name and password.</p>
+
+<p>Once connected, you will be able to use the window to browse for the file
+that you want to open.  When you open a file, it will be copied to a temporary
+file on your computer, but when you save it, any changes will be copied back
+to the original Linux file.</p>
+
+<p>This is nice, but it still doesn't allow you to use use a Linux GUI program
+like <i>ddd</i>.  For that, you need to install support on your Mac for
+the "X11" protocol, which is used to run Unix GUI programs.  A common
+Mac software for doing that is called XQuartz.  It can be downloaded here:</p>
+
+<p align=center class=np><a href="https://www.xquartz.org/">XQuartz download site</a></p>
+
+<p class=np>Download the XQuartz .dmg file.  it contains a package that you will have
+to install.</p>
+
+<p>With XQuartz installed, you will be able to use "<i>ssh -X</i>" to connect to
+a Linux computer and run GUI programs.  That is, connect to one of the Linux lab
+computers with a command of the following form (with "zz9999" replaced by your own user
+name):</p>
+
+<pre>           ssh  -X  zz9999@csfac4.hws.edu
+</pre>
+
+<p class=np>When you connect, the XQuartz program will start automatically.  When you 
+run <i>ddd</i> on the Linux command line, the <i>ddd</i> window will open on your
+Mac.</p>
+
+<p>Even with XQuartz installed, you might find that ssh -X doesn't work.  It will
+probably work, with
+a warning, to use <span style="white-space:pre">ssh -Y</span> instead. 
+ A Google search informed me that to avoid the warning and use
+<span style="white-space:pre">ssh -X</span>, I&nbsp;should add the line
+<span style="white-space:pre">XAuthLocation /opt/X11/bin/xauth</span>
+to the file named <i>config</i> in the <i>.ssh</i> directory.  One way to do
+that is with the following command, working in your home directory:</p>
+
+<pre>
+     echo "XAuthLocation /opt/X11/bin/xauth" >> .ssh/config
+</pre>
+
+
+
+</div>
+
+</body>
+
+</html>
